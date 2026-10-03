@@ -66,6 +66,22 @@ Design reference for everything Argo puts out: the website, slides, social media
 - Argo Teal Bright on Ink: **5.4:1**. Use Bright, not regular Teal, for teal text on dark.
 - White text on Argo Teal Bright: only **3.6:1**. Do not put small white text on Teal Bright. Buttons stay Argo Teal on every background.
 
+### Dark mode (website only)
+Light is the brand default. The website also offers a dark mode: it follows the visitor's device setting, and a sun/moon button (menu bar on desktop, inside "Menu" on phones) overrides it and remembers the choice.
+
+| Role | Light mode | Dark mode |
+|---|---|---|
+| Page background | White `#FFFFFF` | Ink `#0B0D10` |
+| Cards | Mist `#F4F6F7` | Night Raised `#151A20` |
+| Drone sections (drivetrain, call-to-action block, footer) | Ink `#0B0D10` | Night Raised `#151A20`, with cards in Night Band `#1D232B` |
+| Text | Ink | `#EEF1F4` |
+| Accent | Argo Teal `#007E8A` | Argo Teal Bright `#0096A2` |
+| Primary buttons | Argo Teal, white text | Argo Teal, white text (unchanged) |
+
+- In dark mode the drone sections are a shade **lighter** than the page, so "drone = its own band" still reads.
+- The ΛRGO wordmark turns white; the drone emblem is unchanged.
+- Slides, posts and print stay light unless there is a reason not to.
+
 ### Colour meaning
 - **Teal = hydrogen.** Hydrogen tank, hydrogen flow lines, the hydrogen line in charts, the words "On hydrogen", the hydrogen-flight goal.
 - **Teal = the main action.** Primary buttons ("Partner with us", "Apply to join").

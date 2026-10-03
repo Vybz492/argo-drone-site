@@ -25,6 +25,33 @@ window.matchMedia('(min-width: 1061px)').addEventListener('change', (e) => {
   if (e.matches) setMenu(false);
 });
 
+const root = document.documentElement;
+const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+const themeMeta = document.querySelector('meta[name="theme-color"]');
+const themeToggles = document.querySelectorAll('.theme-toggle');
+const currentTheme = () => root.dataset.theme || (darkQuery.matches ? 'dark' : 'light');
+const syncTheme = () => {
+  const theme = currentTheme();
+  const next = theme === 'dark' ? 'light' : 'dark';
+  themeToggles.forEach((btn) => {
+    btn.setAttribute('aria-label', `Switch to ${next} mode`);
+    const label = btn.querySelector('.theme-label');
+    if (label) label.textContent = next === 'dark' ? 'Dark mode' : 'Light mode';
+  });
+  themeMeta.setAttribute('content', theme === 'dark' ? '#0B0D10' : '#FFFFFF');
+};
+themeToggles.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    root.dataset.theme = currentTheme() === 'dark' ? 'light' : 'dark';
+    try {
+      localStorage.setItem('argo-theme', root.dataset.theme);
+    } catch (e) {}
+    syncTheme();
+  });
+});
+darkQuery.addEventListener('change', syncTheme);
+syncTheme();
+
 const items = document.querySelectorAll('.reveal');
 if ('IntersectionObserver' in window) {
   const io = new IntersectionObserver((entries) => {
