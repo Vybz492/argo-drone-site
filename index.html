@@ -8,11 +8,11 @@
 <meta property="og:title" content="Argo — Hydrogen Drone Team">
 <meta property="og:description" content="One hour in the air. Under 25 kg. On hydrogen. A student team from TU Eindhoven.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#06080b">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2306080b'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%235fe3e8' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='3.5' fill='%235fe3e8'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <script>document.documentElement.classList.add('js')</script>
 </head>
@@ -20,7 +20,9 @@
 
 <header class="nav" id="nav">
   <div class="wrap nav-inner">
-    <a href="#top" class="brand"><span class="brand-mark" aria-hidden="true"></span>ARGO</a>
+    <a href="#top" class="brand" aria-label="Argo, back to top">
+      <svg class="wordmark" viewBox="8.5 8 670.5 161.5" aria-hidden="true"><path fill-rule="evenodd" d="M8.5 164.5L116.5 8L209 161.5L209 20.5L286.5 20.5C317 20.5 337 38 337.5 67.5C338.5 91 321.5 110 299 118L338.5 164L297 164L244.5 98L275 98C291.5 98 304 86.5 304 71.5C304 58.5 293.5 50 278.5 50L243 50L243 164L171 164L115 69.5L50.5 164.5ZM496.5 50L469 67.5C460 54 447 47 430 47C403.5 47 379 69 378.5 96C378.5 121 398.5 139.5 424.5 139.5C444.5 139.5 462 127.5 468.5 111L423.5 111L423.5 85L504.5 85C506 109.5 498 129.5 483.5 144.5C468.5 160.5 449 169.5 427 169.5C381.5 169.5 344.5 137.5 344.5 96C344.5 52.5 382 14.5 428 14.5C458 14.5 483.5 27.5 496.5 50ZM679 92C679 136 642.5 169.5 596.5 169.5C550 169.5 512.5 136.5 512.5 93.5C512.5 50 550 14.5 595.5 14.5C642.5 14.5 679 48 679 92ZM643.5 92.5C643.5 66.5 623 46 596 46C569 46 547 66.5 547 93.5C547 120 569 139.5 596.5 139.5C623.5 139.5 643.5 118.5 643.5 92.5Z"/></svg>
+    </a>
     <nav class="nav-links" aria-label="Main">
       <a href="#why">Why hydrogen</a>
       <a href="#drivetrain">Drivetrain</a>
@@ -168,7 +170,7 @@
             </div>
             <div class="bar-row">
               <div class="bar-meta"><span>Lithium battery</span><span class="mono">~250 Wh/kg</span></div>
-              <div class="bar"><span class="fill amber" style="--w:0.76%"></span></div>
+              <div class="bar"><span class="fill batt" style="--w:0.76%"></span></div>
             </div>
           </div>
           <p class="card-note">That's the raw fuel. Once you add the tank, fuel cell and cooling, the real gap shrinks a lot. Closing it is the engineering problem we're working on.</p>
@@ -189,7 +191,7 @@
             <path pathLength="1" class="ch-batt draw" d="M60 270 L99.2 252.8 L138.3 230.2 L177.5 202 L216.7 168.2 L236.3 149.3 L255.8 129 L295 84.2 L314.6 59.8 L336.9 30"/>
             <circle cx="236.3" cy="149.4" r="5" class="ch-dot"/>
             <text x="246" y="172" class="ch-note">intercept ≈ 45 min</text>
-            <text x="344" y="38" class="ch-lbl amber">LiPo battery</text>
+            <text x="344" y="38" class="ch-lbl batt">LiPo battery</text>
             <text x="404" y="116" class="ch-lbl h2">Hydrogen</text>
             <text x="301" y="258" class="ch-tick">ARGO TARGET · 60 MIN</text>
             <text x="522" y="240" class="ch-tick" text-anchor="end">HYDROGEN LIGHTER</text>
@@ -233,18 +235,24 @@
     </div>
   </section>
 
-  <section id="drivetrain" class="section">
+  <section id="drivetrain" class="section on-dark">
     <div class="wrap">
-      <header class="section-head reveal">
-        <p class="eyebrow">02 / Our approach</p>
-        <h2>Not just a drone. A power plant that flies.</h2>
-        <p>Anyone can buy a fuel cell. Making it survive a real flight is what's hard. Our focus is the drivetrain: the hardware and control logic between the hydrogen tank and the motors.</p>
-      </header>
+      <div class="drivetrain-head">
+        <header class="section-head reveal">
+          <p class="eyebrow">02 / Our approach</p>
+          <h2>Not just a drone. A power plant that flies.</h2>
+          <p>Anyone can buy a fuel cell. Making it survive a real flight is what's hard. Our focus is the drivetrain: the hardware and control logic between the hydrogen tank and the motors.</p>
+        </header>
+        <figure class="emblem reveal">
+          <img src="assets/argo-drone-emblem.webp" width="608" height="720" alt="The Argo drone emblem: a bird seen from above with wings spread, in white and teal" loading="lazy">
+          <figcaption>Drone emblem</figcaption>
+        </figure>
+      </div>
 
       <div class="card diagram reveal">
         <svg viewBox="0 0 960 340" role="img" aria-labelledby="dg-title">
           <title id="dg-title">Active parallel hybrid drivetrain: hydrogen flows from the tank to the fuel cell, a DC/DC converter feeds a DC bus, a buffer battery charges and discharges on the same bus, and the bus powers the motors.</title>
-          <rect x="466" y="30" width="262" height="296" rx="14" class="dg-region"/>
+          <rect x="466" y="30" width="262" height="296" rx="6" class="dg-region"/>
           <text x="480" y="22" class="dg-region-label">WHAT WE ENGINEER</text>
 
           <path d="M190 90 H250" class="flow h2"/>
@@ -257,23 +265,23 @@
           <path d="M570 130 V230" class="dg-ctrl"/>
           <text x="580" y="184" class="dg-tag">control</text>
 
-          <rect x="20" y="50" width="170" height="80" rx="10" class="dg-node"/>
+          <rect x="20" y="50" width="170" height="80" rx="6" class="dg-node h2"/>
           <text x="40" y="84" class="dg-label">H₂ TANK</text>
           <text x="40" y="108" class="dg-sub">300 bar storage</text>
 
-          <rect x="250" y="50" width="170" height="80" rx="10" class="dg-node"/>
+          <rect x="250" y="50" width="170" height="80" rx="6" class="dg-node"/>
           <text x="270" y="84" class="dg-label">PEM FUEL CELL</text>
           <text x="270" y="108" class="dg-sub">steady power</text>
 
-          <rect x="480" y="50" width="180" height="80" rx="10" class="dg-node hl"/>
+          <rect x="480" y="50" width="180" height="80" rx="6" class="dg-node hl"/>
           <text x="500" y="84" class="dg-label">DC/DC CONVERTER</text>
           <text x="500" y="108" class="dg-sub">the brain: limits current</text>
 
-          <rect x="480" y="230" width="180" height="80" rx="10" class="dg-node amber"/>
+          <rect x="480" y="230" width="180" height="80" rx="6" class="dg-node batt"/>
           <text x="500" y="264" class="dg-label">BUFFER BATTERY</text>
           <text x="500" y="288" class="dg-sub">absorbs the spikes</text>
 
-          <rect x="770" y="140" width="170" height="80" rx="10" class="dg-node"/>
+          <rect x="770" y="140" width="170" height="80" rx="6" class="dg-node"/>
           <text x="790" y="174" class="dg-label">MOTORS + ESCs</text>
           <text x="790" y="198" class="dg-sub">volatile demand</text>
 
@@ -391,7 +399,7 @@
           </ul>
         </div>
       </div>
-      <div class="cta reveal">
+      <div class="cta on-dark reveal">
         <div>
           <h3>Want to be first?</h3>
           <p>Tell us how you'd like to help, and we'll put together a proposal that fits.</p>
@@ -471,11 +479,13 @@
 
 </main>
 
-<footer class="footer">
-  <div class="wrap footer-inner">
-    <a href="#top" class="brand"><span class="brand-mark" aria-hidden="true"></span>ARGO</a>
-    <p>Discovery Team · TU/e innovation Space · Est. 2026</p>
-    <p>© <span id="year">2026</span> Argo</p>
+<footer class="footer on-dark">
+  <div class="wrap">
+    <div class="footer-top">
+      <p>Discovery Team · TU/e innovation Space · Est. 2026</p>
+      <p>© <span id="year">2026</span> Argo</p>
+    </div>
+    <svg class="footer-wordmark" viewBox="8.5 8 670.5 161.5" role="img" aria-label="Argo"><path fill-rule="evenodd" d="M8.5 164.5L116.5 8L209 161.5L209 20.5L286.5 20.5C317 20.5 337 38 337.5 67.5C338.5 91 321.5 110 299 118L338.5 164L297 164L244.5 98L275 98C291.5 98 304 86.5 304 71.5C304 58.5 293.5 50 278.5 50L243 50L243 164L171 164L115 69.5L50.5 164.5ZM496.5 50L469 67.5C460 54 447 47 430 47C403.5 47 379 69 378.5 96C378.5 121 398.5 139.5 424.5 139.5C444.5 139.5 462 127.5 468.5 111L423.5 111L423.5 85L504.5 85C506 109.5 498 129.5 483.5 144.5C468.5 160.5 449 169.5 427 169.5C381.5 169.5 344.5 137.5 344.5 96C344.5 52.5 382 14.5 428 14.5C458 14.5 483.5 27.5 496.5 50ZM679 92C679 136 642.5 169.5 596.5 169.5C550 169.5 512.5 136.5 512.5 93.5C512.5 50 550 14.5 595.5 14.5C642.5 14.5 679 48 679 92ZM643.5 92.5C643.5 66.5 623 46 596 46C569 46 547 66.5 547 93.5C547 120 569 139.5 596.5 139.5C623.5 139.5 643.5 118.5 643.5 92.5Z"/></svg>
   </div>
 </footer>
 

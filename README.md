@@ -20,8 +20,16 @@ Or from this folder:
 npx vercel
 ```
 
-## Before going live
+## Design
 
-- Replace `contact@example.com` in `index.html` (partner CTA and footer).
+Colours, fonts, logo rules and components are described in [DESIGN.md](DESIGN.md). Follow it for any change to the site, slides or social media.
+
+Brand files live in `assets/`: the ΛRGO wordmark (`argo-wordmark.svg`), the drone emblem (`argo-drone-emblem.webp`) and the favicon.
+
+## Still to do
+
+- Contact section: the email, LinkedIn and Instagram cards are placeholders (`<a>` without `href`). Add the link and remove the "Coming soon" chip when each channel exists.
+- "Apply to join" button: turn it into a link once the application form exists.
+- Replace the drone emblem with a vector version when the designer provides one.
 - Update the roadmap status chips as phases move along.
 - Swap the concept schematic for CAD renders once the airframe design exists.
