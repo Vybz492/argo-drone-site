@@ -150,11 +150,21 @@ Design reference for everything Argo puts out: the website, slides, social media
 | Width | Changes |
 |---|---|
 | > 1060px | Full navigation |
-| ≤ 1060px | Navigation links hidden, wordmark and primary button stay |
+| ≤ 1060px | Navigation links move into a "Menu" button that opens a full-width panel; wordmark and primary button stay |
 | ≤ 960px | Two-column layouts stack, roadmap becomes vertical |
-| ≤ 720px | Single column, larger text in drawings, full-width buttons in call-to-action blocks |
+| ≤ 880px | The drivetrain diagram switches to a vertical version (top to bottom) |
+| ≤ 720px | Single column, larger text in drawings, drawing title blocks hidden, full-width buttons in call-to-action blocks |
 
-- Wide diagrams scroll horizontally inside their card on small screens; the page itself never scrolls sideways.
+- Diagrams get a dedicated narrow version instead of scrolling sideways; the page itself never scrolls sideways.
+
+## 10. Writing
+
+- **Goals are goals.** Anything not built or measured yet is written as a target or in future tense ("will", "we're designing"), never as a present-tense fact.
+- **Numbers must be ours or explained.** Show how a figure was derived, or label it as a general industry value.
+- **One-sentence subtitles** under section headings. More than one sentence is body text.
+- **No hype words** (revolutionize, cutting-edge, state-of-the-art, passionate) and no exclamation marks.
+- **Avoid AI rhythms:** "Not just X. Y." constructions and repeated three-part punchlines.
+- British English spelling.
 - Animations respect `prefers-reduced-motion`.
 
 ## 9. Prompt Guide (for AI tools)
