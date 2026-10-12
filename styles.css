@@ -621,6 +621,8 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
 
 .footer { padding: 72px 0 40px; font-size: 14px; }
 .footer-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; color: var(--muted); }
+.footer-top a { transition: color 0.2s; }
+.footer-top a:hover { color: var(--text); }
 .footer-wordmark { width: 100%; margin-top: 56px; fill: var(--text); }
 
 .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.8s ease, transform 0.8s ease; }

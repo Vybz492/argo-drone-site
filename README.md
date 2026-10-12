@@ -28,7 +28,7 @@ Brand files live in `assets/`: the ΛRGO wordmark (`argo-wordmark.svg`), the dro
 
 ## Still to do
 
-- Contact section: the email, LinkedIn and Instagram cards are placeholders (`<a>` without `href`). Add the link and remove the "Coming soon" chip when each channel exists.
+- Contact section: the LinkedIn and Instagram cards are placeholders (`<a>` without `href`). Add the link and remove the "Coming soon" chip when each channel exists. The email (contact@teamargo.eu) is live.
 - "Apply to join" button: turn it into a link once the application form exists.
 - Replace the drone emblem with a vector version when the designer provides one.
 - Update the roadmap status chips as phases move along.
