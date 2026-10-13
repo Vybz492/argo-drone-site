@@ -22,16 +22,18 @@ Design reference for everything Argo puts out: the website, slides, social media
 
 | Asset | Use | File |
 |---|---|---|
-| **ΛRGO wordmark** (crossbar-less A) | The team name. Navigation bar, footer, slide covers, banners | `assets/argo-wordmark.svg` (vector, black) |
+| **ΛRGO wordmark** (crossbar-less A, heavy) | The team logo. Navigation bar, footer | `assets/argo-wordmark.svg` (vector, black) |
+| **TEΛM ΛRGO lockup** (single line, lighter weight) | The full team name as a headline: website first screen, slide covers, banners | `assets/team-argo-wordmark.svg` (vector, black) |
 | **Drone emblem** (bird, white + teal) | The drone's logo. Only on dark backgrounds, mainly next to drone content | `assets/argo-drone-emblem.webp` (raster, transparent) |
 | **Favicon** (Λ from the wordmark) | Browser tab, small square avatars | `assets/favicon.svg` |
 
 **Rules**
 - The wordmark is the team logo. The bird is the drone's emblem. Do not combine them into one lock-up.
-- The wordmark is black on light backgrounds and white on dark backgrounds. Never teal.
+- Both wordmarks (ΛRGO and TEΛM ΛRGO) are black on light backgrounds and white on dark backgrounds. Never teal.
 - The drone emblem is never placed on white (its white outline disappears). On light backgrounds use the black-outline version of the bird.
 - Never stretch, rotate, recolour or add effects to either asset.
-- Leave clear space around the wordmark of at least the height of its "O".
+- Leave clear space around either wordmark of at least half its height.
+- **"Team Argo" as a headline:** always use the TEΛM ΛRGO lockup file. Never type "Team" in a font next to the ΛRGO wordmark: the font's A has a crossbar and clashes with the Λ.
 
 **Still needed from the designer**
 - The bird as a **vector file** (SVG, AI, EPS or vector PDF). The emblem is currently a raster image.
@@ -138,6 +140,8 @@ Light is the brand default. The website also offers a dark mode: it follows the 
 
 ## 6. Layout
 
+- **First screen (hero) is "us":** it fills exactly one screen (inspired by LEVITUM and Team Daedalus). Text on the left, drone drawing on the right, both vertically centred at the same height. The text is only the TEΛM ΛRGO lockup as the page title (full width of the text column), the team line ("A team of students from Eindhoven University of Technology (TU/e).") and the tagline ("Breaking the endurance barrier in autonomous aviation."). No goal, numbers, buttons or stats. On phones the text stacks above the drawing.
+- **Second screen is "Our goal"** (like LEVITUM's "Our mission"): the goal headline, one supporting paragraph, the main buttons, the current-phase status line and the design targets.
 - Max content width 1180px, 24px side padding (16px on phones).
 - Section spacing 128px vertical (88px on phones), separated by hairline rules.
 - 8px base spacing unit.
