@@ -32,7 +32,7 @@ try {
     <nav class="nav-links" aria-label="Main">
       <a href="#mission">Mission</a>
       <a href="#story">Story</a>
-      <a href="#drivetrain">Drivetrain</a>
+      <a href="#drivetrain">Testbed</a>
       <a href="#roadmap">Roadmap</a>
       <!-- <a href="#partner">Partners</a> -->
       <!-- <a href="#join">Join</a> -->
@@ -51,7 +51,7 @@ try {
     <div class="wrap">
       <a href="#mission">Mission</a>
       <a href="#story">Story</a>
-      <a href="#drivetrain">Drivetrain</a>
+      <a href="#drivetrain">Testbed</a>
       <a href="#roadmap">Roadmap</a>
       <!-- <a href="#partner">Partners</a> -->
       <!-- <a href="#join">Join</a> -->
@@ -206,6 +206,96 @@ try {
     </div>
   </section>
 
+  <section id="simulation" class="section">
+    <div class="wrap sim-grid">
+      <div class="section-head sim-text reveal">
+        <p class="eyebrow">Simulation</p>
+        <h2>The critical mass penalty.</h2>
+        <p>We modelled in MATLAB how heavy a drone's energy system has to be for a given flight time.</p>
+        <p>A lithium-ion battery system gains about 4 kg for every hour in the air. A hydrogen fuel-cell system starts heavier, with about 2 kg of fixed weight for the fuel cell and tank, but each extra hour adds only about 0.4 kg.</p>
+        <p>The lines cross at about 33 minutes: below that, batteries are lighter. Beyond it, the gap keeps growing, and the mass hydrogen saves becomes room for payload or more flight time.</p>
+        <p>Extended to our 7–8 hour target, the same model puts a battery system at 28–32 kg, more than the 25 kg the whole drone may weigh, against about 5 kg for hydrogen.</p>
+      </div>
+
+      <figure class="sim-figure reveal">
+        <ul class="sim-legend">
+          <li><span class="key key-batt"></span>Lithium-ion battery system</li>
+          <li><span class="key key-h2"></span>Hydrogen fuel-cell system</li>
+          <li><span class="key key-zone"></span>Payload / endurance advantage</li>
+          <li><span class="key key-dot"></span>Break-even (≈ 33 min)</li>
+        </ul>
+        <div class="sim-plot">
+          <svg id="sim-chart" class="sim-chart" viewBox="0 0 640 420" role="img" aria-labelledby="sim-title sim-desc" tabindex="0">
+            <title id="sim-title">The critical mass penalty: energy system mass against flight duration</title>
+            <desc id="sim-desc">The battery system starts at 0 kg and gains about 4 kg per hour. The hydrogen fuel-cell system starts at 2 kg and gains about 0.4 kg per hour. The lines cross at about 33 minutes; after that the hydrogen system is lighter. Use the left and right arrow keys to read values.</desc>
+            <path class="sim-zone" d="M134.1 223.5 L249.5 16 L624 16 L624 136.2 Z"/>
+            <g class="sim-grid-lines">
+              <line x1="56" y1="300.7" x2="624" y2="300.7"/>
+              <line x1="56" y1="237.5" x2="624" y2="237.5"/>
+              <line x1="56" y1="174.2" x2="624" y2="174.2"/>
+              <line x1="56" y1="110.9" x2="624" y2="110.9"/>
+              <line x1="56" y1="47.6" x2="624" y2="47.6"/>
+              <line x1="174.3" y1="16" x2="174.3" y2="364"/>
+              <line x1="292.7" y1="16" x2="292.7" y2="364"/>
+              <line x1="411" y1="16" x2="411" y2="364"/>
+              <line x1="529.3" y1="16" x2="529.3" y2="364"/>
+            </g>
+            <line class="sim-axis" x1="56" y1="364" x2="624" y2="364"/>
+            <line class="sim-axis" x1="56" y1="16" x2="56" y2="364"/>
+            <g class="sim-tick">
+              <text x="56" y="386" text-anchor="middle">0</text>
+              <text x="174.3" y="386" text-anchor="middle">50</text>
+              <text x="292.7" y="386" text-anchor="middle">100</text>
+              <text x="411" y="386" text-anchor="middle">150</text>
+              <text x="529.3" y="386" text-anchor="middle">200</text>
+              <text x="46" y="368" text-anchor="end">0</text>
+              <text x="46" y="304.7" text-anchor="end">1</text>
+              <text x="46" y="241.5" text-anchor="end">2</text>
+              <text x="46" y="178.2" text-anchor="end">3</text>
+              <text x="46" y="114.9" text-anchor="end">4</text>
+              <text x="46" y="51.6" text-anchor="end">5</text>
+            </g>
+            <text class="sim-axis-title" x="340" y="414" text-anchor="middle">Desired flight duration (minutes)</text>
+            <text class="sim-axis-title" transform="translate(22 190) rotate(-90)" text-anchor="middle">Energy system mass (kg)</text>
+            <line class="sim-batt" x1="56" y1="364" x2="249.5" y2="16"/>
+            <line class="sim-h2" x1="56" y1="237.5" x2="624" y2="136.2"/>
+            <text class="sim-label" x="192" y="104" text-anchor="end">Battery</text>
+            <text class="sim-label" x="620" y="124" text-anchor="end">Hydrogen</text>
+            <circle class="sim-dot" cx="134.1" cy="223.5" r="5"/>
+            <text class="sim-note" x="148" y="256">Break-even ≈ 33 min</text>
+            <line class="sim-cross sim-hover" x1="134.1" y1="16" x2="134.1" y2="364"/>
+            <circle class="sim-hover-batt sim-hover" cx="134.1" cy="223.5" r="5"/>
+            <circle class="sim-hover-h2 sim-hover" cx="134.1" cy="223.5" r="5"/>
+            <rect class="sim-hit" x="56" y="16" width="568" height="348"/>
+          </svg>
+          <div class="sim-tip" hidden aria-live="polite">
+            <p class="sim-tip-t" data-t></p>
+            <p><span class="key key-batt"></span><strong data-b></strong>Battery</p>
+            <p><span class="key key-h2"></span><strong data-h></strong>Hydrogen</p>
+          </div>
+        </div>
+        <figcaption>Fig. 02 · Energy system mass against desired flight duration. MATLAB simulation by Team Argo.</figcaption>
+        <details class="sim-data">
+          <summary>Show the numbers</summary>
+          <table>
+            <thead>
+              <tr><th scope="col">Flight time</th><th scope="col">Battery system</th><th scope="col">Hydrogen system</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>0 min</td><td>0.0 kg</td><td>2.0 kg</td></tr>
+              <tr><td>30 min</td><td>2.0 kg</td><td>2.2 kg</td></tr>
+              <tr><td>33 min (break-even)</td><td>2.2 kg</td><td>2.2 kg</td></tr>
+              <tr><td>1 hour</td><td>4.0 kg</td><td>2.4 kg</td></tr>
+              <tr><td>2 hours</td><td>8.1 kg</td><td>2.8 kg</td></tr>
+              <tr><td>3 hours</td><td>12.1 kg</td><td>3.2 kg</td></tr>
+              <tr><td>4 hours</td><td>16.1 kg</td><td>3.6 kg</td></tr>
+            </tbody>
+          </table>
+        </details>
+      </figure>
+    </div>
+  </section>
+
   <!--
   <section id="goal" class="section">
     <div class="wrap">
@@ -271,9 +361,9 @@ try {
     <div class="wrap">
       <div class="drivetrain-head">
         <header class="section-head reveal">
-          <p class="eyebrow">02 / Our approach</p>
-          <h2>The power system comes first.</h2>
-          <p>Buying a fuel cell is the easy part; we're designing the electronics and control logic that let it handle real flight loads.</p>
+          <p class="eyebrow">02 / Current project: the hexacopter testbed</p>
+          <h2>Developing a hybrid powertrain architecture to bridge the gap between theoretical and physical reality.</h2>
+          <p>To balance sustained energy capacity with dynamic power delivery, the powertrain is designed as a parallel hybrid system. The architecture is driven by the following integrated components:</p>
         </header>
         <figure class="emblem reveal">
           <img src="assets/argo-drone-emblem.webp" width="608" height="720" alt="The Argo drone emblem: a bird seen from above with wings spread, in white and teal" loading="lazy">
@@ -285,9 +375,6 @@ try {
         <p class="card-title">Planned architecture</p>
         <svg class="dg-h" viewBox="0 0 960 340" role="img" aria-labelledby="dg-title">
           <title id="dg-title">Planned active parallel hybrid drivetrain: hydrogen flows from the tank to the fuel cell, a DC/DC converter feeds a DC bus, a buffer battery charges and discharges on the same bus, and the bus powers the motors.</title>
-          <rect x="466" y="30" width="262" height="296" rx="6" class="dg-region"/>
-          <text x="480" y="22" class="dg-region-label">WHAT WE'RE DESIGNING</text>
-
           <path d="M190 90 H250" class="flow h2"/>
           <path d="M420 90 H480" class="flow dc"/>
           <path d="M660 90 H700" class="flow dc"/>
@@ -330,9 +417,6 @@ try {
 
         <svg class="dg-v" viewBox="0 0 360 700" role="img" aria-labelledby="dgv-title">
           <title id="dgv-title">Planned active parallel hybrid drivetrain, top to bottom: hydrogen tank, fuel cell, DC/DC converter, DC bus with a buffer battery attached, and the motors.</title>
-          <rect x="16" y="236" width="328" height="232" rx="6" class="dg-region"/>
-          <text transform="translate(10 352) rotate(-90)" text-anchor="middle" class="dg-region-label">WHAT WE'RE DESIGNING</text>
-
           <path d="M180 92 V132" class="flow h2"/>
           <path d="M180 204 V252" class="flow dc"/>
           <path d="M180 324 V362" class="flow dc"/>
@@ -376,23 +460,23 @@ try {
       <div class="points reveal">
         <div class="point">
           <p class="point-num">01</p>
-          <h3>A steady fuel cell</h3>
-          <p>Fuel cells wear out faster under sudden load changes, so our control strategy will keep ours near one efficient operating point.</p>
+          <h3>Hydrogen storage</h3>
+          <p>Hydrogen is compressed and stored within a Type IV Carbon tank, providing the primary, lightweight energy reserve for the system.</p>
         </div>
         <div class="point">
           <p class="point-num">02</p>
-          <h3>A battery for the peaks</h3>
-          <p>Take-off, gusts and manoeuvres cause sharp power peaks; a buffer battery will cover them and recharge when demand drops.</p>
+          <h3>PEM fuel cell</h3>
+          <p>The stored hydrogen is supplied to a Proton Exchange Membrane (PEM) fuel cell, generating a steady, continuous supply of DC power intended for sustained flight.</p>
         </div>
         <div class="point">
           <p class="point-num">03</p>
-          <h3>Electronics in charge</h3>
-          <p>We're designing an active DC/DC converter that sets how much current the fuel cell delivers and reports to the flight controller.</p>
+          <h3>Power management</h3>
+          <p>A DC/DC converter functions as the central controller, safely limiting and regulating the current distributed across the internal DC bus.</p>
         </div>
         <div class="point">
           <p class="point-num">04</p>
-          <h3>Built as a module</h3>
-          <p>We're designing the drivetrain as a self-contained unit, so the same power system could later fit a different airframe.</p>
+          <h3>Buffer battery</h3>
+          <p>A smaller battery is integrated in parallel to absorb sudden power spikes. While the fuel cell delivers steady baseline energy, the buffer battery instantly handles the volatile power demands required by the motors and electronic speed controllers (ESCs) during dynamic maneuvers.</p>
         </div>
       </div>
     </div>

@@ -317,6 +317,54 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
 
 .story-text { display: grid; gap: 20px; max-width: 44em; margin-bottom: 64px; font-size: 17px; line-height: 1.7; color: var(--body); }
 
+.sim-grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); align-items: center; gap: 56px; }
+.sim-text { margin-bottom: 0; }
+.sim-text p:not(.eyebrow) { font-size: 16.5px; }
+.sim-text p:not(.eyebrow) + p { margin-top: 14px; }
+
+.sim-figure { margin: 0; }
+.sim-legend { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 0 0 16px; padding: 0; list-style: none; font-size: 13.5px; color: var(--muted); }
+.sim-legend li { display: inline-flex; align-items: center; gap: 8px; }
+.key { display: inline-block; flex: none; }
+.key-batt, .key-h2 { width: 18px; height: 2px; border-radius: 1px; }
+.key-batt { background: var(--text); }
+.key-h2 { background: var(--accent); }
+.key-zone { width: 14px; height: 10px; border-radius: 2px; background: var(--accent-soft); }
+.key-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text); }
+
+.sim-plot { position: relative; }
+.sim-chart { width: 100%; touch-action: pan-y; }
+.sim-chart:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: var(--radius-sm); }
+.sim-grid-lines line { stroke: var(--line); stroke-width: 1; }
+.sim-axis { stroke: var(--line-strong); stroke-width: 1; }
+.sim-zone { fill: var(--accent); fill-opacity: 0.1; }
+.sim-batt, .sim-h2 { fill: none; stroke-width: 2; stroke-linecap: round; }
+.sim-batt { stroke: var(--text); }
+.sim-h2 { stroke: var(--accent); }
+.sim-dot, .sim-hover-batt { fill: var(--text); stroke: var(--bg); stroke-width: 2; }
+.sim-hover-h2 { fill: var(--accent); stroke: var(--bg); stroke-width: 2; }
+.sim-cross { stroke: var(--muted); stroke-width: 1; }
+.sim-hover { display: none; }
+.sim-chart.is-active .sim-hover { display: inline; }
+.sim-hit { fill: transparent; pointer-events: all; }
+.sim-tick { font-family: var(--mono); font-size: 12px; fill: var(--muted); }
+.sim-axis-title { font-family: var(--sans); font-size: 13px; fill: var(--muted); }
+.sim-label { font-family: var(--sans); font-size: 13px; font-weight: 600; fill: var(--text); }
+.sim-note { font-family: var(--mono); font-size: 12px; font-weight: 500; fill: var(--text); }
+
+.sim-tip { position: absolute; top: 8px; min-width: 150px; padding: 10px 12px; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); background: var(--bg); font-size: 13px; pointer-events: none; }
+.sim-tip p { display: flex; align-items: center; gap: 8px; color: var(--muted); }
+.sim-tip strong { min-width: 4.2em; color: var(--text); font-weight: 600; }
+.sim-tip-t { margin-bottom: 6px; font-family: var(--mono); font-size: 12px; }
+
+.sim-figure figcaption { margin-top: 14px; font-size: 13.5px; color: var(--muted); }
+.sim-data { margin-top: 10px; font-size: 13.5px; color: var(--muted); }
+.sim-data summary { width: fit-content; font-weight: 500; color: var(--text); cursor: pointer; }
+.sim-data table { width: 100%; margin-top: 12px; border-collapse: collapse; font-family: var(--mono); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.sim-data th, .sim-data td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: right; }
+.sim-data th:first-child, .sim-data td:first-child { text-align: left; }
+.sim-data th { font-weight: 500; color: var(--text); }
+
 .status-line {
   display: inline-flex;
   align-items: center;
@@ -429,8 +477,6 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
 .dg-label { font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: 0.06em; fill: var(--text); }
 .dg-sub { font-family: var(--sans); font-size: 13px; fill: var(--muted); }
 .dg-tag { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; fill: var(--dim); }
-.dg-region { fill: none; stroke: var(--line-strong); stroke-dasharray: 4 6; }
-.dg-region-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; fill: var(--muted); }
 .dg-bus { stroke: var(--text); stroke-width: 3; stroke-linecap: round; }
 .dg-ctrl { fill: none; stroke: var(--dim); stroke-width: 2; stroke-dasharray: 1 5; stroke-linecap: round; }
 
@@ -628,6 +674,7 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
   .point:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
   .feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .feature-item:nth-child(n + 3) { margin-top: 40px; }
+  .sim-grid { grid-template-columns: 1fr; gap: 40px; }
   .roadmap { grid-template-columns: 1fr; }
   .phase { padding: 0 0 40px 32px; border-top: 0; border-left: 2px solid var(--line-strong); }
   .phase:last-child { padding-bottom: 0; }
@@ -664,6 +711,8 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
   .points, .feature-grid, .feature-grid.cols-2 { grid-template-columns: 1fr; }
   .feature-item:nth-child(n + 2) { margin-top: 40px; }
   .story-text { font-size: 16px; margin-bottom: 48px; }
+  .sim-tick, .sim-note { font-size: 20px; }
+  .sim-axis-title, .sim-label { font-size: 20px; }
   .point { border-right: 0; border-bottom: 1px solid var(--line); }
   .point:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
   .point:last-child { border-bottom: 0; }

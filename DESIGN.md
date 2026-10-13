@@ -135,6 +135,14 @@ Light is the brand default. The website also offers a dark mode: it follows the 
 - Batteries and peak power: Ink or grey, distinguished by dash pattern, never by a new colour.
 - Engineering-drawing details are welcome: title blocks, callout lines, mono annotations.
 
+**Charts**
+- Redraw charts in site colours as inline SVG; never paste a screenshot of a plot. Hydrogen is the highlighted series in Teal; batteries are the comparison in Ink (White on dark). An advantage area is Teal at 10% opacity.
+- Lines 2px with round ends; markers at least 8px across with a 2px ring in the background colour.
+- Gridlines and axes are solid 1px hairlines (never dashed). Tick labels in IBM Plex Mono, axis titles in Inter, both in Slate.
+- Text never takes the series colour. Identity comes from a legend (always present for two or more series) plus short direct labels on the lines.
+- Every chart has a hover/keyboard readout (crosshair + values for every series) and a "Show the numbers" table, so no value depends on hovering.
+- Caption every chart: "Fig. NN · what it shows. Source." Figures are numbered in page order (Fig. 01 is the hero drawing).
+
 **Navigation**
 - White bar, ΛRGO wordmark left (20px tall), Inter text links, one small primary button.
 - Becomes translucent white with a hairline bottom border on scroll.
@@ -147,8 +155,10 @@ Light is the brand default. The website also offers a dark mode: it follows the 
 - **First screen (hero) is "us":** it fills exactly one screen (inspired by LEVITUM and Team Daedalus). Text on the left, drone drawing on the right, both vertically centred at the same height. The text is only the TEΛM ΛRGO lockup as the page title (full width of the text column), the team line ("A team of students from Eindhoven University of Technology (TU/e).") and the tagline ("Breaking the endurance barrier in autonomous aviation."). No goal, numbers, buttons or stats. On phones the text stacks above the drawing.
 - **Second screen is "Our mission"** (like LEVITUM's "Our Mission"): heading "The power to go further." with a teal "On hydrogen." on its own line beneath, one intro sentence ("Our vision is to…"), a teal "The hydrogen advantage" label, then four columns (number, title, short body): maximum energy density, true zero-emission, continuous efficiency, meeting industrial demand. The columns share rows, so titles and bodies always start at the same height across columns, however many lines each one wraps to.
 - **"Our goal" (hidden for now):** the goal headline, one supporting paragraph, the main buttons, the current-phase status line and the design targets. Commented out in the code; if it returns, it sits between the mission and the story.
-- **Third screen is "01 / The story":** heading "Proving the powertrain on a global stage.", one intro sentence, two story paragraphs (the carbon-auditing problem, then the hydrogen hexacopter as the answer), a "High-precision carbon auditing" label (Ink, not teal) and two columns: terrestrial auditing and blue carbon auditing. Same column format as the mission section.
-- **Menu:** Mission · Story · Drivetrain · Roadmap · Contact. Every link lands on the start of its section.
+- **Third screen is "Simulation":** the team's MATLAB "critical mass penalty" chart (energy system mass against flight duration, battery vs hydrogen, break-even at about 33 minutes). Explanation on the left, chart on the right, stacked on phones. See "Charts" in section 5.
+- **Then "01 / The story":** heading "Proving the powertrain on a global stage.", one intro sentence, two story paragraphs (the carbon-auditing problem, then the hydrogen hexacopter as the answer), a "High-precision carbon auditing" label (Ink, not teal) and two columns: terrestrial auditing and blue carbon auditing. Same column format as the mission section.
+- **Then "02 / Current project: the hexacopter testbed"** (dark section): the hybrid-powertrain heading and intro, the drone emblem, the animated drivetrain diagram, and four cells: hydrogen storage, PEM fuel cell, power management, buffer battery.
+- **Menu:** Mission · Story · Testbed · Roadmap · Contact. Every link lands on the start of its section.
 - Max content width 1180px, 24px side padding (16px on phones).
 - Section spacing 128px vertical (88px on phones), separated by hairline rules.
 - 8px base spacing unit.
