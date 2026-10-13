@@ -461,7 +461,7 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
 .drivetrain-head { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 48px; margin-bottom: 56px; }
 .drivetrain-head .section-head { margin-bottom: 0; }
 .emblem { margin: 0; }
-.emblem img { width: auto; height: 260px; }
+.emblem img { width: auto; height: 260px; transform: rotate(180deg); }
 .emblem figcaption { margin-top: 14px; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); text-align: center; }
 
 .diagram { padding: 28px; overflow-x: auto; }

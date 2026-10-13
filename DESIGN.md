@@ -31,7 +31,7 @@ Design reference for everything Argo puts out: the website, slides, social media
 - The wordmark is the team logo. The bird is the drone's emblem. Do not combine them into one lock-up.
 - Both wordmarks (ΛRGO and TEΛM ΛRGO) are black on light backgrounds and white on dark backgrounds. Never teal.
 - The drone emblem is never placed on white (its white outline disappears). On light backgrounds use the black-outline version of the bird.
-- Never stretch, rotate, recolour or add effects to either asset.
+- Never stretch, rotate, recolour or add effects to either asset. One exception, chosen by the team: on the website the drone emblem is shown rotated 180° (beak pointing down). The image file itself stays upright; the rotation is done in CSS.
 - Leave clear space around either wordmark of at least half its height.
 - **"Team Argo" as a headline:** always use the TEΛM ΛRGO lockup file. Never type "Team" in a font next to the ΛRGO wordmark: the font's A has a crossbar and clashes with the Λ.
 
