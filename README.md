@@ -26,6 +26,14 @@ Colours, fonts, logo rules and components are described in [DESIGN.md](DESIGN.md
 
 Brand files live in `assets/`: the ΛRGO wordmark (`argo-wordmark.svg`), the drone emblem (`argo-drone-emblem.webp`) and the favicon.
 
+## Hidden for now
+
+The **Partners** and **Join** sections are commented out in `index.html`, together with their "Partners" and "Join" links in both menus (desktop and phone). To bring them back:
+
+1. Uncomment the two sections and the menu links.
+2. Point the two "Partner with us" buttons back from `#contact` to `#partner`.
+3. Renumber Contact from `04 / Contact` back to `06 / Contact`.
+
 ## Still to do
 
 - Contact section: the LinkedIn and Instagram cards are placeholders (`<a>` without `href`). Add the link and remove the "Coming soon" chip when each channel exists. The email (contact@teamargo.eu) is live.
