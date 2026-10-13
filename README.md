@@ -28,10 +28,12 @@ Brand files live in `assets/`: the ΛRGO wordmark (`argo-wordmark.svg`), the dro
 
 ## Hidden for now
 
+The **Our goal** section (7–8 hours headline, "Partner with us" / "Follow our progress" buttons, current-phase status line, design targets) is commented out in `index.html`. To bring it back, uncomment it; it has no menu link.
+
 The **Partners** and **Join** sections are commented out in `index.html`, together with their "Partners" and "Join" links in both menus (desktop and phone). To bring them back:
 
 1. Uncomment the two sections and the menu links.
-2. Point the two "Partner with us" buttons back from `#contact` to `#partner`.
+2. Point the "Partner with us" buttons back from `#contact` to `#partner`.
 3. Renumber Contact from `04 / Contact` back to `06 / Contact`.
 
 ## Still to do

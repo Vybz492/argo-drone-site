@@ -128,7 +128,7 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
 
 .eyebrow {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 14px;
   font-family: var(--display);
   font-size: clamp(16px, 1.5vw, 20px);
@@ -144,6 +144,7 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
   flex: none;
   width: 32px;
   height: 3px;
+  margin-top: calc(0.6em - 1.5px);
   background: currentColor;
 }
 
