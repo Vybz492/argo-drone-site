@@ -85,7 +85,7 @@ Light is the brand default. The website also offers a dark mode: it follows the 
 - Slides, posts and print stay light unless there is a reason not to.
 
 ### Colour meaning
-- **Teal = hydrogen.** Hydrogen tank, hydrogen flow lines, the hydrogen line in charts, the words "On hydrogen", the hydrogen-flight goal.
+- **Teal = hydrogen.** Hydrogen tank, hydrogen flow lines, the hydrogen line in charts, the words "On hydrogen", the "Why hydrogen?" label, the hydrogen-flight goal.
 - **Teal = the main action.** Primary buttons ("Partner with us", "Apply to join").
 - **Everything else is black, white or grey.** Batteries, power electronics, status, labels, numbers.
 - There is no second accent colour. No amber, no gold, no gradients.
@@ -100,13 +100,14 @@ Light is the brand default. The website also offers a dark mode: it follows the 
 | Body | Inter | 400 | 16–17px | Line height 1.6 |
 | Lead paragraph | Inter | 400 | 17–20px | Slate colour |
 | UI (nav, buttons) | Inter | 500–600 | 14–15px | |
-| Label / eyebrow | IBM Plex Mono | 500 | 11.5–12.5px | UPPERCASE, letter-spacing 0.12em |
+| Section label (key word) | Montserrat | 800 | 16–20px | UPPERCASE, letter-spacing 0.14em, 32×3px bar before it |
+| Small label / caption | IBM Plex Mono | 500 | 11.5–12.5px | UPPERCASE, letter-spacing 0.12em (card titles, data labels) |
 | Data / numbers | IBM Plex Mono | 400 | any | Spec values, chart ticks |
 
 **Principles**
 - Montserrat at heavy weights echoes the bold, round ΛRGO wordmark. It is for headings only.
 - Inter carries all reading text.
-- IBM Plex Mono is the engineering voice: labels, numbers, drawing annotations. Always uppercase when used as a label.
+- IBM Plex Mono is the engineering voice: small captions, numbers, drawing annotations. Always uppercase when used as a caption. Section labels are not mono: they are Montserrat 800 key words.
 - Do not use the wordmark's crossbar-less "Λ" in normal text. It belongs to the logo only.
 
 ## 5. Components
@@ -119,8 +120,11 @@ Light is the brand default. The website also offers a dark mode: it follows the 
 **Cards**
 - Mist background (Night Raised on dark), 1px Hairline border, 6px radius, no shadow.
 
-**Labels / eyebrows**
-- Mono, uppercase, Slate. Section labels are numbered: `01 / Why hydrogen`.
+**Section labels (key words)**
+- Montserrat 800, uppercase, wide letter-spacing, Ink (white on dark), with a short bar in the same colour before the text. They must be clearly visible: they name what a section is about.
+- Numbered sections use `01 / Why hydrogen`; the opening sections use plain words ("Our mission", "Our goal").
+- The "Why hydrogen?" label is the only teal one (text and bar), because teal means hydrogen.
+- Small mono labels stay for captions inside cards and diagrams ("Energy per kilogram", "Planned architecture").
 
 **Status chips** (roadmap, placeholders)
 - Mono uppercase, 1px border, 4px radius.
@@ -141,7 +145,8 @@ Light is the brand default. The website also offers a dark mode: it follows the 
 ## 6. Layout
 
 - **First screen (hero) is "us":** it fills exactly one screen (inspired by LEVITUM and Team Daedalus). Text on the left, drone drawing on the right, both vertically centred at the same height. The text is only the TEΛM ΛRGO lockup as the page title (full width of the text column), the team line ("A team of students from Eindhoven University of Technology (TU/e).") and the tagline ("Breaking the endurance barrier in autonomous aviation."). No goal, numbers, buttons or stats. On phones the text stacks above the drawing.
-- **Second screen is "Our goal"** (like LEVITUM's "Our mission"): the goal headline, one supporting paragraph, the main buttons, the current-phase status line and the design targets.
+- **Second screen is "Our mission"** (like LEVITUM's "Our Mission"): heading "The power to go further.", one intro sentence, a teal "Why hydrogen?" label, then four columns (number, title, one-line lead, short body): maximum energy density, true zero-emission, rapid turnaround, meeting industrial demand. The columns share rows, so titles, leads and bodies always start at the same height across columns, however many lines each one wraps to.
+- **Third screen is "Our goal":** the goal headline, one supporting paragraph, the main buttons, the current-phase status line and the design targets.
 - Max content width 1180px, 24px side padding (16px on phones).
 - Section spacing 128px vertical (88px on phones), separated by hairline rules.
 - 8px base spacing unit.
@@ -193,10 +198,10 @@ Quick reference:
 - Background `#FFFFFF`, dark sections `#0B0D10`
 - Text `#0B0D10`, secondary text `#5B6470`
 - Accent `#007E8A` (light) / `#0096A2` (dark): hydrogen and primary buttons only
-- Headings Montserrat 800, body Inter 400, labels IBM Plex Mono uppercase
+- Headings Montserrat 800, body Inter 400, section labels Montserrat 800 uppercase with a bar, small captions IBM Plex Mono uppercase
 - 4px radius buttons, 6px radius cards, no shadows
 
 Example prompts:
-- "Create a section on white with a mono uppercase label `03 / Roadmap` in #5B6470, a Montserrat 800 heading in #0B0D10, and an Inter paragraph in #5B6470. Hairline rule above the section."
+- "Create a section on white with a section label `03 / Roadmap` (Montserrat 800, 18px, uppercase, letter-spacing 0.14em, #0B0D10, 32×3px bar before it), a Montserrat 800 heading in #0B0D10, and an Inter paragraph in #5B6470. Hairline rule above the section."
 - "Draw a line-art diagram on #0B0D10: white 1.5px strokes, hydrogen path in #0096A2, battery path in #9AA4AF with a different dash pattern, mono uppercase labels."
 - "Primary button: #007E8A background, white Inter 600 text, 4px radius, 48px tall. Hover #006B75."

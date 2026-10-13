@@ -128,25 +128,24 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
 .accent { color: var(--accent); }
 
 .eyebrow {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 10px;
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
+  gap: 14px;
+  font-family: var(--display);
+  font-size: clamp(16px, 1.5vw, 20px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--text);
 }
 
-.eyebrow .dot {
+.eyebrow::before {
+  content: "";
   flex: none;
-  align-self: flex-start;
-  margin-top: 0.55em;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--text);
+  width: 32px;
+  height: 3px;
+  background: currentColor;
 }
 
 .nav {
@@ -306,6 +305,15 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
 .goal-text { max-width: 34em; margin-top: 24px; font-size: clamp(18px, 1.7vw, 21px); color: var(--muted); }
 .goal-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
 
+.mission-label { margin-bottom: 28px; color: var(--accent); }
+
+.mission-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 32px; }
+.mission-item { display: grid; grid-template-rows: subgrid; grid-row: span 4; padding-top: 24px; border-top: 1px solid var(--line-strong); }
+.mission-num { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--muted); }
+.mission-item h3 { margin: 16px 0 10px; font-size: 20px; line-height: 1.2; }
+.mission-lead { font-size: 15.5px; font-weight: 500; line-height: 1.45; color: var(--text); }
+.mission-body { margin-top: 12px; font-size: 15px; color: var(--muted); }
+
 .status-line {
   display: inline-flex;
   align-items: center;
@@ -379,7 +387,7 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
 .section { padding: 128px 0; border-top: 1px solid var(--line); }
 .section.on-dark { border-top: 0; }
 .section-head { max-width: 780px; margin-bottom: 56px; }
-.section-head h2 { font-size: clamp(32px, 4.2vw, 52px); margin: 18px 0 20px; }
+.section-head h2 { font-size: clamp(32px, 4.2vw, 52px); margin: 20px 0 20px; }
 .section-head p:not(.eyebrow) { max-width: 38em; color: var(--muted); font-size: 18px; }
 
 .card {
@@ -662,6 +670,8 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
   .point:nth-child(2n) { border-right: 0; }
   .point:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
   .apps { grid-template-columns: 1fr 1fr; row-gap: 40px; }
+  .mission-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mission-item:nth-child(n + 3) { margin-top: 40px; }
   .roadmap { grid-template-columns: 1fr; }
   .phase { padding: 0 0 40px 32px; border-top: 0; border-left: 2px solid var(--line-strong); }
   .phase:last-child { padding-bottom: 0; }
@@ -697,7 +707,8 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
   .card { padding: 24px; }
   .diagram { padding: 20px; }
   .emblem img { height: 170px; }
-  .points, .apps { grid-template-columns: 1fr; }
+  .points, .apps, .mission-grid { grid-template-columns: 1fr; }
+  .mission-item:nth-child(n + 2) { margin-top: 40px; }
   .point { border-right: 0; border-bottom: 1px solid var(--line); }
   .point:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
   .point:last-child { border-bottom: 0; }
