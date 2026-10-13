@@ -308,11 +308,10 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
 .mission-label { margin-bottom: 28px; color: var(--accent); }
 
 .mission-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 32px; }
-.mission-item { display: grid; grid-template-rows: subgrid; grid-row: span 4; padding-top: 24px; border-top: 1px solid var(--line-strong); }
+.mission-item { display: grid; grid-template-rows: subgrid; grid-row: span 3; padding-top: 24px; border-top: 1px solid var(--line-strong); }
 .mission-num { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--muted); }
-.mission-item h3 { margin: 16px 0 10px; font-size: 20px; line-height: 1.2; }
-.mission-lead { font-size: 15.5px; font-weight: 500; line-height: 1.45; color: var(--text); }
-.mission-body { margin-top: 12px; font-size: 15px; color: var(--muted); }
+.mission-item h3 { margin: 16px 0 12px; font-size: 20px; line-height: 1.2; }
+.mission-body { font-size: 15px; color: var(--muted); }
 
 .status-line {
   display: inline-flex;

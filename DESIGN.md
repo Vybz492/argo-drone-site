@@ -85,7 +85,7 @@ Light is the brand default. The website also offers a dark mode: it follows the 
 - Slides, posts and print stay light unless there is a reason not to.
 
 ### Colour meaning
-- **Teal = hydrogen.** Hydrogen tank, hydrogen flow lines, the hydrogen line in charts, the words "On hydrogen", the "Why hydrogen?" label, the hydrogen-flight goal.
+- **Teal = hydrogen.** Hydrogen tank, hydrogen flow lines, the hydrogen line in charts, the words "On hydrogen", the "The hydrogen advantage" label, the hydrogen-flight goal.
 - **Teal = the main action.** Primary buttons ("Partner with us", "Apply to join").
 - **Everything else is black, white or grey.** Batteries, power electronics, status, labels, numbers.
 - There is no second accent colour. No amber, no gold, no gradients.
@@ -123,7 +123,7 @@ Light is the brand default. The website also offers a dark mode: it follows the 
 **Section labels (key words)**
 - Montserrat 800, uppercase, wide letter-spacing, Ink (white on dark), with a short bar in the same colour before the text. They must be clearly visible: they name what a section is about.
 - Numbered sections use `01 / Why hydrogen`; the opening sections use plain words ("Our mission", "Our goal").
-- The "Why hydrogen?" label is the only teal one (text and bar), because teal means hydrogen.
+- The "The hydrogen advantage" label is the only teal one (text and bar), because teal means hydrogen.
 - Small mono labels stay for captions inside cards and diagrams ("Energy per kilogram", "Planned architecture").
 
 **Status chips** (roadmap, placeholders)
@@ -145,7 +145,7 @@ Light is the brand default. The website also offers a dark mode: it follows the 
 ## 6. Layout
 
 - **First screen (hero) is "us":** it fills exactly one screen (inspired by LEVITUM and Team Daedalus). Text on the left, drone drawing on the right, both vertically centred at the same height. The text is only the TEΛM ΛRGO lockup as the page title (full width of the text column), the team line ("A team of students from Eindhoven University of Technology (TU/e).") and the tagline ("Breaking the endurance barrier in autonomous aviation."). No goal, numbers, buttons or stats. On phones the text stacks above the drawing.
-- **Second screen is "Our mission"** (like LEVITUM's "Our Mission"): heading "The power to go further.", one intro sentence, a teal "Why hydrogen?" label, then four columns (number, title, one-line lead, short body): maximum energy density, true zero-emission, rapid turnaround, meeting industrial demand. The columns share rows, so titles, leads and bodies always start at the same height across columns, however many lines each one wraps to.
+- **Second screen is "Our mission"** (like LEVITUM's "Our Mission"): heading "The power to go further.", one intro sentence ("Our vision is to…"), a teal "The hydrogen advantage" label, then four columns (number, title, short body): maximum energy density, true zero-emission, continuous efficiency, meeting industrial demand. The columns share rows, so titles and bodies always start at the same height across columns, however many lines each one wraps to.
 - **Third screen is "Our goal":** the goal headline, one supporting paragraph, the main buttons, the current-phase status line and the design targets.
 - Max content width 1180px, 24px side padding (16px on phones).
 - Section spacing 128px vertical (88px on phones), separated by hairline rules.
