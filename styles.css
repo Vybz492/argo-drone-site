@@ -331,6 +331,8 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
 .key-h2 { background: var(--accent); }
 .key-zone { width: 14px; height: 10px; border-radius: 2px; background: var(--accent-soft); }
 .key-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text); }
+.key-limit { width: 18px; height: 0; border-top: 2px dashed var(--muted); }
+.key-risk { width: 14px; height: 10px; border-radius: 2px; background: var(--line-strong); }
 
 .sim-plot { position: relative; }
 .sim-chart { width: 100%; touch-action: pan-y; }
@@ -347,6 +349,10 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
 .sim-hover { display: none; }
 .sim-chart.is-active .sim-hover { display: inline; }
 .sim-hit { fill: transparent; pointer-events: all; }
+.ld-trace { stroke-linejoin: round; }
+.ld-risk { fill: var(--line-strong); }
+.ld-limit { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 6 4; }
+.ld-zero { stroke: var(--muted); stroke-width: 1; }
 .sim-tick { font-family: var(--mono); font-size: 12px; fill: var(--muted); }
 .sim-axis-title { font-family: var(--sans); font-size: 13px; fill: var(--muted); }
 .sim-label { font-family: var(--sans); font-size: 13px; font-weight: 600; fill: var(--text); }

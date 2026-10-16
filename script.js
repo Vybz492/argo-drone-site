@@ -95,45 +95,21 @@ if (emblemText && emblem && 'ResizeObserver' in window) {
   sideBySide.addEventListener('change', fitEmblem);
 }
 
-const simChart = document.getElementById('sim-chart');
-if (simChart) {
-  const plot = simChart.parentElement;
+const bindChart = (chart, { left, width, top, bottom, max, start, snap, step, bigStep, render }) => {
+  const plot = chart.parentElement;
   const tip = plot.querySelector('.sim-tip');
-  const cross = simChart.querySelector('.sim-cross');
-  const dotBattery = simChart.querySelector('.sim-hover-batt');
-  const dotHydrogen = simChart.querySelector('.sim-hover-h2');
-  const left = 56;
-  const width = 568;
-  const top = 16;
-  const bottom = 364;
-  const maxMinutes = 240;
-  const maxKg = 5.5;
-  const battery = (t) => (2.22 / 33) * t;
-  const hydrogen = (t) => 2 + t / 150;
-  const toX = (t) => left + (t / maxMinutes) * width;
-  const toY = (kg) => bottom - (kg / maxKg) * (bottom - top);
-  const kg = (value) => `${value.toFixed(1)} kg`;
-  const duration = (t) => (t < 60 ? `${t} min` : `${Math.floor(t / 60)} h ${String(t % 60).padStart(2, '0')} min`);
-  let minutes = 33;
+  const cross = chart.querySelector('.sim-cross');
+  let current = start;
 
-  const show = (t) => {
-    minutes = Math.max(0, Math.min(maxMinutes, Math.round(t)));
-    const x = toX(minutes);
-    const b = battery(minutes);
-    const h = hydrogen(minutes);
+  const show = (value) => {
+    current = Math.max(0, Math.min(max, Math.round(value / snap) * snap));
+    const x = left + (current / max) * width;
     cross.setAttribute('x1', x);
     cross.setAttribute('x2', x);
-    dotHydrogen.setAttribute('cx', x);
-    dotHydrogen.setAttribute('cy', toY(h));
-    dotBattery.setAttribute('cx', x);
-    dotBattery.setAttribute('cy', toY(Math.min(b, maxKg)));
-    dotBattery.style.visibility = b <= maxKg ? 'visible' : 'hidden';
-    tip.querySelector('[data-t]').textContent = duration(minutes);
-    tip.querySelector('[data-b]').textContent = kg(b) + (b > maxKg ? ' ↑' : '');
-    tip.querySelector('[data-h]').textContent = kg(h);
-    simChart.classList.add('is-active');
+    render(current, x, tip);
+    chart.classList.add('is-active');
     tip.hidden = false;
-    const scale = simChart.getBoundingClientRect().width / 640;
+    const scale = chart.getBoundingClientRect().width / chart.viewBox.baseVal.width;
     const pointX = x * scale;
     const tipWidth = tip.offsetWidth;
     const fitsRight = pointX + 14 + tipWidth <= plot.clientWidth;
@@ -141,32 +117,122 @@ if (simChart) {
   };
 
   const hide = () => {
-    simChart.classList.remove('is-active');
+    chart.classList.remove('is-active');
     tip.hidden = true;
   };
 
-  simChart.addEventListener('pointermove', (e) => {
-    const point = simChart.createSVGPoint();
+  chart.addEventListener('pointermove', (e) => {
+    const point = chart.createSVGPoint();
     point.x = e.clientX;
     point.y = e.clientY;
-    const p = point.matrixTransform(simChart.getScreenCTM().inverse());
+    const p = point.matrixTransform(chart.getScreenCTM().inverse());
     if (p.x < left || p.x > left + width || p.y < top || p.y > bottom) {
       hide();
       return;
     }
-    show(((p.x - left) / width) * maxMinutes);
+    show(((p.x - left) / width) * max);
   });
-  simChart.addEventListener('pointerleave', hide);
-  simChart.addEventListener('focus', () => show(minutes));
-  simChart.addEventListener('blur', hide);
-  simChart.addEventListener('keydown', (e) => {
-    const step = e.shiftKey ? 30 : 5;
-    if (e.key === 'ArrowRight') show(minutes + step);
-    else if (e.key === 'ArrowLeft') show(minutes - step);
+  chart.addEventListener('pointerleave', hide);
+  chart.addEventListener('focus', () => show(current));
+  chart.addEventListener('blur', hide);
+  chart.addEventListener('keydown', (e) => {
+    const delta = e.shiftKey ? bigStep : step;
+    if (e.key === 'ArrowRight') show(current + delta);
+    else if (e.key === 'ArrowLeft') show(current - delta);
     else if (e.key === 'Home') show(0);
-    else if (e.key === 'End') show(maxMinutes);
-    else if (e.key === 'Escape') simChart.blur();
+    else if (e.key === 'End') show(max);
+    else if (e.key === 'Escape') chart.blur();
     else return;
     e.preventDefault();
+  });
+};
+
+const simChart = document.getElementById('sim-chart');
+if (simChart) {
+  const dotBattery = simChart.querySelector('.sim-hover-batt');
+  const dotHydrogen = simChart.querySelector('.sim-hover-h2');
+  const top = 16;
+  const bottom = 364;
+  const maxKg = 5.5;
+  const battery = (t) => (2.22 / 33) * t;
+  const hydrogen = (t) => 2 + t / 150;
+  const toY = (kg) => bottom - (kg / maxKg) * (bottom - top);
+  const kg = (value) => `${value.toFixed(1)} kg`;
+  const duration = (t) => (t < 60 ? `${t} min` : `${Math.floor(t / 60)} h ${String(t % 60).padStart(2, '0')} min`);
+
+  bindChart(simChart, {
+    left: 56,
+    width: 568,
+    top,
+    bottom,
+    max: 240,
+    start: 33,
+    snap: 1,
+    step: 5,
+    bigStep: 30,
+    render: (t, x, tip) => {
+      const b = battery(t);
+      const h = hydrogen(t);
+      dotHydrogen.setAttribute('cx', x);
+      dotHydrogen.setAttribute('cy', toY(h));
+      dotBattery.setAttribute('cx', x);
+      dotBattery.setAttribute('cy', toY(Math.min(b, maxKg)));
+      dotBattery.style.visibility = b <= maxKg ? 'visible' : 'hidden';
+      tip.querySelector('[data-t]').textContent = duration(t);
+      tip.querySelector('[data-b]').textContent = kg(b) + (b > maxKg ? ' ↑' : '');
+      tip.querySelector('[data-h]').textContent = kg(h);
+    },
+  });
+}
+
+const loadChart = document.getElementById('load-chart');
+if (loadChart) {
+  const dotSeries = loadChart.querySelector('.sim-hover-batt');
+  const dotParallel = loadChart.querySelector('.sim-hover-h2');
+  const top = 36;
+  const bottom = 372;
+  const sample = 0.2;
+  const perWatt = (bottom - top) / 2200;
+  const fuelCell = 650;
+  const traceY = loadChart.querySelector('#ld-line').getAttribute('d').match(/-?\d*\.?\d+/g).map(Number).filter((_, i) => i % 2 === 1);
+  const toWatts = (y) => (bottom - y) / perWatt - 200;
+  const watts = (value) => {
+    const rounded = Math.round(value / 10) * 10;
+    return `${rounded < 0 ? '−' : ''}${Math.abs(rounded).toLocaleString('en-US')} W`;
+  };
+  const clock = (t) => {
+    const total = Math.round(t * 60);
+    const h = Math.floor(total / 3600);
+    const m = String(Math.floor((total % 3600) / 60)).padStart(h ? 2 : 1, '0');
+    const s = String(total % 60).padStart(2, '0');
+    return `${h ? `${h} h ` : ''}${m} min ${s} s`;
+  };
+  const phase = (t, series) => {
+    if (t <= 1) return 'take-off';
+    if (t >= 119) return 'landing';
+    return series > 900 ? 'gust' : 'cruise';
+  };
+
+  bindChart(loadChart, {
+    left: 64,
+    width: 552,
+    top,
+    bottom,
+    max: 120,
+    start: 30,
+    snap: sample,
+    step: 1,
+    bigStep: 10,
+    render: (t, x, tip) => {
+      const y = traceY[Math.round(t / sample)];
+      const series = toWatts(y);
+      dotSeries.setAttribute('cx', x);
+      dotSeries.setAttribute('cy', y);
+      dotParallel.setAttribute('cx', x);
+      dotParallel.setAttribute('cy', y + fuelCell * perWatt);
+      tip.querySelector('[data-t]').textContent = `${clock(t)} · ${phase(t, series)}`;
+      tip.querySelector('[data-s]').textContent = watts(series);
+      tip.querySelector('[data-p]').textContent = watts(series - fuelCell);
+    },
   });
 }
