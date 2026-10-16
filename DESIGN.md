@@ -16,7 +16,7 @@ Design reference for everything Argo puts out: the website, slides, social media
 - Heavy geometric headlines that echo the ΛRGO wordmark
 - Monospace uppercase labels as the "technical" voice
 - Slightly squared corners (4–6px)
-- Light sections for the story (mission, roadmap, partners, join), dark sections for the drone and the footer
+- Light sections for the story (mission, roadmap, partners, join), a dark section for the drone (the footer sits on the light Contact page)
 
 ## 2. Brand Assets
 
@@ -75,7 +75,7 @@ Light is the brand default. The website also offers a dark mode: it follows the 
 |---|---|---|
 | Page background | White `#FFFFFF` | Ink `#0B0D10` |
 | Cards | Mist `#F4F6F7` | Night Raised `#151A20` |
-| Drone sections (drivetrain, call-to-action block, footer) | Ink `#0B0D10` | Night Raised `#151A20`, with cards in Night Band `#1D232B` |
+| Drone sections (drivetrain, call-to-action block) | Ink `#0B0D10` | Night Raised `#151A20`, with cards in Night Band `#1D232B` |
 | Text | Ink | `#EEF1F4` |
 | Accent | Argo Teal `#007E8A` | Argo Teal Bright `#0096A2` |
 | Primary buttons | Argo Teal, white text | Argo Teal, white text (unchanged) |
@@ -148,7 +148,7 @@ Light is the brand default. The website also offers a dark mode: it follows the 
 - Becomes translucent white with a hairline bottom border on scroll.
 
 **Footer**
-- Dark section with the ΛRGO wordmark at full container width as the closing statement.
+- Part of the Contact page, on the same light background: no separate band. Below the contact cards, a hairline, then the team lines on the left ("Discovery Team · TU/e innovation Space · Est. 2026", "© year Argo · email") and a small ΛRGO wordmark (44px tall, 34px on phones) in the bottom-right corner. Contact and footer together fit one screen on desktop.
 
 ## 6. Layout
 
@@ -159,7 +159,8 @@ Light is the brand default. The website also offers a dark mode: it follows the 
 - **Then "The story":** heading "Proving the powertrain on a global stage.", one intro sentence, two story paragraphs (the carbon-auditing problem, then the hydrogen hexacopter as the answer), a "High-precision carbon auditing" label (Ink, not teal) and two columns: terrestrial auditing and blue carbon auditing. Same column format as the mission section.
 - **Then "Current project: the hexacopter testbed"** (dark section): the hybrid-powertrain heading (smaller than other section headings, as it is long) and intro, the drone emblem (on wide screens exactly as tall as the text beside it, from the section label to the last line of the intro; script.js keeps it matched), the animated drivetrain diagram, and four cells: hydrogen storage, PEM fuel cell, power management, buffer battery.
 - **Then "Why parallel"** (light section, same layout as "Simulation"): heading "Parallel, not series.", two short paragraphs and Fig. 03, the team's Python simulation of battery output over a two-hour flight. Series (battery alone) in Ink crosses the dashed 1,250 W safe limit at take-off and in every gust; parallel (fuel cell supplies 650 W) in Teal stays under it and dips below 0 W (recharging) in cruise. The Teal band is the load the fuel cell takes over; grey is the overload risk. Hover/keyboard readout and a phase table, like Fig. 02.
-- **Menu:** Mission · Story · Testbed · Roadmap · Contact. Every link lands on the start of its section.
+- **Roadmap (hidden for now):** five phases with status chips. Commented out in the code with its menu link; if it returns, it sits between "Why parallel" and Contact.
+- **Menu:** Mission · Story · Testbed · Contact (Roadmap returns with its section). Every link lands on the start of its section.
 - Max content width 1180px, 24px side padding (16px on phones).
 - Section spacing 128px vertical (88px on phones), separated by hairline rules.
 - 8px base spacing unit.
