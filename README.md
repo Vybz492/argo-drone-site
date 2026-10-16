@@ -34,7 +34,6 @@ The **Partners** and **Join** sections are commented out in `index.html`, togeth
 
 1. Uncomment the two sections and the menu links.
 2. Point the "Partner with us" buttons back from `#contact` to `#partner`.
-3. Renumber Contact from `04 / Contact` back to `06 / Contact`.
 
 ## Still to do
 

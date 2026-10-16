@@ -122,7 +122,7 @@ Light is the brand default. The website also offers a dark mode: it follows the 
 
 **Section labels (key words)**
 - Montserrat 800, uppercase, wide letter-spacing, Ink (white on dark), with a short bar in the same colour before the text. They must be clearly visible: they name what a section is about.
-- Numbered sections use `01 / Why hydrogen`; the opening sections use plain words ("Our mission", "Our goal").
+- Labels are plain words, never numbered: "Our mission", "Simulation", "The story", "Roadmap", "Contact".
 - The "The hydrogen advantage" label is the only teal one (text and bar), because teal means hydrogen.
 - Small mono labels stay for captions inside cards and diagrams ("Energy per kilogram", "Planned architecture").
 
@@ -156,8 +156,8 @@ Light is the brand default. The website also offers a dark mode: it follows the 
 - **Second screen is "Our mission"** (like LEVITUM's "Our Mission"): heading "The power to go further." with a teal "On hydrogen." on its own line beneath, one intro sentence ("Our vision is to…"), a teal "The hydrogen advantage" label, then four columns (number, title, short body): maximum energy density, true zero-emission, continuous efficiency, meeting industrial demand. The columns share rows, so titles and bodies always start at the same height across columns, however many lines each one wraps to.
 - **"Our goal" (hidden for now):** the goal headline, one supporting paragraph, the main buttons, the current-phase status line and the design targets. Commented out in the code; if it returns, it sits between the mission and the story.
 - **Third screen is "Simulation":** the team's MATLAB "critical mass penalty" chart (energy system mass against flight duration, battery vs hydrogen, break-even at about 33 minutes). Explanation on the left, chart on the right, stacked on phones. See "Charts" in section 5.
-- **Then "01 / The story":** heading "Proving the powertrain on a global stage.", one intro sentence, two story paragraphs (the carbon-auditing problem, then the hydrogen hexacopter as the answer), a "High-precision carbon auditing" label (Ink, not teal) and two columns: terrestrial auditing and blue carbon auditing. Same column format as the mission section.
-- **Then "02 / Current project: the hexacopter testbed"** (dark section): the hybrid-powertrain heading and intro, the drone emblem, the animated drivetrain diagram, and four cells: hydrogen storage, PEM fuel cell, power management, buffer battery.
+- **Then "The story":** heading "Proving the powertrain on a global stage.", one intro sentence, two story paragraphs (the carbon-auditing problem, then the hydrogen hexacopter as the answer), a "High-precision carbon auditing" label (Ink, not teal) and two columns: terrestrial auditing and blue carbon auditing. Same column format as the mission section.
+- **Then "Current project: the hexacopter testbed"** (dark section): the hybrid-powertrain heading and intro, the drone emblem, the animated drivetrain diagram, and four cells: hydrogen storage, PEM fuel cell, power management, buffer battery.
 - **Menu:** Mission · Story · Testbed · Roadmap · Contact. Every link lands on the start of its section.
 - Max content width 1180px, 24px side padding (16px on phones).
 - Section spacing 128px vertical (88px on phones), separated by hairline rules.
@@ -214,6 +214,6 @@ Quick reference:
 - 4px radius buttons, 6px radius cards, no shadows
 
 Example prompts:
-- "Create a section on white with a section label `03 / Roadmap` (Montserrat 800, 18px, uppercase, letter-spacing 0.14em, #0B0D10, 32×3px bar before it), a Montserrat 800 heading in #0B0D10, and an Inter paragraph in #5B6470. Hairline rule above the section."
+- "Create a section on white with a section label `Roadmap` (Montserrat 800, 18px, uppercase, letter-spacing 0.14em, #0B0D10, 32×3px bar before it), a Montserrat 800 heading in #0B0D10, and an Inter paragraph in #5B6470. Hairline rule above the section."
 - "Draw a line-art diagram on #0B0D10: white 1.5px strokes, hydrogen path in #0096A2, battery path in #9AA4AF with a different dash pattern, mono uppercase labels."
 - "Primary button: #007E8A background, white Inter 600 text, 4px radius, 48px tall. Hover #006B75."
