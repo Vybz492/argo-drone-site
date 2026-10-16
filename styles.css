@@ -403,7 +403,14 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
 .bp .clamp-nut { fill: var(--text); }
 .bp .prop { transform-box: fill-box; transform-origin: center; animation: spin 2.6s linear infinite; }
 .bp .prop.ccw { animation-direction: reverse; }
+.bp .planned rect { stroke-width: 1.2; stroke-dasharray: 3.5 2.5; }
+.bp .planned .tank { fill: var(--bg); fill: color-mix(in srgb, var(--accent) 14%, var(--bg)); stroke: var(--accent); }
+.bp .planned .fc { fill: var(--bg); stroke: var(--text); }
+.bp .planned .batt { fill: var(--surface); stroke: var(--text); }
+.bp .fc-fin { fill: none; stroke: var(--line-strong); stroke-width: 0.8; }
+.bp .legend { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 3.5 2.5; }
 .bp .cline { fill: none; stroke: var(--muted); stroke-width: 1; }
+.bp .cdot { fill: var(--text); }
 .bp .tb rect, .bp .tb line { fill: none; stroke: var(--line-strong); }
 .bp-label { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.06em; fill: var(--text); }
 .bp-sub, .bp-tb { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
