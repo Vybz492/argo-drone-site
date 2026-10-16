@@ -385,21 +385,25 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
 .blueprint { margin: 0; }
 .hero .bp { width: 100%; max-height: calc(100svh - 160px); }
 
-.bp .arm-o line { stroke: var(--text); stroke-width: 10; stroke-linecap: round; }
-.bp .arm-i line { stroke: var(--bg); stroke-width: 7.5; stroke-linecap: round; }
 .bp .rotor-disc { fill: none; stroke: var(--line-strong); stroke-dasharray: 3 5; }
-.bp .prop ellipse { fill: var(--text); fill-opacity: 0.18; }
+.bp .arm { fill: var(--bg); stroke: var(--text); stroke-width: 1.2; stroke-linejoin: round; }
+.bp .arm-web { fill: none; stroke: var(--text); stroke-width: 0.8; stroke-linejoin: round; }
+.bp .arm-pin { fill: none; stroke: var(--text); stroke-width: 0.8; }
+.bp .board { fill: var(--bg); stroke: var(--text); stroke-width: 1.4; stroke-linejoin: round; }
+.bp .window { fill: var(--line); stroke: var(--text); stroke-width: 0.9; }
+.bp .hole { fill: none; stroke: var(--text); stroke-width: 0.7; }
+.bp .bracket { fill: var(--bg); stroke: var(--text); stroke-width: 1.1; stroke-linejoin: round; }
+.bp .bracket-slot { fill: var(--line); stroke: var(--text); stroke-width: 0.9; }
+.bp .bracket-rib { fill: none; stroke: var(--line-strong); stroke-width: 0.8; }
+.bp .pod, .bp .bell { fill: var(--bg); stroke: var(--text); stroke-width: 1.3; }
+.bp .pod-in { fill: none; stroke: var(--line-strong); stroke-width: 0.9; }
+.bp .blade { fill: var(--text); fill-opacity: 0.16; stroke: var(--text); stroke-opacity: 0.4; stroke-width: 0.7; }
+.bp .clamp { fill: var(--bg); stroke: var(--text); stroke-width: 1; }
+.bp .clamp.nose { fill: var(--text); }
+.bp .clamp-nut { fill: var(--text); }
 .bp .prop { transform-box: fill-box; transform-origin: center; animation: spin 2.6s linear infinite; }
 .bp .prop.ccw { animation-direction: reverse; }
-.bp .hub { fill: var(--bg); stroke: var(--text); stroke-width: 1.5; }
-.bp .body { fill: var(--bg); stroke: var(--text); stroke-width: 1.5; }
-.bp .tank { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
-.bp .tank-hatch line { stroke: var(--accent); stroke-opacity: 0.45; }
-.bp .fc { fill: var(--bg); stroke: var(--text); stroke-width: 1.2; }
-.bp .fc-fin line { stroke: var(--line-strong); }
-.bp .batt { fill: var(--line); stroke: var(--text); stroke-width: 1.2; }
 .bp .cline { fill: none; stroke: var(--muted); stroke-width: 1; }
-.bp .cdot { fill: var(--text); }
 .bp .tb rect, .bp .tb line { fill: none; stroke: var(--line-strong); }
 .bp-label { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.06em; fill: var(--text); }
 .bp-sub, .bp-tb { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
