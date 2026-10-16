@@ -69,6 +69,32 @@ if ('IntersectionObserver' in window) {
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
+const emblemText = document.querySelector('.drivetrain-head .section-head');
+const emblem = document.querySelector('.emblem');
+if (emblemText && emblem && 'ResizeObserver' in window) {
+  const emblemImg = emblem.querySelector('img');
+  const sideBySide = window.matchMedia('(min-width: 961px)');
+  const textBounds = (el) => {
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    return range.getBoundingClientRect();
+  };
+  const fitEmblem = () => {
+    if (!sideBySide.matches) {
+      emblem.style.marginTop = '';
+      emblemImg.style.height = '';
+      return;
+    }
+    const box = emblemText.getBoundingClientRect();
+    const first = textBounds(emblemText.firstElementChild);
+    const last = textBounds(emblemText.lastElementChild);
+    emblem.style.marginTop = `${first.top - box.top}px`;
+    emblemImg.style.height = `${last.bottom - first.top}px`;
+  };
+  new ResizeObserver(fitEmblem).observe(emblemText);
+  sideBySide.addEventListener('change', fitEmblem);
+}
+
 const simChart = document.getElementById('sim-chart');
 if (simChart) {
   const plot = simChart.parentElement;
