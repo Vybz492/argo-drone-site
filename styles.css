@@ -477,7 +477,15 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
 
 .drivetrain-head { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 48px; margin-bottom: 56px; }
 .drivetrain-head .section-head { margin-bottom: 0; }
-.drivetrain-head .section-head h2 { font-size: clamp(26px, 2.8vw, 36px); }
+.drivetrain-head .section-head h2, .vtol-head h2 { font-size: clamp(26px, 2.8vw, 36px); }
+.vtol-head p:not(.eyebrow) + p { margin-top: 14px; }
+
+.uses { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; margin: 0; padding: 0; list-style: none; }
+.use { grid-column: span 2; }
+.use:nth-child(n + 4) { grid-column: span 3; }
+.use { display: flex; flex-direction: column; gap: 14px; padding: 28px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.use-num { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--muted); }
+.use h3 { margin: 0; font-size: 19px; line-height: 1.3; }
 .emblem { margin: 0; }
 .emblem img { width: auto; height: 290px; transform: rotate(180deg); }
 .emblem figcaption { margin-top: 14px; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); text-align: center; }
@@ -690,6 +698,9 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
   .emblem { justify-self: start; }
   .emblem img { height: 220px; }
   .points { grid-template-columns: 1fr 1fr; }
+  .uses { grid-template-columns: 1fr 1fr; }
+  .use, .use:nth-child(n + 4) { grid-column: auto; }
+  .use:last-child { grid-column: 1 / -1; }
   .point:nth-child(2n) { border-right: 0; }
   .point:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
   .feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -740,7 +751,8 @@ h3 { font-weight: 700; letter-spacing: -0.01em; }
   .supporter { height: 48px; padding: 0 16px; font-size: 14px; }
   .cta { padding: 28px 24px; }
   .cta .btn { width: 100%; }
-  .contact-grid { grid-template-columns: 1fr; }
+  .contact-grid, .uses { grid-template-columns: 1fr; }
+  .use { padding: 24px; }
   .footer { padding: 64px 0 32px; }
   .footer-bar { flex-direction: column; align-items: stretch; gap: 28px; }
   .footer-wordmark { align-self: flex-end; height: 34px; }

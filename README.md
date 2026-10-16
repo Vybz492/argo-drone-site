@@ -30,7 +30,7 @@ Brand files live in `assets/`: the ΛRGO wordmark (`argo-wordmark.svg`), the dro
 
 The **Our goal** section (7–8 hours headline, "Partner with us" / "Follow our progress" buttons, current-phase status line, design targets) is commented out in `index.html`. To bring it back, uncomment it; it has no menu link.
 
-The **Roadmap** section (five phases with status chips) is commented out in `index.html`, together with its "Roadmap" link in both menus. To bring it back, uncomment the section (it sits between "Why parallel" and Contact) and the two links. The hidden "Our goal" section links to `#roadmap`, so restore the roadmap before (or with) that section.
+The **Roadmap** section (five phases with status chips) is commented out in `index.html`, together with its "Roadmap" link in both menus. To bring it back, uncomment the section (it sits between the fixed-wing VTOL section and Contact) and the two links. The hidden "Our goal" section links to `#roadmap`, so restore the roadmap before (or with) that section.
 
 The **Partners** and **Join** sections are commented out in `index.html`, together with their "Partners" and "Join" links in both menus (desktop and phone). To bring them back:
 
