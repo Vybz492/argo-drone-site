@@ -3,26 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Argo — Hydrogen Drone Team · TU/e</title>
-<meta name="description" content="Argo is a TU/e student team building a hydrogen fuel-cell drone: 7–8 hours of flight, under 25 kg.">
-<meta property="og:title" content="Argo — Hydrogen Drone Team">
-<meta property="og:description" content="7–8 hours in the air. Under 25 kg. On hydrogen. A student team from TU Eindhoven.">
+<title>Argo · Hydrogen drone team at TU/e</title>
+<meta name="description" content="Argo is a team of TU/e students developing a hydrogen fuel-cell drone designed for hours of flight.">
+<meta property="og:title" content="Argo · Hydrogen drone team">
+<meta property="og:description" content="A TU/e student team developing hydrogen fuel-cell drones for hours of flight.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#FFFFFF">
+<meta name="theme-color" content="#F3F8FA">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&family=Martian+Mono:wght@400;500&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <script>
 document.documentElement.classList.add('js');
 try {
   const theme = localStorage.getItem('argo-theme');
-  if (theme === 'dark' || theme === 'light') document.documentElement.dataset.theme = theme;
-} catch (e) {}
+  document.documentElement.dataset.theme = theme === 'dark' || theme === 'light' ? theme : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+} catch (e) {
+  document.documentElement.dataset.theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
 </script>
 </head>
 <body>
+
+<a class="skip" href="#mission">Skip to content</a>
 
 <header class="nav" id="nav">
   <div class="wrap nav-inner">
@@ -37,13 +41,13 @@ try {
       <!-- <a href="#partner">Partners</a> -->
       <!-- <a href="#join">Join</a> -->
       <a href="#contact">Contact</a>
+      <span class="nav-ind" aria-hidden="true"></span>
     </nav>
     <div class="nav-actions">
       <button type="button" class="theme-toggle icon-btn" aria-label="Switch to dark mode">
-        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true"><mask id="moon-cut-a"><rect width="24" height="24" fill="#fff"/><circle class="moon-bite" cx="17" cy="8" r="8" fill="#000"/></mask><circle class="sun-core" cx="12" cy="12" r="9" mask="url(#moon-cut-a)"/><path class="sun-rays" d="M12 1.5v2M12 20.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M1.5 12h2M20.5 12h2M4.6 19.4l1.4-1.4M18 6l1.4-1.4"/></svg>
       </button>
-      <a href="#contact" class="btn btn-small">Partner with us</a>
+      <a href="#contact" class="btn btn-small btn-partner">Partner with us<svg class="btn-arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
       <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
     </div>
   </div>
@@ -57,17 +61,21 @@ try {
       <!-- <a href="#join">Join</a> -->
       <a href="#contact">Contact</a>
       <button type="button" class="theme-toggle theme-row" aria-label="Switch to dark mode">
-        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true"><mask id="moon-cut-b"><rect width="24" height="24" fill="#fff"/><circle class="moon-bite" cx="17" cy="8" r="8" fill="#000"/></mask><circle class="sun-core" cx="12" cy="12" r="9" mask="url(#moon-cut-b)"/><path class="sun-rays" d="M12 1.5v2M12 20.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M1.5 12h2M20.5 12h2M4.6 19.4l1.4-1.4M18 6l1.4-1.4"/></svg>
         <span class="theme-label">Dark mode</span>
       </button>
     </div>
   </nav>
+  <span class="nav-progress" aria-hidden="true"></span>
 </header>
+
+<div class="glow-cursor" aria-hidden="true"></div>
 
 <main id="top">
 
-  <section class="hero">
+  <section class="hero" id="hero">
+    <canvas class="hero-flow" aria-hidden="true"></canvas>
+    <div class="hero-shade" aria-hidden="true"></div>
     <div class="wrap hero-stage">
       <div class="hero-intro">
         <h1 class="hero-title">
@@ -75,11 +83,12 @@ try {
         </h1>
         <p class="hero-sub">A team of students from <a href="https://www.tue.nl/en/" target="_blank" rel="noopener">Eindhoven University of Technology (TU/e)</a>.</p>
         <p class="hero-tagline">Breaking the endurance barrier in autonomous aviation.</p>
+        <p class="hero-meta">Discovery Team · TU/e innovation Space · Est. 2026</p>
       </div>
 
-      <figure class="blueprint">
+      <figure class="blueprint" id="fig01">
         <svg class="bp" viewBox="0 0 600 480" role="img" aria-labelledby="bp-title">
-          <title id="bp-title">Top view of Argo's testbed, a DJI S800 EVO hexacopter, drawn to scale from DJI's manual: the hexagonal centre frame, six lattice arms and six spinning folding propellers. Dashed outlines show the planned hydrogen tank, PEM fuel cell and buffer battery, not to scale: the fuel cell and battery sit on the centre plate and the tank reaches out past its front edge.</title>
+          <title id="bp-title">Fig. 01. Top view of our testbed, a DJI S800 EVO hexacopter, drawn to scale from DJI's manual, with its hexagonal centre frame, six lattice arms and six folding propellers. Dashed outlines mark the planned hydrogen tank, PEM fuel cell and buffer battery. These parts are not to scale: the fuel cell and battery sit on the centre plate, and the tank reaches past its front edge.</title>
           <text x="16" y="26" class="bp-sub">FIG. 01</text>
           <path d="M16 41 H38" class="legend"/>
           <text x="44" y="45" class="bp-sub">PLANNED</text>
@@ -185,61 +194,89 @@ try {
     </div>
   </section>
 
-  <section id="mission" class="section">
+  <section id="mission" class="section mission">
+    <div class="bg-deco motif-hex" aria-hidden="true"><span class="glow g1"></span><span class="glow g2"></span><span class="motif"></span></div>
     <div class="wrap">
-      <header class="section-head reveal">
-        <p class="eyebrow">Our mission</p>
-        <h2>The power to go further.<br><span class="accent">On&nbsp;hydrogen.</span></h2>
-        <p>Our vision is to change the future of autonomous aviation through the development of sustainable, zero-emission and long-endurance flight systems.</p>
-      </header>
-      <div class="reveal">
-      <p class="eyebrow feature-label accent">The hydrogen advantage</p>
-      <div class="feature-grid">
-        <article class="feature-item">
-          <p class="feature-num">01</p>
-          <h3>Maximum energy density</h3>
-          <p class="feature-body">Hydrogen holds significantly more energy per kilogram than any other chemical fuel (approx. 33 kWh/kg compared to 0.25 kWh/kg for lithium batteries). Because the fuel is fundamentally lighter, powertrain weight is drastically reduced, meaning less power is wasted lifting dead weight and hours of continuous flight are unlocked.</p>
-        </article>
-        <article class="feature-item">
-          <p class="feature-num">02</p>
-          <h3>True zero-emission</h3>
-          <p class="feature-body">Electricity is generated through a clean chemical reaction within the fuel cell. The only byproduct exhausted during flight is pure water vapor, allowing for completely emission-free operations.</p>
-        </article>
-        <article class="feature-item">
-          <p class="feature-num">03</p>
-          <h3>Continuous efficiency</h3>
-          <p class="feature-body">Instead of constantly landing an aircraft to swap and recharge multiple battery packs across a single mission, one hydrogen fuel tank provides sufficient energy to cover vast areas in a single, uninterrupted flight. When refueling is finally required, it is completed in minutes.</p>
-        </article>
-        <article class="feature-item">
-          <p class="feature-num">04</p>
-          <h3>Meeting industrial demand</h3>
-          <p class="feature-body">As global industries increasingly require continuous, extended flight times for automated data collection, hydrogen drivetrains deliver the sustained endurance that conventional technologies cannot fulfill.</p>
-        </article>
+      <div class="mission-top">
+        <header class="section-head reveal">
+          <p class="eyebrow">Our mission</p>
+          <h2>The power to go further.<br><span class="accent">On&nbsp;hydrogen.</span></h2>
+          <p>Our vision is to change the future of autonomous aviation through the development of sustainable, zero-emission and long-endurance flight systems.</p>
+        </header>
+        <figure class="energy reveal">
+          <div class="energy-cols">
+            <div class="energy-col is-h2">
+              <p class="energy-val"><span class="energy-num" data-count="33" data-decimals="0">33</span> <span class="energy-unit">kWh/kg</span></p>
+              <p class="energy-name">Hydrogen</p>
+              <svg class="energy-grid" viewBox="0 0 216 198" role="img" aria-labelledby="energy-title">
+                <title id="energy-title">132 squares for hydrogen against 1 square for lithium batteries: 33 ÷ 0.25 = 132.</title>
+                <defs><pattern id="energy-cell" width="18" height="18" patternUnits="userSpaceOnUse"><rect x="2" y="2" width="14" height="14" rx="1.5"/></pattern></defs>
+                <rect class="energy-fill" width="216" height="198" fill="url(#energy-cell)"/>
+              </svg>
+            </div>
+            <div class="energy-col">
+              <p class="energy-val"><span class="energy-num" data-count="0.25" data-decimals="2">0.25</span> <span class="energy-unit">kWh/kg</span></p>
+              <p class="energy-name">Lithium batteries</p>
+              <svg class="energy-one" viewBox="0 0 18 18" aria-hidden="true"><rect x="2" y="2" width="14" height="14" rx="1.5"/></svg>
+            </div>
+          </div>
+          <figcaption>Energy stored per kilogram of fuel alone: approximately 33&nbsp;kWh for hydrogen, compared with approximately 0.25&nbsp;kWh for lithium batteries. The mass of the tank and the fuel cell is not included.</figcaption>
+        </figure>
       </div>
+      <div class="adv-hub reveal">
+        <h3 class="subhead accent">The Hydrogen Advantage</h3>
+        <svg class="hub-lines" viewBox="0 0 1000 64" preserveAspectRatio="none" aria-hidden="true"><path d="M500 0V30M118.7 30H881.3M118.7 30V64M372.9 30V64M627.1 30V64M881.3 30V64"/></svg>
+      </div>
+      <div class="adv-list">
+        <article class="adv reveal">
+          <svg class="adv-fig" viewBox="0 0 220 72" aria-hidden="true"><text class="af-label" x="0" y="14">Hydrogen</text><rect class="af-track" x="0" y="20" width="220" height="10" rx="5"/><rect class="af-bar h2" x="0" y="20" width="220" height="10" rx="5"/><text class="af-label" x="0" y="50">Lithium battery</text><rect class="af-track" x="0" y="56" width="220" height="10" rx="5"/><rect class="af-bar batt" x="0" y="56" width="3" height="10" rx="1.5"/></svg>
+          <p class="adv-key">33&nbsp;kWh/kg</p>
+          <h4>Maximum energy density</h4>
+          <p>Hydrogen stores more energy per kilogram than any other chemical fuel, so less power is spent lifting the energy store and hours of continuous flight become possible.</p>
+        </article>
+        <article class="adv reveal">
+          <svg class="adv-fig" viewBox="0 0 220 72" aria-hidden="true"><rect class="af-cell" x="10" y="10" width="64" height="30" rx="5"/><path class="af-fins" d="M24 16v18M34 16v18M44 16v18M54 16v18M64 16v18"/><path class="af-drop d1" d="M42 46c0 0 -6 8 -6 12a6 6 0 0 0 12 0c0 -4 -6 -12 -6 -12z"/><path class="af-wave" d="M100 52q15 -8 30 0t30 0t30 0"/><path class="af-wave w2" d="M100 64q15 -8 30 0t30 0t30 0"/><text class="af-label" x="100" y="26">Water vapour only</text></svg>
+          <p class="adv-key">H₂O</p>
+          <h4>True zero-emission</h4>
+          <p>Electricity is generated by a chemical reaction within the fuel cell, and the only byproduct emitted during flight is water vapour.</p>
+        </article>
+        <article class="adv reveal">
+          <svg class="adv-fig" viewBox="0 0 220 72" aria-hidden="true"><text class="af-label" x="0" y="9">Battery swaps</text><path class="af-line batt" pathLength="1" d="M4 34C18 20 30 20 42 34M42 34C56 20 68 20 80 34M80 34C94 20 106 20 118 34M118 34C132 20 144 20 156 34"/><g class="af-stops"><circle cx="42" cy="34" r="3"/><circle cx="80" cy="34" r="3"/><circle cx="118" cy="34" r="3"/><circle cx="156" cy="34" r="3"/></g><text class="af-label" x="0" y="52">One tank</text><path class="af-line h2" pathLength="1" d="M4 68C60 56 160 56 216 68"/></svg>
+          <p class="adv-key">Minutes <span>to refuel</span></p>
+          <h4>Continuous efficiency</h4>
+          <p>A single hydrogen tank provides enough energy to cover large areas in one uninterrupted flight, without repeated landings to exchange battery packs, and refuelling is completed in minutes.</p>
+        </article>
+        <article class="adv reveal">
+          <svg class="adv-fig" viewBox="0 0 220 72" aria-hidden="true"><path class="af-terrain" d="M0 66L30 54L58 60L90 44L120 52L150 38L180 50L220 42"/><g class="af-sweep"><path class="af-beam" d="M40 6L26 58H54Z"/><rect class="af-unit" x="32" y="0" width="16" height="8" rx="2"/></g></svg>
+          <p class="adv-key">Hours <span>of flight</span></p>
+          <h4>Meeting industrial demand</h4>
+          <p>Industries increasingly require continuous, extended flight times for automated data collection, and hydrogen drivetrains are able to deliver the sustained endurance that battery drones cannot.</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <section id="simulation" class="section">
+  <section id="simulation" class="section band curtain">
+    <div class="bg-deco motif-graph" aria-hidden="true"><span class="glow g1"></span><span class="glow g2"></span><span class="motif"></span></div>
     <div class="wrap sim-grid">
       <div class="section-head sim-text reveal">
         <p class="eyebrow">Simulation</p>
         <h2>The critical mass penalty.</h2>
-        <p>We modelled in MATLAB how heavy a drone's energy system must be for a given flight time. Batteries add about 4 kg per hour. Hydrogen starts at 2 kg but adds only 0.4 kg per hour, so past 33 minutes it is the lighter option.</p>
-        <p>At our 7&#8288;–&#8288;8 hour target, batteries would weigh 28&#8288;–&#8288;32&nbsp;kg, more than the 25 kg the whole drone may weigh. Hydrogen would weigh about 5 kg.</p>
+        <p>A MATLAB model was developed to determine how heavy a drone's energy system must be for a given flight time. A battery system adds approximately 4&nbsp;kg for every hour of flight, whereas a hydrogen system starts at 2&nbsp;kg and adds only approximately 0.4&nbsp;kg per hour. Beyond approximately 33 minutes, hydrogen is therefore the lighter option.</p>
+        <p>At our target of 7&#8288;–&#8288;8 hours of flight, the batteries alone would weigh 28&#8288;–&#8288;32&nbsp;kg, exceeding the 25&nbsp;kg limit for the entire drone. The hydrogen system would weigh approximately 5&nbsp;kg.</p>
       </div>
 
       <figure class="sim-figure reveal">
         <ul class="sim-legend">
           <li><span class="key key-batt"></span>Lithium-ion battery system</li>
           <li><span class="key key-h2"></span>Hydrogen fuel-cell system</li>
-          <li><span class="key key-zone"></span>Payload / endurance advantage</li>
+          <li><span class="key key-zone"></span>Mass hydrogen saves (payload or endurance)</li>
           <li><span class="key key-dot"></span>Break-even (≈ 33 min)</li>
         </ul>
         <div class="sim-plot">
           <svg id="sim-chart" class="sim-chart" viewBox="0 0 640 420" role="img" aria-labelledby="sim-title sim-desc" tabindex="0">
             <title id="sim-title">The critical mass penalty: energy system mass against flight duration</title>
-            <desc id="sim-desc">The battery system starts at 0 kg and gains about 4 kg per hour. The hydrogen fuel-cell system starts at 2 kg and gains about 0.4 kg per hour. The lines cross at about 33 minutes; after that the hydrogen system is lighter. Use the left and right arrow keys to read values.</desc>
+            <desc id="sim-desc">The battery system starts at 0 kg and gains about 4 kg per hour. The hydrogen fuel-cell system starts at 2 kg and gains about 0.4 kg per hour. The lines cross at about 33 minutes, and after that the hydrogen system is lighter. Use the left and right arrow keys, or the flight time slider, to read values.</desc>
             <path class="sim-zone" d="M134.1 223.5 L249.5 16 L624 16 L624 136.2 Z"/>
             <g class="sim-grid-lines">
               <line x1="56" y1="300.7" x2="624" y2="300.7"/>
@@ -285,6 +322,11 @@ try {
             <p><span class="key key-batt"></span><strong data-b></strong>Battery</p>
             <p><span class="key key-h2"></span><strong data-h></strong>Hydrogen</p>
           </div>
+        </div>
+        <div class="sim-range" hidden>
+          <label for="sim-range">Flight time</label>
+          <input type="range" id="sim-range" min="0" max="240" step="1" value="33">
+          <output id="sim-range-out" for="sim-range">33 min</output>
         </div>
         <figcaption>Fig. 02 · Energy system mass against desired flight duration. MATLAB simulation by Team Argo.</figcaption>
         <details class="sim-data">
@@ -340,45 +382,245 @@ try {
   </section>
   -->
 
-  <section id="story" class="section">
+  <section id="story" class="section story">
+    <div class="bg-deco motif-contour" aria-hidden="true"><span class="glow g1"></span><span class="glow g2"></span><span class="motif"></span></div>
     <div class="wrap">
-      <header class="section-head reveal">
+      <header class="section-head story-head reveal">
         <p class="eyebrow">The story</p>
-        <h2>Proving the powertrain on a global stage.</h2>
-        <p>To validate the hydrogen architecture, a problem had to be solved that conventional drones physically cannot fix.</p>
+        <h2>High-precision carbon auditing, on land and at sea.</h2>
+        <p>To validate the hydrogen architecture, we have chosen a problem that conventional drones physically cannot solve: measuring the biomass that carbon credits are supposed to represent.</p>
       </header>
-      <div class="story-text reveal">
-        <p>As global industries strive to achieve net-zero targets, significant investments are made into environmental offsets to neutralize corporate carbon footprints. Consequently, billions of dollars are traded in the carbon offset market based on rough satellite estimates. These estimates only capture the top of the canopy and fail to measure true biomass density underneath. To accurately map 3D structures and calculate exact carbon storage, advanced LiDAR systems must be flown low and slow over vast areas. Operating these complex sensors requires a high continuous power draw. Standard battery drones deplete their energy rapidly under these conditions, forcing landings within 15 minutes, while helicopters remain too expensive and highly polluting.</p>
-        <p>By utilizing a hydrogen hexacopter, high-precision carbon auditing is made economically viable. The massive energy capacity allows for hours of continuous flight, establishing a new standard for verified environmental data. This capability is applied in two core areas:</p>
+      <figure class="panorama reveal">
+        <svg class="pc pc-panorama" viewBox="0 36 1200 284" role="img" aria-labelledby="pano-title">
+          <title id="pano-title">Illustration: dual-laser LiDAR over a forest and green-laser LiDAR over water, drawn as point clouds. On the left, a drone's laser returns trace the tree crowns, trunks and ground; on the right, a second drone's laser passes through the water to the seagrass, kelp and seabed.</title>
+          <defs>
+            <clipPath id="beam-terra"><path data-rig="terra" d="M0 70L-86 236V242H86V236Z" transform="translate(255 0)"/></clipPath>
+            <clipPath id="beam-marine"><path data-rig="marine" d="M0 76L-76 304V310H76V304Z" transform="translate(900 0)"/></clipPath>
+          </defs>
+          <path class="pc-water" d="M590 246L590 248.2L610 247.1L630 245.2L650 243.9L670 244.2L690 245.9L710 247.7L730 248.2L750 247.0L770 245.1L790 243.9L810 244.3L830 246.1L850 247.8L870 248.1L890 246.8L910 244.9L930 243.8L950 244.4L970 246.2L990 247.9L1010 248.1L1030 246.7L1050 244.8L1070 243.8L1090 244.5L1110 246.4L1130 248.0L1150 248.0L1170 246.5L1190 244.6L1200 310Z"/>
+          <path class="pc-cone terra" data-rig="terra" d="M0 70L-86 236H86Z" transform="translate(255 0)"/>
+          <path class="pc-cone marine" data-rig="marine" d="M0 76L-76 304H76Z" transform="translate(900 0)"/>
+          <g class="scan">
+            <path class="pt pt-ground" d="M2.0 237.4h0M7.5 235.0h0M13.0 237.3h0M18.5 235.4h0M24.0 236.8h0M29.5 235.2h0M35.0 235.4h0M40.5 236.7h0M46.0 235.2h0M51.5 235.8h0M57.0 237.3h0M62.5 236.8h0M68.0 237.2h0M73.5 237.4h0M79.0 235.1h0M84.5 235.6h0M90.0 237.0h0M95.5 236.7h0M101.0 235.1h0M106.5 236.3h0M112.0 235.6h0M117.5 236.1h0M123.0 235.3h0M128.5 235.0h0M134.0 237.5h0M139.5 235.8h0M145.0 237.2h0M150.5 235.3h0M156.0 236.2h0M161.5 235.3h0M167.0 236.1h0M172.5 235.4h0M178.0 236.7h0M183.5 235.4h0M189.0 236.8h0M194.5 236.3h0M200.0 235.3h0M205.5 235.9h0M211.0 236.2h0M216.5 237.3h0M222.0 235.9h0M227.5 235.5h0M233.0 237.4h0M238.5 237.2h0M244.0 236.8h0M249.5 235.7h0M255.0 235.4h0M260.5 235.7h0M266.0 235.2h0M271.5 235.1h0M277.0 236.3h0M282.5 236.0h0M288.0 236.4h0M293.5 235.9h0M299.0 235.0h0M304.5 236.7h0M310.0 236.6h0M315.5 236.4h0M321.0 236.4h0M326.5 236.7h0M332.0 237.5h0M337.5 237.2h0M343.0 236.8h0M348.5 236.0h0M354.0 235.8h0M359.5 236.0h0M365.0 237.4h0M370.5 236.0h0M376.0 236.0h0M381.5 236.0h0M387.0 235.4h0M392.5 237.5h0M398.0 235.0h0M403.5 236.5h0M409.0 237.3h0M414.5 235.6h0M420.0 236.5h0M425.5 235.9h0M431.0 235.6h0M436.5 235.5h0M442.0 235.3h0M447.5 237.1h0M453.0 237.0h0M458.5 237.3h0M464.0 235.1h0M469.5 236.7h0M475.0 235.8h0M480.5 236.6h0M486.0 236.4h0M491.5 235.8h0M497.0 237.4h0M502.5 235.0h0M508.0 236.9h0M513.5 237.1h0M519.0 236.3h0M524.5 236.5h0M530.0 237.5h0M535.5 235.6h0M541.0 236.6h0M546.5 236.9h0M552.0 235.9h0M557.5 236.8h0M563.0 237.4h0M568.5 240.2h0M574.0 242.9h0M579.5 245.6h0M585.0 247.2h0M590.5 250.5h0M596.0 252.8h0M601.5 254.5h0M607.0 258.0h0M612.5 259.7h0M618.0 263.8h0M623.5 265.2h0M629.0 268.3h0M634.5 270.4h0M640.0 272.8h0M645.5 274.6h0M651.0 277.0h0M656.5 281.4h0M662.0 283.0h0M667.5 285.5h0M673.0 288.0h0M678.5 291.2h0M684.0 292.3h0M689.5 294.6h0M695.0 298.8h0M700.5 297.0h0M706.0 297.7h0M711.5 298.5h0M717.0 298.9h0M722.5 299.2h0M728.0 297.4h0M733.5 298.6h0M739.0 300.1h0M744.5 300.4h0M750.0 299.0h0M755.5 299.5h0M761.0 300.1h0M766.5 300.1h0M772.0 301.1h0M777.5 302.5h0M783.0 302.2h0M788.5 302.3h0M794.0 301.7h0M799.5 302.7h0M805.0 304.5h0M810.5 304.0h0M816.0 303.6h0M821.5 303.8h0M827.0 304.7h0M832.5 304.8h0M838.0 303.3h0M843.5 304.7h0M849.0 303.9h0M854.5 304.3h0M860.0 303.5h0M865.5 303.8h0M871.0 303.6h0M876.5 303.5h0M882.0 302.4h0M887.5 302.7h0M893.0 303.4h0M898.5 301.8h0M904.0 301.8h0M909.5 302.9h0M915.0 301.5h0M920.5 301.2h0M926.0 300.7h0M931.5 301.8h0M937.0 299.6h0M942.5 300.6h0M948.0 300.8h0M953.5 298.8h0M959.0 299.0h0M964.5 299.5h0M970.0 298.8h0M975.5 297.8h0M981.0 296.7h0M986.5 297.4h0M992.0 297.0h0M997.5 297.6h0M1003.0 296.4h0M1008.5 296.5h0M1014.0 296.9h0M1019.5 297.2h0M1025.0 296.0h0M1030.5 296.0h0M1036.0 296.4h0M1041.5 297.3h0M1047.0 295.5h0M1052.5 297.6h0M1058.0 297.0h0M1063.5 296.3h0M1069.0 297.2h0M1074.5 296.6h0M1080.0 296.2h0M1085.5 298.1h0M1091.0 297.5h0M1096.5 298.1h0M1102.0 298.4h0M1107.5 299.7h0M1113.0 299.7h0M1118.5 298.2h0M1124.0 300.0h0M1129.5 300.1h0M1135.0 300.4h0M1140.5 301.7h0M1146.0 301.0h0M1151.5 301.5h0M1157.0 302.9h0M1162.5 302.1h0M1168.0 302.5h0M1173.5 302.9h0M1179.0 303.9h0M1184.5 303.8h0M1190.0 304.2h0M1195.5 303.5h0"/>
+            <path class="pt pt-terra-soft" d="M31.0 140.2h0M17.8 139.5h0M2.5 157.9h0M5.0 157.2h0M6.5 147.4h0M44.8 164.7h0M40.6 151.2h0M6.3 151.4h0M9.2 165.0h0M18.1 163.2h0M32.4 157.5h0M28.0 158.8h0M37.7 170.4h0M27.5 162.3h0M34.6 150.2h0M6.3 156.9h0M7.8 160.5h0M31.8 173.9h0M41.4 151.8h0M28.4 164.8h0M22.8 168.6h0M33.4 168.5h0M38.9 150.7h0M22.2 145.5h0M6.8 148.9h0M21.6 163.5h0M38.8 178.2h0M20.1 153.9h0M9.0 148.4h0M23.3 165.2h0M17.9 164.4h0M32.8 161.8h0M32.2 138.4h0M37.0 179.7h0M19.0 156.3h0M30.2 140.7h0M10.5 144.9h0M17.7 137.1h0M29.3 144.4h0M16.9 154.7h0M22.4 160.2h0M5.5 153.5h0M39.3 145.4h0M44.9 162.3h0M26.0 138.0h0M33.1 149.6h0M8.5 174.2h0M37.0 153.0h0M40.4 176.3h0M35.1 147.7h0M17.3 139.3h0M13.8 149.1h0M45.2 158.3h0M17.7 147.8h0M9.9 146.5h0M23.0 168.6h0M4.7 169.1h0M37.1 173.1h0M9.1 174.8h0M19.2 156.0h0M34.4 145.6h0M38.2 143.2h0M17.1 163.3h0M30.9 162.3h0M20.9 179.6h0M10.6 149.2h0M12.0 165.1h0M20.2 142.3h0M17.2 158.9h0M42.8 157.0h0M55.7 156.6h0M65.4 169.2h0M81.5 169.1h0M74.8 159.8h0M78.7 164.4h0M79.9 151.8h0M89.3 176.4h0M64.4 156.8h0M97.2 132.5h0M74.7 128.5h0M53.9 163.4h0M90.2 162.2h0M72.2 152.3h0M96.8 133.3h0M78.9 143.9h0M67.7 165.6h0M81.1 149.8h0M68.5 160.4h0M55.7 139.9h0M93.8 140.1h0M73.6 178.2h0M64.3 131.5h0M82.0 164.4h0M53.0 164.1h0M85.6 170.2h0M98.5 150.4h0M81.0 177.7h0M57.0 154.7h0M67.4 141.3h0M66.1 153.1h0M91.2 156.0h0M76.6 177.7h0M96.0 149.1h0M96.9 146.8h0M69.1 173.2h0M85.7 147.6h0M53.7 167.0h0M87.6 140.6h0M66.3 150.8h0M74.9 138.4h0M104.7 155.8h0M71.3 151.6h0M61.1 153.4h0M64.7 129.1h0M66.9 137.2h0M79.7 168.2h0M90.2 175.3h0M58.2 166.6h0M100.2 160.8h0M95.7 131.7h0M78.2 173.5h0M96.5 158.3h0M88.3 164.2h0M70.1 128.9h0M81.3 160.8h0M88.2 152.5h0M94.8 167.8h0M80.0 162.1h0M91.4 139.1h0M64.7 166.2h0M77.7 146.2h0M88.4 169.1h0M86.1 129.1h0M64.1 167.2h0M81.8 125.6h0M64.9 163.5h0M87.9 140.7h0M76.0 151.2h0M100.3 134.4h0M75.7 173.0h0M127.6 138.9h0M109.4 133.2h0M141.0 159.1h0M150.1 153.5h0M117.1 134.6h0M120.8 137.7h0M145.3 129.3h0M115.0 128.8h0M111.9 134.3h0M147.9 158.6h0M130.5 152.8h0M140.0 138.7h0M135.5 130.5h0M126.6 133.2h0M115.6 149.7h0M131.0 136.0h0M110.5 125.0h0M127.8 125.7h0M153.7 138.9h0M119.8 120.0h0M115.5 145.4h0M140.9 136.8h0M129.3 134.9h0M105.3 128.8h0M108.6 141.7h0M146.8 126.5h0M115.0 136.1h0M148.5 140.0h0M115.0 121.1h0M129.2 151.8h0M139.5 149.7h0M125.8 144.1h0M142.6 126.4h0M135.5 131.3h0M115.1 149.0h0M129.3 145.9h0M113.7 146.7h0M117.7 139.2h0M135.5 162.2h0M114.3 127.1h0M138.6 131.6h0M127.9 150.8h0M115.4 150.9h0M119.6 137.1h0M112.4 158.0h0M128.3 124.7h0M118.3 158.3h0M113.6 155.3h0M151.4 141.3h0M113.7 136.9h0M122.5 125.2h0M105.2 135.5h0M147.9 154.7h0M150.3 132.5h0M103.8 150.3h0M121.5 132.7h0M120.3 165.1h0M120.6 159.5h0M124.5 117.2h0M121.4 163.4h0M121.0 161.9h0M123.4 158.8h0M115.4 155.4h0M119.7 128.6h0M134.1 128.3h0M118.5 130.0h0M141.2 164.3h0M114.2 140.1h0M151.5 135.5h0M124.4 141.1h0M177.9 151.3h0M162.5 133.6h0M188.1 154.3h0M187.6 114.8h0M166.0 142.7h0M191.8 120.9h0M163.2 116.8h0M182.6 128.2h0M206.6 139.1h0M195.9 148.5h0M154.9 137.1h0M155.9 118.9h0M182.8 164.5h0M199.3 135.7h0M155.1 144.6h0M161.6 131.0h0M160.8 123.6h0M186.8 121.6h0M168.0 149.1h0M167.1 120.1h0M180.8 113.3h0M171.9 141.8h0M189.4 133.3h0M166.8 165.7h0M181.9 130.1h0M170.1 119.8h0M201.3 133.9h0M172.5 161.8h0M181.0 147.6h0M154.1 146.0h0M178.3 117.6h0M179.2 163.5h0M177.4 158.1h0M160.4 114.9h0M205.6 137.7h0M202.8 131.6h0M185.0 157.7h0M194.6 122.0h0M198.1 158.0h0M161.6 132.6h0M171.2 116.4h0M191.1 161.6h0M181.6 153.6h0M183.8 141.8h0M166.7 133.8h0M173.7 148.3h0M174.4 109.4h0M177.4 122.1h0M194.3 136.2h0M176.4 115.7h0M174.0 114.0h0M178.6 110.4h0M153.7 153.3h0M178.7 111.6h0M170.9 165.0h0M191.5 157.2h0M206.0 138.2h0M152.7 129.4h0M164.9 157.1h0M178.1 163.4h0M164.2 139.0h0M188.4 161.9h0M194.6 115.2h0M185.9 129.8h0M181.2 143.7h0M185.5 132.0h0M182.5 129.9h0M174.6 118.5h0M163.7 147.6h0M183.0 148.4h0M224.6 143.5h0M212.2 146.1h0M233.5 186.6h0M220.7 152.4h0M233.8 168.5h0M233.9 161.7h0M238.6 150.3h0M201.4 166.8h0M228.7 189.0h0M209.8 171.2h0M233.6 182.1h0M215.7 154.3h0M247.0 181.4h0M239.2 163.0h0M223.4 150.2h0M217.1 179.4h0M244.6 176.7h0M228.9 161.3h0M227.3 151.6h0M213.1 149.8h0M216.7 186.1h0M211.9 188.4h0M236.4 174.8h0M224.4 184.6h0M245.3 161.4h0M229.8 154.5h0M232.6 140.2h0M217.6 145.9h0M201.3 176.1h0M236.6 177.8h0M230.9 157.1h0M204.8 149.1h0M242.8 172.9h0M233.1 153.6h0M204.3 179.1h0M216.2 161.0h0M212.9 152.5h0M218.9 154.5h0M226.2 185.1h0M200.7 160.2h0M240.7 156.2h0M228.0 148.5h0M209.9 180.6h0M199.2 164.5h0M242.0 147.3h0M217.8 183.3h0M250.0 153.2h0M236.8 165.0h0M233.4 140.7h0M236.6 181.5h0M218.2 159.5h0M210.1 151.1h0M226.1 158.0h0M211.6 162.8h0M239.7 179.5h0M217.8 155.6h0M244.5 174.4h0M208.2 161.5h0M230.3 144.0h0M246.8 150.8h0M215.3 176.9h0M207.4 146.2h0M216.6 166.3h0M216.7 146.7h0M238.3 141.5h0M204.5 158.2h0M241.9 178.1h0M209.6 172.5h0M210.2 159.1h0M220.5 181.8h0M297.1 180.5h0M295.6 174.8h0M273.4 153.2h0M253.7 159.4h0M287.8 171.6h0M271.8 161.6h0M271.0 174.9h0M258.4 173.5h0M269.8 163.6h0M250.3 166.7h0M277.1 140.9h0M278.3 176.9h0M283.7 183.4h0M271.0 189.4h0M286.2 157.8h0M268.0 139.1h0M270.4 136.2h0M271.6 175.6h0M263.0 147.8h0M300.4 165.8h0M292.7 158.1h0M255.4 180.8h0M283.5 162.4h0M267.8 172.6h0M293.6 162.4h0M278.7 141.7h0M267.9 184.1h0M269.1 150.0h0M288.3 151.9h0M265.0 163.1h0M283.6 173.3h0M298.5 180.1h0M294.4 171.6h0M284.7 150.3h0M256.2 148.3h0M267.5 143.2h0M292.2 144.2h0M282.0 180.8h0M297.9 181.5h0M259.2 175.5h0M289.4 160.5h0M279.1 150.9h0M256.0 163.8h0M274.2 143.6h0M275.9 166.6h0M274.2 167.9h0M294.9 157.0h0M283.6 171.7h0M282.1 175.3h0M276.6 163.3h0M283.0 154.5h0M268.6 162.7h0M291.0 147.5h0M271.7 167.5h0M264.5 183.1h0M276.2 151.0h0M302.4 173.5h0M266.6 153.8h0M280.8 172.3h0M297.4 166.7h0M282.0 173.7h0M298.8 170.8h0M283.0 175.7h0M286.1 147.2h0M273.7 178.8h0M291.3 188.7h0M268.7 183.5h0M279.5 150.5h0M271.7 153.8h0M283.9 188.2h0M303.9 163.2h0M335.1 141.9h0M337.9 167.5h0M335.6 133.6h0M334.6 153.7h0M314.4 167.5h0M342.3 155.1h0M317.3 159.8h0M332.9 136.5h0M317.1 163.6h0M319.8 149.6h0M327.4 145.4h0M340.6 146.9h0M329.1 145.8h0M343.6 149.2h0M329.2 177.5h0M312.0 151.7h0M340.0 175.3h0M340.9 173.0h0M327.6 143.4h0M339.5 166.0h0M316.3 133.8h0M339.0 139.6h0M329.4 165.2h0M309.2 142.5h0M338.8 153.8h0M339.5 169.8h0M328.0 177.7h0M325.1 154.6h0M308.3 140.1h0M334.2 148.5h0M319.1 156.7h0M317.6 134.7h0M338.5 137.5h0M316.2 156.8h0M342.5 155.1h0M311.9 170.5h0M308.9 139.7h0M301.3 159.0h0M321.9 180.5h0M301.9 161.0h0M311.7 159.3h0M347.1 164.7h0M321.4 137.0h0M316.5 178.0h0M338.5 167.1h0M306.0 169.9h0M333.0 145.1h0M337.0 135.4h0M311.7 136.0h0M307.2 142.5h0M335.0 140.5h0M321.3 133.6h0M341.3 162.6h0M315.9 172.9h0M330.5 137.5h0M301.6 167.2h0M312.2 151.3h0M312.4 173.5h0M307.2 155.4h0M344.0 164.5h0M322.9 144.8h0M308.9 148.3h0M303.6 144.2h0M301.6 167.5h0M339.5 147.7h0M325.3 139.3h0M344.8 140.8h0M305.7 138.4h0M334.7 140.5h0M394.9 163.2h0M376.8 163.2h0M362.5 161.3h0M361.4 137.7h0M353.5 145.5h0M378.8 124.4h0M393.6 162.9h0M388.4 138.2h0M400.4 144.2h0M379.5 146.3h0M365.7 160.0h0M358.1 154.4h0M354.2 149.6h0M379.1 154.5h0M396.2 155.1h0M359.4 144.1h0M367.1 125.1h0M360.1 149.4h0M360.6 148.3h0M361.4 162.0h0M372.5 140.2h0M379.3 138.8h0M391.7 136.3h0M369.9 140.9h0M393.6 161.5h0M378.9 169.1h0M365.6 140.4h0M371.3 146.0h0M374.7 144.7h0M384.6 161.0h0M385.0 132.1h0M366.8 146.7h0M384.0 131.5h0M374.7 167.2h0M368.4 151.7h0M382.7 168.0h0M366.6 142.7h0M359.8 133.9h0M367.6 131.8h0M380.3 162.2h0M381.5 152.0h0M388.4 142.4h0M383.6 142.9h0M365.3 130.1h0M372.2 148.6h0M370.7 162.6h0M380.8 144.0h0M391.4 127.6h0M396.3 141.5h0M372.5 141.3h0M358.7 129.6h0M389.8 126.9h0M370.7 153.6h0M395.3 161.0h0M389.8 157.3h0M376.8 159.5h0M391.1 148.9h0M400.8 148.1h0M392.0 163.9h0M372.1 142.0h0M389.0 133.9h0M380.7 138.6h0M392.2 162.5h0M375.2 128.5h0M360.5 148.4h0M369.3 162.8h0M374.4 164.5h0M355.7 147.8h0M379.9 170.2h0M378.9 153.9h0M411.2 142.6h0M448.6 154.7h0M452.5 165.7h0M425.5 133.9h0M430.7 154.3h0M411.9 161.8h0M437.8 126.9h0M446.4 142.2h0M449.5 159.2h0M412.7 153.8h0M416.7 162.8h0M424.9 132.2h0M444.8 131.5h0M411.2 155.4h0M436.4 171.4h0M419.9 166.6h0M411.1 140.6h0M453.0 158.8h0M427.1 147.5h0M452.3 159.1h0M426.6 161.0h0M450.2 142.5h0M448.0 142.1h0M456.2 153.7h0M415.3 147.3h0M414.1 142.1h0M429.1 171.0h0M411.4 145.8h0M433.5 130.9h0M423.5 148.5h0M408.5 173.1h0M415.4 136.0h0M439.4 144.9h0M441.7 130.3h0M426.8 174.7h0M410.6 145.0h0M423.0 180.5h0M455.7 154.3h0M427.3 131.5h0M416.4 178.0h0M422.5 138.7h0M413.6 175.3h0M430.7 156.5h0M445.5 147.0h0M433.9 142.8h0M450.0 143.1h0M407.7 157.6h0M430.0 142.4h0M419.2 138.3h0M442.4 141.1h0M453.3 171.0h0M440.2 163.6h0M425.0 163.7h0M415.6 174.3h0M437.4 135.8h0M453.5 168.2h0M410.7 136.3h0M423.2 127.1h0M437.9 134.2h0M434.0 166.6h0M426.3 164.8h0M445.8 141.8h0M450.2 160.1h0M415.4 130.1h0M444.2 128.8h0M423.9 169.2h0M417.5 128.4h0M425.7 180.1h0M443.6 173.9h0M427.3 126.8h0M466.9 150.2h0M492.5 168.6h0M468.9 160.6h0M504.0 152.1h0M485.2 150.7h0M484.4 173.1h0M490.4 165.0h0M495.5 176.6h0M471.3 152.7h0M459.8 148.6h0M492.2 157.2h0M473.1 158.2h0M494.7 137.3h0M506.3 163.1h0M481.4 156.5h0M484.2 132.7h0M489.3 166.9h0M489.7 147.0h0M495.9 177.4h0M466.1 167.4h0M496.4 177.7h0M473.2 142.6h0M472.9 152.8h0M475.4 176.9h0M458.8 163.4h0M498.2 171.2h0M504.5 159.5h0M464.7 149.1h0M460.8 169.4h0M479.1 183.6h0M458.7 156.7h0M499.2 179.2h0M478.2 148.2h0M482.7 155.7h0M478.9 168.9h0M471.7 156.8h0M474.3 144.4h0M473.1 157.6h0M488.1 175.5h0M490.9 165.5h0M485.6 183.7h0M489.5 149.4h0M466.3 169.2h0M461.0 168.2h0M486.1 155.4h0M485.3 154.6h0M484.4 138.6h0M469.5 138.4h0M469.4 159.3h0M468.2 163.5h0M482.7 164.3h0M477.3 137.4h0M500.4 162.6h0M495.0 138.4h0M493.2 138.1h0M476.5 141.6h0M485.2 173.8h0M468.7 153.4h0M486.8 145.0h0M492.5 155.8h0M488.1 179.6h0M465.2 172.6h0M495.3 169.7h0M462.9 153.0h0M504.7 171.0h0M487.3 138.6h0M497.3 138.5h0M490.9 147.3h0M479.3 177.9h0M462.3 175.2h0M550.1 152.9h0M530.6 121.3h0M525.9 164.7h0M507.9 132.5h0M554.4 147.4h0M513.2 134.1h0M536.4 135.8h0M529.7 169.8h0M511.9 152.2h0M519.1 142.3h0M535.9 144.1h0M535.4 159.0h0M547.6 150.3h0M524.2 128.9h0M542.3 130.4h0M545.6 142.9h0M523.5 145.3h0M507.0 132.8h0M559.7 141.2h0M517.4 126.8h0M553.1 139.5h0M535.9 131.0h0M507.4 130.8h0M544.9 145.5h0M522.9 167.5h0M536.6 170.8h0M547.6 137.9h0M507.4 141.4h0M519.3 128.6h0M512.9 128.3h0M516.0 136.5h0M537.8 164.3h0M514.8 156.9h0M537.7 116.5h0M553.3 133.2h0M514.3 144.6h0M539.9 166.7h0M522.2 157.3h0M526.6 152.8h0M506.9 137.5h0M539.2 132.5h0M537.6 127.9h0M535.6 169.9h0M538.5 155.4h0M511.7 157.5h0M549.8 137.7h0M537.0 145.6h0M537.8 132.0h0M518.2 155.2h0M547.7 130.7h0M559.1 139.6h0M533.3 167.5h0M504.1 140.9h0M547.6 133.7h0M516.6 156.9h0M507.0 142.4h0M524.4 122.2h0M545.5 166.4h0M531.9 150.3h0M549.1 140.0h0M545.3 116.1h0M526.4 162.9h0M535.6 136.7h0M557.3 149.6h0M517.9 128.3h0M516.7 124.2h0M540.1 129.7h0M515.9 146.3h0M518.8 157.8h0M519.6 132.3h0M24.0 177.2h0M24.1 185.6h0M23.9 194.0h0M22.8 202.4h0M23.2 210.8h0M24.5 219.2h0M23.6 227.6h0M24.0 181.9h0M17.6 176.7h0M11.2 171.5h0M27.2 179.3h0M33.6 174.1h0M77.9 172.9h0M77.3 181.3h0M77.3 189.7h0M77.1 198.1h0M79.1 206.5h0M78.8 214.9h0M78.9 223.3h0M77.4 231.7h0M74.8 176.0h0M68.4 170.8h0M78.0 178.6h0M84.4 173.4h0M90.8 168.2h0M127.2 159.6h0M128.6 168.0h0M128.7 176.4h0M127.6 184.8h0M127.7 193.2h0M127.0 201.6h0M128.6 210.0h0M127.0 218.4h0M128.1 226.8h0M128.0 164.8h0M121.6 159.6h0M115.2 154.4h0M131.2 162.2h0M137.6 157.0h0M176.8 159.0h0M177.2 167.4h0M177.8 175.8h0M178.9 184.2h0M177.3 192.6h0M176.9 201.0h0M177.7 209.4h0M177.7 217.8h0M178.2 226.2h0M178.0 164.8h0M171.6 159.6h0M165.2 154.4h0M181.2 162.2h0M187.6 157.0h0M226.0 184.0h0M225.9 192.4h0M226.2 200.8h0M226.6 209.2h0M225.8 217.6h0M226.6 226.0h0M226.0 189.4h0M219.6 184.2h0M213.2 179.0h0M229.2 186.8h0M235.6 181.6h0M276.2 183.7h0M275.1 192.1h0M276.2 200.5h0M275.9 208.9h0M275.7 217.3h0M277.1 225.7h0M276.0 189.2h0M269.6 184.0h0M263.2 178.8h0M279.2 186.6h0M285.6 181.4h0M323.0 173.5h0M324.0 181.9h0M323.3 190.3h0M324.5 198.7h0M324.2 207.1h0M323.0 215.5h0M323.8 223.9h0M322.9 232.3h0M320.8 176.0h0M314.4 170.8h0M324.0 178.6h0M330.4 173.4h0M336.8 168.2h0M377.7 161.7h0M377.6 170.1h0M378.4 178.5h0M377.0 186.9h0M377.8 195.3h0M378.2 203.7h0M379.1 212.1h0M377.9 220.5h0M379.2 228.9h0M378.0 166.7h0M371.6 161.5h0M365.2 156.3h0M381.2 164.1h0M387.6 158.9h0M429.8 173.9h0M431.0 182.3h0M430.6 190.7h0M430.5 199.1h0M429.4 207.5h0M431.1 215.9h0M430.1 224.3h0M428.9 232.7h0M426.8 177.0h0M420.4 171.8h0M430.0 179.6h0M436.4 174.4h0M442.8 169.2h0M482.1 177.5h0M482.4 185.9h0M481.1 194.3h0M482.1 202.7h0M482.7 211.1h0M480.8 219.5h0M481.2 227.9h0M482.0 182.6h0M475.6 177.4h0M469.2 172.2h0M485.2 180.0h0M491.6 174.8h0M532.9 162.2h0M532.4 170.6h0M531.9 179.0h0M532.9 187.4h0M532.9 195.8h0M532.7 204.2h0M531.2 212.6h0M533.2 221.0h0M530.9 229.4h0M532.0 167.9h0M525.6 162.7h0M519.2 157.5h0M535.2 165.3h0M541.6 160.1h0"/>
+            <path class="pt pt-marine-soft" d="M590.0 248.2h0M596.0 248.0h0M602.0 247.7h0M608.0 247.3h0M614.0 246.8h0M620.0 246.2h0M626.0 245.6h0M632.0 245.0h0M638.0 244.5h0M644.0 244.2h0M650.0 243.9h0M656.0 243.8h0M662.0 243.9h0M668.0 244.1h0M674.0 244.5h0M680.0 244.9h0M686.0 245.5h0M692.0 246.1h0M698.0 246.7h0M704.0 247.2h0M710.0 247.7h0M716.0 248.0h0M722.0 248.2h0M728.0 248.2h0M734.0 248.0h0M740.0 247.8h0M746.0 247.3h0M752.0 246.8h0M758.0 246.2h0M764.0 245.6h0M770.0 245.1h0M776.0 244.6h0M782.0 244.2h0M788.0 243.9h0M794.0 243.8h0M800.0 243.9h0M806.0 244.1h0M812.0 244.4h0M818.0 244.9h0M824.0 245.5h0M830.0 246.1h0M836.0 246.7h0M842.0 247.2h0M848.0 247.6h0M854.0 248.0h0M860.0 248.2h0M866.0 248.2h0M872.0 248.1h0M878.0 247.8h0M884.0 247.3h0M890.0 246.8h0M896.0 246.2h0M902.0 245.7h0M908.0 245.1h0M914.0 244.6h0M920.0 244.2h0M926.0 243.9h0M932.0 243.8h0M938.0 243.9h0M944.0 244.1h0M950.0 244.4h0M956.0 244.9h0M962.0 245.4h0M968.0 246.0h0M974.0 246.6h0M980.0 247.2h0M986.0 247.6h0M992.0 248.0h0M998.0 248.2h0M1004.0 248.2h0M1010.0 248.1h0M1016.0 247.8h0M1022.0 247.4h0M1028.0 246.8h0M1034.0 246.3h0M1040.0 245.7h0M1046.0 245.1h0M1052.0 244.6h0M1058.0 244.2h0M1064.0 243.9h0M1070.0 243.8h0M1076.0 243.9h0M1082.0 244.1h0M1088.0 244.4h0M1094.0 244.9h0M1100.0 245.4h0M1106.0 246.0h0M1112.0 246.6h0M1118.0 247.2h0M1124.0 247.6h0M1130.0 248.0h0M1136.0 248.2h0M1142.0 248.2h0M1148.0 248.1h0M1154.0 247.8h0M1160.0 247.4h0M1166.0 246.9h0M1172.0 246.3h0M1178.0 245.7h0M1184.0 245.1h0M1190.0 244.6h0M1196.0 244.2h0M640.4 272.6h0M649.0 276.5h0M649.0 273.1h0M656.4 280.3h0M666.1 284.2h0M673.2 288.1h0M682.6 292.0h0M681.6 288.6h0M682.9 285.2h0M691.0 295.9h0M690.1 292.5h0M691.4 289.1h0M699.7 299.8h0M700.5 296.4h0M708.7 297.2h0M707.3 293.8h0M707.7 290.4h0M715.5 297.7h0M717.5 294.3h0M724.5 298.1h0M724.6 294.7h0M734.2 298.7h0M733.6 295.3h0M741.8 299.2h0M741.1 295.8h0M751.2 299.8h0M751.1 296.4h0M758.5 300.3h0M758.4 296.9h0M758.1 293.5h0M767.2 300.9h0M767.4 297.5h0M776.2 301.4h0M775.7 298.0h0M783.9 301.9h0M785.3 298.5h0M784.6 295.1h0M792.6 302.4h0M801.3 302.8h0M801.6 299.4h0M809.5 303.2h0M810.6 299.8h0M818.9 303.5h0M819.1 300.1h0M826.9 303.8h0M827.9 300.4h0M826.9 297.0h0M834.6 303.9h0M835.4 300.5h0M835.8 297.1h0M844.7 304.0h0M852.7 304.0h0M861.8 303.9h0M870.1 303.8h0M869.5 300.4h0M878.3 303.5h0M877.6 300.1h0M877.4 296.7h0M885.8 303.2h0M887.3 299.8h0M885.9 296.4h0M894.2 302.8h0M904.4 302.4h0M903.3 299.0h0M903.8 295.6h0M912.8 301.9h0M912.4 298.5h0M919.6 301.4h0M928.1 300.9h0M929.7 297.5h0M928.6 294.1h0M937.7 300.3h0M937.1 296.9h0M945.3 299.8h0M946.8 296.4h0M955.2 299.2h0M953.8 295.8h0M964.0 298.7h0M962.8 295.3h0M962.1 291.9h0M971.8 298.1h0M970.9 294.7h0M979.2 297.7h0M979.9 294.3h0M988.4 297.2h0M988.9 293.8h0M987.7 290.4h0M996.2 296.8h0M997.8 293.4h0M998.0 290.0h0M1005.6 296.5h0M1005.1 293.1h0M1005.2 289.7h0M1014.0 296.3h0M1014.9 292.9h0M1013.2 289.5h0M1023.2 296.1h0M1022.7 292.7h0M1030.2 296.0h0M1030.3 292.6h0M1040.3 296.0h0M1040.2 292.6h0M1048.8 296.1h0M1047.1 292.7h0M1057.4 296.2h0M1056.2 292.8h0M1057.4 289.4h0M1064.1 296.4h0M1064.7 293.0h0M1064.9 289.6h0M1074.0 296.7h0M1072.9 293.3h0M1081.6 297.1h0M1081.1 293.7h0M1082.1 290.3h0M1090.6 297.5h0M1099.2 298.0h0M1098.9 294.6h0M1098.1 291.2h0M1106.7 298.5h0M1107.8 295.1h0M1116.2 299.0h0M1124.2 299.6h0M1124.8 296.2h0M1132.3 300.1h0M1141.2 300.7h0M1142.2 297.3h0M1142.2 293.9h0M1149.3 301.2h0M1149.2 297.8h0M1157.7 301.8h0M1158.5 298.4h0M1158.6 295.0h0M1166.9 302.3h0M1175.6 302.7h0M1183.7 303.1h0M1183.4 299.7h0M846.0 304.0h0M847.3 300.4h0M848.4 296.8h0M848.9 293.2h0M848.9 289.6h0M848.3 286.0h0M847.2 282.4h0M845.9 278.8h0M844.6 275.2h0M843.6 271.6h0M843.0 268.0h0M843.1 264.4h0M844.0 294.0h0M848.0 294.0h0M840.0 287.2h0M852.0 287.2h0M842.0 280.4h0M850.0 280.4h0M844.0 273.6h0M848.0 273.6h0M840.0 266.8h0M852.0 266.8h0M872.0 303.7h0M873.3 300.1h0M874.4 296.5h0M874.9 292.9h0M874.9 289.3h0M874.3 285.7h0M873.2 282.1h0M871.9 278.5h0M870.6 274.9h0M869.6 271.3h0M869.0 267.7h0M869.1 264.1h0M870.0 293.7h0M874.0 293.7h0M866.0 286.9h0M878.0 286.9h0M868.0 280.1h0M876.0 280.1h0M870.0 273.3h0M874.0 273.3h0M866.0 266.5h0M878.0 266.5h0M905.0 302.3h0M906.3 298.7h0M907.4 295.1h0M907.9 291.5h0M907.9 287.9h0M907.3 284.3h0M906.2 280.7h0M904.9 277.1h0M903.6 273.5h0M902.6 269.9h0M902.0 266.3h0M902.1 262.7h0M903.0 292.3h0M907.0 292.3h0M899.0 285.5h0M911.0 285.5h0M901.0 278.7h0M909.0 278.7h0M903.0 271.9h0M907.0 271.9h0M899.0 265.1h0M911.0 265.1h0M938.0 300.3h0M939.3 296.7h0M940.4 293.1h0M940.9 289.5h0M940.9 285.9h0M940.3 282.3h0M939.2 278.7h0M937.9 275.1h0M936.6 271.5h0M935.6 267.9h0M935.0 264.3h0M935.1 260.7h0M936.0 290.3h0M940.0 290.3h0M932.0 283.5h0M944.0 283.5h0M934.0 276.7h0M942.0 276.7h0M936.0 269.9h0M940.0 269.9h0M932.0 263.1h0M944.0 263.1h0M962.0 298.7h0M963.3 295.1h0M964.4 291.5h0M964.9 287.9h0M964.9 284.3h0M964.3 280.7h0M963.2 277.1h0M961.9 273.5h0M960.6 269.9h0M959.6 266.3h0M959.0 262.7h0M959.1 259.1h0M960.0 288.7h0M964.0 288.7h0M956.0 281.9h0M968.0 281.9h0M958.0 275.1h0M966.0 275.1h0M960.0 268.3h0M964.0 268.3h0M956.0 261.5h0M968.0 261.5h0M1040.0 296.0h0M1041.3 292.4h0M1042.4 288.8h0M1042.9 285.2h0M1042.9 281.6h0M1042.3 278.0h0M1041.2 274.4h0M1039.9 270.8h0M1038.6 267.2h0M1037.6 263.6h0M1037.0 260.0h0M1037.1 256.4h0M1038.0 286.0h0M1042.0 286.0h0M1034.0 279.2h0M1046.0 279.2h0M1036.0 272.4h0M1044.0 272.4h0M1038.0 265.6h0M1042.0 265.6h0M1034.0 258.8h0M1046.0 258.8h0M1100.0 298.0h0M1101.3 294.4h0M1102.4 290.8h0M1102.9 287.2h0M1102.9 283.6h0M1102.3 280.0h0M1101.2 276.4h0M1099.9 272.8h0M1098.6 269.2h0M1097.6 265.6h0M1097.0 262.0h0M1097.1 258.4h0M1098.0 288.0h0M1102.0 288.0h0M1094.0 281.2h0M1106.0 281.2h0M1096.0 274.4h0M1104.0 274.4h0M1098.0 267.6h0M1102.0 267.6h0M1094.0 260.8h0M1106.0 260.8h0"/>
+            <g clip-path="url(#beam-terra)">
+              <path class="pt pt-ground-hit" d="M2.0 237.4h0M7.5 235.0h0M13.0 237.3h0M18.5 235.4h0M24.0 236.8h0M29.5 235.2h0M35.0 235.4h0M40.5 236.7h0M46.0 235.2h0M51.5 235.8h0M57.0 237.3h0M62.5 236.8h0M68.0 237.2h0M73.5 237.4h0M79.0 235.1h0M84.5 235.6h0M90.0 237.0h0M95.5 236.7h0M101.0 235.1h0M106.5 236.3h0M112.0 235.6h0M117.5 236.1h0M123.0 235.3h0M128.5 235.0h0M134.0 237.5h0M139.5 235.8h0M145.0 237.2h0M150.5 235.3h0M156.0 236.2h0M161.5 235.3h0M167.0 236.1h0M172.5 235.4h0M178.0 236.7h0M183.5 235.4h0M189.0 236.8h0M194.5 236.3h0M200.0 235.3h0M205.5 235.9h0M211.0 236.2h0M216.5 237.3h0M222.0 235.9h0M227.5 235.5h0M233.0 237.4h0M238.5 237.2h0M244.0 236.8h0M249.5 235.7h0M255.0 235.4h0M260.5 235.7h0M266.0 235.2h0M271.5 235.1h0M277.0 236.3h0M282.5 236.0h0M288.0 236.4h0M293.5 235.9h0M299.0 235.0h0M304.5 236.7h0M310.0 236.6h0M315.5 236.4h0M321.0 236.4h0M326.5 236.7h0M332.0 237.5h0M337.5 237.2h0M343.0 236.8h0M348.5 236.0h0M354.0 235.8h0M359.5 236.0h0M365.0 237.4h0M370.5 236.0h0M376.0 236.0h0M381.5 236.0h0M387.0 235.4h0M392.5 237.5h0M398.0 235.0h0M403.5 236.5h0M409.0 237.3h0M414.5 235.6h0M420.0 236.5h0M425.5 235.9h0M431.0 235.6h0M436.5 235.5h0M442.0 235.3h0M447.5 237.1h0M453.0 237.0h0M458.5 237.3h0M464.0 235.1h0M469.5 236.7h0M475.0 235.8h0M480.5 236.6h0M486.0 236.4h0M491.5 235.8h0M497.0 237.4h0M502.5 235.0h0M508.0 236.9h0M513.5 237.1h0M519.0 236.3h0M524.5 236.5h0M530.0 237.5h0M535.5 235.6h0M541.0 236.6h0M546.5 236.9h0M552.0 235.9h0M557.5 236.8h0M563.0 237.4h0M568.5 240.2h0M574.0 242.9h0M579.5 245.6h0M585.0 247.2h0M590.5 250.5h0M596.0 252.8h0"/>
+              <path class="pt pt-terra" d="M31.0 140.2h0M17.8 139.5h0M2.5 157.9h0M5.0 157.2h0M6.5 147.4h0M44.8 164.7h0M40.6 151.2h0M6.3 151.4h0M9.2 165.0h0M18.1 163.2h0M32.4 157.5h0M28.0 158.8h0M37.7 170.4h0M27.5 162.3h0M34.6 150.2h0M6.3 156.9h0M7.8 160.5h0M31.8 173.9h0M41.4 151.8h0M28.4 164.8h0M22.8 168.6h0M33.4 168.5h0M38.9 150.7h0M22.2 145.5h0M6.8 148.9h0M21.6 163.5h0M38.8 178.2h0M20.1 153.9h0M9.0 148.4h0M23.3 165.2h0M17.9 164.4h0M32.8 161.8h0M32.2 138.4h0M37.0 179.7h0M19.0 156.3h0M30.2 140.7h0M10.5 144.9h0M17.7 137.1h0M29.3 144.4h0M16.9 154.7h0M22.4 160.2h0M5.5 153.5h0M39.3 145.4h0M44.9 162.3h0M26.0 138.0h0M33.1 149.6h0M8.5 174.2h0M37.0 153.0h0M40.4 176.3h0M35.1 147.7h0M17.3 139.3h0M13.8 149.1h0M45.2 158.3h0M17.7 147.8h0M9.9 146.5h0M23.0 168.6h0M4.7 169.1h0M37.1 173.1h0M9.1 174.8h0M19.2 156.0h0M34.4 145.6h0M38.2 143.2h0M17.1 163.3h0M30.9 162.3h0M20.9 179.6h0M10.6 149.2h0M12.0 165.1h0M20.2 142.3h0M17.2 158.9h0M42.8 157.0h0M55.7 156.6h0M65.4 169.2h0M81.5 169.1h0M74.8 159.8h0M78.7 164.4h0M79.9 151.8h0M89.3 176.4h0M64.4 156.8h0M97.2 132.5h0M74.7 128.5h0M53.9 163.4h0M90.2 162.2h0M72.2 152.3h0M96.8 133.3h0M78.9 143.9h0M67.7 165.6h0M81.1 149.8h0M68.5 160.4h0M55.7 139.9h0M93.8 140.1h0M73.6 178.2h0M64.3 131.5h0M82.0 164.4h0M53.0 164.1h0M85.6 170.2h0M98.5 150.4h0M81.0 177.7h0M57.0 154.7h0M67.4 141.3h0M66.1 153.1h0M91.2 156.0h0M76.6 177.7h0M96.0 149.1h0M96.9 146.8h0M69.1 173.2h0M85.7 147.6h0M53.7 167.0h0M87.6 140.6h0M66.3 150.8h0M74.9 138.4h0M104.7 155.8h0M71.3 151.6h0M61.1 153.4h0M64.7 129.1h0M66.9 137.2h0M79.7 168.2h0M90.2 175.3h0M58.2 166.6h0M100.2 160.8h0M95.7 131.7h0M78.2 173.5h0M96.5 158.3h0M88.3 164.2h0M70.1 128.9h0M81.3 160.8h0M88.2 152.5h0M94.8 167.8h0M80.0 162.1h0M91.4 139.1h0M64.7 166.2h0M77.7 146.2h0M88.4 169.1h0M86.1 129.1h0M64.1 167.2h0M81.8 125.6h0M64.9 163.5h0M87.9 140.7h0M76.0 151.2h0M100.3 134.4h0M75.7 173.0h0M127.6 138.9h0M109.4 133.2h0M141.0 159.1h0M150.1 153.5h0M117.1 134.6h0M120.8 137.7h0M145.3 129.3h0M115.0 128.8h0M111.9 134.3h0M147.9 158.6h0M130.5 152.8h0M140.0 138.7h0M135.5 130.5h0M126.6 133.2h0M115.6 149.7h0M131.0 136.0h0M110.5 125.0h0M127.8 125.7h0M153.7 138.9h0M119.8 120.0h0M115.5 145.4h0M140.9 136.8h0M129.3 134.9h0M105.3 128.8h0M108.6 141.7h0M146.8 126.5h0M115.0 136.1h0M148.5 140.0h0M115.0 121.1h0M129.2 151.8h0M139.5 149.7h0M125.8 144.1h0M142.6 126.4h0M135.5 131.3h0M115.1 149.0h0M129.3 145.9h0M113.7 146.7h0M117.7 139.2h0M135.5 162.2h0M114.3 127.1h0M138.6 131.6h0M127.9 150.8h0M115.4 150.9h0M119.6 137.1h0M112.4 158.0h0M128.3 124.7h0M118.3 158.3h0M113.6 155.3h0M151.4 141.3h0M113.7 136.9h0M122.5 125.2h0M105.2 135.5h0M147.9 154.7h0M150.3 132.5h0M103.8 150.3h0M121.5 132.7h0M120.3 165.1h0M120.6 159.5h0M124.5 117.2h0M121.4 163.4h0M121.0 161.9h0M123.4 158.8h0M115.4 155.4h0M119.7 128.6h0M134.1 128.3h0M118.5 130.0h0M141.2 164.3h0M114.2 140.1h0M151.5 135.5h0M124.4 141.1h0M177.9 151.3h0M162.5 133.6h0M188.1 154.3h0M187.6 114.8h0M166.0 142.7h0M191.8 120.9h0M163.2 116.8h0M182.6 128.2h0M206.6 139.1h0M195.9 148.5h0M154.9 137.1h0M155.9 118.9h0M182.8 164.5h0M199.3 135.7h0M155.1 144.6h0M161.6 131.0h0M160.8 123.6h0M186.8 121.6h0M168.0 149.1h0M167.1 120.1h0M180.8 113.3h0M171.9 141.8h0M189.4 133.3h0M166.8 165.7h0M181.9 130.1h0M170.1 119.8h0M201.3 133.9h0M172.5 161.8h0M181.0 147.6h0M154.1 146.0h0M178.3 117.6h0M179.2 163.5h0M177.4 158.1h0M160.4 114.9h0M205.6 137.7h0M202.8 131.6h0M185.0 157.7h0M194.6 122.0h0M198.1 158.0h0M161.6 132.6h0M171.2 116.4h0M191.1 161.6h0M181.6 153.6h0M183.8 141.8h0M166.7 133.8h0M173.7 148.3h0M174.4 109.4h0M177.4 122.1h0M194.3 136.2h0M176.4 115.7h0M174.0 114.0h0M178.6 110.4h0M153.7 153.3h0M178.7 111.6h0M170.9 165.0h0M191.5 157.2h0M206.0 138.2h0M152.7 129.4h0M164.9 157.1h0M178.1 163.4h0M164.2 139.0h0M188.4 161.9h0M194.6 115.2h0M185.9 129.8h0M181.2 143.7h0M185.5 132.0h0M182.5 129.9h0M174.6 118.5h0M163.7 147.6h0M183.0 148.4h0M224.6 143.5h0M212.2 146.1h0M233.5 186.6h0M220.7 152.4h0M233.8 168.5h0M233.9 161.7h0M238.6 150.3h0M201.4 166.8h0M228.7 189.0h0M209.8 171.2h0M233.6 182.1h0M215.7 154.3h0M247.0 181.4h0M239.2 163.0h0M223.4 150.2h0M217.1 179.4h0M244.6 176.7h0M228.9 161.3h0M227.3 151.6h0M213.1 149.8h0M216.7 186.1h0M211.9 188.4h0M236.4 174.8h0M224.4 184.6h0M245.3 161.4h0M229.8 154.5h0M232.6 140.2h0M217.6 145.9h0M201.3 176.1h0M236.6 177.8h0M230.9 157.1h0M204.8 149.1h0M242.8 172.9h0M233.1 153.6h0M204.3 179.1h0M216.2 161.0h0M212.9 152.5h0M218.9 154.5h0M226.2 185.1h0M200.7 160.2h0M240.7 156.2h0M228.0 148.5h0M209.9 180.6h0M199.2 164.5h0M242.0 147.3h0M217.8 183.3h0M250.0 153.2h0M236.8 165.0h0M233.4 140.7h0M236.6 181.5h0M218.2 159.5h0M210.1 151.1h0M226.1 158.0h0M211.6 162.8h0M239.7 179.5h0M217.8 155.6h0M244.5 174.4h0M208.2 161.5h0M230.3 144.0h0M246.8 150.8h0M215.3 176.9h0M207.4 146.2h0M216.6 166.3h0M216.7 146.7h0M238.3 141.5h0M204.5 158.2h0M241.9 178.1h0M209.6 172.5h0M210.2 159.1h0M220.5 181.8h0M297.1 180.5h0M295.6 174.8h0M273.4 153.2h0M253.7 159.4h0M287.8 171.6h0M271.8 161.6h0M271.0 174.9h0M258.4 173.5h0M269.8 163.6h0M250.3 166.7h0M277.1 140.9h0M278.3 176.9h0M283.7 183.4h0M271.0 189.4h0M286.2 157.8h0M268.0 139.1h0M270.4 136.2h0M271.6 175.6h0M263.0 147.8h0M300.4 165.8h0M292.7 158.1h0M255.4 180.8h0M283.5 162.4h0M267.8 172.6h0M293.6 162.4h0M278.7 141.7h0M267.9 184.1h0M269.1 150.0h0M288.3 151.9h0M265.0 163.1h0M283.6 173.3h0M298.5 180.1h0M294.4 171.6h0M284.7 150.3h0M256.2 148.3h0M267.5 143.2h0M292.2 144.2h0M282.0 180.8h0M297.9 181.5h0M259.2 175.5h0M289.4 160.5h0M279.1 150.9h0M256.0 163.8h0M274.2 143.6h0M275.9 166.6h0M274.2 167.9h0M294.9 157.0h0M283.6 171.7h0M282.1 175.3h0M276.6 163.3h0M283.0 154.5h0M268.6 162.7h0M291.0 147.5h0M271.7 167.5h0M264.5 183.1h0M276.2 151.0h0M302.4 173.5h0M266.6 153.8h0M280.8 172.3h0M297.4 166.7h0M282.0 173.7h0M298.8 170.8h0M283.0 175.7h0M286.1 147.2h0M273.7 178.8h0M291.3 188.7h0M268.7 183.5h0M279.5 150.5h0M271.7 153.8h0M283.9 188.2h0M303.9 163.2h0M335.1 141.9h0M337.9 167.5h0M335.6 133.6h0M334.6 153.7h0M314.4 167.5h0M342.3 155.1h0M317.3 159.8h0M332.9 136.5h0M317.1 163.6h0M319.8 149.6h0M327.4 145.4h0M340.6 146.9h0M329.1 145.8h0M343.6 149.2h0M329.2 177.5h0M312.0 151.7h0M340.0 175.3h0M340.9 173.0h0M327.6 143.4h0M339.5 166.0h0M316.3 133.8h0M339.0 139.6h0M329.4 165.2h0M309.2 142.5h0M338.8 153.8h0M339.5 169.8h0M328.0 177.7h0M325.1 154.6h0M308.3 140.1h0M334.2 148.5h0M319.1 156.7h0M317.6 134.7h0M338.5 137.5h0M316.2 156.8h0M342.5 155.1h0M311.9 170.5h0M308.9 139.7h0M301.3 159.0h0M321.9 180.5h0M301.9 161.0h0M311.7 159.3h0M347.1 164.7h0M321.4 137.0h0M316.5 178.0h0M338.5 167.1h0M306.0 169.9h0M333.0 145.1h0M337.0 135.4h0M311.7 136.0h0M307.2 142.5h0M335.0 140.5h0M321.3 133.6h0M341.3 162.6h0M315.9 172.9h0M330.5 137.5h0M301.6 167.2h0M312.2 151.3h0M312.4 173.5h0M307.2 155.4h0M344.0 164.5h0M322.9 144.8h0M308.9 148.3h0M303.6 144.2h0M301.6 167.5h0M339.5 147.7h0M325.3 139.3h0M344.8 140.8h0M305.7 138.4h0M334.7 140.5h0M394.9 163.2h0M376.8 163.2h0M362.5 161.3h0M361.4 137.7h0M353.5 145.5h0M378.8 124.4h0M393.6 162.9h0M388.4 138.2h0M400.4 144.2h0M379.5 146.3h0M365.7 160.0h0M358.1 154.4h0M354.2 149.6h0M379.1 154.5h0M396.2 155.1h0M359.4 144.1h0M367.1 125.1h0M360.1 149.4h0M360.6 148.3h0M361.4 162.0h0M372.5 140.2h0M379.3 138.8h0M391.7 136.3h0M369.9 140.9h0M393.6 161.5h0M378.9 169.1h0M365.6 140.4h0M371.3 146.0h0M374.7 144.7h0M384.6 161.0h0M385.0 132.1h0M366.8 146.7h0M384.0 131.5h0M374.7 167.2h0M368.4 151.7h0M382.7 168.0h0M366.6 142.7h0M359.8 133.9h0M367.6 131.8h0M380.3 162.2h0M381.5 152.0h0M388.4 142.4h0M383.6 142.9h0M365.3 130.1h0M372.2 148.6h0M370.7 162.6h0M380.8 144.0h0M391.4 127.6h0M396.3 141.5h0M372.5 141.3h0M358.7 129.6h0M389.8 126.9h0M370.7 153.6h0M395.3 161.0h0M389.8 157.3h0M376.8 159.5h0M391.1 148.9h0M400.8 148.1h0M392.0 163.9h0M372.1 142.0h0M389.0 133.9h0M380.7 138.6h0M392.2 162.5h0M375.2 128.5h0M360.5 148.4h0M369.3 162.8h0M374.4 164.5h0M355.7 147.8h0M379.9 170.2h0M378.9 153.9h0M411.2 142.6h0M448.6 154.7h0M452.5 165.7h0M425.5 133.9h0M430.7 154.3h0M411.9 161.8h0M437.8 126.9h0M446.4 142.2h0M449.5 159.2h0M412.7 153.8h0M416.7 162.8h0M424.9 132.2h0M444.8 131.5h0M411.2 155.4h0M436.4 171.4h0M419.9 166.6h0M411.1 140.6h0M453.0 158.8h0M427.1 147.5h0M452.3 159.1h0M426.6 161.0h0M450.2 142.5h0M448.0 142.1h0M456.2 153.7h0M415.3 147.3h0M414.1 142.1h0M429.1 171.0h0M411.4 145.8h0M433.5 130.9h0M423.5 148.5h0M408.5 173.1h0M415.4 136.0h0M439.4 144.9h0M441.7 130.3h0M426.8 174.7h0M410.6 145.0h0M423.0 180.5h0M455.7 154.3h0M427.3 131.5h0M416.4 178.0h0M422.5 138.7h0M413.6 175.3h0M430.7 156.5h0M445.5 147.0h0M433.9 142.8h0M450.0 143.1h0M407.7 157.6h0M430.0 142.4h0M419.2 138.3h0M442.4 141.1h0M453.3 171.0h0M440.2 163.6h0M425.0 163.7h0M415.6 174.3h0M437.4 135.8h0M453.5 168.2h0M410.7 136.3h0M423.2 127.1h0M437.9 134.2h0M434.0 166.6h0M426.3 164.8h0M445.8 141.8h0M450.2 160.1h0M415.4 130.1h0M444.2 128.8h0M423.9 169.2h0M417.5 128.4h0M425.7 180.1h0M443.6 173.9h0M427.3 126.8h0M466.9 150.2h0M492.5 168.6h0M468.9 160.6h0M504.0 152.1h0M485.2 150.7h0M484.4 173.1h0M490.4 165.0h0M495.5 176.6h0M471.3 152.7h0M459.8 148.6h0M492.2 157.2h0M473.1 158.2h0M494.7 137.3h0M506.3 163.1h0M481.4 156.5h0M484.2 132.7h0M489.3 166.9h0M489.7 147.0h0M495.9 177.4h0M466.1 167.4h0M496.4 177.7h0M473.2 142.6h0M472.9 152.8h0M475.4 176.9h0M458.8 163.4h0M498.2 171.2h0M504.5 159.5h0M464.7 149.1h0M460.8 169.4h0M479.1 183.6h0M458.7 156.7h0M499.2 179.2h0M478.2 148.2h0M482.7 155.7h0M478.9 168.9h0M471.7 156.8h0M474.3 144.4h0M473.1 157.6h0M488.1 175.5h0M490.9 165.5h0M485.6 183.7h0M489.5 149.4h0M466.3 169.2h0M461.0 168.2h0M486.1 155.4h0M485.3 154.6h0M484.4 138.6h0M469.5 138.4h0M469.4 159.3h0M468.2 163.5h0M482.7 164.3h0M477.3 137.4h0M500.4 162.6h0M495.0 138.4h0M493.2 138.1h0M476.5 141.6h0M485.2 173.8h0M468.7 153.4h0M486.8 145.0h0M492.5 155.8h0M488.1 179.6h0M465.2 172.6h0M495.3 169.7h0M462.9 153.0h0M504.7 171.0h0M487.3 138.6h0M497.3 138.5h0M490.9 147.3h0M479.3 177.9h0M462.3 175.2h0M550.1 152.9h0M530.6 121.3h0M525.9 164.7h0M507.9 132.5h0M554.4 147.4h0M513.2 134.1h0M536.4 135.8h0M529.7 169.8h0M511.9 152.2h0M519.1 142.3h0M535.9 144.1h0M535.4 159.0h0M547.6 150.3h0M524.2 128.9h0M542.3 130.4h0M545.6 142.9h0M523.5 145.3h0M507.0 132.8h0M559.7 141.2h0M517.4 126.8h0M553.1 139.5h0M535.9 131.0h0M507.4 130.8h0M544.9 145.5h0M522.9 167.5h0M536.6 170.8h0M547.6 137.9h0M507.4 141.4h0M519.3 128.6h0M512.9 128.3h0M516.0 136.5h0M537.8 164.3h0M514.8 156.9h0M537.7 116.5h0M553.3 133.2h0M514.3 144.6h0M539.9 166.7h0M522.2 157.3h0M526.6 152.8h0M506.9 137.5h0M539.2 132.5h0M537.6 127.9h0M535.6 169.9h0M538.5 155.4h0M511.7 157.5h0M549.8 137.7h0M537.0 145.6h0M537.8 132.0h0M518.2 155.2h0M547.7 130.7h0M559.1 139.6h0M533.3 167.5h0M504.1 140.9h0M547.6 133.7h0M516.6 156.9h0M507.0 142.4h0M524.4 122.2h0M545.5 166.4h0M531.9 150.3h0M549.1 140.0h0M545.3 116.1h0M526.4 162.9h0M535.6 136.7h0M557.3 149.6h0M517.9 128.3h0M516.7 124.2h0M540.1 129.7h0M515.9 146.3h0M518.8 157.8h0M519.6 132.3h0"/>
+              <path class="pt pt-trunk" d="M24.0 177.2h0M24.1 181.4h0M24.1 185.6h0M22.8 189.8h0M23.9 194.0h0M23.2 198.2h0M22.8 202.4h0M24.7 206.6h0M23.2 210.8h0M23.9 215.0h0M24.5 219.2h0M24.1 223.4h0M23.6 227.6h0M24.0 231.8h0M24.0 181.9h0M20.8 179.3h0M17.6 176.7h0M14.4 174.1h0M11.2 171.5h0M24.0 181.9h0M27.2 179.3h0M30.4 176.7h0M33.6 174.1h0M36.8 171.5h0M77.9 172.9h0M77.4 177.1h0M77.3 181.3h0M79.1 185.5h0M77.3 189.7h0M78.2 193.9h0M77.1 198.1h0M78.1 202.3h0M79.1 206.5h0M77.1 210.7h0M78.8 214.9h0M78.0 219.1h0M78.9 223.3h0M78.5 227.5h0M77.4 231.7h0M78.0 178.6h0M74.8 176.0h0M71.6 173.4h0M68.4 170.8h0M65.2 168.2h0M78.0 178.6h0M81.2 176.0h0M84.4 173.4h0M87.6 170.8h0M90.8 168.2h0M127.2 159.6h0M128.7 163.8h0M128.6 168.0h0M128.8 172.2h0M128.7 176.4h0M128.3 180.6h0M127.6 184.8h0M127.6 189.0h0M127.7 193.2h0M128.7 197.4h0M127.0 201.6h0M127.3 205.8h0M128.6 210.0h0M127.4 214.2h0M127.0 218.4h0M126.9 222.6h0M128.1 226.8h0M127.6 231.0h0M128.0 164.8h0M124.8 162.2h0M121.6 159.6h0M118.4 157.0h0M115.2 154.4h0M128.0 164.8h0M131.2 162.2h0M134.4 159.6h0M137.6 157.0h0M140.8 154.4h0M176.8 159.0h0M176.9 163.2h0M177.2 167.4h0M178.3 171.6h0M177.8 175.8h0M178.0 180.0h0M178.9 184.2h0M177.1 188.4h0M177.3 192.6h0M178.4 196.8h0M176.9 201.0h0M176.8 205.2h0M177.7 209.4h0M177.1 213.6h0M177.7 217.8h0M177.3 222.0h0M178.2 226.2h0M178.2 230.4h0M178.0 164.8h0M174.8 162.2h0M171.6 159.6h0M168.4 157.0h0M165.2 154.4h0M178.0 164.8h0M181.2 162.2h0M184.4 159.6h0M187.6 157.0h0M190.8 154.4h0M226.0 184.0h0M226.3 188.2h0M225.9 192.4h0M225.1 196.6h0M226.2 200.8h0M225.8 205.0h0M226.6 209.2h0M227.0 213.4h0M225.8 217.6h0M226.2 221.8h0M226.6 226.0h0M225.8 230.2h0M226.0 189.4h0M222.8 186.8h0M219.6 184.2h0M216.4 181.6h0M213.2 179.0h0M226.0 189.4h0M229.2 186.8h0M232.4 184.2h0M235.6 181.6h0M238.8 179.0h0M276.2 183.7h0M274.9 187.9h0M275.1 192.1h0M276.7 196.3h0M276.2 200.5h0M277.0 204.7h0M275.9 208.9h0M274.8 213.1h0M275.7 217.3h0M276.2 221.5h0M277.1 225.7h0M277.2 229.9h0M276.0 189.2h0M272.8 186.6h0M269.6 184.0h0M266.4 181.4h0M263.2 178.8h0M276.0 189.2h0M279.2 186.6h0M282.4 184.0h0M285.6 181.4h0M288.8 178.8h0M323.0 173.5h0M324.3 177.7h0M324.0 181.9h0M323.5 186.1h0M323.3 190.3h0M324.3 194.5h0M324.5 198.7h0M324.7 202.9h0M324.2 207.1h0M323.3 211.3h0M323.0 215.5h0M324.6 219.7h0M323.8 223.9h0M324.5 228.1h0M322.9 232.3h0M324.0 178.6h0M320.8 176.0h0M317.6 173.4h0M314.4 170.8h0M311.2 168.2h0M324.0 178.6h0M327.2 176.0h0M330.4 173.4h0M333.6 170.8h0M336.8 168.2h0M377.7 161.7h0M378.2 165.9h0M377.6 170.1h0M379.1 174.3h0M378.4 178.5h0M378.1 182.7h0M377.0 186.9h0M377.7 191.1h0M377.8 195.3h0M378.1 199.5h0M378.2 203.7h0M378.9 207.9h0M379.1 212.1h0M378.0 216.3h0M377.9 220.5h0M378.3 224.7h0M379.2 228.9h0M377.6 233.1h0M378.0 166.7h0M374.8 164.1h0M371.6 161.5h0M368.4 158.9h0M365.2 156.3h0M378.0 166.7h0M381.2 164.1h0M384.4 161.5h0M387.6 158.9h0M390.8 156.3h0M429.8 173.9h0M430.0 178.1h0M431.0 182.3h0M429.1 186.5h0M430.6 190.7h0M428.9 194.9h0M430.5 199.1h0M430.7 203.3h0M429.4 207.5h0M430.1 211.7h0M431.1 215.9h0M430.3 220.1h0M430.1 224.3h0M429.4 228.5h0M428.9 232.7h0M430.0 179.6h0M426.8 177.0h0M423.6 174.4h0M420.4 171.8h0M417.2 169.2h0M430.0 179.6h0M433.2 177.0h0M436.4 174.4h0M439.6 171.8h0M442.8 169.2h0M482.1 177.5h0M481.5 181.7h0M482.4 185.9h0M481.7 190.1h0M481.1 194.3h0M482.9 198.5h0M482.1 202.7h0M482.5 206.9h0M482.7 211.1h0M483.1 215.3h0M480.8 219.5h0M481.6 223.7h0M481.2 227.9h0M482.0 232.1h0M482.0 182.6h0M478.8 180.0h0M475.6 177.4h0M472.4 174.8h0M469.2 172.2h0M482.0 182.6h0M485.2 180.0h0M488.4 177.4h0M491.6 174.8h0M494.8 172.2h0M532.9 162.2h0M531.2 166.4h0M532.4 170.6h0M532.2 174.8h0M531.9 179.0h0M532.2 183.2h0M532.9 187.4h0M531.3 191.6h0M532.9 195.8h0M531.7 200.0h0M532.7 204.2h0M532.9 208.4h0M531.2 212.6h0M532.9 216.8h0M533.2 221.0h0M531.5 225.2h0M530.9 229.4h0M531.1 233.6h0M532.0 167.9h0M528.8 165.3h0M525.6 162.7h0M522.4 160.1h0M519.2 157.5h0M532.0 167.9h0M535.2 165.3h0M538.4 162.7h0M541.6 160.1h0M544.8 157.5h0"/>
+            </g>
+            <g clip-path="url(#beam-marine)">
+              <path class="pt pt-ground-hit" d="M601.5 254.5h0M607.0 258.0h0M612.5 259.7h0M618.0 263.8h0M623.5 265.2h0M629.0 268.3h0M634.5 270.4h0M640.0 272.8h0M645.5 274.6h0M651.0 277.0h0M656.5 281.4h0M662.0 283.0h0M667.5 285.5h0M673.0 288.0h0M678.5 291.2h0M684.0 292.3h0M689.5 294.6h0M695.0 298.8h0M700.5 297.0h0M706.0 297.7h0M711.5 298.5h0M717.0 298.9h0M722.5 299.2h0M728.0 297.4h0M733.5 298.6h0M739.0 300.1h0M744.5 300.4h0M750.0 299.0h0M755.5 299.5h0M761.0 300.1h0M766.5 300.1h0M772.0 301.1h0M777.5 302.5h0M783.0 302.2h0M788.5 302.3h0M794.0 301.7h0M799.5 302.7h0M805.0 304.5h0M810.5 304.0h0M816.0 303.6h0M821.5 303.8h0M827.0 304.7h0M832.5 304.8h0M838.0 303.3h0M843.5 304.7h0M849.0 303.9h0M854.5 304.3h0M860.0 303.5h0M865.5 303.8h0M871.0 303.6h0M876.5 303.5h0M882.0 302.4h0M887.5 302.7h0M893.0 303.4h0M898.5 301.8h0M904.0 301.8h0M909.5 302.9h0M915.0 301.5h0M920.5 301.2h0M926.0 300.7h0M931.5 301.8h0M937.0 299.6h0M942.5 300.6h0M948.0 300.8h0M953.5 298.8h0M959.0 299.0h0M964.5 299.5h0M970.0 298.8h0M975.5 297.8h0M981.0 296.7h0M986.5 297.4h0M992.0 297.0h0M997.5 297.6h0M1003.0 296.4h0M1008.5 296.5h0M1014.0 296.9h0M1019.5 297.2h0M1025.0 296.0h0M1030.5 296.0h0M1036.0 296.4h0M1041.5 297.3h0M1047.0 295.5h0M1052.5 297.6h0M1058.0 297.0h0M1063.5 296.3h0M1069.0 297.2h0M1074.5 296.6h0M1080.0 296.2h0M1085.5 298.1h0M1091.0 297.5h0M1096.5 298.1h0M1102.0 298.4h0M1107.5 299.7h0M1113.0 299.7h0M1118.5 298.2h0M1124.0 300.0h0M1129.5 300.1h0M1135.0 300.4h0M1140.5 301.7h0M1146.0 301.0h0M1151.5 301.5h0M1157.0 302.9h0M1162.5 302.1h0M1168.0 302.5h0M1173.5 302.9h0M1179.0 303.9h0M1184.5 303.8h0M1190.0 304.2h0M1195.5 303.5h0"/>
+              <path class="pt pt-marine" d="M590.0 248.2h0M596.0 248.0h0M602.0 247.7h0M608.0 247.3h0M614.0 246.8h0M620.0 246.2h0M626.0 245.6h0M632.0 245.0h0M638.0 244.5h0M644.0 244.2h0M650.0 243.9h0M656.0 243.8h0M662.0 243.9h0M668.0 244.1h0M674.0 244.5h0M680.0 244.9h0M686.0 245.5h0M692.0 246.1h0M698.0 246.7h0M704.0 247.2h0M710.0 247.7h0M716.0 248.0h0M722.0 248.2h0M728.0 248.2h0M734.0 248.0h0M740.0 247.8h0M746.0 247.3h0M752.0 246.8h0M758.0 246.2h0M764.0 245.6h0M770.0 245.1h0M776.0 244.6h0M782.0 244.2h0M788.0 243.9h0M794.0 243.8h0M800.0 243.9h0M806.0 244.1h0M812.0 244.4h0M818.0 244.9h0M824.0 245.5h0M830.0 246.1h0M836.0 246.7h0M842.0 247.2h0M848.0 247.6h0M854.0 248.0h0M860.0 248.2h0M866.0 248.2h0M872.0 248.1h0M878.0 247.8h0M884.0 247.3h0M890.0 246.8h0M896.0 246.2h0M902.0 245.7h0M908.0 245.1h0M914.0 244.6h0M920.0 244.2h0M926.0 243.9h0M932.0 243.8h0M938.0 243.9h0M944.0 244.1h0M950.0 244.4h0M956.0 244.9h0M962.0 245.4h0M968.0 246.0h0M974.0 246.6h0M980.0 247.2h0M986.0 247.6h0M992.0 248.0h0M998.0 248.2h0M1004.0 248.2h0M1010.0 248.1h0M1016.0 247.8h0M1022.0 247.4h0M1028.0 246.8h0M1034.0 246.3h0M1040.0 245.7h0M1046.0 245.1h0M1052.0 244.6h0M1058.0 244.2h0M1064.0 243.9h0M1070.0 243.8h0M1076.0 243.9h0M1082.0 244.1h0M1088.0 244.4h0M1094.0 244.9h0M1100.0 245.4h0M1106.0 246.0h0M1112.0 246.6h0M1118.0 247.2h0M1124.0 247.6h0M1130.0 248.0h0M1136.0 248.2h0M1142.0 248.2h0M1148.0 248.1h0M1154.0 247.8h0M1160.0 247.4h0M1166.0 246.9h0M1172.0 246.3h0M1178.0 245.7h0M1184.0 245.1h0M1190.0 244.6h0M1196.0 244.2h0M640.4 272.6h0M649.0 276.5h0M649.0 273.1h0M656.4 280.3h0M666.1 284.2h0M673.2 288.1h0M682.6 292.0h0M681.6 288.6h0M682.9 285.2h0M691.0 295.9h0M690.1 292.5h0M691.4 289.1h0M699.7 299.8h0M700.5 296.4h0M708.7 297.2h0M707.3 293.8h0M707.7 290.4h0M715.5 297.7h0M717.5 294.3h0M724.5 298.1h0M724.6 294.7h0M734.2 298.7h0M733.6 295.3h0M741.8 299.2h0M741.1 295.8h0M751.2 299.8h0M751.1 296.4h0M758.5 300.3h0M758.4 296.9h0M758.1 293.5h0M767.2 300.9h0M767.4 297.5h0M776.2 301.4h0M775.7 298.0h0M783.9 301.9h0M785.3 298.5h0M784.6 295.1h0M792.6 302.4h0M801.3 302.8h0M801.6 299.4h0M809.5 303.2h0M810.6 299.8h0M818.9 303.5h0M819.1 300.1h0M826.9 303.8h0M827.9 300.4h0M826.9 297.0h0M834.6 303.9h0M835.4 300.5h0M835.8 297.1h0M844.7 304.0h0M852.7 304.0h0M861.8 303.9h0M870.1 303.8h0M869.5 300.4h0M878.3 303.5h0M877.6 300.1h0M877.4 296.7h0M885.8 303.2h0M887.3 299.8h0M885.9 296.4h0M894.2 302.8h0M904.4 302.4h0M903.3 299.0h0M903.8 295.6h0M912.8 301.9h0M912.4 298.5h0M919.6 301.4h0M928.1 300.9h0M929.7 297.5h0M928.6 294.1h0M937.7 300.3h0M937.1 296.9h0M945.3 299.8h0M946.8 296.4h0M955.2 299.2h0M953.8 295.8h0M964.0 298.7h0M962.8 295.3h0M962.1 291.9h0M971.8 298.1h0M970.9 294.7h0M979.2 297.7h0M979.9 294.3h0M988.4 297.2h0M988.9 293.8h0M987.7 290.4h0M996.2 296.8h0M997.8 293.4h0M998.0 290.0h0M1005.6 296.5h0M1005.1 293.1h0M1005.2 289.7h0M1014.0 296.3h0M1014.9 292.9h0M1013.2 289.5h0M1023.2 296.1h0M1022.7 292.7h0M1030.2 296.0h0M1030.3 292.6h0M1040.3 296.0h0M1040.2 292.6h0M1048.8 296.1h0M1047.1 292.7h0M1057.4 296.2h0M1056.2 292.8h0M1057.4 289.4h0M1064.1 296.4h0M1064.7 293.0h0M1064.9 289.6h0M1074.0 296.7h0M1072.9 293.3h0M1081.6 297.1h0M1081.1 293.7h0M1082.1 290.3h0M1090.6 297.5h0M1099.2 298.0h0M1098.9 294.6h0M1098.1 291.2h0M1106.7 298.5h0M1107.8 295.1h0M1116.2 299.0h0M1124.2 299.6h0M1124.8 296.2h0M1132.3 300.1h0M1141.2 300.7h0M1142.2 297.3h0M1142.2 293.9h0M1149.3 301.2h0M1149.2 297.8h0M1157.7 301.8h0M1158.5 298.4h0M1158.6 295.0h0M1166.9 302.3h0M1175.6 302.7h0M1183.7 303.1h0M1183.4 299.7h0M846.0 304.0h0M847.3 300.4h0M848.4 296.8h0M848.9 293.2h0M848.9 289.6h0M848.3 286.0h0M847.2 282.4h0M845.9 278.8h0M844.6 275.2h0M843.6 271.6h0M843.0 268.0h0M843.1 264.4h0M844.0 294.0h0M848.0 294.0h0M840.0 287.2h0M852.0 287.2h0M842.0 280.4h0M850.0 280.4h0M844.0 273.6h0M848.0 273.6h0M840.0 266.8h0M852.0 266.8h0M872.0 303.7h0M873.3 300.1h0M874.4 296.5h0M874.9 292.9h0M874.9 289.3h0M874.3 285.7h0M873.2 282.1h0M871.9 278.5h0M870.6 274.9h0M869.6 271.3h0M869.0 267.7h0M869.1 264.1h0M870.0 293.7h0M874.0 293.7h0M866.0 286.9h0M878.0 286.9h0M868.0 280.1h0M876.0 280.1h0M870.0 273.3h0M874.0 273.3h0M866.0 266.5h0M878.0 266.5h0M905.0 302.3h0M906.3 298.7h0M907.4 295.1h0M907.9 291.5h0M907.9 287.9h0M907.3 284.3h0M906.2 280.7h0M904.9 277.1h0M903.6 273.5h0M902.6 269.9h0M902.0 266.3h0M902.1 262.7h0M903.0 292.3h0M907.0 292.3h0M899.0 285.5h0M911.0 285.5h0M901.0 278.7h0M909.0 278.7h0M903.0 271.9h0M907.0 271.9h0M899.0 265.1h0M911.0 265.1h0M938.0 300.3h0M939.3 296.7h0M940.4 293.1h0M940.9 289.5h0M940.9 285.9h0M940.3 282.3h0M939.2 278.7h0M937.9 275.1h0M936.6 271.5h0M935.6 267.9h0M935.0 264.3h0M935.1 260.7h0M936.0 290.3h0M940.0 290.3h0M932.0 283.5h0M944.0 283.5h0M934.0 276.7h0M942.0 276.7h0M936.0 269.9h0M940.0 269.9h0M932.0 263.1h0M944.0 263.1h0M962.0 298.7h0M963.3 295.1h0M964.4 291.5h0M964.9 287.9h0M964.9 284.3h0M964.3 280.7h0M963.2 277.1h0M961.9 273.5h0M960.6 269.9h0M959.6 266.3h0M959.0 262.7h0M959.1 259.1h0M960.0 288.7h0M964.0 288.7h0M956.0 281.9h0M968.0 281.9h0M958.0 275.1h0M966.0 275.1h0M960.0 268.3h0M964.0 268.3h0M956.0 261.5h0M968.0 261.5h0M1040.0 296.0h0M1041.3 292.4h0M1042.4 288.8h0M1042.9 285.2h0M1042.9 281.6h0M1042.3 278.0h0M1041.2 274.4h0M1039.9 270.8h0M1038.6 267.2h0M1037.6 263.6h0M1037.0 260.0h0M1037.1 256.4h0M1038.0 286.0h0M1042.0 286.0h0M1034.0 279.2h0M1046.0 279.2h0M1036.0 272.4h0M1044.0 272.4h0M1038.0 265.6h0M1042.0 265.6h0M1034.0 258.8h0M1046.0 258.8h0M1100.0 298.0h0M1101.3 294.4h0M1102.4 290.8h0M1102.9 287.2h0M1102.9 283.6h0M1102.3 280.0h0M1101.2 276.4h0M1099.9 272.8h0M1098.6 269.2h0M1097.6 265.6h0M1097.0 262.0h0M1097.1 258.4h0M1098.0 288.0h0M1102.0 288.0h0M1094.0 281.2h0M1106.0 281.2h0M1096.0 274.4h0M1104.0 274.4h0M1098.0 267.6h0M1102.0 267.6h0M1094.0 260.8h0M1106.0 260.8h0"/>
+            </g>
+          </g>
+          <g class="pc-handle" data-rig="terra" data-min="90" data-max="500" data-label="Forest survey drone" data-where="forest" transform="translate(255 0)"><rect class="pc-focus" x="-50" y="42" width="100" height="42" rx="10"/><g class="pc-drone" transform="translate(0 64)"><path d="M-30 -5H30M-30 -5V-8M30 -5V-8M-7 5l-4 8M7 5l4 8"/><ellipse cx="-30" cy="-9" rx="13" ry="2.2"/><ellipse cx="30" cy="-9" rx="13" ry="2.2"/><rect x="-12" y="-5" width="24" height="10" rx="3"/></g></g>
+          <g class="pc-handle" data-rig="marine" data-min="680" data-max="1120" data-label="Coastal survey drone" data-where="water" transform="translate(900 0)"><rect class="pc-focus" x="-50" y="48" width="100" height="42" rx="10"/><g class="pc-drone" transform="translate(0 70)"><path d="M-30 -5H30M-30 -5V-8M30 -5V-8M-7 5l-4 8M7 5l4 8"/><ellipse cx="-30" cy="-9" rx="13" ry="2.2"/><ellipse cx="30" cy="-9" rx="13" ry="2.2"/><rect x="-12" y="-5" width="24" height="10" rx="3"/></g></g>
+        </svg>
+        <figcaption><span>Illustration · dual-laser LiDAR over forest, green-laser LiDAR over water</span><span class="pano-hint" aria-hidden="true"><svg viewBox="0 0 24 12"><path d="M2 6h20M6 2L2 6l4 4M18 2l4 4-4 4"/></svg><span class="h-drag">Drag to move the drones</span><span class="h-swipe">Swipe to move the drones</span></span><span class="pc-key"><span class="sw terra"></span>Terrestrial <span class="sw marine"></span>Blue carbon</span></figcaption>
+      </figure>
+
+      <div class="story-block problem">
+        <div class="story-text reveal">
+          <h3 class="block-head"><span class="block-label">The unsolved problem</span>The carbon market trades on biomass that nobody can measure at scale.</h3>
+          <p>As companies work towards net-zero emissions targets, billions of dollars in carbon credits are traded on the assumption that a specific forest or marine ecosystem absorbs a specific amount of CO₂. Yet the true biomass, the actual volume of trunks, branches and underwater flora, cannot yet be measured accurately at scale.</p>
+          <p>Measuring it requires a heavy, high-grade LiDAR system flown extremely low and slow over the canopy or the water surface, for hours, to map its 3D structure. No current aircraft can do this economically, so the market relies on rough satellite estimates.</p>
+          <ul class="risks">
+            <li>Inaccurate data</li>
+            <li>Significant financial risk</li>
+            <li>Corporate greenwashing</li>
+          </ul>
+        </div>
+        <div class="methods">
+          <h4 class="methods-title reveal">Why current methods fall short</h4>
+          <ul class="method-grid">
+          <li class="method reveal">
+            <svg class="sd" viewBox="0 0 320 180" aria-hidden="true">
+              <g class="sd-sat" transform="translate(116 22)"><rect x="-10" y="-8" width="20" height="16" rx="2"/><path d="M-44 -4h28v8h-28zM16 -4h28v8h-28zM-16 0h6M10 0h6"/></g>
+              <path class="sd-view" d="M116 32L12 104M116 32L220 104"/>
+              <path class="sd-seen" d="M12 114a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0Z"/>
+              <rect class="sd-missed" x="12" y="116" width="208" height="48"/>
+              <path class="sd-trunk" d="M38 114V164M38 136l-10 -9M90 114V164M90 136l10 -9M142 114V164M142 136l-10 -9M194 114V164M194 136l10 -9"/>
+              <path class="sd-ground" d="M4 164H228"/>
+              <path class="sd-bracket" d="M228 100h6v14h-6M228 118h6v46h-6"/>
+              <text class="sd-label seen" x="242" y="112">Top only</text>
+              <text class="sd-label missed" x="242" y="146">Missed</text>
+            </svg>
+            <h5>Satellite</h5>
+            <p class="method-verdict">Sees only the top</p>
+            <p class="method-text sr-only">Satellites see only the top of the canopy or the surface of the water, not the density of what lies beneath.</p>
+          </li>
+          <li class="method reveal">
+            <svg class="sd" viewBox="0 0 320 180" aria-hidden="true">
+              <path class="sd-beam" d="M92 70L66 100H118Z"/>
+              <path class="sd-canopy" d="M12 114a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0Z"/>
+              <path class="sd-trunk" d="M38 114V164M38 136l-10 -9M90 114V164M90 136l10 -9M142 114V164M142 136l-10 -9M194 114V164M194 136l10 -9"/>
+              <path class="sd-ground" d="M4 164H228"/>
+              <g class="sd-craft">
+                <path d="M118 46H170M118 54L170 50"/>
+                <path d="M168 51L174 36H180L178 52Z"/>
+                <ellipse cx="92" cy="51" rx="28" ry="13"/>
+                <path d="M68 48C70 42 78 40 86 40V50H68Z"/>
+                <path d="M36 30H148M92 30V38"/>
+                <path d="M76 64L72 70M108 64L112 70M62 70H124"/>
+              </g>
+              <g class="sd-puff"><circle cx="188" cy="34" r="4"/><circle cx="202" cy="28" r="5.5"/><circle cx="217" cy="21" r="7"/></g>
+              <text class="sd-label" x="242" y="30">Emissions</text>
+              <text class="sd-label" x="242" y="58">High cost</text>
+            </svg>
+            <h5>Helicopter</h5>
+            <p class="method-verdict">Too expensive and polluting</p>
+            <p class="method-text sr-only">Flies low and slow and carries 3&#8288;–&#8288;7&nbsp;kg for hours, but is too expensive and polluting for routine audits.</p>
+          </li>
+          <li class="method reveal">
+            <svg class="sd" viewBox="0 0 320 180" aria-hidden="true">
+              <path class="sd-canopy" d="M12 114a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0Z"/>
+              <path class="sd-trunk" d="M38 114V164M38 136l-10 -9M90 114V164M90 136l10 -9M142 114V164M142 136l-10 -9"/>
+              <path class="sd-ground" d="M4 164H228"/>
+              <path class="sd-path" d="M56 36C132 34 192 60 204 160"/>
+              <circle class="sd-landing" cx="204" cy="164" r="3.5"/>
+              <g class="sd-batt" transform="translate(32 6)"><rect width="24" height="10" rx="2"/><path d="M24 3.5h2v3h-2"/><rect class="lvl" x="2" y="2" width="3" height="6" rx="1"/></g>
+              <g class="sd-craft" transform="translate(44 34)"><path d="M-30 -5H30M-30 -5V-8M30 -5V-8"/><ellipse cx="-30" cy="-9" rx="13" ry="2.2"/><ellipse cx="30" cy="-9" rx="13" ry="2.2"/><rect x="-12" y="-5" width="24" height="10" rx="3"/><path d="M0 5V16"/><rect class="sd-payload" x="-14" y="16" width="28" height="16" rx="2"/></g>
+              <text class="sd-label" x="26" y="86">Payload limit</text>
+              <text class="sd-label" x="214" y="132">≈ 15&nbsp;min</text>
+            </svg>
+            <h5>Battery drone</h5>
+            <p class="method-verdict">Lands within about 15&nbsp;minutes</p>
+            <p class="method-text sr-only">Flies low and slow but can barely carry 3&#8288;–&#8288;7&nbsp;kg and lands within approximately 15&nbsp;minutes. It cannot sustain the power for a heavy payload, so not even one hectare can be mapped.</p>
+          </li>
+          <li class="method reveal">
+            <svg class="sd" viewBox="0 0 320 180" aria-hidden="true">
+              <path class="sd-view" d="M92 48L38 100M92 48L90 100M92 48L142 100M92 48L194 100"/>
+              <path class="sd-canopy" d="M12 114a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0Z"/>
+              <path class="sd-trunk" d="M38 114V164M38 136l-10 -9M90 114V164M90 136l10 -9M142 114V164M142 136l-10 -9M194 114V164M194 136l10 -9"/>
+              <path class="sd-ground" d="M4 164H228"/>
+              <path class="sd-hit" d="M38 100h0M90 100h0M142 100h0M194 100h0"/>
+              <path class="sd-speed" d="M4 36H30M10 44H34M4 52H28"/>
+              <g class="sd-craft">
+                <path d="M48 40L42 24H52L62 38Z"/>
+                <ellipse cx="50" cy="44" rx="10" ry="2.2"/>
+                <rect x="44" y="38" width="88" height="10" rx="5"/>
+                <ellipse cx="92" cy="43" rx="30" ry="3"/>
+                <path d="M134 34V52"/>
+              </g>
+              <text class="sd-label" x="148" y="48">Too fast</text>
+              <text class="sd-label" x="242" y="98">Sparse</text>
+              <text class="sd-label" x="242" y="116">returns</text>
+            </svg>
+            <h5>Fixed-wing drone</h5>
+            <p class="method-verdict">Flies too fast</p>
+            <p class="method-text sr-only">Carries 3&#8288;–&#8288;7&nbsp;kg for hours, but flies too fast for dense LiDAR penetration.</p>
+          </li>
+          </ul>
+        </div>
       </div>
-      <div class="reveal">
-        <p class="eyebrow feature-label">High-precision carbon auditing</p>
-        <div class="feature-grid cols-2">
-          <article class="feature-item">
-            <p class="feature-num">01</p>
-            <h3>Terrestrial auditing</h3>
-            <p class="feature-body">Dual-laser LiDAR is carried low above forestry projects to penetrate foliage gaps. This maps the complete 3D structure of the forest floor, calculating the exact wood volume and stored carbon.</p>
-          </article>
-          <article class="feature-item">
-            <p class="feature-num">02</p>
-            <h3>Blue carbon auditing</h3>
-            <p class="feature-body">Coastal ecosystems, such as kelp forests and mangroves, are mapped using bathymetric lasers that penetrate the water column. The extended endurance of the hydrogen system ensures that these advanced, high-draw sensors are safely flown over water for hours without the constant risk of battery depletion.</p>
-          </article>
+
+      <div class="story-block solution reveal">
+        <div class="solution-text-col">
+          <h3 class="block-head"><span class="block-label">The solution</span>The hydrogen hexacopter.</h3>
+          <p class="solution-text">A heavy-lift hydrogen hexacopter would carry heavy LiDAR low and slow for hours, making high-frequency, centimetre-accurate carbon auditing economically viable. Its fuel cell would provide the endurance and payload capacity this requires, establishing a new standard of verified data for the carbon offset market.</p>
+        </div>
+        <figure class="solution-fig">
+          <svg class="sd sd-solution" viewBox="0 64 520 184" role="img" aria-labelledby="sol-title">
+              <title id="sol-title">Illustration of the planned hydrogen hexacopter flying low and slow over a forest, with its three targets: hours of endurance, a 3–7 kg LiDAR payload and centimetre accuracy.</title>
+              <path class="sd-beam" d="M168 134L98 234H238Z"/>
+              <g transform="translate(0 70)"><path class="sd-canopy" d="M12 114a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0Z"/><path class="sd-trunk" d="M38 114V164M38 136l-10 -9M90 114V164M90 136l10 -9M142 114V164M142 136l-10 -9M194 114V164M194 136l10 -9M246 114V164M246 136l-10 -9M298 114V164M298 136l10 -9"/><path class="sd-ground" d="M4 164H336"/></g>
+              <path class="pt pt-terra" d="M146.0 170.2h0M150.0 170.7h0M154.0 171.6h0M158.0 173.0h0M162.0 175.1h0M166.0 178.6h0M170.0 178.6h0M174.0 175.1h0M178.0 173.0h0M182.0 171.6h0M186.0 170.7h0M190.0 170.2h0"/>
+              <path class="pt pt-trunk" d="M142.0 188.0h0M142.0 192.4h0M142.0 196.8h0M142.0 201.2h0M142.0 205.6h0M142.0 210.0h0M142.0 214.4h0M142.0 218.8h0M142.0 223.2h0M142.0 227.6h0M194.0 188.0h0M194.0 192.4h0M194.0 196.8h0M194.0 201.2h0M194.0 205.6h0M194.0 210.0h0M194.0 214.4h0M194.0 218.8h0M194.0 223.2h0M194.0 227.6h0"/>
+              <path class="pt pt-ground-hit" d="M100.0 230.4h0M104.5 230.4h0M109.0 230.4h0M113.5 230.4h0M118.0 230.4h0M122.5 230.4h0M127.0 230.4h0M131.5 230.4h0M136.0 230.4h0M140.5 230.4h0M145.0 230.4h0M149.5 230.4h0M154.0 230.4h0M158.5 230.4h0M163.0 230.4h0M167.5 230.4h0M172.0 230.4h0M176.5 230.4h0M181.0 230.4h0M185.5 230.4h0M190.0 230.4h0M194.5 230.4h0M199.0 230.4h0M203.5 230.4h0M208.0 230.4h0M212.5 230.4h0M217.0 230.4h0M221.5 230.4h0M226.0 230.4h0M230.5 230.4h0M235.0 230.4h0"/>
+              <g class="sd-craft" transform="translate(168 100)">
+                <path class="back" d="M-36 -2V-8M36 -2V-8"/>
+                <ellipse class="back" cx="-36" cy="-10" rx="16" ry="2.4"/><ellipse class="back" cx="36" cy="-10" rx="16" ry="2.4"/>
+                <path d="M-70 0H70M-70 0V-6M70 0V-6M-16 8L-26 34M16 8L26 34M-32 34H-20M20 34H32"/>
+                <ellipse cx="-70" cy="-8" rx="18" ry="2.6"/><ellipse cx="70" cy="-8" rx="18" ry="2.6"/>
+                <rect x="-20" y="-6" width="40" height="14" rx="4"/>
+                <rect class="sd-tank" x="-26" y="10" width="52" height="12" rx="6"/>
+                <rect class="sd-payload" x="-8" y="24" width="16" height="10" rx="2"/>
+              </g>
+              <path class="sd-view" d="M196 116L348 88M178 129L348 134M206 176L348 194"/>
+              <g class="sd-anchor"><circle cx="196" cy="116" r="2.5"/><circle cx="178" cy="129" r="2.5"/><circle cx="206" cy="176" r="2.5"/></g>
+              <text class="sd-label seen" x="356" y="93">Hours of endurance</text>
+              <text class="sd-label seen" x="356" y="139">3&#8288;–&#8288;7&nbsp;kg LiDAR payload</text>
+              <text class="sd-label seen" x="356" y="199">Centimetre accuracy</text>
+            </svg>
+          <ul class="sol-legend" aria-hidden="true"><li>Hours of endurance</li><li>3&#8288;–&#8288;7&nbsp;kg LiDAR payload</li><li>Centimetre accuracy</li></ul>
+          <figcaption>Illustration · the planned hydrogen hexacopter and its targets. It would map thousands of hectares per campaign.</figcaption>
+        </figure>
+      </div>
+
+      <div class="story-block markets">
+        <h3 class="block-head reveal"><span class="block-label">Target markets and operations</span>Two markets, one airframe.</h3>
+        <div class="market-grid">
+        <article class="market terra reveal">
+          <header><p class="market-tag">Terrestrial</p><h4>Sub-canopy carbon auditing</h4></header>
+          <p class="market-summary">Dual-laser LiDAR would map the full 3D structure of forests, from the canopy down to the forest floor.</p>
+          <details class="market-more">
+            <summary>More details</summary>
+          <dl class="market-facts">
+            <div><dt>Target</dt><dd>Forestry projects, carbon registries and green investment funds.</dd></div>
+            <div><dt>Operation</dt><dd>The drone would fly low and slow above the tree canopy, carrying a heavy dual-laser LiDAR system.</dd></div>
+            <div><dt>Data output</dt><dd>The lasers pass through gaps in the foliage to map the forest floor and trunks in 3D, after which algorithms compute the exact wood volume and, from it, the carbon stored.</dd></div>
+          </dl>
+          <figure class="pc-figure">
+            <svg class="pc pc-card" viewBox="0 0 760 210" aria-hidden="true">
+              <path class="pc-arrow" d="M40 14H520M512 9l8 5-8 5"/>
+              <path class="pc-cone terra" d="M300 42L222 188H378Z"/>
+              <g class="scan">
+                <path class="pt pt-ground" d="M4.0 188.3h0M9.0 187.8h0M14.0 187.4h0M19.0 188.8h0M24.0 188.8h0M29.0 187.8h0M34.0 188.0h0M39.0 188.7h0M44.0 188.7h0M49.0 188.1h0M54.0 187.3h0M59.0 187.2h0M64.0 187.4h0M69.0 189.0h0M74.0 188.2h0M79.0 188.5h0M84.0 187.9h0M89.0 187.9h0M94.0 187.4h0M99.0 189.3h0M104.0 188.5h0M109.0 187.3h0M114.0 188.7h0M119.0 188.4h0M124.0 188.5h0M129.0 188.8h0M134.0 188.5h0M139.0 189.1h0M144.0 189.3h0M149.0 188.0h0M154.0 188.6h0M159.0 187.9h0M164.0 188.0h0M169.0 187.9h0M174.0 188.6h0M179.0 187.8h0M184.0 187.8h0M189.0 189.0h0M194.0 188.9h0M199.0 188.6h0M204.0 189.0h0M209.0 187.9h0M214.0 188.5h0M219.0 187.6h0M379.0 187.0h0M384.0 188.1h0M389.0 188.4h0M394.0 187.8h0M399.0 187.1h0M404.0 188.0h0M409.0 187.8h0M414.0 189.3h0M419.0 187.9h0M424.0 189.2h0M429.0 189.1h0M434.0 188.4h0M439.0 187.3h0M444.0 188.9h0M449.0 187.2h0M454.0 188.3h0M459.0 187.2h0M464.0 187.2h0M469.0 188.0h0M474.0 187.4h0M479.0 189.4h0M484.0 188.4h0M489.0 189.2h0M494.0 189.3h0M499.0 188.8h0M504.0 188.5h0M509.0 188.1h0M514.0 188.9h0M519.0 188.6h0M524.0 187.4h0M529.0 188.3h0M534.0 188.0h0M539.0 188.2h0M544.0 188.7h0M549.0 188.7h0M554.0 188.4h0M559.0 188.9h0M564.0 189.0h0M569.0 187.2h0M574.0 187.3h0M579.0 187.1h0M584.0 187.4h0M589.0 189.3h0M594.0 187.7h0M599.0 188.1h0M604.0 188.1h0M609.0 188.4h0M614.0 187.7h0M619.0 188.9h0M624.0 187.8h0M629.0 189.0h0M634.0 188.9h0M639.0 187.0h0M644.0 188.3h0M649.0 187.2h0M654.0 189.1h0M659.0 187.2h0M664.0 187.6h0M669.0 188.8h0M674.0 188.4h0M679.0 188.6h0M684.0 188.0h0M689.0 188.2h0M694.0 187.5h0M699.0 188.1h0M704.0 187.6h0M709.0 188.6h0M714.0 187.3h0M719.0 187.3h0M724.0 187.5h0M729.0 188.3h0M734.0 188.4h0M739.0 187.0h0M744.0 189.4h0M749.0 189.0h0M754.0 187.9h0"/>
+                <path class="pt pt-terra-soft" d="M23.3 103.9h0M7.9 104.1h0M14.4 79.1h0M35.9 75.7h0M50.8 112.4h0M26.8 78.9h0M23.3 99.9h0M26.3 111.5h0M34.2 101.0h0M44.0 115.2h0M10.3 91.9h0M39.9 97.5h0M19.0 130.8h0M47.8 101.6h0M19.6 78.5h0M40.6 90.8h0M16.0 130.9h0M4.2 89.5h0M7.5 106.8h0M8.2 116.3h0M33.2 81.6h0M9.4 89.5h0M42.0 91.7h0M9.3 97.1h0M33.1 79.3h0M9.4 89.1h0M15.8 92.2h0M2.7 108.1h0M30.8 96.1h0M50.5 102.5h0M45.4 85.9h0M11.4 85.1h0M30.9 99.1h0M10.8 114.9h0M43.1 108.9h0M7.4 115.6h0M10.3 107.0h0M31.5 90.2h0M12.5 100.5h0M7.4 95.8h0M4.9 95.2h0M35.8 108.1h0M47.8 115.6h0M-1.1 111.3h0M37.9 92.5h0M1.8 106.2h0M47.3 117.4h0M17.1 114.6h0M45.7 98.5h0M45.3 107.7h0M18.8 108.3h0M2.1 111.9h0M46.2 116.4h0M38.2 108.1h0M30.8 102.4h0M36.2 103.3h0M48.4 90.1h0M14.3 113.4h0M34.1 100.0h0M15.7 112.7h0M21.4 121.8h0M46.2 96.7h0M15.1 82.5h0M43.8 124.0h0M26.3 122.7h0M24.4 131.1h0M24.7 139.5h0M25.0 147.9h0M25.2 156.3h0M26.1 164.7h0M25.1 173.1h0M24.1 181.5h0M25.2 128.2h0M18.8 123.0h0M12.4 117.8h0M28.4 125.6h0M34.8 120.4h0M67.0 114.3h0M58.1 97.3h0M93.4 86.2h0M53.6 106.4h0M83.3 108.1h0M100.0 109.1h0M75.4 83.4h0M75.3 110.6h0M65.1 91.2h0M77.7 105.8h0M71.2 115.8h0M88.0 80.0h0M83.0 121.1h0M80.2 120.4h0M99.3 97.6h0M61.7 111.8h0M83.9 110.8h0M100.9 101.6h0M67.5 122.2h0M69.0 77.5h0M79.2 113.8h0M60.0 90.5h0M77.5 111.9h0M86.3 123.2h0M62.5 101.0h0M88.3 107.0h0M94.1 102.7h0M70.6 118.7h0M61.8 119.1h0M77.9 103.3h0M78.5 99.7h0M77.5 94.1h0M79.9 99.1h0M54.6 101.6h0M64.9 98.2h0M73.3 117.1h0M75.5 90.2h0M82.7 121.3h0M61.1 84.8h0M67.6 91.8h0M56.6 111.4h0M77.2 86.7h0M78.2 96.3h0M72.3 101.1h0M61.6 106.7h0M78.2 118.5h0M94.8 85.0h0M67.3 89.3h0M63.4 111.3h0M72.7 114.4h0M71.7 108.9h0M61.5 109.7h0M77.0 113.3h0M86.1 83.8h0M79.3 100.4h0M58.7 83.3h0M74.7 113.4h0M75.0 100.4h0M81.8 73.2h0M94.2 82.7h0M88.8 94.7h0M59.6 100.2h0M96.7 116.0h0M95.0 106.4h0M76.9 117.4h0M77.8 125.8h0M76.1 134.2h0M77.3 142.6h0M77.4 151.0h0M77.6 159.4h0M77.1 167.8h0M77.3 176.2h0M77.2 184.6h0M73.5 119.9h0M67.1 114.7h0M76.7 122.5h0M83.1 117.3h0M89.5 112.1h0M142.0 115.4h0M157.2 117.6h0M143.1 112.7h0M142.2 119.8h0M140.9 121.2h0M130.2 86.5h0M129.0 88.8h0M155.3 111.7h0M158.3 112.8h0M142.0 124.5h0M140.0 121.9h0M133.7 92.0h0M140.6 85.1h0M131.2 110.5h0M128.5 97.8h0M138.1 97.6h0M118.1 122.2h0M154.9 121.4h0M131.6 107.9h0M122.4 110.4h0M146.2 107.4h0M150.8 114.3h0M141.3 106.9h0M112.9 110.5h0M132.3 117.8h0M123.3 113.3h0M148.9 110.8h0M122.1 88.3h0M149.2 115.5h0M123.8 118.8h0M139.7 116.2h0M119.7 95.4h0M123.8 105.2h0M115.4 111.2h0M114.6 118.3h0M141.6 102.6h0M120.8 100.8h0M116.3 125.4h0M148.5 94.4h0M123.1 125.0h0M126.5 111.7h0M156.0 105.4h0M138.3 108.3h0M125.1 122.8h0M120.9 117.2h0M125.4 121.0h0M124.4 90.9h0M146.3 102.5h0M145.5 112.9h0M132.1 124.5h0M126.1 103.7h0M154.7 96.3h0M128.5 102.1h0M129.5 93.2h0M149.9 111.3h0M138.2 91.9h0M154.0 98.4h0M135.9 111.4h0M158.3 117.2h0M113.5 111.6h0M146.9 128.9h0M141.8 90.2h0M142.5 96.3h0M148.3 110.3h0M134.9 126.5h0M136.3 134.9h0M135.1 143.3h0M135.7 151.7h0M136.1 160.1h0M135.9 168.5h0M136.0 176.9h0M135.9 185.3h0M131.9 128.8h0M125.5 123.6h0M135.1 131.4h0M141.5 126.2h0M147.9 121.0h0M207.5 104.8h0M202.2 89.0h0M199.8 75.7h0M202.3 81.3h0M183.4 83.2h0M213.9 107.5h0M183.6 90.9h0M191.6 78.5h0M211.1 78.7h0M194.9 74.9h0M196.5 95.8h0M205.2 79.6h0M227.6 84.5h0M229.8 92.2h0M221.8 86.9h0M207.0 80.3h0M214.4 79.7h0M204.8 85.9h0M217.2 98.6h0M188.5 83.7h0M225.3 94.0h0M208.0 73.7h0M224.1 109.7h0M194.3 104.3h0M205.2 91.3h0M210.7 112.0h0M221.2 88.4h0M191.1 95.4h0M188.5 110.7h0M196.4 70.7h0M204.5 104.5h0M215.9 72.0h0M204.2 119.2h0M199.9 104.1h0M209.5 91.0h0M191.1 99.2h0M199.8 95.2h0M197.8 87.2h0M193.6 76.5h0M197.4 117.3h0M217.8 83.7h0M185.3 102.9h0M189.7 87.6h0M211.0 71.6h0M201.4 69.0h0M202.4 93.7h0M220.0 110.2h0M197.5 88.6h0M201.1 104.4h0M221.2 101.9h0M198.1 100.9h0M199.9 93.6h0M223.0 98.9h0M220.0 115.0h0M198.6 93.1h0M207.0 105.1h0M212.8 77.5h0M193.0 97.3h0M197.4 115.9h0M204.3 71.8h0M208.5 96.4h0M194.0 116.4h0M222.6 98.4h0M223.0 81.2h0M205.6 111.2h0M207.0 119.6h0M206.3 128.0h0M205.1 136.4h0M207.4 144.8h0M206.6 153.2h0M206.6 161.6h0M205.9 170.0h0M206.9 178.4h0M206.2 116.4h0M199.8 111.2h0M193.4 106.0h0M209.4 113.8h0M215.8 108.6h0M364.3 116.6h0M381.6 95.3h0M383.9 124.7h0M373.7 100.3h0M376.6 123.9h0M350.0 97.8h0M355.7 88.1h0M374.6 130.7h0M350.4 115.2h0M377.1 98.8h0M381.5 84.5h0M358.6 118.4h0M349.7 95.8h0M372.3 103.9h0M359.8 122.2h0M358.5 98.7h0M364.1 115.7h0M386.1 85.7h0M356.7 104.2h0M373.6 84.6h0M358.0 89.6h0M362.9 92.0h0M359.9 82.0h0M369.2 131.8h0M389.7 103.9h0M386.5 99.3h0M372.8 113.7h0M358.1 130.3h0M396.5 101.5h0M382.1 87.6h0M347.3 96.7h0M359.9 105.6h0M343.9 106.4h0M385.7 117.8h0M386.3 123.7h0M394.2 99.2h0M356.7 126.6h0M374.2 89.7h0M363.1 113.9h0M362.8 112.4h0M358.2 127.1h0M348.3 95.3h0M354.6 118.5h0M379.7 87.5h0M350.9 96.5h0M343.8 104.9h0M360.5 107.0h0M354.2 125.7h0M383.7 81.8h0M366.3 129.9h0M365.1 115.9h0M357.9 115.2h0M360.5 87.4h0M377.3 97.9h0M354.7 111.6h0M389.1 112.0h0M373.7 82.4h0M380.2 102.1h0M365.7 98.5h0M375.5 108.9h0M345.0 111.9h0M375.1 110.3h0M351.4 103.0h0M382.8 94.1h0M371.2 123.6h0M370.9 132.0h0M371.2 140.4h0M369.4 148.8h0M370.4 157.2h0M370.9 165.6h0M370.1 174.0h0M369.0 182.4h0M366.9 126.3h0M360.5 121.1h0M370.1 128.9h0M376.5 123.7h0M382.9 118.5h0M452.4 97.2h0M455.1 84.9h0M444.7 78.4h0M451.4 99.1h0M452.0 117.4h0M440.2 120.0h0M421.6 93.2h0M416.1 91.6h0M423.0 93.8h0M443.4 118.3h0M444.0 118.4h0M423.7 107.7h0M429.2 105.7h0M442.8 108.7h0M420.4 109.0h0M458.7 104.8h0M446.9 110.9h0M429.0 95.2h0M444.1 95.7h0M433.6 97.4h0M458.7 91.8h0M425.5 103.3h0M455.4 88.6h0M446.2 97.2h0M432.6 111.6h0M435.5 78.3h0M427.6 96.5h0M428.2 109.2h0M425.9 95.3h0M456.5 87.4h0M430.5 115.8h0M442.2 101.7h0M431.5 93.2h0M445.9 91.5h0M444.2 98.0h0M436.3 90.3h0M442.9 123.8h0M453.4 107.0h0M436.1 94.6h0M424.3 93.3h0M433.0 110.9h0M422.3 106.9h0M449.3 87.0h0M448.8 112.5h0M436.4 74.8h0M415.6 92.2h0M439.5 79.8h0M428.6 99.8h0M441.1 82.1h0M438.5 89.1h0M426.0 95.5h0M424.6 97.1h0M436.0 116.0h0M454.4 81.7h0M439.1 94.8h0M433.8 76.3h0M452.9 111.3h0M421.8 100.9h0M419.6 89.2h0M444.6 115.8h0M434.0 79.3h0M429.9 98.9h0M441.1 99.5h0M433.0 89.4h0M437.3 116.0h0M437.8 124.4h0M437.6 132.8h0M437.8 141.2h0M438.7 149.6h0M438.0 158.0h0M437.7 166.4h0M437.0 174.8h0M437.5 183.2h0M434.7 118.1h0M428.3 112.9h0M437.9 120.7h0M444.3 115.5h0M450.7 110.3h0M489.1 85.1h0M494.7 137.2h0M494.9 104.9h0M495.5 116.9h0M489.6 112.9h0M476.6 98.9h0M485.8 131.7h0M478.4 121.5h0M480.6 101.6h0M505.0 119.5h0M496.4 115.0h0M497.1 84.4h0M503.1 116.2h0M502.3 107.4h0M486.6 125.8h0M487.0 108.7h0M480.2 124.4h0M498.6 114.6h0M469.5 101.0h0M492.9 134.7h0M485.2 114.1h0M488.3 86.2h0M483.3 122.1h0M489.4 122.4h0M504.5 89.6h0M472.1 116.6h0M481.6 93.7h0M494.6 113.1h0M493.7 130.7h0M494.2 110.9h0M480.6 122.6h0M477.1 124.9h0M476.9 87.1h0M483.3 123.9h0M496.0 115.5h0M511.5 109.6h0M475.5 125.4h0M479.5 130.3h0M500.3 115.8h0M480.9 91.8h0M503.8 128.2h0M504.8 96.9h0M491.6 117.9h0M503.8 116.8h0M512.2 122.3h0M478.7 132.3h0M477.3 98.8h0M491.7 98.7h0M476.6 91.6h0M477.7 100.4h0M490.2 132.0h0M495.5 114.5h0M491.6 121.3h0M504.3 99.3h0M512.9 104.2h0M475.6 109.4h0M501.9 136.6h0M493.2 103.9h0M513.1 120.3h0M493.2 89.9h0M479.6 131.7h0M498.6 89.3h0M493.5 139.3h0M508.6 127.8h0M488.7 130.6h0M489.0 139.0h0M489.4 147.4h0M489.0 155.8h0M489.5 164.2h0M488.7 172.6h0M489.9 181.0h0M489.7 135.9h0M483.3 130.7h0M476.9 125.5h0M492.9 133.3h0M499.3 128.1h0M541.2 125.0h0M548.5 119.1h0M554.4 120.4h0M529.3 115.5h0M564.7 123.9h0M552.8 127.7h0M564.9 110.0h0M561.8 102.6h0M550.2 106.2h0M546.8 100.7h0M533.5 97.5h0M548.0 128.4h0M536.5 122.0h0M550.1 101.8h0M534.0 101.5h0M540.9 126.0h0M562.8 116.4h0M561.5 102.2h0M544.9 138.5h0M542.2 136.0h0M543.6 95.8h0M562.4 106.2h0M543.2 103.8h0M560.5 113.3h0M525.8 114.4h0M532.0 99.3h0M541.5 135.1h0M559.2 135.9h0M531.6 123.7h0M546.8 108.4h0M538.2 135.3h0M534.0 107.3h0M539.8 99.3h0M550.3 116.5h0M561.5 115.9h0M528.8 104.8h0M569.2 114.7h0M540.9 117.8h0M547.1 119.8h0M547.3 98.4h0M561.5 109.8h0M532.9 97.8h0M535.6 129.4h0M556.3 112.8h0M554.6 108.0h0M554.9 105.5h0M567.3 118.5h0M550.9 112.6h0M568.7 100.6h0M532.9 115.0h0M538.9 97.7h0M536.4 118.5h0M570.3 104.2h0M557.9 106.8h0M548.9 135.5h0M548.8 102.9h0M555.3 112.7h0M548.9 113.6h0M546.3 93.2h0M536.3 131.4h0M537.3 134.5h0M545.5 117.4h0M548.5 113.6h0M565.2 114.6h0M548.3 131.2h0M549.8 139.6h0M550.1 148.0h0M549.4 156.4h0M549.5 164.8h0M549.7 173.2h0M549.7 181.6h0M549.0 135.9h0M542.6 130.7h0M536.2 125.5h0M552.2 133.3h0M558.6 128.1h0M602.4 86.6h0M606.8 114.0h0M608.3 73.6h0M618.3 85.6h0M610.5 106.6h0M607.3 76.3h0M613.8 107.8h0M605.0 114.9h0M601.5 88.8h0M615.0 81.3h0M614.1 103.1h0M593.8 83.9h0M608.5 103.1h0M594.4 114.7h0M592.6 115.3h0M594.5 83.9h0M601.4 71.8h0M603.5 92.8h0M590.8 80.1h0M590.5 86.5h0M582.1 87.4h0M621.8 100.5h0M597.8 81.9h0M598.9 102.9h0M604.3 100.9h0M619.7 82.5h0M623.9 95.3h0M586.4 96.4h0M611.6 104.4h0M613.7 101.1h0M600.0 91.1h0M600.8 116.0h0M591.7 103.0h0M585.4 90.6h0M612.7 89.5h0M609.9 99.2h0M611.2 77.7h0M600.7 72.7h0M597.1 92.7h0M601.3 98.1h0M593.2 80.7h0M602.3 90.0h0M619.0 82.5h0M611.1 91.7h0M599.1 92.0h0M607.4 90.1h0M614.0 92.0h0M618.7 92.0h0M614.6 89.4h0M612.6 84.4h0M621.8 101.4h0M599.0 101.0h0M613.9 96.0h0M594.9 103.4h0M598.2 106.1h0M606.9 81.3h0M605.6 109.5h0M597.1 98.4h0M613.5 105.6h0M590.9 103.6h0M603.9 115.8h0M614.3 85.8h0M604.9 95.4h0M587.2 100.1h0M602.3 109.6h0M602.6 118.0h0M601.1 126.4h0M601.8 134.8h0M603.1 143.2h0M603.0 151.6h0M602.5 160.0h0M601.4 168.4h0M602.4 176.8h0M601.6 185.2h0M598.7 111.4h0M592.3 106.2h0M601.9 114.0h0M608.3 108.8h0M614.7 103.6h0M636.4 102.0h0M642.7 98.3h0M644.1 89.4h0M675.2 121.0h0M659.8 118.5h0M676.5 127.1h0M670.6 119.0h0M679.5 93.9h0M651.0 105.5h0M663.9 114.7h0M646.4 93.9h0M652.4 105.5h0M669.3 91.6h0M670.8 93.1h0M679.2 94.5h0M646.7 119.7h0M670.3 84.8h0M662.6 112.9h0M637.4 100.5h0M665.4 126.9h0M670.3 92.0h0M668.8 118.8h0M658.7 97.5h0M653.1 101.5h0M649.9 96.7h0M650.8 113.4h0M658.8 109.3h0M679.9 122.2h0M668.4 118.8h0M656.0 102.9h0M658.8 110.2h0M674.9 128.8h0M666.4 97.7h0M679.0 126.7h0M670.0 121.5h0M655.2 111.6h0M662.6 109.4h0M678.6 109.6h0M654.8 115.7h0M663.5 131.7h0M673.6 113.6h0M643.9 106.7h0M669.2 93.8h0M662.6 100.0h0M667.0 84.0h0M668.3 94.3h0M673.6 99.5h0M663.3 87.4h0M648.4 125.6h0M642.2 93.7h0M643.4 107.2h0M651.4 95.6h0M644.5 115.9h0M663.6 102.3h0M647.9 119.6h0M660.1 132.7h0M649.2 131.1h0M647.1 97.2h0M668.9 115.3h0M671.3 108.4h0M660.0 102.5h0M684.7 102.0h0M642.6 113.8h0M644.3 108.7h0M661.0 126.3h0M659.8 134.7h0M660.9 143.1h0M661.3 151.5h0M659.6 159.9h0M661.2 168.3h0M661.0 176.7h0M660.9 185.1h0M657.2 128.8h0M650.8 123.6h0M660.4 131.4h0M666.8 126.2h0M673.2 121.0h0M709.4 77.7h0M730.7 101.6h0M705.1 82.4h0M701.1 103.0h0M699.7 98.2h0M698.8 99.8h0M709.7 95.4h0M720.1 82.1h0M718.8 91.4h0M709.5 106.4h0M724.3 115.1h0M705.0 86.4h0M727.8 106.5h0M700.4 91.3h0M727.0 77.1h0M725.8 113.8h0M719.7 119.4h0M718.4 116.2h0M730.4 104.4h0M698.5 91.9h0M698.0 109.4h0M720.7 86.2h0M719.7 81.9h0M704.0 90.0h0M700.6 112.7h0M717.4 89.3h0M707.0 85.2h0M721.1 75.3h0M702.6 95.6h0M711.2 87.9h0M706.3 108.1h0M723.3 79.4h0M720.2 81.2h0M710.9 81.0h0M718.1 105.3h0M693.6 94.5h0M723.2 98.9h0M709.0 77.8h0M694.9 98.0h0M719.6 111.8h0M697.4 104.9h0M732.4 99.2h0M731.4 105.4h0M705.1 109.9h0M713.4 73.2h0M704.0 101.4h0M715.3 76.3h0M719.7 105.7h0M728.2 86.5h0M715.1 110.9h0M734.1 95.8h0M713.9 89.4h0M694.1 92.0h0M723.0 80.5h0M711.3 101.6h0M712.3 86.9h0M732.6 83.5h0M732.5 95.8h0M722.8 82.9h0M719.6 74.1h0M707.3 79.0h0M721.8 95.1h0M728.1 83.2h0M719.6 95.2h0M715.8 112.6h0M715.2 121.0h0M715.8 129.4h0M715.1 137.8h0M715.4 146.2h0M715.5 154.6h0M714.8 163.0h0M714.9 171.4h0M715.7 179.8h0M714.8 117.1h0M708.4 111.9h0M702.0 106.7h0M718.0 114.5h0M724.4 109.3h0"/>
+                <path class="pt pt-ground-hit" d="M224.0 187.8h0M229.0 187.2h0M234.0 188.9h0M239.0 189.2h0M244.0 187.7h0M249.0 187.9h0M254.0 187.3h0M259.0 187.3h0M264.0 188.5h0M269.0 189.1h0M274.0 187.2h0M279.0 187.6h0M284.0 188.8h0M289.0 187.5h0M294.0 189.1h0M299.0 187.8h0M304.0 188.1h0M309.0 187.5h0M314.0 187.7h0M319.0 188.0h0M324.0 187.7h0M329.0 188.7h0M334.0 187.1h0M339.0 188.5h0M344.0 188.9h0M349.0 187.8h0M354.0 187.5h0M359.0 187.3h0M364.0 187.2h0M369.0 188.9h0M374.0 188.4h0"/>
+                <path class="pt pt-trunk" d="M253.7 121.8h0M254.0 126.0h0M253.9 130.2h0M252.1 134.4h0M253.0 138.6h0M252.9 142.8h0M252.5 147.0h0M254.3 151.2h0M252.1 155.4h0M253.2 159.6h0M253.8 163.8h0M254.4 168.0h0M252.3 172.2h0M253.1 176.4h0M253.8 180.6h0M252.1 184.8h0M253.2 126.4h0M250.0 123.8h0M246.8 121.2h0M243.6 118.6h0M240.4 116.0h0M253.2 126.4h0M256.4 123.8h0M259.6 121.2h0M262.8 118.6h0M266.0 116.0h0M311.2 110.9h0M311.2 115.1h0M311.4 119.3h0M311.1 123.5h0M311.9 127.7h0M311.0 131.9h0M310.8 136.1h0M310.8 140.3h0M310.9 144.5h0M312.3 148.7h0M310.9 152.9h0M311.7 157.1h0M312.5 161.3h0M311.8 165.5h0M311.0 169.7h0M312.7 173.9h0M312.7 178.1h0M310.8 182.3h0M311.8 115.4h0M308.6 112.8h0M305.4 110.2h0M302.2 107.6h0M299.0 105.0h0M311.8 115.4h0M315.0 112.8h0M318.2 110.2h0M321.4 107.6h0M324.6 105.0h0"/>
+                <path class="pt pt-terra" d="M248.0 109.0h0M254.1 94.5h0M245.5 112.3h0M261.0 88.0h0M257.8 104.4h0M258.9 115.1h0M264.7 105.1h0M268.7 122.6h0M250.2 109.1h0M254.4 107.0h0M271.7 97.7h0M263.5 125.4h0M257.7 117.6h0M257.5 86.1h0M250.8 106.0h0M232.7 115.2h0M241.3 96.7h0M260.8 123.2h0M267.1 92.2h0M256.2 124.3h0M266.6 87.8h0M241.5 96.4h0M267.6 101.0h0M257.1 85.2h0M271.4 96.7h0M251.9 92.1h0M239.3 121.7h0M251.9 89.5h0M259.2 90.5h0M263.5 96.5h0M270.1 115.6h0M262.2 126.6h0M244.4 115.6h0M238.6 93.0h0M266.5 99.6h0M270.8 110.0h0M244.1 126.6h0M243.0 112.2h0M275.3 103.0h0M254.6 83.9h0M243.3 93.6h0M234.3 95.3h0M241.6 95.2h0M251.4 117.7h0M272.8 105.8h0M255.8 112.7h0M260.4 119.4h0M253.4 122.7h0M254.1 126.7h0M266.0 89.7h0M241.1 102.9h0M266.3 119.4h0M252.7 92.4h0M253.1 83.4h0M263.0 109.4h0M238.6 90.0h0M253.0 102.7h0M242.4 119.5h0M271.8 109.1h0M266.5 93.8h0M244.6 84.4h0M258.7 107.0h0M257.2 85.5h0M238.2 94.5h0M307.0 85.3h0M322.5 82.3h0M314.2 82.6h0M331.6 88.5h0M333.8 99.9h0M307.4 101.7h0M304.7 104.5h0M316.0 113.2h0M307.0 111.0h0M324.7 81.5h0M297.4 97.1h0M298.3 81.3h0M303.1 92.2h0M320.0 111.6h0M306.5 74.0h0M305.6 84.6h0M297.3 83.6h0M331.2 104.9h0M305.5 77.6h0M305.4 107.8h0M303.7 89.6h0M329.3 86.3h0M312.7 73.8h0M295.9 99.2h0M303.3 91.2h0M295.2 104.5h0M322.2 102.5h0M298.4 84.1h0M307.5 89.2h0M299.3 85.1h0M290.1 101.1h0M302.6 103.4h0M298.9 104.1h0M299.7 100.9h0M308.5 90.0h0M306.5 86.7h0M301.8 78.7h0M310.7 78.7h0M300.0 75.7h0M308.3 78.0h0M321.1 97.5h0M290.1 89.7h0M291.9 90.5h0M311.6 98.9h0M303.9 83.7h0M304.9 113.7h0M301.0 102.6h0M310.4 100.6h0M305.6 98.7h0M324.3 101.0h0M307.8 90.9h0M306.5 113.5h0M295.2 95.2h0M305.5 116.8h0M297.8 81.6h0M313.9 89.9h0M311.6 102.1h0M317.5 97.9h0M333.3 87.0h0M329.5 85.7h0M320.8 104.2h0M326.7 78.4h0M311.4 97.9h0M302.1 106.8h0"/>
+              </g>
+              <g class="pc-drone" transform="translate(300 32)"><path d="M-30 -5H30M-30 -5V-8M30 -5V-8M-7 5l-4 8M7 5l4 8"/><ellipse cx="-30" cy="-9" rx="13" ry="2.2"/><ellipse cx="30" cy="-9" rx="13" ry="2.2"/><rect x="-12" y="-5" width="24" height="10" rx="3"/></g>
+            </svg>
+            <ul class="pc-legend"><li class="k-terra">Canopy returns</li><li class="k-trunk">Trunk and branch returns</li><li class="k-ground">Ground returns</li><li class="k-path">Low and slow</li></ul>
+            <figcaption>Illustration · dual-laser LiDAR returns from the canopy, trunks and forest floor</figcaption>
+          </figure>
+          </details>
+        </article>
+        <article class="market marine reveal">
+          <header><p class="market-tag">Marine and coastal</p><h4>Blue carbon auditing</h4></header>
+          <p class="market-summary">Green-laser LiDAR would map kelp forests, seagrass meadows and mangroves through the water column.</p>
+          <details class="market-more">
+            <summary>More details</summary>
+          <dl class="market-facts">
+            <div><dt>Target</dt><dd>Kelp forests, seagrass meadows and mangrove conservation projects, which absorb CO₂ much faster than forests on land.</dd></div>
+            <div><dt>Operation</dt><dd>The drone would fly low over ocean, coastline or swamp, carrying a heavy bathymetric (green-laser) LiDAR system that penetrates the water column.</dd></div>
+            <div><dt>Data output</dt><dd>3D maps of seagrass and kelp beds and of mangrove root systems, while hours of endurance would keep expensive sensors safe over water, without the constant risk of battery depletion.</dd></div>
+          </dl>
+          <figure class="pc-figure">
+            <svg class="pc pc-card" viewBox="0 0 760 210" aria-hidden="true">
+              <path class="pc-water" d="M0 52Q190 48 380 52T760 52V194H0Z"/>
+              <path class="pc-cone marine" d="M360 26L280 186H440Z"/>
+              <g class="scan">
+                <path class="pt pt-ground" d="M4.0 187.3h0M9.0 187.4h0M14.0 187.2h0M19.0 185.2h0M24.0 186.5h0M29.0 186.1h0M34.0 186.3h0M39.0 185.3h0M44.0 185.5h0M49.0 186.1h0M54.0 185.6h0M59.0 186.1h0M64.0 185.1h0M69.0 185.2h0M74.0 186.8h0M79.0 186.1h0M84.0 186.3h0M89.0 186.8h0M94.0 185.9h0M99.0 185.1h0M104.0 187.0h0M109.0 186.5h0M114.0 186.6h0M119.0 186.6h0M124.0 187.4h0M129.0 185.9h0M134.0 186.9h0M139.0 185.9h0M144.0 186.4h0M149.0 186.7h0M154.0 185.8h0M159.0 185.2h0M164.0 186.2h0M169.0 186.8h0M174.0 186.5h0M179.0 186.1h0M184.0 186.6h0M189.0 185.5h0M194.0 185.4h0M199.0 185.8h0M204.0 187.0h0M209.0 185.5h0M214.0 185.3h0M219.0 185.2h0M224.0 185.1h0M229.0 185.7h0M234.0 186.4h0M239.0 187.1h0M244.0 185.8h0M249.0 185.9h0M254.0 185.7h0M259.0 185.8h0M264.0 186.9h0M269.0 186.4h0M274.0 185.6h0M279.0 185.3h0M284.0 187.0h0M289.0 186.8h0M294.0 187.1h0M299.0 185.6h0M304.0 186.4h0M309.0 187.3h0M314.0 186.5h0M319.0 187.4h0M324.0 185.4h0M329.0 187.4h0M334.0 185.1h0M339.0 186.0h0M344.0 185.1h0M349.0 187.0h0M354.0 186.7h0M359.0 187.4h0M364.0 187.0h0M369.0 187.4h0M374.0 186.3h0M379.0 187.5h0M384.0 186.9h0M389.0 185.9h0M394.0 187.4h0M399.0 185.9h0M404.0 185.5h0M409.0 185.2h0M414.0 186.2h0M419.0 185.5h0M424.0 187.3h0M429.0 187.4h0M434.0 185.5h0M439.0 185.3h0M444.0 186.3h0M449.0 185.4h0M454.0 186.4h0M459.0 187.0h0M464.0 185.6h0M469.0 186.1h0M474.0 187.3h0M479.0 186.1h0M484.0 185.9h0M489.0 187.2h0M494.0 187.0h0M499.0 187.2h0M504.0 186.7h0M509.0 186.0h0M514.0 186.7h0M519.0 187.1h0M524.0 186.6h0M529.0 185.6h0M534.0 185.7h0M539.0 186.0h0M544.0 186.9h0M549.0 186.4h0M554.0 186.4h0M559.0 187.1h0M564.0 185.3h0M569.0 186.6h0M574.0 185.8h0M579.0 186.4h0M584.0 187.1h0M589.0 185.6h0M594.0 187.4h0M599.0 185.2h0M604.0 186.4h0M609.0 186.4h0M614.0 185.6h0M619.0 186.4h0M624.0 186.2h0M629.0 186.1h0M634.0 186.8h0M639.0 185.0h0M644.0 185.9h0M649.0 187.0h0M654.0 185.4h0M659.0 187.2h0M664.0 185.5h0M669.0 186.7h0M674.0 185.4h0M679.0 186.1h0M684.0 186.1h0M689.0 185.2h0M694.0 186.7h0M699.0 186.2h0M704.0 186.7h0M709.0 186.3h0M714.0 186.4h0M719.0 186.3h0M724.0 185.7h0M729.0 187.2h0M734.0 185.2h0M739.0 187.2h0M744.0 187.2h0M749.0 186.2h0M754.0 186.9h0"/>
+                <path class="pt pt-marine-soft" d="M4.0 52.4h0M9.0 52.9h0M14.0 53.3h0M19.0 53.6h0M24.0 53.9h0M29.0 54.0h0M34.0 54.0h0M39.0 53.9h0M44.0 53.6h0M49.0 53.3h0M54.0 52.9h0M59.0 52.4h0M64.0 51.9h0M69.0 51.4h0M74.0 50.9h0M79.0 50.6h0M84.0 50.3h0M89.0 50.1h0M94.0 50.0h0M99.0 50.1h0M104.0 50.2h0M109.0 50.5h0M114.0 50.9h0M119.0 51.3h0M124.0 51.8h0M129.0 52.3h0M134.0 52.8h0M139.0 53.2h0M144.0 53.6h0M149.0 53.8h0M154.0 54.0h0M159.0 54.0h0M164.0 53.9h0M169.0 53.7h0M174.0 53.3h0M179.0 52.9h0M184.0 52.4h0M189.0 51.9h0M194.0 51.5h0M199.0 51.0h0M204.0 50.6h0M209.0 50.3h0M214.0 50.1h0M219.0 50.0h0M224.0 50.0h0M229.0 50.2h0M234.0 50.5h0M239.0 50.8h0M244.0 51.3h0M249.0 51.8h0M254.0 52.3h0M259.0 52.7h0M264.0 53.2h0M269.0 53.5h0M274.0 53.8h0M279.0 54.0h0M284.0 54.0h0M289.0 53.9h0M434.0 52.6h0M439.0 52.1h0M444.0 51.6h0M449.0 51.1h0M454.0 50.7h0M459.0 50.4h0M464.0 50.1h0M469.0 50.0h0M474.0 50.0h0M479.0 50.1h0M484.0 50.4h0M489.0 50.7h0M494.0 51.2h0M499.0 51.6h0M504.0 52.1h0M509.0 52.6h0M514.0 53.1h0M519.0 53.5h0M524.0 53.8h0M529.0 53.9h0M534.0 54.0h0M539.0 53.9h0M544.0 53.8h0M549.0 53.5h0M554.0 53.1h0M559.0 52.6h0M564.0 52.1h0M569.0 51.7h0M574.0 51.2h0M579.0 50.7h0M584.0 50.4h0M589.0 50.2h0M594.0 50.0h0M599.0 50.0h0M604.0 50.1h0M609.0 50.4h0M614.0 50.7h0M619.0 51.1h0M624.0 51.6h0M629.0 52.1h0M634.0 52.6h0M639.0 53.0h0M644.0 53.4h0M649.0 53.7h0M654.0 53.9h0M659.0 54.0h0M664.0 54.0h0M669.0 53.8h0M674.0 53.5h0M679.0 53.1h0M684.0 52.7h0M689.0 52.2h0M694.0 51.7h0M699.0 51.2h0M704.0 50.8h0M709.0 50.4h0M714.0 50.2h0M719.0 50.0h0M724.0 50.0h0M729.0 50.1h0M734.0 50.3h0M739.0 50.6h0M744.0 51.0h0M749.0 51.5h0M754.0 52.0h0M10.2 186.0h0M9.6 182.6h0M9.6 179.2h0M9.7 175.8h0M17.9 186.0h0M16.7 182.6h0M16.8 179.2h0M24.6 186.0h0M24.0 182.6h0M24.1 179.2h0M30.6 186.0h0M30.2 182.6h0M30.4 179.2h0M38.7 186.0h0M38.0 182.6h0M37.2 179.2h0M44.2 186.0h0M45.1 182.6h0M44.9 179.2h0M45.7 175.8h0M52.7 186.0h0M51.5 182.6h0M53.0 179.2h0M58.1 186.0h0M59.6 182.6h0M58.6 179.2h0M58.7 175.8h0M66.7 186.0h0M65.2 182.6h0M66.5 179.2h0M73.4 186.0h0M72.6 182.6h0M72.2 179.2h0M80.3 186.0h0M79.3 182.6h0M81.0 179.2h0M80.8 175.8h0M79.4 172.4h0M87.2 186.0h0M86.3 182.6h0M93.9 186.0h0M94.4 182.6h0M94.1 179.2h0M94.5 175.8h0M101.2 186.0h0M101.2 182.6h0M100.7 179.2h0M100.3 175.8h0M100.2 172.4h0M107.4 186.0h0M107.9 182.6h0M107.6 179.2h0M108.2 175.8h0M108.1 172.4h0M114.9 186.0h0M114.7 182.6h0M115.3 179.2h0M115.5 175.8h0M115.9 172.4h0M122.8 186.0h0M123.0 182.6h0M123.0 179.2h0M128.8 186.0h0M129.5 182.6h0M129.7 179.2h0M135.8 186.0h0M136.4 182.6h0M143.1 186.0h0M142.4 182.6h0M142.8 179.2h0M142.1 175.8h0M149.9 186.0h0M150.6 182.6h0M150.2 179.2h0M156.5 186.0h0M156.6 182.6h0M157.3 179.2h0M163.3 186.0h0M164.6 182.6h0M164.2 179.2h0M164.9 175.8h0M171.2 186.0h0M170.9 182.6h0M171.2 179.2h0M171.8 175.8h0M178.3 186.0h0M177.9 182.6h0M177.1 179.2h0M178.7 175.8h0M177.8 172.4h0M184.1 186.0h0M184.1 182.6h0M184.8 179.2h0M192.5 186.0h0M192.4 182.6h0M192.3 179.2h0M191.5 175.8h0M191.3 172.4h0M198.1 186.0h0M199.2 182.6h0M199.0 179.2h0M199.1 175.8h0M205.1 186.0h0M205.9 182.6h0M205.3 179.2h0M212.6 186.0h0M213.2 182.6h0M213.5 179.2h0M213.2 175.8h0M219.4 186.0h0M219.7 182.6h0M221.0 179.2h0M219.5 175.8h0M227.0 186.0h0M227.1 182.6h0M227.6 179.2h0M234.9 186.0h0M233.0 182.6h0M234.6 179.2h0M241.8 186.0h0M240.3 182.6h0M241.4 179.2h0M241.9 175.8h0M247.2 186.0h0M248.8 182.6h0M248.9 179.2h0M247.2 175.8h0M254.2 186.0h0M254.2 182.6h0M255.6 179.2h0M255.4 175.8h0M255.9 172.4h0M262.0 186.0h0M261.5 182.6h0M262.1 179.2h0M263.0 175.8h0M269.8 186.0h0M268.4 182.6h0M269.5 179.2h0M269.5 175.8h0M470.0 186.0h0M471.6 182.2h0M472.9 178.4h0M473.7 174.6h0M474.0 170.8h0M473.6 167.0h0M472.7 163.2h0M471.3 159.4h0M469.8 155.6h0M468.2 151.8h0M467.0 148.0h0M466.2 144.2h0M466.0 140.4h0M466.5 136.6h0M467.5 132.8h0M468.9 129.0h0M470.5 125.2h0M472.0 121.4h0M473.2 117.6h0M473.9 113.8h0M474.0 110.0h0M473.4 106.2h0M472.3 102.4h0M470.9 98.6h0M469.3 94.8h0M467.0 172.0h0M473.0 172.0h0M462.0 164.8h0M478.0 164.8h0M464.5 157.6h0M475.5 157.6h0M467.0 150.4h0M473.0 150.4h0M462.0 143.2h0M478.0 143.2h0M464.5 136.0h0M475.5 136.0h0M467.0 128.8h0M473.0 128.8h0M462.0 121.6h0M478.0 121.6h0M464.5 114.4h0M475.5 114.4h0M467.0 107.2h0M473.0 107.2h0M462.0 100.0h0M478.0 100.0h0M520.0 186.0h0M521.6 182.2h0M522.9 178.4h0M523.7 174.6h0M524.0 170.8h0M523.6 167.0h0M522.7 163.2h0M521.3 159.4h0M519.8 155.6h0M518.2 151.8h0M517.0 148.0h0M516.2 144.2h0M516.0 140.4h0M516.5 136.6h0M517.5 132.8h0M518.9 129.0h0M520.5 125.2h0M522.0 121.4h0M523.2 117.6h0M523.9 113.8h0M524.0 110.0h0M523.4 106.2h0M522.3 102.4h0M517.0 172.0h0M523.0 172.0h0M512.0 164.8h0M528.0 164.8h0M514.5 157.6h0M525.5 157.6h0M517.0 150.4h0M523.0 150.4h0M512.0 143.2h0M528.0 143.2h0M514.5 136.0h0M525.5 136.0h0M517.0 128.8h0M523.0 128.8h0M512.0 121.6h0M528.0 121.6h0M514.5 114.4h0M525.5 114.4h0M517.0 107.2h0M523.0 107.2h0M560.0 186.0h0M561.6 182.2h0M562.9 178.4h0M563.7 174.6h0M564.0 170.8h0M563.6 167.0h0M562.7 163.2h0M561.3 159.4h0M559.8 155.6h0M558.2 151.8h0M557.0 148.0h0M556.2 144.2h0M556.0 140.4h0M556.5 136.6h0M557.5 132.8h0M558.9 129.0h0M560.5 125.2h0M562.0 121.4h0M563.2 117.6h0M563.9 113.8h0M564.0 110.0h0M563.4 106.2h0M562.3 102.4h0M560.9 98.6h0M557.0 172.0h0M563.0 172.0h0M552.0 164.8h0M568.0 164.8h0M554.5 157.6h0M565.5 157.6h0M557.0 150.4h0M563.0 150.4h0M552.0 143.2h0M568.0 143.2h0M554.5 136.0h0M565.5 136.0h0M557.0 128.8h0M563.0 128.8h0M552.0 121.6h0M568.0 121.6h0M554.5 114.4h0M565.5 114.4h0M557.0 107.2h0M563.0 107.2h0M552.0 100.0h0M568.0 100.0h0M600.0 186.0h0M601.6 182.2h0M602.9 178.4h0M603.7 174.6h0M604.0 170.8h0M603.6 167.0h0M602.7 163.2h0M601.3 159.4h0M599.8 155.6h0M598.2 151.8h0M597.0 148.0h0M596.2 144.2h0M596.0 140.4h0M596.5 136.6h0M597.5 132.8h0M598.9 129.0h0M600.5 125.2h0M602.0 121.4h0M603.2 117.6h0M603.9 113.8h0M604.0 110.0h0M603.4 106.2h0M602.3 102.4h0M600.9 98.6h0M599.3 94.8h0M597.8 91.0h0M596.7 87.2h0M597.0 172.0h0M603.0 172.0h0M592.0 164.8h0M608.0 164.8h0M594.5 157.6h0M605.5 157.6h0M597.0 150.4h0M603.0 150.4h0M592.0 143.2h0M608.0 143.2h0M594.5 136.0h0M605.5 136.0h0M597.0 128.8h0M603.0 128.8h0M592.0 121.6h0M608.0 121.6h0M594.5 114.4h0M605.5 114.4h0M597.0 107.2h0M603.0 107.2h0M592.0 100.0h0M608.0 100.0h0M594.5 92.8h0M605.5 92.8h0M640.0 186.0h0M641.6 182.2h0M642.9 178.4h0M643.7 174.6h0M644.0 170.8h0M643.6 167.0h0M642.7 163.2h0M641.3 159.4h0M639.8 155.6h0M638.2 151.8h0M637.0 148.0h0M636.2 144.2h0M636.0 140.4h0M636.5 136.6h0M637.5 132.8h0M638.9 129.0h0M640.5 125.2h0M642.0 121.4h0M643.2 117.6h0M643.9 113.8h0M644.0 110.0h0M643.4 106.2h0M642.3 102.4h0M640.9 98.6h0M637.0 172.0h0M643.0 172.0h0M632.0 164.8h0M648.0 164.8h0M634.5 157.6h0M645.5 157.6h0M637.0 150.4h0M643.0 150.4h0M632.0 143.2h0M648.0 143.2h0M634.5 136.0h0M645.5 136.0h0M637.0 128.8h0M643.0 128.8h0M632.0 121.6h0M648.0 121.6h0M634.5 114.4h0M645.5 114.4h0M637.0 107.2h0M643.0 107.2h0M632.0 100.0h0M648.0 100.0h0M690.0 186.0h0M691.6 182.2h0M692.9 178.4h0M693.7 174.6h0M694.0 170.8h0M693.6 167.0h0M692.7 163.2h0M691.3 159.4h0M689.8 155.6h0M688.2 151.8h0M687.0 148.0h0M686.2 144.2h0M686.0 140.4h0M686.5 136.6h0M687.5 132.8h0M688.9 129.0h0M690.5 125.2h0M692.0 121.4h0M693.2 117.6h0M693.9 113.8h0M694.0 110.0h0M693.4 106.2h0M692.3 102.4h0M690.9 98.6h0M687.0 172.0h0M693.0 172.0h0M682.0 164.8h0M698.0 164.8h0M684.5 157.6h0M695.5 157.6h0M687.0 150.4h0M693.0 150.4h0M682.0 143.2h0M698.0 143.2h0M684.5 136.0h0M695.5 136.0h0M687.0 128.8h0M693.0 128.8h0M682.0 121.6h0M698.0 121.6h0M684.5 114.4h0M695.5 114.4h0M687.0 107.2h0M693.0 107.2h0M682.0 100.0h0M698.0 100.0h0M730.0 186.0h0M731.6 182.2h0M732.9 178.4h0M733.7 174.6h0M734.0 170.8h0M733.6 167.0h0M732.7 163.2h0M731.3 159.4h0M729.8 155.6h0M728.2 151.8h0M727.0 148.0h0M726.2 144.2h0M726.0 140.4h0M726.5 136.6h0M727.5 132.8h0M728.9 129.0h0M730.5 125.2h0M732.0 121.4h0M733.2 117.6h0M733.9 113.8h0M734.0 110.0h0M733.4 106.2h0M732.3 102.4h0M730.9 98.6h0M727.0 172.0h0M733.0 172.0h0M722.0 164.8h0M738.0 164.8h0M724.5 157.6h0M735.5 157.6h0M727.0 150.4h0M733.0 150.4h0M722.0 143.2h0M738.0 143.2h0M724.5 136.0h0M735.5 136.0h0M727.0 128.8h0M733.0 128.8h0M722.0 121.6h0M738.0 121.6h0M724.5 114.4h0M735.5 114.4h0M727.0 107.2h0M733.0 107.2h0M722.0 100.0h0M738.0 100.0h0"/>
+                <path class="pt pt-marine" d="M276.6 186.0h0M275.4 182.6h0M282.1 186.0h0M283.3 182.6h0M282.3 179.2h0M289.0 186.0h0M290.6 182.6h0M290.5 179.2h0M290.1 175.8h0M290.1 172.4h0M297.3 186.0h0M296.3 182.6h0M297.6 179.2h0M296.7 175.8h0M297.2 172.4h0M304.8 186.0h0M303.8 182.6h0M304.7 179.2h0M303.2 175.8h0M311.3 186.0h0M311.2 182.6h0M311.7 179.2h0M318.6 186.0h0M318.6 182.6h0M317.3 179.2h0M372.0 186.0h0M373.6 182.2h0M374.9 178.4h0M375.7 174.6h0M376.0 170.8h0M375.6 167.0h0M374.7 163.2h0M373.3 159.4h0M371.8 155.6h0M370.2 151.8h0M369.0 148.0h0M368.2 144.2h0M368.0 140.4h0M368.5 136.6h0M369.5 132.8h0M370.9 129.0h0M372.5 125.2h0M374.0 121.4h0M375.2 117.6h0M369.0 172.0h0M375.0 172.0h0M364.0 164.8h0M380.0 164.8h0M366.5 157.6h0M377.5 157.6h0M369.0 150.4h0M375.0 150.4h0M364.0 143.2h0M380.0 143.2h0M366.5 136.0h0M377.5 136.0h0M369.0 128.8h0M375.0 128.8h0M364.0 121.6h0M380.0 121.6h0M366.5 114.4h0M377.5 114.4h0M400.0 186.0h0M401.6 182.2h0M402.9 178.4h0M403.7 174.6h0M404.0 170.8h0M403.6 167.0h0M402.7 163.2h0M401.3 159.4h0M399.8 155.6h0M398.2 151.8h0M397.0 148.0h0M396.2 144.2h0M396.0 140.4h0M396.5 136.6h0M397.5 132.8h0M398.9 129.0h0M400.5 125.2h0M402.0 121.4h0M403.2 117.6h0M403.9 113.8h0M404.0 110.0h0M403.4 106.2h0M402.3 102.4h0M400.9 98.6h0M397.0 172.0h0M403.0 172.0h0M392.0 164.8h0M408.0 164.8h0M394.5 157.6h0M405.5 157.6h0M397.0 150.4h0M403.0 150.4h0M392.0 143.2h0M408.0 143.2h0M394.5 136.0h0M405.5 136.0h0M397.0 128.8h0M403.0 128.8h0M392.0 121.6h0M408.0 121.6h0M394.5 114.4h0M405.5 114.4h0M397.0 107.2h0M403.0 107.2h0M392.0 100.0h0M408.0 100.0h0M424.0 186.0h0M425.6 182.2h0M426.9 178.4h0M427.7 174.6h0M428.0 170.8h0M427.6 167.0h0M426.7 163.2h0M425.3 159.4h0M423.8 155.6h0M422.2 151.8h0M421.0 148.0h0M420.2 144.2h0M420.0 140.4h0M420.5 136.6h0M421.5 132.8h0M422.9 129.0h0M424.5 125.2h0M426.0 121.4h0M427.2 117.6h0M427.9 113.8h0M428.0 110.0h0M427.4 106.2h0M426.3 102.4h0M424.9 98.6h0M423.3 94.8h0M421.8 91.0h0M420.7 87.2h0M420.1 83.4h0M420.1 79.6h0M421.0 172.0h0M427.0 172.0h0M416.0 164.8h0M432.0 164.8h0M418.5 157.6h0M429.5 157.6h0M421.0 150.4h0M427.0 150.4h0M416.0 143.2h0M432.0 143.2h0M418.5 136.0h0M429.5 136.0h0M421.0 128.8h0M427.0 128.8h0M416.0 121.6h0M432.0 121.6h0M418.5 114.4h0M429.5 114.4h0M421.0 107.2h0M427.0 107.2h0M416.0 100.0h0M432.0 100.0h0M418.5 92.8h0M429.5 92.8h0M421.0 85.6h0M427.0 85.6h0M294.0 53.7h0M299.0 53.4h0M304.0 53.0h0M309.0 52.5h0M314.0 52.0h0M319.0 51.5h0M324.0 51.1h0M329.0 50.6h0M334.0 50.3h0M339.0 50.1h0M344.0 50.0h0M349.0 50.0h0M354.0 50.2h0M359.0 50.4h0M364.0 50.8h0M369.0 51.2h0M374.0 51.7h0M379.0 52.2h0M384.0 52.7h0M389.0 53.1h0M394.0 53.5h0M399.0 53.8h0M404.0 54.0h0M409.0 54.0h0M414.0 53.9h0M419.0 53.7h0M424.0 53.4h0M429.0 53.0h0"/>
+              </g>
+              <g class="pc-drone" transform="translate(360 16)"><path d="M-30 -5H30M-30 -5V-8M30 -5V-8M-7 5l-4 8M7 5l4 8"/><ellipse cx="-30" cy="-9" rx="13" ry="2.2"/><ellipse cx="30" cy="-9" rx="13" ry="2.2"/><rect x="-12" y="-5" width="24" height="10" rx="3"/></g>
+            </svg>
+            <ul class="pc-legend"><li class="k-marine">Surface return</li><li class="k-marine">Seagrass meadow</li><li class="k-marine">Kelp forest</li><li class="k-ground">Seabed</li></ul>
+            <figcaption>Illustration · green-laser LiDAR through the water column to seagrass, kelp and seabed</figcaption>
+          </figure>
+          </details>
+        </article>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="drivetrain" class="section on-dark">
+  <section id="drivetrain" class="section band curtain">
+    <div class="bg-deco motif-circuit" aria-hidden="true"><span class="glow g1"></span><span class="glow g2"></span><span class="motif"></span></div>
     <div class="wrap">
       <div class="drivetrain-head">
         <header class="section-head reveal">
           <p class="eyebrow">Current project: the hexacopter testbed</p>
-          <h2>Developing a hybrid powertrain architecture to bridge the gap between theoretical and physical reality.</h2>
-          <p>To balance sustained energy capacity with dynamic power delivery, the powertrain is designed as a parallel hybrid system. The architecture is driven by the following integrated components:</p>
+          <h2>Developing a hybrid powertrain architecture, bridging the gap between theoretical and physical reality.</h2>
+          <p>Our testbed is a DJI S800 EVO hexacopter. To balance sustained energy capacity with dynamic power delivery, its powertrain is being designed as a parallel hybrid system, built from the following integrated components.</p>
         </header>
         <figure class="emblem reveal">
-          <img src="assets/argo-drone-emblem.webp" width="608" height="720" alt="The Argo drone emblem: a bird seen from above with wings spread, in white and teal" loading="lazy">
+          <img src="assets/argo-drone-emblem.webp" width="608" height="720" alt="The Argo drone emblem, a bird seen from above with its wings spread, in white and teal." loading="lazy">
           <figcaption>Drone emblem</figcaption>
         </figure>
       </div>
@@ -386,7 +628,7 @@ try {
       <div class="card diagram reveal">
         <p class="card-title">Planned architecture</p>
         <svg class="dg-h" viewBox="0 0 960 340" role="img" aria-labelledby="dg-title">
-          <title id="dg-title">Planned active parallel hybrid drivetrain: hydrogen flows from the tank to the fuel cell, a DC/DC converter feeds a DC bus, a buffer battery charges and discharges on the same bus, and the bus powers the motors.</title>
+          <title id="dg-title">Planned parallel hybrid drivetrain. Hydrogen flows from the tank to the PEM fuel cell, and a DC/DC converter feeds the DC bus. A buffer battery charges and discharges on the same bus, which powers the motors and ESCs.</title>
           <path d="M190 90 H250" class="flow h2"/>
           <path d="M420 90 H480" class="flow dc"/>
           <path d="M660 90 H700" class="flow dc"/>
@@ -428,7 +670,7 @@ try {
         </svg>
 
         <svg class="dg-v" viewBox="0 0 360 700" role="img" aria-labelledby="dgv-title">
-          <title id="dgv-title">Planned active parallel hybrid drivetrain, top to bottom: hydrogen tank, fuel cell, DC/DC converter, DC bus with a buffer battery attached, and the motors.</title>
+          <title id="dgv-title">Planned parallel hybrid drivetrain, top to bottom: hydrogen tank, PEM fuel cell, DC/DC converter, then the DC bus with the buffer battery attached, then the motors and ESCs.</title>
           <path d="M180 92 V132" class="flow h2"/>
           <path d="M180 204 V252" class="flow dc"/>
           <path d="M180 324 V362" class="flow dc"/>
@@ -467,145 +709,35 @@ try {
           <path d="M40 688 H80" class="dg-ctrl"/>
           <text x="92" y="693" class="dg-sub">Control signals</text>
         </svg>
-      </div>
-
-      <div class="points reveal">
-        <div class="point">
-          <p class="point-num">01</p>
-          <h3>Hydrogen storage</h3>
-          <p>Hydrogen is compressed and stored within a Type IV Carbon tank, providing the primary, lightweight energy reserve for the system.</p>
-        </div>
-        <div class="point">
-          <p class="point-num">02</p>
-          <h3>PEM fuel cell</h3>
-          <p>The stored hydrogen is supplied to a Proton Exchange Membrane (PEM) fuel cell, generating a steady, continuous supply of DC power intended for sustained flight.</p>
-        </div>
-        <div class="point">
-          <p class="point-num">03</p>
-          <h3>Power management</h3>
-          <p>A DC/DC converter functions as the central controller, safely limiting and regulating the current distributed across the internal DC bus.</p>
-        </div>
-        <div class="point">
-          <p class="point-num">04</p>
-          <h3>Buffer battery</h3>
-          <p>A smaller battery is integrated in parallel to absorb sudden power spikes. While the fuel cell delivers steady baseline energy, the buffer battery instantly handles the volatile power demands required by the motors and electronic speed controllers (ESCs) during dynamic maneuvers.</p>
+        <div class="dg-key">
+          <div class="dg-key-item"><h3>Hydrogen storage</h3><p>Hydrogen will be compressed and stored in a Type IV carbon tank at 300&nbsp;bar, providing the primary, lightweight energy reserve for the system.</p></div>
+          <div class="dg-key-item"><h3>PEM fuel cell</h3><p>The stored hydrogen will be supplied to a proton exchange membrane (PEM) fuel cell, which will generate a steady, continuous supply of DC power for sustained flight.</p></div>
+          <div class="dg-key-item"><h3>Power management</h3><p>A DC/DC converter will act as the central controller, safely limiting and regulating the current distributed across the internal DC bus.</p></div>
+          <div class="dg-key-item"><h3>Buffer battery</h3><p>A smaller battery, integrated in parallel, will absorb sudden power spikes. While the fuel cell delivers steady baseline energy, the buffer battery will handle the volatile power demands of the motors and electronic speed controllers (ESCs) during dynamic manoeuvres.</p></div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="parallel" class="section">
-    <div class="wrap sim-grid">
-      <div class="section-head sim-text reveal">
-        <p class="eyebrow">Why parallel</p>
-        <h2>Parallel, not series.</h2>
-        <p>In a series setup the battery feeds the motors on its own, so take-off and every gust push it past its safe limit.</p>
-        <p>In our parallel setup the fuel cell supplies a steady 650&nbsp;W alongside it. The battery only covers the peaks, stays under its limit for the whole two hours and recharges during cruise.</p>
-      </div>
-
-      <figure class="sim-figure reveal">
-        <ul class="sim-legend">
-          <li><span class="key key-batt"></span>Series: battery only</li>
-          <li><span class="key key-h2"></span>Parallel: battery with fuel cell</li>
-          <li><span class="key key-limit"></span>Safe battery limit (1,250 W)</li>
-          <li><span class="key key-zone"></span>Load the fuel cell takes over</li>
-          <li><span class="key key-risk"></span>Overload risk</li>
-        </ul>
-        <div class="sim-plot">
-          <svg id="load-chart" class="sim-chart" viewBox="0 0 640 430" role="img" aria-labelledby="load-title load-desc" tabindex="0">
-            <title id="load-title">Battery load over a two-hour flight: series against parallel hybrid</title>
-            <desc id="load-desc">The motors need about 600 W in cruise, 1,800 W at take-off and 1,400 to 1,600 W in gusts. In a series setup the battery supplies all of it and passes its 1,250 W safe limit at take-off and in every gust. In the parallel setup the fuel cell supplies a steady 650 W, so the battery peaks at about 1,150 W and recharges during cruise. Use the left and right arrow keys to read values.</desc>
-            <defs>
-              <path id="ld-line" d="M64 67.3L64.9 65L65.8 67.2L66.8 67.5L67.7 69.4L68.6 67.2L69.5 246.4L70.4 248.5L71.4 246.7L72.3 249.1L73.2 248.6L74.1 249.3L75 254.9L76 247.2L76.9 248.3L77.8 248.3L78.7 255L79.6 255.1L80.6 252.5L81.5 251.2L82.4 248.9L83.3 250L84.2 248.2L85.2 251.8L86.1 248.9L87 248.6L87.9 251.8L88.8 244.6L89.8 248.1L90.7 246.2L91.6 251.7L92.5 252.1L93.4 250.9L94.4 250.1L95.3 247.9L96.2 249.1L97.1 251.2L98 252.7L99 251.4L99.9 246.1L100.8 252.3L101.7 249.1L102.6 248.5L103.6 254.4L104.5 249.7L105.4 245.8L106.3 256L107.2 250.8L108.2 250.1L109.1 252.3L110 126.1L110.9 127.8L111.8 132.1L112.8 247.3L113.7 247.8L114.6 246.9L115.5 245.4L116.4 248.7L117.4 249.5L118.3 253.8L119.2 247.9L120.1 251.7L121 251.2L122 253.7L122.9 252.8L123.8 251.4L124.7 245.9L125.6 256L126.6 254.3L127.5 249.1L128.4 245.4L129.3 248.1L130.2 255.6L131.2 257.5L132.1 248.7L133 252.1L133.9 253.2L134.8 246.8L135.8 246.5L136.7 249.3L137.6 249.1L138.5 248.5L139.4 244.9L140.4 247.9L141.3 248.2L142.2 248.1L143.1 254.6L144 245.9L145 246.9L145.9 248.2L146.8 255.8L147.7 251.8L148.6 247.2L149.6 255.4L150.5 250.4L151.4 246.7L152.3 253.8L153.2 244.9L154.2 248.1L155.1 250.3L156 248.8L156.9 247.8L157.8 249.5L158.8 246.3L159.7 251.8L160.6 251.1L161.5 246.6L162.4 249.7L163.4 252.5L164.3 246.9L165.2 245.3L166.1 251.2L167 254L168 250.2L168.9 250.3L169.8 250.7L170.7 245.5L171.6 253L172.6 246L173.5 253.7L174.4 252.2L175.3 247.9L176.2 246.4L177.2 247.2L178.1 248.8L179 249.4L179.9 249.4L180.8 248.1L181.8 250.4L182.7 249L183.6 248.1L184.5 249.8L185.4 247.5L186.4 248.1L187.3 243.7L188.2 248.8L189.1 251.1L190 251L191 249.9L191.9 247L192.8 250.8L193.7 248.6L194.6 244.2L195.6 257.7L196.5 253.3L197.4 249.1L198.3 248.6L199.2 249.1L200.2 251.1L201.1 247.8L202 249L202.9 251.4L203.8 242.4L204.8 248.7L205.7 251.5L206.6 250.1L207.5 250.5L208.4 250L209.4 258.2L210.3 251.3L211.2 246.7L212.1 253.4L213 250L214 246.9L214.9 247.2L215.8 245.3L216.7 255L217.6 250.9L218.6 250.9L219.5 247.9L220.4 246.5L221.3 258L222.2 246.5L223.2 254.2L224.1 247.7L225 254.4L225.9 249.3L226.8 246.2L227.8 250.3L228.7 249.2L229.6 247.4L230.5 249.4L231.4 250.1L232.4 245.1L233.3 246.6L234.2 250.7L235.1 241.4L236 253.3L237 247L237.9 250.6L238.8 249.4L239.7 247.7L240.6 249.1L241.6 247.9L242.5 254.5L243.4 254.4L244.3 247.9L245.2 252.8L246.2 253L247.1 254.3L248 245.9L248.9 247.5L249.8 245.3L250.8 252.7L251.7 249.8L252.6 253.3L253.5 247.5L254.4 245L255.4 252.5L256.3 245.1L257.2 246.8L258.1 250.4L259 255.8L260 245.5L260.9 250.1L261.8 251.7L262.7 248.6L263.6 248.6L264.6 245.2L265.5 252.9L266.4 246.3L267.3 245.3L268.2 245.4L269.2 250.4L270.1 252.1L271 246.7L271.9 249.5L272.8 249.4L273.8 245.5L274.7 250.6L275.6 256.8L276.5 251L277.4 255.5L278.4 247.3L279.3 248.8L280.2 99L281.1 97.1L282 247.3L283 249.6L283.9 245.8L284.8 250L285.7 246.6L286.6 245.3L287.6 244.9L288.5 251.9L289.4 247.1L290.3 255.5L291.2 253.1L292.2 255.8L293.1 246.6L294 253.6L294.9 249.9L295.8 250.4L296.8 249.9L297.7 251.6L298.6 249.1L299.5 244.3L300.4 249.7L301.4 248.2L302.3 246.8L303.2 250.4L304.1 253.7L305 251.5L306 246.5L306.9 254.8L307.8 251.6L308.7 246.7L309.6 247.4L310.6 249.8L311.5 247.4L312.4 249.3L313.3 253.4L314.2 254.6L315.2 251.8L316.1 247L317 251.5L317.9 252.6L318.8 252.2L319.8 254.5L320.7 250.2L321.6 253.4L322.5 248.7L323.4 257L324.4 248.8L325.3 251.8L326.2 255.8L327.1 247.6L328 250.7L329 256.6L329.9 252.5L330.8 126.7L331.7 129L332.6 125.3L333.6 125.4L334.5 247.8L335.4 248.8L336.3 245.7L337.2 247.8L338.2 248.4L339.1 256.2L340 247.1L340.9 245.8L341.8 250.7L342.8 251.3L343.7 243.9L344.6 255.2L345.5 248.4L346.4 242.4L347.4 252.7L348.3 247.7L349.2 244.1L350.1 250.2L351 248.1L352 247.1L352.9 252.6L353.8 250.1L354.7 248.9L355.6 247.3L356.6 249.9L357.5 250.4L358.4 252.9L359.3 250.9L360.2 247.1L361.2 249.5L362.1 252.4L363 252.4L363.9 241.7L364.8 246.3L365.8 247.9L366.7 257.7L367.6 247.9L368.5 248.3L369.4 244.7L370.4 248.5L371.3 250L372.2 248.2L373.1 255.8L374 246.7L375 248.8L375.9 252L376.8 245.8L377.7 244.3L378.6 254.1L379.6 251.9L380.5 248.9L381.4 249.3L382.3 251L383.2 252.8L384.2 243.3L385.1 246.6L386 253.5L386.9 253.9L387.8 244.6L388.8 246.8L389.7 244.3L390.6 94.6L391.5 99.8L392.4 96.3L393.4 256.4L394.3 252.1L395.2 250L396.1 248.2L397 252L398 250.2L398.9 248.4L399.8 248.7L400.7 247.9L401.6 249.2L402.6 250.8L403.5 247.4L404.4 249.7L405.3 252.3L406.2 251.7L407.2 249.8L408.1 250.2L409 249.3L409.9 249.8L410.8 249.3L411.8 250.2L412.7 253.7L413.6 248.5L414.5 246.6L415.4 248.5L416.4 250.4L417.3 248.5L418.2 252.8L419.1 255.6L420 249.6L421 252.7L421.9 247.6L422.8 253.1L423.7 257.8L424.6 253L425.6 245L426.5 251L427.4 254L428.3 252.1L429.2 248.2L430.2 248.3L431.1 249.3L432 245.3L432.9 247.7L433.8 249.9L434.8 248L435.7 244.8L436.6 246.9L437.5 246.7L438.4 253.1L439.4 250.3L440.3 247.6L441.2 250.7L442.1 246.6L443 248L444 247L444.9 250.5L445.8 242L446.7 246L447.6 250.5L448.6 249.5L449.5 241.9L450.4 128.7L451.3 125L452.2 124.6L453.2 249.8L454.1 253.4L455 249.2L455.9 248.7L456.8 246.4L457.8 247.4L458.7 249.7L459.6 247.2L460.5 248.2L461.4 249.2L462.4 249.6L463.3 250.6L464.2 247.7L465.1 253L466 251.7L467 249.8L467.9 254.3L468.8 251.1L469.7 256L470.6 251.9L471.6 248.1L472.5 248.1L473.4 250L474.3 250.5L475.2 254.1L476.2 244.2L477.1 248.2L478 246.5L478.9 252.5L479.8 250.4L480.8 255.4L481.7 247.4L482.6 247L483.5 255.6L484.4 250L485.4 247.9L486.3 255.2L487.2 255.4L488.1 253.1L489 251.7L490 254.1L490.9 249.7L491.8 249.1L492.7 247.9L493.6 247.7L494.6 245.2L495.5 246.3L496.4 253.8L497.3 251.4L498.2 253.1L499.2 253.1L500.1 250.1L501 249.8L501.9 248.3L502.8 254.7L503.8 253.6L504.7 249.9L505.6 97.7L506.5 98L507.4 97.3L508.4 252.1L509.3 247.7L510.2 248.7L511.1 250.1L512 251.9L513 250.4L513.9 258.1L514.8 252.8L515.7 249.7L516.6 254.4L517.6 249.2L518.5 249.4L519.4 254L520.3 250.6L521.2 250.8L522.2 248.4L523.1 247.9L524 249.9L524.9 252.4L525.8 250.3L526.8 250L527.7 247.6L528.6 248.9L529.5 252L530.4 254L531.4 251L532.3 252.1L533.2 253.2L534.1 250.2L535 251.3L536 249.5L536.9 248.2L537.8 251.1L538.7 242.7L539.6 250.8L540.6 246.5L541.5 249.4L542.4 246.4L543.3 257.1L544.2 252.1L545.2 249.1L546.1 248L547 242.7L547.9 248.8L548.8 245.9L549.8 247.5L550.7 246.9L551.6 248.3L552.5 250.3L553.4 248.3L554.4 253.1L555.3 246.2L556.2 252.9L557.1 249.1L558 243.3L559 250.5L559.9 249.8L560.8 124.1L561.7 127.6L562.6 130.1L563.6 249L564.5 248L565.4 247.6L566.3 252.2L567.2 244.5L568.2 244.7L569.1 249.8L570 249L570.9 251.1L571.8 245.5L572.8 252L573.7 247.8L574.6 251.3L575.5 251.9L576.4 247.6L577.4 245.7L578.3 249.8L579.2 251.9L580.1 247.3L581 250L582 248.9L582.9 245.2L583.8 246.4L584.7 251.4L585.6 242.8L586.6 249.8L587.5 247.4L588.4 251.8L589.3 250L590.2 255.2L591.2 244.4L592.1 245.6L593 253.5L593.9 254.4L594.8 254.8L595.8 246.2L596.7 251.2L597.6 250L598.5 250.8L599.4 250.2L600.4 253.1L601.3 249.7L602.2 254.2L603.1 250L604 248.9L605 248.4L605.9 250.5L606.8 252.6L607.7 249.3L608.6 251.3L609.6 245L610.5 247.5L611.4 158.5L612.3 159.6L613.2 160.3L614.2 161L615.1 159.3L616 157.3"/>
-              <path id="ld-area" d="M64 67.3L64.9 65L65.8 67.2L66.8 67.5L67.7 69.4L68.6 67.2L69.5 246.4L70.4 248.5L71.4 246.7L72.3 249.1L73.2 248.6L74.1 249.3L75 254.9L76 247.2L76.9 248.3L77.8 248.3L78.7 255L79.6 255.1L80.6 252.5L81.5 251.2L82.4 248.9L83.3 250L84.2 248.2L85.2 251.8L86.1 248.9L87 248.6L87.9 251.8L88.8 244.6L89.8 248.1L90.7 246.2L91.6 251.7L92.5 252.1L93.4 250.9L94.4 250.1L95.3 247.9L96.2 249.1L97.1 251.2L98 252.7L99 251.4L99.9 246.1L100.8 252.3L101.7 249.1L102.6 248.5L103.6 254.4L104.5 249.7L105.4 245.8L106.3 256L107.2 250.8L108.2 250.1L109.1 252.3L110 126.1L110.9 127.8L111.8 132.1L112.8 247.3L113.7 247.8L114.6 246.9L115.5 245.4L116.4 248.7L117.4 249.5L118.3 253.8L119.2 247.9L120.1 251.7L121 251.2L122 253.7L122.9 252.8L123.8 251.4L124.7 245.9L125.6 256L126.6 254.3L127.5 249.1L128.4 245.4L129.3 248.1L130.2 255.6L131.2 257.5L132.1 248.7L133 252.1L133.9 253.2L134.8 246.8L135.8 246.5L136.7 249.3L137.6 249.1L138.5 248.5L139.4 244.9L140.4 247.9L141.3 248.2L142.2 248.1L143.1 254.6L144 245.9L145 246.9L145.9 248.2L146.8 255.8L147.7 251.8L148.6 247.2L149.6 255.4L150.5 250.4L151.4 246.7L152.3 253.8L153.2 244.9L154.2 248.1L155.1 250.3L156 248.8L156.9 247.8L157.8 249.5L158.8 246.3L159.7 251.8L160.6 251.1L161.5 246.6L162.4 249.7L163.4 252.5L164.3 246.9L165.2 245.3L166.1 251.2L167 254L168 250.2L168.9 250.3L169.8 250.7L170.7 245.5L171.6 253L172.6 246L173.5 253.7L174.4 252.2L175.3 247.9L176.2 246.4L177.2 247.2L178.1 248.8L179 249.4L179.9 249.4L180.8 248.1L181.8 250.4L182.7 249L183.6 248.1L184.5 249.8L185.4 247.5L186.4 248.1L187.3 243.7L188.2 248.8L189.1 251.1L190 251L191 249.9L191.9 247L192.8 250.8L193.7 248.6L194.6 244.2L195.6 257.7L196.5 253.3L197.4 249.1L198.3 248.6L199.2 249.1L200.2 251.1L201.1 247.8L202 249L202.9 251.4L203.8 242.4L204.8 248.7L205.7 251.5L206.6 250.1L207.5 250.5L208.4 250L209.4 258.2L210.3 251.3L211.2 246.7L212.1 253.4L213 250L214 246.9L214.9 247.2L215.8 245.3L216.7 255L217.6 250.9L218.6 250.9L219.5 247.9L220.4 246.5L221.3 258L222.2 246.5L223.2 254.2L224.1 247.7L225 254.4L225.9 249.3L226.8 246.2L227.8 250.3L228.7 249.2L229.6 247.4L230.5 249.4L231.4 250.1L232.4 245.1L233.3 246.6L234.2 250.7L235.1 241.4L236 253.3L237 247L237.9 250.6L238.8 249.4L239.7 247.7L240.6 249.1L241.6 247.9L242.5 254.5L243.4 254.4L244.3 247.9L245.2 252.8L246.2 253L247.1 254.3L248 245.9L248.9 247.5L249.8 245.3L250.8 252.7L251.7 249.8L252.6 253.3L253.5 247.5L254.4 245L255.4 252.5L256.3 245.1L257.2 246.8L258.1 250.4L259 255.8L260 245.5L260.9 250.1L261.8 251.7L262.7 248.6L263.6 248.6L264.6 245.2L265.5 252.9L266.4 246.3L267.3 245.3L268.2 245.4L269.2 250.4L270.1 252.1L271 246.7L271.9 249.5L272.8 249.4L273.8 245.5L274.7 250.6L275.6 256.8L276.5 251L277.4 255.5L278.4 247.3L279.3 248.8L280.2 99L281.1 97.1L282 247.3L283 249.6L283.9 245.8L284.8 250L285.7 246.6L286.6 245.3L287.6 244.9L288.5 251.9L289.4 247.1L290.3 255.5L291.2 253.1L292.2 255.8L293.1 246.6L294 253.6L294.9 249.9L295.8 250.4L296.8 249.9L297.7 251.6L298.6 249.1L299.5 244.3L300.4 249.7L301.4 248.2L302.3 246.8L303.2 250.4L304.1 253.7L305 251.5L306 246.5L306.9 254.8L307.8 251.6L308.7 246.7L309.6 247.4L310.6 249.8L311.5 247.4L312.4 249.3L313.3 253.4L314.2 254.6L315.2 251.8L316.1 247L317 251.5L317.9 252.6L318.8 252.2L319.8 254.5L320.7 250.2L321.6 253.4L322.5 248.7L323.4 257L324.4 248.8L325.3 251.8L326.2 255.8L327.1 247.6L328 250.7L329 256.6L329.9 252.5L330.8 126.7L331.7 129L332.6 125.3L333.6 125.4L334.5 247.8L335.4 248.8L336.3 245.7L337.2 247.8L338.2 248.4L339.1 256.2L340 247.1L340.9 245.8L341.8 250.7L342.8 251.3L343.7 243.9L344.6 255.2L345.5 248.4L346.4 242.4L347.4 252.7L348.3 247.7L349.2 244.1L350.1 250.2L351 248.1L352 247.1L352.9 252.6L353.8 250.1L354.7 248.9L355.6 247.3L356.6 249.9L357.5 250.4L358.4 252.9L359.3 250.9L360.2 247.1L361.2 249.5L362.1 252.4L363 252.4L363.9 241.7L364.8 246.3L365.8 247.9L366.7 257.7L367.6 247.9L368.5 248.3L369.4 244.7L370.4 248.5L371.3 250L372.2 248.2L373.1 255.8L374 246.7L375 248.8L375.9 252L376.8 245.8L377.7 244.3L378.6 254.1L379.6 251.9L380.5 248.9L381.4 249.3L382.3 251L383.2 252.8L384.2 243.3L385.1 246.6L386 253.5L386.9 253.9L387.8 244.6L388.8 246.8L389.7 244.3L390.6 94.6L391.5 99.8L392.4 96.3L393.4 256.4L394.3 252.1L395.2 250L396.1 248.2L397 252L398 250.2L398.9 248.4L399.8 248.7L400.7 247.9L401.6 249.2L402.6 250.8L403.5 247.4L404.4 249.7L405.3 252.3L406.2 251.7L407.2 249.8L408.1 250.2L409 249.3L409.9 249.8L410.8 249.3L411.8 250.2L412.7 253.7L413.6 248.5L414.5 246.6L415.4 248.5L416.4 250.4L417.3 248.5L418.2 252.8L419.1 255.6L420 249.6L421 252.7L421.9 247.6L422.8 253.1L423.7 257.8L424.6 253L425.6 245L426.5 251L427.4 254L428.3 252.1L429.2 248.2L430.2 248.3L431.1 249.3L432 245.3L432.9 247.7L433.8 249.9L434.8 248L435.7 244.8L436.6 246.9L437.5 246.7L438.4 253.1L439.4 250.3L440.3 247.6L441.2 250.7L442.1 246.6L443 248L444 247L444.9 250.5L445.8 242L446.7 246L447.6 250.5L448.6 249.5L449.5 241.9L450.4 128.7L451.3 125L452.2 124.6L453.2 249.8L454.1 253.4L455 249.2L455.9 248.7L456.8 246.4L457.8 247.4L458.7 249.7L459.6 247.2L460.5 248.2L461.4 249.2L462.4 249.6L463.3 250.6L464.2 247.7L465.1 253L466 251.7L467 249.8L467.9 254.3L468.8 251.1L469.7 256L470.6 251.9L471.6 248.1L472.5 248.1L473.4 250L474.3 250.5L475.2 254.1L476.2 244.2L477.1 248.2L478 246.5L478.9 252.5L479.8 250.4L480.8 255.4L481.7 247.4L482.6 247L483.5 255.6L484.4 250L485.4 247.9L486.3 255.2L487.2 255.4L488.1 253.1L489 251.7L490 254.1L490.9 249.7L491.8 249.1L492.7 247.9L493.6 247.7L494.6 245.2L495.5 246.3L496.4 253.8L497.3 251.4L498.2 253.1L499.2 253.1L500.1 250.1L501 249.8L501.9 248.3L502.8 254.7L503.8 253.6L504.7 249.9L505.6 97.7L506.5 98L507.4 97.3L508.4 252.1L509.3 247.7L510.2 248.7L511.1 250.1L512 251.9L513 250.4L513.9 258.1L514.8 252.8L515.7 249.7L516.6 254.4L517.6 249.2L518.5 249.4L519.4 254L520.3 250.6L521.2 250.8L522.2 248.4L523.1 247.9L524 249.9L524.9 252.4L525.8 250.3L526.8 250L527.7 247.6L528.6 248.9L529.5 252L530.4 254L531.4 251L532.3 252.1L533.2 253.2L534.1 250.2L535 251.3L536 249.5L536.9 248.2L537.8 251.1L538.7 242.7L539.6 250.8L540.6 246.5L541.5 249.4L542.4 246.4L543.3 257.1L544.2 252.1L545.2 249.1L546.1 248L547 242.7L547.9 248.8L548.8 245.9L549.8 247.5L550.7 246.9L551.6 248.3L552.5 250.3L553.4 248.3L554.4 253.1L555.3 246.2L556.2 252.9L557.1 249.1L558 243.3L559 250.5L559.9 249.8L560.8 124.1L561.7 127.6L562.6 130.1L563.6 249L564.5 248L565.4 247.6L566.3 252.2L567.2 244.5L568.2 244.7L569.1 249.8L570 249L570.9 251.1L571.8 245.5L572.8 252L573.7 247.8L574.6 251.3L575.5 251.9L576.4 247.6L577.4 245.7L578.3 249.8L579.2 251.9L580.1 247.3L581 250L582 248.9L582.9 245.2L583.8 246.4L584.7 251.4L585.6 242.8L586.6 249.8L587.5 247.4L588.4 251.8L589.3 250L590.2 255.2L591.2 244.4L592.1 245.6L593 253.5L593.9 254.4L594.8 254.8L595.8 246.2L596.7 251.2L597.6 250L598.5 250.8L599.4 250.2L600.4 253.1L601.3 249.7L602.2 254.2L603.1 250L604 248.9L605 248.4L605.9 250.5L606.8 252.6L607.7 249.3L608.6 251.3L609.6 245L610.5 247.5L611.4 158.5L612.3 159.6L613.2 160.3L614.2 161L615.1 159.3L616 157.3L616 470L64 470Z"/>
-              <clipPath id="ld-over"><rect x="64" y="36" width="552" height="114.55"/></clipPath>
-              <mask id="ld-share" maskUnits="userSpaceOnUse" x="64" y="36" width="552" height="336">
-                <use href="#ld-area" fill="#fff"/>
-                <use href="#ld-area" fill="#000" transform="translate(0 99.27)"/>
-              </mask>
-            </defs>
-            <rect class="sim-zone" x="64" y="150.55" width="552" height="221.45" mask="url(#ld-share)"/>
-            <use class="ld-risk" href="#ld-area" clip-path="url(#ld-over)"/>
-            <g class="sim-grid-lines">
-              <line x1="64" y1="265.09" x2="616" y2="265.09"/>
-              <line x1="64" y1="188.73" x2="616" y2="188.73"/>
-              <line x1="64" y1="112.36" x2="616" y2="112.36"/>
-              <line x1="64" y1="36" x2="616" y2="36"/>
-              <line x1="156" y1="36" x2="156" y2="372"/>
-              <line x1="248" y1="36" x2="248" y2="372"/>
-              <line x1="340" y1="36" x2="340" y2="372"/>
-              <line x1="432" y1="36" x2="432" y2="372"/>
-              <line x1="524" y1="36" x2="524" y2="372"/>
-            </g>
-            <line class="sim-axis" x1="64" y1="372" x2="616" y2="372"/>
-            <line class="sim-axis" x1="64" y1="36" x2="64" y2="372"/>
-            <line class="ld-zero" x1="64" y1="341.45" x2="616" y2="341.45"/>
-            <g class="sim-tick">
-              <text x="64" y="394" text-anchor="middle">0</text>
-              <text x="156" y="394" text-anchor="middle">20</text>
-              <text x="248" y="394" text-anchor="middle">40</text>
-              <text x="340" y="394" text-anchor="middle">60</text>
-              <text x="432" y="394" text-anchor="middle">80</text>
-              <text x="524" y="394" text-anchor="middle">100</text>
-              <text x="616" y="394" text-anchor="middle">120</text>
-              <text x="56" y="345.45" text-anchor="end">0</text>
-              <text x="56" y="269.09" text-anchor="end">500</text>
-              <text x="56" y="192.73" text-anchor="end">1000</text>
-              <text x="56" y="116.36" text-anchor="end">1500</text>
-              <text x="56" y="40" text-anchor="end">2000</text>
-            </g>
-            <text class="sim-axis-title" x="0" y="18">Battery output (W)</text>
-            <text class="sim-axis-title" x="340" y="424" text-anchor="middle">Flight time (minutes)</text>
-            <line class="ld-limit" x1="64" y1="150.55" x2="616" y2="150.55"/>
-            <use class="sim-batt ld-trace" href="#ld-line"/>
-            <use class="sim-h2 ld-trace" href="#ld-line" transform="translate(0 99.27)"/>
-            <text class="sim-label" x="137.6" y="237.82">Series</text>
-            <text class="sim-label" x="137.6" y="330.45">Parallel</text>
-            <line class="sim-cross sim-hover" x1="64" y1="36" x2="64" y2="372"/>
-            <circle class="sim-hover-batt sim-hover" cx="64" cy="36" r="5"/>
-            <circle class="sim-hover-h2 sim-hover" cx="64" cy="36" r="5"/>
-            <rect class="sim-hit" x="64" y="36" width="552" height="336"/>
-          </svg>
-          <div class="sim-tip" hidden aria-live="polite">
-            <p class="sim-tip-t" data-t></p>
-            <p><span class="key key-batt"></span><strong data-s></strong>Series</p>
-            <p><span class="key key-h2"></span><strong data-p></strong>Parallel</p>
-          </div>
-        </div>
-        <figcaption>Fig. 03 · Battery output over a simulated two-hour flight, series against parallel hybrid. Below 0&nbsp;W the battery is recharging. Python simulation by Team Argo.</figcaption>
-        <details class="sim-data">
-          <summary>Show the numbers</summary>
-          <table>
-            <thead>
-              <tr><th scope="col">Flight phase</th><th scope="col">Motors need</th><th scope="col">Battery, series</th><th scope="col">Battery, parallel</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Take-off (first minute)</td><td>1,800 W</td><td>1,800 W</td><td>1,150 W</td></tr>
-              <tr><td>Cruise</td><td>600 W</td><td>600 W</td><td>−50 W (charging)</td></tr>
-              <tr><td>Gusts</td><td>1,400–1,600 W</td><td>1,400–1,600 W</td><td>750–950 W</td></tr>
-              <tr><td>Landing (last minute)</td><td>1,200 W</td><td>1,200 W</td><td>550 W</td></tr>
-            </tbody>
-          </table>
-        </details>
-      </figure>
-    </div>
-  </section>
-
-  <section id="vtol" class="section on-dark">
-    <div class="wrap">
-      <header class="section-head vtol-head reveal">
+  <section id="vtol" class="section vtol">
+    <div class="bg-deco motif-stream" aria-hidden="true"><span class="glow g1"></span><span class="glow g2"></span><span class="motif"></span></div>
+    <div class="wrap vtol-grid">
+      <header class="section-head reveal">
         <p class="eyebrow">Future project: the fixed-wing VTOL</p>
-        <h2>Combining hydrogen endurance with aerodynamic efficiency for apex industrial operations.</h2>
-        <p>Once the hybrid powertrain is fully validated, the drivetrain will be integrated into a custom-designed fixed-wing VTOL (Vertical Take-Off and Landing) airframe. This aerodynamic configuration minimizes drag and maximizes forward flight efficiency, transforming the power system into a long-range platform capable of flying continuously for hundreds of kilometers.</p>
-        <p>This extended range unlocks autonomous, non-stop linear monitoring, directly replacing highly expensive legacy aviation solutions across prestigious industries:</p>
+        <h2>Combining hydrogen endurance with aerodynamic efficiency.</h2>
+        <p>Once the hybrid powertrain has been fully validated, the drivetrain will be integrated into a custom-designed fixed-wing VTOL (vertical take-off and landing) airframe. This aerodynamic configuration minimises drag and maximises forward-flight efficiency, turning the power system into a long-range platform capable of flying continuously for hundreds of kilometres.</p>
+        <p>This range would enable autonomous, non-stop monitoring of infrastructure, replacing expensive crewed helicopters and aircraft. The five use cases shown here are separate applications that share one problem, costly inspection work in major industries, and the VTOL is planned as a modular drone that would be configured differently for each of them.</p>
       </header>
-      <ul class="uses reveal">
-        <li class="use"><span class="use-num">01</span><h3>Thermal inspections for high-voltage power grids</h3></li>
-        <li class="use"><span class="use-num">02</span><h3>Laser scanning for high-speed railways</h3></li>
-        <li class="use"><span class="use-num">03</span><h3>Autonomous safety patrols for gas pipelines</h3></li>
-        <li class="use"><span class="use-num">04</span><h3>Automated calibration for airport landing systems</h3></li>
-        <li class="use"><span class="use-num">05</span><h3>High-speed surface mapping for motorways</h3></li>
-      </ul>
+      <figure class="uses-figure">
+        <ul class="uses">
+          <li class="use reveal"><svg class="pict" viewBox="0 0 64 48" aria-hidden="true"><path d="M32 4L22 44M32 4L42 44M23.5 37H40.5M25.5 28H38.5M27.5 19H36.5M14 12H50M18 20H46M14 12v3M50 12v3M18 20v3M46 20v3M2 15q6 5 12 0M50 15q6 5 12 0M2 23q8 5 16 0M46 23q8 5 16 0"/></svg><h3>Thermal inspection of high-voltage power grids</h3></li>
+          <li class="use reveal"><svg class="pict" viewBox="0 0 64 48" aria-hidden="true"><path d="M18 44L28 6M46 44L36 6M14 40H50M18 31H46M21.5 22H42.5M24.5 14H39.5M26.5 8H37.5"/></svg><h3>Laser scanning of high-speed railways</h3></li>
+          <li class="use reveal"><svg class="pict" viewBox="0 0 64 48" aria-hidden="true"><path d="M2 30H62M2 38H62M18 26V42M22 26V42M46 30V12M42 6H50V13H42z"/></svg><h3>Autonomous safety patrols along gas pipelines</h3></li>
+          <li class="use reveal"><svg class="pict" viewBox="0 0 64 48" aria-hidden="true"><path d="M20 44L28 14H36L44 44M32 40v-4M32 31v-4M32 22v-3M4 44v-8M8 44v-8M12 44v-8M2 36H14M52 44V28M48 32l4-4 4 4M48 24a6 6 0 0 1 8 0"/></svg><h3>Automated calibration of airport landing systems</h3></li>
+          <li class="use reveal"><svg class="pict" viewBox="0 0 64 48" aria-hidden="true"><path d="M10 44L26 8M54 44L38 8M32 42v-5M32 31v-5M32 20v-4M32 12v-2M6 12H58M12 12v32"/></svg><h3>High-speed surface mapping of motorways</h3></li>
+        </ul>
+        <figcaption>Illustration · five separate use cases, each served by its own configuration of the planned modular VTOL.</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -743,28 +875,20 @@ try {
   </section>
   -->
 
-  <section id="contact" class="section">
+  <section id="contact" class="section band contact curtain">
+    <div class="bg-deco motif-rings" aria-hidden="true"><span class="glow g1"></span><span class="glow g2"></span><span class="motif"></span></div>
+    <div class="horizon" aria-hidden="true"></div>
     <div class="wrap">
       <header class="section-head reveal">
         <p class="eyebrow">Contact</p>
         <h2>Get in touch.</h2>
+        <p>Questions and offers of support reach the whole team at a single address.</p>
       </header>
-      <div class="contact-grid reveal">
-        <a class="contact-card" href="mailto:contact@teamargo.eu">
-          <span class="card-title">Email</span>
-          <span class="contact-value">contact@teamargo.eu</span>
-        </a>
-        <a class="contact-card">
-          <span class="card-title">LinkedIn</span>
-          <span class="contact-value">Argo on LinkedIn</span>
-          <span class="status">Coming soon</span>
-        </a>
-        <a class="contact-card">
-          <span class="card-title">Instagram</span>
-          <span class="contact-value">Argo on Instagram</span>
-          <span class="status">Coming soon</span>
-        </a>
-      </div>
+      <ul class="channels reveal">
+        <li><a class="channel" href="mailto:contact@teamargo.eu"><span class="channel-name">Email</span><span class="channel-value">contact@teamargo.eu</span><svg class="channel-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19L19 5M8 5h11v11"/></svg></a></li>
+        <li><div class="channel is-soon"><span class="channel-name">LinkedIn</span><span class="channel-value">Coming soon</span></div></li>
+        <li><div class="channel is-soon"><span class="channel-name">Instagram</span><span class="channel-value">Coming soon</span></div></li>
+      </ul>
     </div>
   </section>
 
@@ -782,6 +906,9 @@ try {
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script>
 <script src="script.js" defer></script>
 </body>
 </html>

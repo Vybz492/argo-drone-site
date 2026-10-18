@@ -4,19 +4,14 @@ Design reference for everything Argo puts out: the website, slides, social media
 
 ## 1. Visual Theme & Atmosphere
 
-**Black, white and teal.** Argo looks like a clean engineering drawing: black ink lines on white paper, with a single teal accent. Teal always means one thing: **hydrogen**, and by extension Argo itself.
+**Hydrogen light, in a light or a dark theme.** The website feels like a technology launch: bold type, light that seems to come from inside the scene, depth, and motion that answers the scroll and the pointer. The writing stays clear, formal and precise; the visuals may be bold. Teal and cyan always mean one thing: **hydrogen**, and by extension Argo itself.
 
-- **Light first.** Most of the page is white. The team logo is designed for white, so the brand lives there.
-- **Dark where the drone is.** Near-black sections echo the dark drone body. That is where the white-and-teal drone emblem (the sticker) appears, exactly as it does on the aircraft.
-- **Line art, not glow.** The drone emblem is a line drawing, so every illustration (drone schematics, drivetrain diagrams, charts) is also line art: black ink strokes, teal only for hydrogen parts. No neon, no glows, no gradients, no grid backdrops.
-- **Calm and precise.** Generous white space, thin rules, small monospace labels. Confidence comes from restraint, not effects.
-
-**Key characteristics**
-- One accent colour (teal), used sparingly
-- Heavy geometric headlines that echo the ΛRGO wordmark
-- Monospace uppercase labels as the "technical" voice
-- Slightly squared corners (4–6px)
-- Light sections for the story (mission, roadmap, partners, join), a dark section for the drone (the footer sits on the light Contact page)
+- **One theme at a time.** The whole page is either light (Frost and white grounds, Ink text) or dark (Abyss and Deep Navy grounds, white text). It follows the visitor's device setting until they choose one with the toggle in the navigation, and then remembers their choice. Sections never alternate between light and dark; within a theme they differ only by a tone step (ground or band).
+- **Light, not decoration.** Glow, gradients and depth come from one source: hydrogen. Streams of teal light in the hero, a glowing tank in Fig. 01, the hydrogen line in Fig. 02, LiDAR beams and point clouds in the Story. In the light theme glows become soft teal-tinted shadows.
+- **Line art and point clouds.** Drawings, diagrams and charts are clean strokes (Ink on light, white on dark), with teal or cyan only for hydrogen parts. The Story's illustrations are LiDAR point clouds.
+- **Read like a poster.** Every section leads with a figure, a drawing or a big number, and the text sits beside or below it.
+- **Planned looks planned.** Solid line = exists or modelled, dashed line = planned.
+- **No photographs.** Drawings, diagrams and point clouds carry the visuals.
 
 ## 2. Brand Assets
 
@@ -24,199 +19,196 @@ Design reference for everything Argo puts out: the website, slides, social media
 |---|---|---|
 | **ΛRGO wordmark** (crossbar-less A, heavy) | The team logo. Navigation bar, footer | `assets/argo-wordmark.svg` (vector, black) |
 | **TEΛM ΛRGO lockup** (single line, lighter weight) | The full team name as a headline: website first screen, slide covers, banners | `assets/team-argo-wordmark.svg` (vector, black) |
-| **Drone emblem** (bird, white + teal) | The drone's logo. Only on dark backgrounds, mainly next to drone content | `assets/argo-drone-emblem.webp` (raster, transparent) |
+| **Drone emblem** (bird, white + teal) | The drone's logo. Only on dark grounds, mainly next to drone content | `assets/argo-drone-emblem.webp` (raster, transparent) |
 | **Favicon** (Λ from the wordmark) | Browser tab, small square avatars | `assets/favicon.svg` |
 
 **Rules**
 - The wordmark is the team logo. The bird is the drone's emblem. Do not combine them into one lock-up.
-- Both wordmarks (ΛRGO and TEΛM ΛRGO) are black on light backgrounds and white on dark backgrounds. Never teal.
-- The drone emblem is never placed on white (its white outline disappears). On light backgrounds use the black-outline version of the bird.
-- Never stretch, rotate, recolour or add effects to either asset. One exception, chosen by the team: on the website the drone emblem is shown rotated 180° (beak pointing down). The image file itself stays upright; the rotation is done in CSS.
+- Both wordmarks are black in the light theme and white in the dark theme. Never teal, never gradient-filled.
+- The drone emblem is never placed on white (its white outline disappears). In the light theme it sits on its own small Abyss panel with a teal glow.
+- Never stretch, recolour or distort either asset. On the website the drone emblem is shown rotated 180° (beak pointing down), done in CSS.
 - Leave clear space around either wordmark of at least half its height.
-- **"Team Argo" as a headline:** always use the TEΛM ΛRGO lockup file. Never type "Team" in a font next to the ΛRGO wordmark: the font's A has a crossbar and clashes with the Λ.
-
-**Still needed from the designer**
-- The bird as a **vector file** (SVG, AI, EPS or vector PDF). The emblem is currently a raster image.
-- A **simplified bird** for small and round uses (favicons, profile pictures): fewer feathers, no chest scales.
-- The **exact teal codes**. The values below were sampled from the logo files.
+- **"Team Argo" as a headline:** always use the TEΛM ΛRGO lockup file. Never type "Team" in a font next to the ΛRGO wordmark.
 
 ## 3. Color Palette & Roles
 
-### Brand
+### Anchors (fixed)
 | Name | Hex | Role |
 |---|---|---|
-| **Argo Teal** | `#007E8A` | Accent on light backgrounds. Hydrogen in diagrams and charts. Primary buttons everywhere. Sampled from the team logo |
-| **Argo Teal Bright** | `#0096A2` | Accent on dark backgrounds. Sampled from the drone sticker |
-| **Ink** | `#0B0D10` | Headlines and body text on light. Dark section background |
-| **White** | `#FFFFFF` | Page background |
+| **Argo Teal** | `#007E8A` | Hydrogen and accent text in the light theme. Primary buttons in both themes |
+| **Argo Teal Bright** | `#0096A2` | Accent text in the dark theme; hydrogen fills in the light theme |
+| **Ink** | `#0B0D10` | Text in the light theme |
 
-### Neutrals
+### The family around them
 | Name | Hex | Role |
 |---|---|---|
-| Mist | `#F4F6F7` | Card surfaces on light |
-| Graphite | `#2B3138` | Strong secondary text |
-| Slate | `#5B6470` | Secondary text and labels on light (5.9:1 on white) |
-| Ash | `#8A929C` | Decorative only: dividers, ticks. Not for reading text |
-| Night Raised | `#151A20` | Card surfaces on dark |
-| Fog | `#9AA4AF` | Secondary text on dark |
-| Hairline | `rgba(11,13,16,0.10)` | Borders and rules on light |
-| Hairline (dark) | `rgba(255,255,255,0.10)` | Borders and rules on dark |
+| Abyss | `#050A12` | Dark theme: hero ground; the emblem panel in the light theme |
+| Night ground | `#060C16` | Dark theme: section ground |
+| Deep Navy | `#0A1B2E` | Dark theme: band ground |
+| Harbour | `#12324A` | Dark theme: panels (about 50% opacity over the ground) |
+| Petrol | `#0A4F5C` | Gradient middle stop; dark teal in the light hero streams |
+| **Signal Cyan** (the one accent) | `#3FE3EE` | Dark theme only: the light itself (hydrogen lines, glow, the 132 squares, terrestrial point clouds) |
+| Ocean Blue | `#2A65AD` (light) / `#7FB2FF` (dark) | Blue carbon only: marine point clouds, water, the marine card |
+| Ice | `#C9F4F7` | Light theme: glows and tints |
+| Frost | `#F3F8FA` | Light theme: band ground |
+| White | `#FFFFFF` | Light theme: section ground and panels |
+
+### Theme tokens
+| Role | Light | Dark |
+|---|---|---|
+| Ground / band | White / Frost | `#060C16` / Deep Navy |
+| Hero ground | `#F4F9FA` | Abyss |
+| Panels | White, teal-tinted border, soft Petrol shadow | Harbour glass, ice hairline |
+| Text / body / secondary | Ink / `#1D2730` / `#56616C` | `#EEF6F8` / `#CFDDE3` / `#9FB3BF` |
+| Hydrogen (strokes, lines) | Argo Teal | Signal Cyan with glow |
+| Accent text | Argo Teal | Teal Bright, Signal Cyan for large figures |
+| Terrestrial / blue carbon | Teal / Ocean Blue `#2A65AD` | Signal Cyan / Ocean Blue `#7FB2FF` |
+
+### Gradients and light
+- Radial teal or ice glows at 10–55% opacity behind content, never over text.
+- A faint grain texture on dark-theme sections only.
+- **Section backgrounds (both themes):** a faint 48px blueprint grid, two slow teal glows drifting over 70–90s, and one faint line motif per section (Mission hexagons, Simulation graph paper, Story contour lines, Testbed circuit traces, VTOL streamlines, Contact range rings). Behind the content, never interactive, still under reduced motion, faded out at section edges. Text over them still meets AA.
+- Shadows are tinted with Petrol or teal, soft and long.
+- **Gradient text is not used.** Text is always one solid colour.
 
 ### Accessibility
-- Argo Teal on White: **4.8:1**. Fine for body text and buttons.
-- White text on Argo Teal buttons: **4.8:1**.
-- Argo Teal Bright on Ink: **5.4:1**. Use Bright, not regular Teal, for teal text on dark.
-- White text on Argo Teal Bright: only **3.6:1**. Do not put small white text on Teal Bright. Buttons stay Argo Teal on every background.
-
-### Dark mode (website only)
-Light is the brand default. The website also offers a dark mode: it follows the visitor's device setting, and a sun/moon button (menu bar on desktop, inside "Menu" on phones) overrides it and remembers the choice.
-
-| Role | Light mode | Dark mode |
-|---|---|---|
-| Page background | White `#FFFFFF` | Ink `#0B0D10` |
-| Cards | Mist `#F4F6F7` | Night Raised `#151A20` |
-| Drone sections (drivetrain, call-to-action block) | Ink `#0B0D10` | Night Raised `#151A20`, with cards in Night Band `#1D232B` |
-| Text | Ink | `#EEF1F4` |
-| Accent | Argo Teal `#007E8A` | Argo Teal Bright `#0096A2` |
-| Primary buttons | Argo Teal, white text | Argo Teal, white text (unchanged) |
-
-- In dark mode the drone sections are a shade **lighter** than the page, so "drone = its own band" still reads.
-- The ΛRGO wordmark turns white; the drone emblem is unchanged.
-- Slides, posts and print stay light unless there is a reason not to.
+- Every text colour is checked against the real rendered background (shader, glows, panels, point clouds) in both themes, at desktop and phone widths: at least **4.5:1** for body text and **3:1** for large text (WCAG AA).
+- Text never sits on bright light: the hero has a shade on the text side, and the hero shader leaves clear zones behind the labels of Fig. 01. Labels for the point-cloud drawings sit in a legend under each drawing.
+- White text on Argo Teal buttons: **4.8:1**. Buttons stay Argo Teal in both themes.
 
 ### Colour meaning
-- **Teal = hydrogen.** Hydrogen tank, hydrogen flow lines, the hydrogen line in charts, the words "On hydrogen", the "The hydrogen advantage" label, the hydrogen-flight goal.
-- **Teal = the main action.** Primary buttons ("Partner with us", "Apply to join").
-- **Everything else is black, white or grey.** Batteries, power electronics, status, labels, numbers.
-- There is no second accent colour. No amber, no gold, no gradients.
+- **Teal and cyan = hydrogen**; **Ocean Blue = blue carbon** (marine and coastal), only in the Story.
+- **Teal = the main action** (primary buttons).
+- Everything else is Ink, white or grey. No colours outside the blue–cyan family.
 
 ## 4. Typography
 
 | Role | Font | Weight | Size | Notes |
 |---|---|---|---|---|
-| Display (H1) | Montserrat | 800 | 42–78px | Tight leading (1.04), letter-spacing −0.03em |
-| Section heading (H2) | Montserrat | 800 | 32–52px | Letter-spacing −0.025em |
-| Card / item heading (H3) | Montserrat | 700 | 19–22px | |
-| Body | Inter | 400 | 16–17px | Line height 1.6 |
-| Lead paragraph | Inter | 400 | 17–20px | Slate colour |
-| UI (nav, buttons) | Inter | 500–600 | 14–15px | |
-| Section label (key word) | Montserrat | 800 | 16–20px | UPPERCASE, letter-spacing 0.14em, 32×3px bar before it |
-| Small label / caption | IBM Plex Mono | 500 | 11.5–12.5px | UPPERCASE, letter-spacing 0.12em (card titles, data labels) |
-| Data / numbers | IBM Plex Mono | 400 | any | Spec values, chart ticks |
+| Display (H1) | TEΛM ΛRGO lockup (SVG) | — | up to 600px wide | Revealed by a light sweep on load |
+| Section label | Bricolage Grotesque | 700 | 19–23px | Sentence case, 36×3px bar before it in the hydrogen colour |
+| Section heading (H2) | Montserrat | 800 | 36–68px (28–48px for long headings) | Letter-spacing −0.035em |
+| Block heading (Story) | Montserrat | 800 | 28–42px | With a small accent label above it ("The unsolved problem") |
+| Subheading (H3) | Montserrat | 800 | 26–36px | "The Hydrogen Advantage" |
+| Card heading (H4) | Montserrat | 700–800 | 17–30px | |
+| Big figure / key figure | Montserrat | 800 | 28–80px | Tabular figures; counts up on entry |
+| Body | Bricolage Grotesque | 400 | 16–19px | Line height 1.55–1.6 |
+| UI (nav, buttons, labels) | Bricolage Grotesque | 500–700 | 13–16px | Sentence case |
+| Drawing annotation / data | Martian Mono | 400–500 | 10–13px | Inside figures, callouts, chart ticks and table headers only |
 
-**Principles**
-- Montserrat at heavy weights echoes the bold, round ΛRGO wordmark. It is for headings only.
-- Inter carries all reading text.
-- IBM Plex Mono is the engineering voice: small captions, numbers, drawing annotations. Always uppercase when used as a caption. Section labels are not mono: they are Montserrat 800 key words.
-- Do not use the wordmark's crossbar-less "Λ" in normal text. It belongs to the logo only.
+- Montserrat echoes the ΛRGO wordmark; Bricolage carries reading text and the interface; Martian Mono stays inside drawings and data.
+- No index numbering (01, 02, 03) in the running layout.
 
 ## 5. Components
 
-**Buttons**
-- Primary: Argo Teal background, white text, 4px radius, 48px tall (38px small). Hover: darker teal `#006B75`.
-- Secondary: transparent, Ink text, 1px Hairline-strong border, 4px radius. Hover: Ink border.
-- No pills, no glows, no gradients.
+**Navigation:** transparent at the top, translucent with a hairline once scrolled; ΛRGO wordmark, text links, the **theme toggle** (one icon that morphs between moon and sun, accessible name "Switch to light/dark mode"), one primary button. A teal indicator (cyan in the dark theme) slides under the link of the section in view, which is also marked `aria-current`; a thin progress line in the same colour runs along the bottom of the bar. "Partner with us" carries a small arrow that slides on hover, and every few seconds a slow glint of light travels along its border (never across the label, which keeps its full contrast). The wordmark is never changed. On phones "Menu" opens a full-height sheet whose last row is the theme toggle.
 
-**Cards**
-- Mist background (Night Raised on dark), 1px Hairline border, 6px radius, no shadow.
+**Buttons:** Argo Teal, white text, 4px radius, soft teal glow. Hover darker teal, press `scale(0.97)`, magnetic on fine pointers. Hover styles only on devices that can hover.
 
-**Section labels (key words)**
-- Montserrat 800, uppercase, wide letter-spacing, Ink (white on dark), with a short bar in the same colour before the text. They must be clearly visible: they name what a section is about.
-- Labels are plain words, never numbered: "Our mission", "Simulation", "The story", "Roadmap", "Contact".
-- The "The hydrogen advantage" label is the only teal one (text and bar), because teal means hydrogen.
-- Small mono labels stay for captions inside cards and diagrams ("Energy per kilogram", "Planned architecture").
+**Panels:** 18px radius, a teal-tinted (light) or ice (dark) border, a long soft shadow and a 1px inner highlight. Used for the energy figure, Fig. 02, the advantage tiles, the method cards, the market cards, the diagram, the use-case tiles and the contact cards.
 
-**Status chips** (roadmap, placeholders)
-- Mono uppercase, 1px border, 4px radius.
-- Done: Mist fill, Ink text. In progress: Ink fill, White text. Planned: Slate outline. Hydrogen goal: Teal outline and text.
+**Advantage tiles (Mission):** a small animated figure, a key figure in the hydrogen colour, the title, and one sentence. The four tiles share rows (subgrid), so key figures, titles and text line up across them. Above them, "The Hydrogen Advantage" is centred, with thin hydrogen-coloured hub lines that draw out once to a small dot on each tile (desktop only). The figures are drawn bars, a fuel cell releasing water vapour, a battery flight broken by landings against one continuous hydrogen flight, and a sweeping scan beam.
 
-**Drawings and diagrams**
-- Stroke in Ink (White on dark), 1–1.5px. Hydrogen parts in Teal (Teal Bright on dark).
-- Batteries and peak power: Ink or grey, distinguished by dash pattern, never by a new colour.
-- Engineering-drawing details are welcome: title blocks, callout lines, mono annotations.
+**Story blocks:** an accent label, a statement heading, short text, and a figure (point-cloud panorama, method cards, the solution illustration, market cards).
 
-**Charts**
-- Redraw charts in site colours as inline SVG; never paste a screenshot of a plot. Hydrogen is the highlighted series in Teal; batteries are the comparison in Ink (White on dark). An advantage area is Teal at 10% opacity.
-- Lines 2px with round ends; markers at least 8px across with a 2px ring in the background colour.
-- Gridlines and axes are solid 1px hairlines (never dashed). Tick labels in IBM Plex Mono, axis titles in Inter, both in Slate.
-- Text never takes the series colour. Identity comes from a legend (always present for two or more series) plus short direct labels on the lines.
-- Every chart has a hover/keyboard readout (crosshair + values for every series) and a "Show the numbers" table, so no value depends on hovering.
-- Caption every chart: "Fig. NN · what it shows. Source." Figures are numbered in page order (Fig. 01 is the hero drawing).
+**Panorama (Story):** interactive. Each drone moves along its own survey line (the forest drone over the land half, the coastal drone over the water half), following the pointer on desktop, a drag, a sideways swipe on touch (vertical scrolling still works) or the arrow keys, Home and End on a focused drone. Faint returns are drawn everywhere; bright returns show only inside each moving beam. Each drone is a slider for screen readers ("Forest survey drone", "20% across the forest"); a hint in the caption reads "Drag to move the drones" or, on touch devices, "Swipe to move the drones".
 
-**Navigation**
-- White bar, ΛRGO wordmark left (20px tall), Inter text links, one small primary button.
-- Becomes translucent white with a hairline bottom border on scroll.
+**Method cards (Story):** four cards in a 2×2 grid beside the problem text (satellite, helicopter, battery drone, fixed-wing drone). Each has a small line drawing in the style of the satellite diagram showing why the method falls short, the method name and a one-line verdict. The full captions are screen-reader text only. Drawing, name and verdict line up across each pair (subgrid), and the text column beside the grid shares its top and bottom edges.
 
-**Footer**
-- Part of the Contact page, on the same light background: no separate band. Below the contact cards, a hairline, then the team lines on the left ("Discovery Team · TU/e innovation Space · Est. 2026", "© year Argo · email") and a small ΛRGO wordmark (44px tall, 34px on phones) in the bottom-right corner. Contact and footer together fit one screen on desktop.
+**Market cards:** two compact cards side by side, each with a short coloured bar (teal for terrestrial, Ocean Blue for blue carbon), a tag, a title and a one-line summary. "More details" (a native disclosure) opens inside its own card: the three facts (Target, Operation, Data output) as label-and-text rows, then the point-cloud drawing with a colour-keyed legend underneath, and its laser sweep plays. The cards keep their places and heights; "More details" never moves.
 
-## 6. Layout
+**Solution illustration (Story):** one drawing in the method-card style beside the solution statement: the planned hydrogen hexacopter flying low and slow over the forest, its hydrogen tank dashed in the hydrogen colour, the LiDAR beam lighting up canopy, trunk and ground returns, and three labelled targets (Hours of endurance, 3–7 kg LiDAR payload, Centimetre accuracy). The caption names it as an illustration of the planned hexacopter. On phones the labels move into a list under the drawing, and the drawing crops to the aircraft and forest.
 
-- **First screen (hero) is "us":** it fills exactly one screen (inspired by LEVITUM and Team Daedalus). Text on the left, drone drawing on the right, both vertically centred at the same height. The drawing (Fig. 01) is a top view of the team's real airframe, a DJI S800 EVO hexacopter, traced to scale from the drawings in DJI's S800 EVO user manual (v1.10): the hexagonal centre board with its six arm brackets and six cut-outs, the six lattice arms, the round motor mounts and the folding 15-inch two-blade props (800 mm wheelbase, 240 mm centre frame, rotor discs almost touching). The props spin the way the real ones do: seen from above, the front-right, left and rear-right rotors turn anticlockwise, the other three clockwise. The two front prop clamps are filled, as the real drone marks its nose with differently coloured clamps on M1 and M2. The planned hydrogen tank (Teal), PEM fuel cell and buffer battery are drawn with dashed outlines and labelled with callout lines, with a "PLANNED" dash legend under "FIG. 01", so they never pass for hardware that exists. They are not to scale: the fuel cell and battery are shrunk to sit on the centre plate between the arm brackets, and only the tank reaches past the plate, out through the gap between the two front arms. The text is only the TEΛM ΛRGO lockup as the page title (full width of the text column), the team line ("A team of students from Eindhoven University of Technology (TU/e).") and the tagline ("Breaking the endurance barrier in autonomous aviation."). No goal, numbers, buttons or stats. On phones the text stacks above the drawing.
-- **Second screen is "Our mission"** (like LEVITUM's "Our Mission"): heading "The power to go further." with a teal "On hydrogen." on its own line beneath, one intro sentence ("Our vision is to…"), a teal "The hydrogen advantage" label, then four columns (number, title, short body): maximum energy density, true zero-emission, continuous efficiency, meeting industrial demand. The columns share rows, so titles and bodies always start at the same height across columns, however many lines each one wraps to.
-- **"Our goal" (hidden for now):** the goal headline, one supporting paragraph, the main buttons, the current-phase status line and the design targets. Commented out in the code; if it returns, it sits between the mission and the story.
-- **Third screen is "Simulation":** the team's MATLAB "critical mass penalty" chart (energy system mass against flight duration, battery vs hydrogen, break-even at about 33 minutes). Explanation on the left, chart on the right, stacked on phones. See "Charts" in section 5.
-- **Then "The story":** heading "Proving the powertrain on a global stage.", one intro sentence, two story paragraphs (the carbon-auditing problem, then the hydrogen hexacopter as the answer), a "High-precision carbon auditing" label (Ink, not teal) and two columns: terrestrial auditing and blue carbon auditing. Same column format as the mission section.
-- **Then "Current project: the hexacopter testbed"** (dark section): the hybrid-powertrain heading (smaller than other section headings, as it is long) and intro, the drone emblem (on wide screens exactly as tall as the text beside it, from the section label to the last line of the intro; script.js keeps it matched), the animated drivetrain diagram, and four cells: hydrogen storage, PEM fuel cell, power management, buffer battery.
-- **Then "Why parallel"** (light section, same layout as "Simulation"): heading "Parallel, not series.", two short paragraphs and Fig. 03, the team's Python simulation of battery output over a two-hour flight. Series (battery alone) in Ink crosses the dashed 1,250 W safe limit at take-off and in every gust; parallel (fuel cell supplies 650 W) in Teal stays under it and dips below 0 W (recharging) in cruise. The Teal band is the load the fuel cell takes over; grey is the overload risk. Hover/keyboard readout and a phase table, like Fig. 02.
-- **Then "Future project: the fixed-wing VTOL"** (dark section): long heading at the smaller testbed size, two paragraphs (copy from the team's site document), then five application cards (number + title) in a grid: three across, then two wider cards, so both rows are full. Two columns on tablets (last card full width), one on phones.
-- **Roadmap (hidden for now):** five phases with status chips. Commented out in the code with its menu link; if it returns, it sits between the VTOL section and Contact.
-- **Menu:** Mission · Story · Testbed · Contact (Roadmap returns with its section). Every link lands on the start of its section.
-- Max content width 1180px, 24px side padding (16px on phones).
-- Section spacing 128px vertical (88px on phones), separated by hairline rules.
-- 8px base spacing unit.
-- Corner radius: 4px for buttons, chips and small boxes; 6px for cards. Nothing larger.
-- Depth comes from surface colour (White → Mist, Ink → Night Raised), never from shadows.
+**Drivetrain diagram nodes:** all five boxes share one style (panel fill, one stroke weight, no glow or dashes). Meaning lives in the connections: the hydrogen line between tank and fuel cell is the only teal dashed line.
 
-## 7. Do's and Don'ts
+**Use-case tiles (VTOL):** five separate tiles, each with a pictogram and its name; a scan line sweeps across the tile on hover. They are separate applications of a modular drone, not stops on one route.
+
+**Contact cards:** Email, LinkedIn and Instagram as three equal cards (channel name, value in Montserrat 800). Only the email is a link (with an arrow); LinkedIn and Instagram read "Coming soon" and share the same lift-and-glow hover without behaving like links.
+
+**Planned components:** the testbed components carry no status chips; the "Planned architecture" title marks them as planned.
+
+**Illustrations:** captioned "Illustration"; informative drawings have a text description; decorative figures are `aria-hidden`. Never draw hydrogen hardware as existing, never draw a VTOL airframe, no 3D models of drones or hardware. The hero's light streams are allowed because they read as light, not as an object.
+
+**Charts:** inline SVG; hydrogen highlighted (teal, or cyan with glow in the dark theme), batteries in Ink or white; hover and keyboard readout, a slider for touch, and "Show the numbers". Only Fig. 01 and Fig. 02 are numbered.
+
+**Footer:** on the band colour; team lines left, ΛRGO wordmark right.
+
+## 6. Motion
+
+Lenis (`lenis@1.1.20`) for smooth scrolling and GSAP with ScrollTrigger (`gsap@3.12.5`) for scroll scenes, from CDNs at pinned versions. The page is complete without them.
+
+| Moment | What happens |
+|---|---|
+| **Hero, first second** | A WebGL shader draws streams of teal light (on Frost in the light theme, cyan on Abyss in the dark theme) that bend towards the pointer and fade out behind the labels of Fig. 01. The lockup sweeps in, the lines rise in, Fig. 01 draws itself (rotor rings, frame, callouts) and the dashed planned parts settle with the tank glowing. About 1.4s. The drawing tilts a few degrees towards the pointer. |
+| **Curtains** | Band sections (Simulation, Testbed, Contact) arrive as a rounded panel that widens to full bleed. |
+| **Mission** | Once the figure is a third in view, 33 and 0.25 count up and the 132 squares fill row by row in about 1.3s. Each advantage tile animates its own figure once (bars grow, flight lines draw, the drop falls, the scan sweeps). |
+| **Simulation** | The battery line draws, then the hydrogen line, then the advantage area and the break-even dot. |
+| **Story** | The point clouds are revealed by a laser sweep from left to right as each drawing comes into view. In the panorama the drones then ease to wherever the visitor moves them (instantly under reduced motion), and their beams light up the returns beneath. |
+| **Testbed** | The whole diagram enters once, part by part; the flowing connections then keep running. No pinning. |
+| **VTOL** | Tiles rise in; a scan line sweeps a tile on hover. |
+| **Pointer** | Dark theme: a soft cyan light follows the pointer. Both themes: tiles and cards lift and glow under the pointer; primary actions are magnetic. Fine pointers only. |
+| **Navigation** | The section indicator slides between links; the theme icon morphs between moon and sun; a glint travels along the border of "Partner with us" about every 7 seconds and its arrow slides on hover. Under reduced motion: no sweep and no morph, and the indicator jumps. |
+| **Always** | The props in Fig. 01 spin and the diagram's dashed lines flow. |
+
+**Rules**
+- Custom ease-out `cubic-bezier(0.23, 1, 0.32, 1)` and GSAP `expo.out`/`power3`. No bounce. Each entrance runs once.
+- No section holds the page in place.
+- The shader renders below device resolution and pauses when off-screen or when the tab is hidden; without WebGL the hero falls back to a static gradient.
+- In-page links scroll through Lenis and move keyboard focus to the target; Page Up/Down, Space, Home and End go through Lenis too.
+- **Reduced motion:** no Lenis, no GSAP scenes; the hero shows one still frame (in the current theme); drawings and point clouds appear complete; content fades in briefly.
+- **Fig. 01 is its own compositor layer** (`will-change: transform`), so the pointer tilt and the parallax move the drawing as one piece; without it the small fuel cell and battery boxes flicker against the tank.
+- **Fig. 01 is self-contained:** one element (`#fig01`) whose styles do not depend on the hero.
+
+## 7. Layout
+
+- **Hero (one screen):** lockup, team line, tagline and affiliation line in a text column with generous space between them; Fig. 01 (the team's real DJI S800 EVO, traced to scale, with the planned tank, fuel cell and buffer battery dashed) large, taking just over half the width and running towards the right edge. No buttons or stats.
+- **Our mission (ground):** heading and vision line beside the energy figure (33 against 0.25 kWh per kilogram of fuel, 132 squares against 1). Below, "The Hydrogen Advantage" and four advantage tiles.
+- **Simulation (band):** text beside Fig. 02 with the flight time slider and "Show the numbers".
+- **The story (ground):** heading and intro; the point-cloud panorama; **the unsolved problem** (text and three risks beside the four method cards); **the solution** directly below as the answer (a two-sentence statement beside the solution illustration); **target markets and operations** ("Two markets, one airframe": two compact cards with "More details"). The heading matches the Simulation heading in size, so the heading, intro and the whole panorama fit on one screen (checked at 1440×900 and 1280×800). The panorama stays the main image.
+- **Current project: the hexacopter testbed (band):** heading, intro and the emblem; then the planned-architecture panel with the diagram and the four component descriptions beneath it.
+- **Future project: the fixed-wing VTOL (ground):** text on the left, the five use-case tiles on the right (one column on tablets and phones).
+- **Contact (band):** heading, subtitle, three equal contact cards; then the footer.
+- **Menu:** Mission · Story · Testbed · Contact, plus the theme toggle.
+- Max content width 1240px, 24px side padding (16px on phones). Section spacing about 152px (104px on phones).
+
+## 8. Do's and Don'ts
 
 **Do**
-- Keep most of the page white
-- Use teal only for hydrogen and main actions
-- Draw everything as clean line art
-- Show the drone emblem on dark backgrounds only
-- Use the mono font for anything that reads like a measurement or label
+- Design every new element in both themes and check its contrast in both
+- Let light come from hydrogen; keep line art as line art
+- Lead each section with a figure, drawing or big number
+- Draw planned things dashed, existing or modelled things solid
+- Keep Fig. 01 self-contained
 
 **Don't**
-- Add a second accent colour (no amber, gold, blue or green)
-- Use neon cyan, glows, gradients, grid backgrounds or drop shadows
-- Use pill-shaped buttons or large corner radii
-- Put the drone emblem on white, or the black-outline bird on dark
-- Recolour the wordmark teal
-- Use stock photos or AI renders that pretend to be the Argo drone
+- Alternate light and dark sections within one theme
+- Use colours outside the blue–cyan family, or Ocean Blue outside blue carbon
+- Put gradient fills on text or wordmarks, or text over bright light
+- Use photographs, renders or 3D models of drones or hardware
+- Pin sections in place, or make placeholders look clickable
 
-## 8. Responsive Behaviour
+## 9. Responsive Behaviour
 
 | Width | Changes |
 |---|---|
-| > 1060px | Full navigation |
-| ≤ 1060px | Navigation links move into a "Menu" button that opens a full-width panel; wordmark and primary button stay |
-| ≤ 960px | Two-column layouts stack, roadmap becomes vertical |
-| ≤ 880px | The drivetrain diagram switches to a vertical version (top to bottom) |
-| ≤ 720px | Single column, larger text in drawings, drawing title blocks hidden, full-width buttons in call-to-action blocks |
+| ≤ 1100px | Advantage tiles two by two; hub lines hidden |
+| ≤ 1060px | Nav links and the theme toggle move into "Menu"; Mission and VTOL stack; diagram descriptions two by two; no pointer light |
+| ≤ 960px | Hero, Simulation and the testbed head stack; the problem block (method cards below the text) and the solution (illustration below the text) stack; market cards and contact cards go to one column |
+| ≤ 880px | The drivetrain diagram switches to its vertical version |
+| ≤ 720px | Single column; method cards one per row; market facts stack; larger text inside drawings; lighter shader resolution |
 
-- Diagrams get a dedicated narrow version instead of scrolling sideways; the page itself never scrolls sideways.
+- The page never scrolls sideways; diagrams get a dedicated narrow version instead.
 
 ## 10. Writing
 
-- **Goals are goals.** Anything not built or measured yet is written as a target or in future tense ("will", "we're designing"), never as a present-tense fact.
-- **Numbers must be ours or explained.** Show how a figure was derived, or label it as a general industry value.
-- **One-sentence subtitles** under section headings. More than one sentence is body text.
-- **No hype words** (revolutionize, cutting-edge, state-of-the-art, passionate) and no exclamation marks.
-- **Avoid AI rhythms:** "Not just X. Y." constructions and repeated three-part punchlines.
-- British English spelling.
-- Animations respect `prefers-reduced-motion`.
+- **Clear, formal, concise technical English**: complete terms ("net-zero emissions targets"), the passive voice where natural, full sentences that flow. No hype words, no exclamation marks, no em dashes, British English.
+- **Goals are goals.** Anything not built or measured is written as a target, conditional or in the future tense.
+- **Short paragraphs:** three sentences at most, but sentences may be long.
 
-## 9. Prompt Guide (for AI tools)
+## 11. Prompt Guide (for AI tools)
 
-Quick reference:
-- Background `#FFFFFF`, dark sections `#0B0D10`
-- Text `#0B0D10`, secondary text `#5B6470`
-- Accent `#007E8A` (light) / `#0096A2` (dark): hydrogen and primary buttons only
-- Headings Montserrat 800, body Inter 400, section labels Montserrat 800 uppercase with a bar, small captions IBM Plex Mono uppercase
-- 4px radius buttons, 6px radius cards, no shadows
-
-Example prompts:
-- "Create a section on white with a section label `Roadmap` (Montserrat 800, 18px, uppercase, letter-spacing 0.14em, #0B0D10, 32×3px bar before it), a Montserrat 800 heading in #0B0D10, and an Inter paragraph in #5B6470. Hairline rule above the section."
-- "Draw a line-art diagram on #0B0D10: white 1.5px strokes, hydrogen path in #0096A2, battery path in #9AA4AF with a different dash pattern, mono uppercase labels."
-- "Primary button: #007E8A background, white Inter 600 text, 4px radius, 48px tall. Hover #006B75."
+- Light: grounds White and Frost `#F3F8FA`; text Ink `#0B0D10` / `#56616C`; hydrogen Argo Teal `#007E8A`.
+- Dark: grounds `#060C16`, Deep Navy `#0A1B2E`, Abyss `#050A12`; text `#EEF6F8` / `#9FB3BF`; hydrogen Signal Cyan `#3FE3EE` with glow.
+- Blue carbon: Ocean Blue `#2A65AD` (light) / `#7FB2FF` (dark).
+- Headings Montserrat 800, body Bricolage Grotesque, data Martian Mono. Glow from hydrogen only; no gradient text; dashed = planned.
+- Example: "A panel on White with an 18px radius, a 1px rgba(0,126,138,0.14) border and a long soft Petrol-tinted shadow; inside, a point-cloud drawing of a forest in Argo Teal dots, ground returns in Ink at 30%, and a Martian Mono legend underneath."

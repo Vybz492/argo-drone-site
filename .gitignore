@@ -2,3 +2,15 @@
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Working files that must never be published
+PRODUCT.md
+COPY_REWRITE.md
+skills-lock.json
+*.pdf
+.claude/
+.agents/
+.impeccable/
+.playwright-mcp/
+argo-screens/
+screenshots/
