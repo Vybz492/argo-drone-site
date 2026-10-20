@@ -34,14 +34,11 @@ try {
       <svg class="wordmark" viewBox="8.5 8 670.5 161.5" aria-hidden="true"><path fill-rule="evenodd" d="M8.5 164.5L116.5 8L209 161.5L209 20.5L286.5 20.5C317 20.5 337 38 337.5 67.5C338.5 91 321.5 110 299 118L338.5 164L297 164L244.5 98L275 98C291.5 98 304 86.5 304 71.5C304 58.5 293.5 50 278.5 50L243 50L243 164L171 164L115 69.5L50.5 164.5ZM496.5 50L469 67.5C460 54 447 47 430 47C403.5 47 379 69 378.5 96C378.5 121 398.5 139.5 424.5 139.5C444.5 139.5 462 127.5 468.5 111L423.5 111L423.5 85L504.5 85C506 109.5 498 129.5 483.5 144.5C468.5 160.5 449 169.5 427 169.5C381.5 169.5 344.5 137.5 344.5 96C344.5 52.5 382 14.5 428 14.5C458 14.5 483.5 27.5 496.5 50ZM679 92C679 136 642.5 169.5 596.5 169.5C550 169.5 512.5 136.5 512.5 93.5C512.5 50 550 14.5 595.5 14.5C642.5 14.5 679 48 679 92ZM643.5 92.5C643.5 66.5 623 46 596 46C569 46 547 66.5 547 93.5C547 120 569 139.5 596.5 139.5C623.5 139.5 643.5 118.5 643.5 92.5Z"/></svg>
     </a>
     <nav class="nav-links" aria-label="Main">
-      <a href="#mission">Mission</a>
-      <a href="#story">Story</a>
-      <a href="#drivetrain">Testbed</a>
+      <a href="/" aria-current="page">Home</a>
+      <a href="/drivetrain">Drivetrain</a>
       <!-- <a href="#roadmap">Roadmap</a> -->
       <!-- <a href="#partner">Partners</a> -->
       <!-- <a href="#join">Join</a> -->
-      <a href="#contact">Contact</a>
-      <span class="nav-ind" aria-hidden="true"></span>
     </nav>
     <div class="nav-actions">
       <button type="button" class="theme-toggle icon-btn" aria-label="Switch to dark mode">
@@ -53,13 +50,11 @@ try {
   </div>
   <nav class="mobile-menu" id="mobile-menu" aria-label="Menu" hidden>
     <div class="wrap">
-      <a href="#mission">Mission</a>
-      <a href="#story">Story</a>
-      <a href="#drivetrain">Testbed</a>
+      <a href="/" aria-current="page">Home</a>
+      <a href="/drivetrain">Drivetrain</a>
       <!-- <a href="#roadmap">Roadmap</a> -->
       <!-- <a href="#partner">Partners</a> -->
       <!-- <a href="#join">Join</a> -->
-      <a href="#contact">Contact</a>
       <button type="button" class="theme-toggle theme-row" aria-label="Switch to dark mode">
         <svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true"><mask id="moon-cut-b"><rect width="24" height="24" fill="#fff"/><circle class="moon-bite" cx="17" cy="8" r="8" fill="#000"/></mask><circle class="sun-core" cx="12" cy="12" r="9" mask="url(#moon-cut-b)"/><path class="sun-rays" d="M12 1.5v2M12 20.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M1.5 12h2M20.5 12h2M4.6 19.4l1.4-1.4M18 6l1.4-1.4"/></svg>
         <span class="theme-label">Dark mode</span>
@@ -607,137 +602,8 @@ try {
         </article>
         </div>
       </div>
-    </div>
-  </section>
 
-  <section id="drivetrain" class="section band curtain">
-    <div class="bg-deco motif-circuit" aria-hidden="true"><span class="glow g1"></span><span class="glow g2"></span><span class="motif"></span></div>
-    <div class="wrap">
-      <div class="drivetrain-head">
-        <header class="section-head reveal">
-          <p class="eyebrow">Current project: the hexacopter testbed</p>
-          <h2>Developing a hybrid powertrain architecture, bridging the gap between theoretical and physical reality.</h2>
-          <p>Our testbed is a DJI S800 EVO hexacopter. To balance sustained energy capacity with dynamic power delivery, its powertrain is being designed as a parallel hybrid system, built from the following integrated components.</p>
-        </header>
-        <figure class="emblem reveal">
-          <img src="assets/argo-drone-emblem.webp" width="608" height="720" alt="The Argo drone emblem, a bird seen from above with its wings spread, in white and teal." loading="lazy">
-          <figcaption>Drone emblem</figcaption>
-        </figure>
-      </div>
-
-      <div class="card diagram reveal">
-        <p class="card-title">Planned architecture</p>
-        <svg class="dg-h" viewBox="0 0 960 340" role="img" aria-labelledby="dg-title">
-          <title id="dg-title">Planned parallel hybrid drivetrain. Hydrogen flows from the tank to the PEM fuel cell, and a DC/DC converter feeds the DC bus. A buffer battery charges and discharges on the same bus, which powers the motors and ESCs.</title>
-          <path d="M190 90 H250" class="flow h2"/>
-          <path d="M420 90 H480" class="flow dc"/>
-          <path d="M660 90 H700" class="flow dc"/>
-          <path d="M660 270 H700" class="flow peak"/>
-          <path d="M700 180 H770" class="flow dc"/>
-          <line x1="700" y1="90" x2="700" y2="270" class="dg-bus"/>
-          <text x="708" y="186" class="dg-tag" transform="rotate(-90 708 186)" text-anchor="middle">DC BUS</text>
-          <path d="M570 130 V230" class="dg-ctrl"/>
-          <text x="580" y="184" class="dg-tag">control</text>
-
-          <rect x="20" y="50" width="170" height="80" rx="6" class="dg-node h2"/>
-          <text x="40" y="84" class="dg-label">H₂ TANK</text>
-          <text x="40" y="108" class="dg-sub">300 bar storage</text>
-
-          <rect x="250" y="50" width="170" height="80" rx="6" class="dg-node"/>
-          <text x="270" y="84" class="dg-label">PEM FUEL CELL</text>
-          <text x="270" y="108" class="dg-sub">steady power</text>
-
-          <rect x="480" y="50" width="180" height="80" rx="6" class="dg-node hl"/>
-          <text x="500" y="84" class="dg-label">DC/DC CONVERTER</text>
-          <text x="500" y="108" class="dg-sub">the brain: limits current</text>
-
-          <rect x="480" y="230" width="180" height="80" rx="6" class="dg-node batt"/>
-          <text x="500" y="264" class="dg-label">BUFFER BATTERY</text>
-          <text x="500" y="288" class="dg-sub">absorbs the spikes</text>
-
-          <rect x="770" y="140" width="170" height="80" rx="6" class="dg-node"/>
-          <text x="790" y="174" class="dg-label">MOTORS + ESCs</text>
-          <text x="790" y="198" class="dg-sub">volatile demand</text>
-
-          <path d="M24 246 H64" class="flow h2"/>
-          <text x="76" y="250" class="dg-sub">Hydrogen</text>
-          <path d="M24 270 H64" class="flow dc"/>
-          <text x="76" y="274" class="dg-sub">Steady DC power</text>
-          <path d="M24 294 H64" class="flow peak"/>
-          <text x="76" y="298" class="dg-sub">Peak power, in and out</text>
-          <path d="M24 318 H64" class="dg-ctrl"/>
-          <text x="76" y="322" class="dg-sub">Control signals</text>
-        </svg>
-
-        <svg class="dg-v" viewBox="0 0 360 700" role="img" aria-labelledby="dgv-title">
-          <title id="dgv-title">Planned parallel hybrid drivetrain, top to bottom: hydrogen tank, PEM fuel cell, DC/DC converter, then the DC bus with the buffer battery attached, then the motors and ESCs.</title>
-          <path d="M180 92 V132" class="flow h2"/>
-          <path d="M180 204 V252" class="flow dc"/>
-          <path d="M180 324 V362" class="flow dc"/>
-          <path d="M250 362 V392" class="flow peak"/>
-          <path d="M100 362 V500" class="flow dc"/>
-          <path d="M305 324 V392" class="dg-ctrl"/>
-          <line x1="40" y1="362" x2="320" y2="362" class="dg-bus"/>
-          <text x="40" y="354" class="dg-tag">DC BUS</text>
-
-          <rect x="40" y="20" width="280" height="72" rx="6" class="dg-node h2"/>
-          <text x="60" y="51" class="dg-label">H₂ TANK</text>
-          <text x="60" y="75" class="dg-sub">300 bar storage</text>
-
-          <rect x="40" y="132" width="280" height="72" rx="6" class="dg-node"/>
-          <text x="60" y="163" class="dg-label">PEM FUEL CELL</text>
-          <text x="60" y="187" class="dg-sub">steady power</text>
-
-          <rect x="40" y="252" width="280" height="72" rx="6" class="dg-node hl"/>
-          <text x="60" y="283" class="dg-label">DC/DC CONVERTER</text>
-          <text x="60" y="307" class="dg-sub">the brain: limits current</text>
-
-          <rect x="170" y="392" width="160" height="64" rx="6" class="dg-node batt"/>
-          <text x="184" y="419" class="dg-label">BUFFER BATTERY</text>
-          <text x="184" y="441" class="dg-sub">absorbs the spikes</text>
-
-          <rect x="40" y="500" width="280" height="72" rx="6" class="dg-node"/>
-          <text x="60" y="531" class="dg-label">MOTORS + ESCs</text>
-          <text x="60" y="555" class="dg-sub">volatile demand</text>
-
-          <path d="M40 610 H80" class="flow h2"/>
-          <text x="92" y="615" class="dg-sub">Hydrogen</text>
-          <path d="M40 636 H80" class="flow dc"/>
-          <text x="92" y="641" class="dg-sub">Steady DC power</text>
-          <path d="M40 662 H80" class="flow peak"/>
-          <text x="92" y="667" class="dg-sub">Peak power, in and out</text>
-          <path d="M40 688 H80" class="dg-ctrl"/>
-          <text x="92" y="693" class="dg-sub">Control signals</text>
-        </svg>
-        <div class="dg-key">
-          <div class="dg-key-item"><h3>Hydrogen storage</h3><p>Hydrogen will be compressed and stored in a Type IV carbon tank at 300&nbsp;bar, providing the primary, lightweight energy reserve for the system.</p></div>
-          <div class="dg-key-item"><h3>PEM fuel cell</h3><p>The stored hydrogen will be supplied to a proton exchange membrane (PEM) fuel cell, which will generate a steady, continuous supply of DC power for sustained flight.</p></div>
-          <div class="dg-key-item"><h3>Power management</h3><p>A DC/DC converter will act as the central controller, safely limiting and regulating the current distributed across the internal DC bus.</p></div>
-          <div class="dg-key-item"><h3>Buffer battery</h3><p>A smaller battery, integrated in parallel, will absorb sudden power spikes. While the fuel cell delivers steady baseline energy, the buffer battery will handle the volatile power demands of the motors and electronic speed controllers (ESCs) during dynamic manoeuvres.</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="vtol" class="section vtol">
-    <div class="bg-deco motif-stream" aria-hidden="true"><span class="glow g1"></span><span class="glow g2"></span><span class="motif"></span></div>
-    <div class="wrap vtol-grid">
-      <header class="section-head reveal">
-        <p class="eyebrow">Future project: the fixed-wing VTOL</p>
-        <h2>Combining hydrogen endurance with aerodynamic efficiency.</h2>
-        <p>Once the hybrid powertrain has been fully validated, the drivetrain will be integrated into a custom-designed fixed-wing VTOL (vertical take-off and landing) airframe. This aerodynamic configuration minimises drag and maximises forward-flight efficiency, turning the power system into a long-range platform capable of flying continuously for hundreds of kilometres.</p>
-        <p>This range would enable autonomous, non-stop monitoring of infrastructure, replacing expensive crewed helicopters and aircraft. The five use cases shown here are separate applications that share one problem, costly inspection work in major industries, and the VTOL is planned as a modular drone that would be configured differently for each of them.</p>
-      </header>
-      <figure class="uses-figure">
-        <ul class="uses">
-          <li class="use reveal"><svg class="pict" viewBox="0 0 64 48" aria-hidden="true"><path d="M32 4L22 44M32 4L42 44M23.5 37H40.5M25.5 28H38.5M27.5 19H36.5M14 12H50M18 20H46M14 12v3M50 12v3M18 20v3M46 20v3M2 15q6 5 12 0M50 15q6 5 12 0M2 23q8 5 16 0M46 23q8 5 16 0"/></svg><h3>Thermal inspection of high-voltage power grids</h3></li>
-          <li class="use reveal"><svg class="pict" viewBox="0 0 64 48" aria-hidden="true"><path d="M18 44L28 6M46 44L36 6M14 40H50M18 31H46M21.5 22H42.5M24.5 14H39.5M26.5 8H37.5"/></svg><h3>Laser scanning of high-speed railways</h3></li>
-          <li class="use reveal"><svg class="pict" viewBox="0 0 64 48" aria-hidden="true"><path d="M2 30H62M2 38H62M18 26V42M22 26V42M46 30V12M42 6H50V13H42z"/></svg><h3>Autonomous safety patrols along gas pipelines</h3></li>
-          <li class="use reveal"><svg class="pict" viewBox="0 0 64 48" aria-hidden="true"><path d="M20 44L28 14H36L44 44M32 40v-4M32 31v-4M32 22v-3M4 44v-8M8 44v-8M12 44v-8M2 36H14M52 44V28M48 32l4-4 4 4M48 24a6 6 0 0 1 8 0"/></svg><h3>Automated calibration of airport landing systems</h3></li>
-          <li class="use reveal"><svg class="pict" viewBox="0 0 64 48" aria-hidden="true"><path d="M10 44L26 8M54 44L38 8M32 42v-5M32 31v-5M32 20v-4M32 12v-2M6 12H58M12 12v32"/></svg><h3>High-speed surface mapping of motorways</h3></li>
-        </ul>
-        <figcaption>Illustration · five separate use cases, each served by its own configuration of the planned modular VTOL.</figcaption>
-      </figure>
+      <p class="next-page reveal"><a class="next-link" href="/drivetrain"><span>Explore the Kingfisher Project</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></p>
     </div>
   </section>
 

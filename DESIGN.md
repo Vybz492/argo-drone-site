@@ -19,14 +19,14 @@ Design reference for everything Argo puts out: the website, slides, social media
 |---|---|---|
 | **ΛRGO wordmark** (crossbar-less A, heavy) | The team logo. Navigation bar, footer | `assets/argo-wordmark.svg` (vector, black) |
 | **TEΛM ΛRGO lockup** (single line, lighter weight) | The full team name as a headline: website first screen, slide covers, banners | `assets/team-argo-wordmark.svg` (vector, black) |
-| **Drone emblem** (bird, white + teal) | The drone's logo. Only on dark grounds, mainly next to drone content | `assets/argo-drone-emblem.webp` (raster, transparent) |
+| **Drone emblem** (the Kingfisher; bird, white + teal) | The drone's logo, next to drone content. The original on dark grounds; a light copy (Ink + Argo Teal) on light grounds | `assets/argo-drone-emblem.webp` (original) and `assets/argo-drone-emblem-light.webp` (light copy); both raster, transparent |
 | **Favicon** (Λ from the wordmark) | Browser tab, small square avatars | `assets/favicon.svg` |
 
 **Rules**
 - The wordmark is the team logo. The bird is the drone's emblem. Do not combine them into one lock-up.
 - Both wordmarks are black in the light theme and white in the dark theme. Never teal, never gradient-filled.
-- The drone emblem is never placed on white (its white outline disappears). In the light theme it sits on its own small Abyss panel with a teal glow.
-- Never stretch, recolour or distort either asset. On the website the drone emblem is shown rotated 180° (beak pointing down), done in CSS.
+- The original drone emblem is never placed on white (its white outline disappears). In the light theme the light copy is used instead: its white parts are Ink `#0B0D10` and its teal parts Argo Teal `#007E8A` (at least 3:1 on the light grounds); it sits straight on the ground with a soft teal shadow, without a panel. The dark theme shows the original.
+- Never stretch, recolour or distort either asset; the emblem's light copy is the only recoloured version. On the website the drone emblem is shown rotated 180° (beak pointing down), done in CSS.
 - Leave clear space around either wordmark of at least half its height.
 - **"Team Argo" as a headline:** always use the TEΛM ΛRGO lockup file. Never type "Team" in a font next to the ΛRGO wordmark.
 
@@ -42,7 +42,7 @@ Design reference for everything Argo puts out: the website, slides, social media
 ### The family around them
 | Name | Hex | Role |
 |---|---|---|
-| Abyss | `#050A12` | Dark theme: hero ground; the emblem panel in the light theme |
+| Abyss | `#050A12` | Dark theme: hero ground |
 | Night ground | `#060C16` | Dark theme: section ground |
 | Deep Navy | `#0A1B2E` | Dark theme: band ground |
 | Harbour | `#12324A` | Dark theme: panels (about 50% opacity over the ground) |
@@ -101,7 +101,9 @@ Design reference for everything Argo puts out: the website, slides, social media
 
 ## 5. Components
 
-**Navigation:** transparent at the top, translucent with a hairline once scrolled; ΛRGO wordmark, text links, the **theme toggle** (one icon that morphs between moon and sun, accessible name "Switch to light/dark mode"), one primary button. A teal indicator (cyan in the dark theme) slides under the link of the section in view, which is also marked `aria-current`; a thin progress line in the same colour runs along the bottom of the bar. "Partner with us" carries a small arrow that slides on hover, and every few seconds a slow glint of light travels along its border (never across the label, which keeps its full contrast). The wordmark is never changed. On phones "Menu" opens a full-height sheet whose last row is the theme toggle.
+**Navigation:** transparent at the top, translucent with a hairline once scrolled; ΛRGO wordmark, page links, the **theme toggle** (one icon that morphs between moon and sun, accessible name "Switch to light/dark mode"), one primary button. The links lead to pages, not sections: Home (`/`) and Drivetrain (`/drivetrain`), with more pages (for example Team and Partners) added as further links in the same list, in the bar and in the phone menu. The link of the current page is marked `aria-current="page"` in the HTML and carries a teal bar under it (cyan in the dark theme); the bar does not follow the scroll. A thin progress line in the same colour runs along the bottom of the bar. "Partner with us" leads to the Contact section of the page it is on. "Partner with us" carries a small arrow that slides on hover, and every few seconds a slow glint of light travels along its border (never across the label, which keeps its full contrast). The wordmark is never changed. On phones "Menu" opens a full-height sheet with the page links (the current page in the accent colour) and the theme toggle as the last row.
+
+**Link band (main page):** after the market cards, one large bold link centred on the page, "Explore the Kingfisher Project", in Montserrat 800, underlined in the hydrogen colour, with a decorative arrow that slides on hover. It leads to /drivetrain. No image.
 
 **Buttons:** Argo Teal, white text, 4px radius, soft teal glow. Hover darker teal, press `scale(0.97)`, magnetic on fine pointers. Hover styles only on devices that can hover.
 
@@ -127,9 +129,9 @@ Design reference for everything Argo puts out: the website, slides, social media
 
 **Planned components:** the testbed components carry no status chips; the "Planned architecture" title marks them as planned.
 
-**Illustrations:** captioned "Illustration"; informative drawings have a text description; decorative figures are `aria-hidden`. Never draw hydrogen hardware as existing, never draw a VTOL airframe, no 3D models of drones or hardware. The hero's light streams are allowed because they read as light, not as an object.
+**Illustrations:** captioned "Illustration"; informative drawings have a text description; decorative figures are `aria-hidden`. Never draw a VTOL airframe. Isometric technical line illustrations of the testbed are allowed when they are drawn as line art in the figure style (light strokes on the dark ground, Ink on the light ground), built from stated or measured dimensions, and captioned as an illustration, for example "Illustration of the planned architecture". Photorealistic renders, CAD renders and shaded 3D models of drones or hardware are not used. Hydrogen hardware is never drawn as existing: planned components are drawn apart from the airframe, marked as planned, and labelled with approximate positions. The hero's light streams are allowed because they read as light, not as an object.
 
-**Charts:** inline SVG; hydrogen highlighted (teal, or cyan with glow in the dark theme), batteries in Ink or white; hover and keyboard readout, a slider for touch, and "Show the numbers". Only Fig. 01 and Fig. 02 are numbered.
+**Charts:** inline SVG; hydrogen highlighted (teal, or cyan with glow in the dark theme), batteries in Ink or white; hover and keyboard readout, a slider for touch, and "Show the numbers". Fig. 01 and Fig. 02 are numbered. Fig. 03 (Testbed) and Fig. 04 (fuel cell) are numbered too.
 
 **Footer:** on the band colour; team lines left, ΛRGO wordmark right.
 
@@ -147,7 +149,7 @@ Lenis (`lenis@1.1.20`) for smooth scrolling and GSAP with ScrollTrigger (`gsap@3
 | **Testbed** | The whole diagram enters once, part by part; the flowing connections then keep running. No pinning. |
 | **VTOL** | Tiles rise in; a scan line sweeps a tile on hover. |
 | **Pointer** | Dark theme: a soft cyan light follows the pointer. Both themes: tiles and cards lift and glow under the pointer; primary actions are magnetic. Fine pointers only. |
-| **Navigation** | The section indicator slides between links; the theme icon morphs between moon and sun; a glint travels along the border of "Partner with us" about every 7 seconds and its arrow slides on hover. Under reduced motion: no sweep and no morph, and the indicator jumps. |
+| **Navigation** | The current-page bar stays still; the progress line follows the scroll; the theme icon morphs between moon and sun; a glint travels along the border of "Partner with us" about every 7 seconds and its arrow slides on hover. Under reduced motion: no sweep and no morph. |
 | **Always** | The props in Fig. 01 spin and the diagram's dashed lines flow. |
 
 **Rules**
@@ -165,10 +167,11 @@ Lenis (`lenis@1.1.20`) for smooth scrolling and GSAP with ScrollTrigger (`gsap@3
 - **Our mission (ground):** heading and vision line beside the energy figure (33 against 0.25 kWh per kilogram of fuel, 132 squares against 1). Below, "The Hydrogen Advantage" and four advantage tiles.
 - **Simulation (band):** text beside Fig. 02 with the flight time slider and "Show the numbers".
 - **The story (ground):** heading and intro; the point-cloud panorama; **the unsolved problem** (text and three risks beside the four method cards); **the solution** directly below as the answer (a two-sentence statement beside the solution illustration); **target markets and operations** ("Two markets, one airframe": two compact cards with "More details"). The heading matches the Simulation heading in size, so the heading, intro and the whole panorama fit on one screen (checked at 1440×900 and 1280×800). The panorama stays the main image.
-- **Current project: the hexacopter testbed (band):** heading, intro and the emblem; then the planned-architecture panel with the diagram and the four component descriptions beneath it.
-- **Future project: the fixed-wing VTOL (ground):** text on the left, the five use-case tiles on the right (one column on tablets and phones).
+- **Link band (end of the Story):** the centred link to /drivetrain. The main page's story ends here.
 - **Contact (band):** heading, subtitle, three equal contact cards; then the footer.
-- **Menu:** Mission · Story · Testbed · Contact, plus the theme toggle.
+- **The drivetrain page (`drivetrain/index.html`, teamargo.eu/drivetrain):** **The Kingfisher Project (band):** heading, intro and the emblem, then Fig. 03 and Fig. 04; **Future project: the fixed-wing VTOL (ground):** text on the left, the five use-case tiles on the right (one column on tablets and phones); then Contact and the footer.
+- **Menu:** Home · Drivetrain (page links), plus the theme toggle.
+- **Pages:** the main page (`index.html`) and the drivetrain page (`drivetrain/index.html`). The navigation, the Contact section and the footer exist on every page and must be changed in all of them. A new page lives in its own folder (`team/index.html` for teamargo.eu/team), uses root-relative paths (`/styles.css`, `/script.js`), and gets a link in both nav lists of every page; on its own page that link carries `aria-current="page"`.
 - Max content width 1240px, 24px side padding (16px on phones). Section spacing about 152px (104px on phones).
 
 ## 8. Do's and Don'ts
@@ -184,7 +187,7 @@ Lenis (`lenis@1.1.20`) for smooth scrolling and GSAP with ScrollTrigger (`gsap@3
 - Alternate light and dark sections within one theme
 - Use colours outside the blue–cyan family, or Ocean Blue outside blue carbon
 - Put gradient fills on text or wordmarks, or text over bright light
-- Use photographs, renders or 3D models of drones or hardware
+- Use photographs, photorealistic or CAD renders, or 3D models of drones or hardware (captioned isometric line illustrations are allowed; see Illustrations)
 - Pin sections in place, or make placeholders look clickable
 
 ## 9. Responsive Behaviour

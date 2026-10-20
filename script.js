@@ -10,39 +10,19 @@ const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 12);
 onScroll();
 window.addEventListener('scroll', onScroll, { passive: true });
 
-// Nav: a thin progress line, and an indicator under the link of the section in view
-const navLinks = [...document.querySelectorAll('.nav-links a')];
-const navTargets = navLinks.map((a) => document.querySelector(a.getAttribute('href')));
-const navInd = document.querySelector('.nav-ind');
+// Nav: a thin progress line; the current page's link is marked in the HTML (aria-current="page")
 const navProgress = document.querySelector('.nav-progress');
 let navFrame = 0;
 const syncNav = () => {
   navFrame = 0;
   const max = document.documentElement.scrollHeight - window.innerHeight;
   navProgress.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`;
-  // the current section is the last one whose top has passed 40% of the viewport
-  let current = -1;
-  navTargets.forEach((target, i) => {
-    if (target && target.getBoundingClientRect().top <= window.innerHeight * 0.4) current = i;
-  });
-  navLinks.forEach((a, i) => (i === current ? a.setAttribute('aria-current', 'location') : a.removeAttribute('aria-current')));
-  if (current >= 0) {
-    const link = navLinks[current];
-    // appear in place rather than sliding in from the left edge
-    if (!navInd.classList.contains('on')) navInd.style.transition = 'none';
-    navInd.style.transform = `translateX(${link.offsetLeft}px)`;
-    navInd.style.width = `${link.offsetWidth}px`;
-    void navInd.offsetWidth;
-    navInd.style.transition = '';
-  }
-  navInd.classList.toggle('on', current >= 0);
 };
 const queueNav = () => {
   if (!navFrame) navFrame = requestAnimationFrame(syncNav);
 };
 window.addEventListener('scroll', queueNav, { passive: true });
 window.addEventListener('resize', queueNav);
-document.fonts?.ready.then(syncNav);
 syncNav();
 
 const toggle = document.getElementById('menu-toggle');
@@ -125,7 +105,8 @@ if ('IntersectionObserver' in window) {
 const emblemText = document.querySelector('.drivetrain-head .section-head');
 const emblem = document.querySelector('.emblem');
 if (emblemText && emblem && 'ResizeObserver' in window) {
-  const emblemImg = emblem.querySelector('img');
+  // two images, one per theme; only the shown one has a height to measure
+  const emblemImgs = [...emblem.querySelectorAll('img')];
   const sideBySide = window.matchMedia('(min-width: 961px)');
   const textBounds = (el) => {
     const range = document.createRange();
@@ -135,15 +116,15 @@ if (emblemText && emblem && 'ResizeObserver' in window) {
   const fitEmblem = () => {
     if (!sideBySide.matches) {
       emblem.style.marginTop = '';
-      emblemImg.style.height = '';
+      emblemImgs.forEach((img) => (img.style.height = ''));
       return;
     }
     const box = emblemText.getBoundingClientRect();
     const first = textBounds(emblemText.firstElementChild);
     const last = textBounds(emblemText.lastElementChild);
-    const pad = emblem.offsetHeight - emblemImg.offsetHeight;
+    const pad = emblem.offsetHeight - Math.max(...emblemImgs.map((img) => img.offsetHeight));
     emblem.style.marginTop = `${first.top - box.top}px`;
-    emblemImg.style.height = `${Math.max(120, last.bottom - first.top - pad)}px`;
+    emblemImgs.forEach((img) => (img.style.height = `${Math.max(120, last.bottom - first.top - pad)}px`));
   };
   new ResizeObserver(fitEmblem).observe(emblemText);
   sideBySide.addEventListener('change', fitEmblem);
@@ -529,35 +510,37 @@ if (motion) {
   const { gsap, ScrollTrigger } = window;
   gsap.registerPlugin(ScrollTrigger);
 
-  // Hero: the first second
-  const bp = fig01.querySelector('.bp');
-  const intro = gsap.timeline({ defaults: { ease: 'expo.out' } });
-  intro
-    .fromTo('.hero-wordmark', { clipPath: 'inset(0% 100% 0% 0%)', x: -24 }, { clipPath: 'inset(0% 0% 0% 0%)', x: 0, duration: 1.3, clearProps: 'clipPath,transform' }, 0.05)
-    .from(['.hero-sub', '.hero-tagline', '.hero-meta'], { y: 26, opacity: 0, duration: 1, stagger: 0.1 }, 0.35)
-    .from(bp.querySelectorAll('.rotor-disc'), { scale: 0.3, opacity: 0, transformOrigin: '50% 50%', duration: 1.2, stagger: 0.05 }, 0)
-    .from(bp.querySelectorAll(':scope > g:not(.discs):not(.planned):not(.tb-block)'), { opacity: 0, duration: 0.9, stagger: 0.04 }, 0.15)
-    .from(bp.querySelector('.planned'), { opacity: 0, scale: 0.85, transformOrigin: '50% 50%', duration: 1 }, 0.7)
-    .from(bp.querySelectorAll('text, .tb-block, .legend'), { opacity: 0, duration: 0.8, stagger: 0.03 }, 0.8);
-  bp.querySelectorAll('.cline').forEach((line) => {
-    const len = line.getTotalLength();
-    intro.fromTo(line, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 0.9, ease: 'power2.inOut' }, 0.75);
-  });
-
-  gsap.to('.hero-stage', { yPercent: -10, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-
-  if (finePointer) {
-    const rx = gsap.quickTo(fig01, 'rotationX', { duration: 0.9, ease: 'power3' });
-    const ry = gsap.quickTo(fig01, 'rotationY', { duration: 0.9, ease: 'power3' });
-    hero.addEventListener('pointermove', (e) => {
-      const r = hero.getBoundingClientRect();
-      ry(((e.clientX - r.left) / r.width - 0.5) * 10);
-      rx(-((e.clientY - r.top) / r.height - 0.5) * 8);
+  // Hero: the first second (main page only)
+  if (fig01) {
+    const bp = fig01.querySelector('.bp');
+    const intro = gsap.timeline({ defaults: { ease: 'expo.out' } });
+    intro
+      .fromTo('.hero-wordmark', { clipPath: 'inset(0% 100% 0% 0%)', x: -24 }, { clipPath: 'inset(0% 0% 0% 0%)', x: 0, duration: 1.3, clearProps: 'clipPath,transform' }, 0.05)
+      .from(['.hero-sub', '.hero-tagline', '.hero-meta'], { y: 26, opacity: 0, duration: 1, stagger: 0.1 }, 0.35)
+      .from(bp.querySelectorAll('.rotor-disc'), { scale: 0.3, opacity: 0, transformOrigin: '50% 50%', duration: 1.2, stagger: 0.05 }, 0)
+      .from(bp.querySelectorAll(':scope > g:not(.discs):not(.planned):not(.tb-block)'), { opacity: 0, duration: 0.9, stagger: 0.04 }, 0.15)
+      .from(bp.querySelector('.planned'), { opacity: 0, scale: 0.85, transformOrigin: '50% 50%', duration: 1 }, 0.7)
+      .from(bp.querySelectorAll('text, .tb-block, .legend'), { opacity: 0, duration: 0.8, stagger: 0.03 }, 0.8);
+    bp.querySelectorAll('.cline').forEach((line) => {
+      const len = line.getTotalLength();
+      intro.fromTo(line, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 0.9, ease: 'power2.inOut' }, 0.75);
     });
-    hero.addEventListener('pointerleave', () => {
-      rx(0);
-      ry(0);
-    });
+
+    gsap.to('.hero-stage', { yPercent: -10, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+
+    if (finePointer) {
+      const rx = gsap.quickTo(fig01, 'rotationX', { duration: 0.9, ease: 'power3' });
+      const ry = gsap.quickTo(fig01, 'rotationY', { duration: 0.9, ease: 'power3' });
+      hero.addEventListener('pointermove', (e) => {
+        const r = hero.getBoundingClientRect();
+        ry(((e.clientX - r.left) / r.width - 0.5) * 10);
+        rx(-((e.clientY - r.top) / r.height - 0.5) * 8);
+      });
+      hero.addEventListener('pointerleave', () => {
+        rx(0);
+        ry(0);
+      });
+    }
   }
 
   // Band sections open up like a curtain as they arrive
@@ -570,35 +553,30 @@ if (motion) {
   });
 
   // Mission: the numbers count up and the 132 squares fill row by row, once, while the figure is in view
-  const energyIn = gsap.timeline({ scrollTrigger: { trigger: '.energy', start: 'top 70%', once: true } });
-  energyIn.fromTo('.energy-fill', { clipPath: 'inset(0% 0% 100% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3, ease: 'steps(11)' }, 0.2);
-  document.querySelectorAll('[data-count]').forEach((el) => {
-    const value = Number(el.dataset.count);
-    const decimals = Number(el.dataset.decimals);
-    const counter = { v: 0 };
-    energyIn.to(counter, { v: value, duration: 1.6, ease: 'power3.out', onUpdate: () => { el.textContent = counter.v.toFixed(decimals); } }, 0);
-  });
+  if (document.querySelector('.energy')) {
+    const energyIn = gsap.timeline({ scrollTrigger: { trigger: '.energy', start: 'top 70%', once: true } });
+    energyIn.fromTo('.energy-fill', { clipPath: 'inset(0% 0% 100% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3, ease: 'steps(11)' }, 0.2);
+    document.querySelectorAll('[data-count]').forEach((el) => {
+      const value = Number(el.dataset.count);
+      const decimals = Number(el.dataset.decimals);
+      const counter = { v: 0 };
+      energyIn.to(counter, { v: value, duration: 1.6, ease: 'power3.out', onUpdate: () => { el.textContent = counter.v.toFixed(decimals); } }, 0);
+    });
+  }
 
   // Simulation: the chart draws itself
-  const lines = [simChart.querySelector('.sim-batt'), simChart.querySelector('.sim-h2')];
-  const chartIn = gsap.timeline({ scrollTrigger: { trigger: simChart, start: 'top 78%', once: true } });
-  lines.forEach((line, i) => {
-    const len = line.getTotalLength();
-    chartIn.fromTo(line, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut', clearProps: 'strokeDasharray,strokeDashoffset' }, i * 0.3);
-  });
-  chartIn
-    .from(simChart.querySelector('.sim-zone'), { opacity: 0, duration: 0.9, ease: 'power2.out' }, 0.9)
-    .from(simChart.querySelector('.sim-dot'), { scale: 0, transformOrigin: '50% 50%', duration: 0.8, ease: 'expo.out' }, 1.1)
-    .from(simChart.querySelectorAll('.sim-label, .sim-note'), { opacity: 0, duration: 0.6, stagger: 0.1 }, 1.2);
-
-  // Testbed: the whole diagram enters once, part by part, then the connections keep flowing
-  const diagramSvgs = [...document.querySelectorAll('.diagram .dg-h, .diagram .dg-v')];
-  diagramSvgs.forEach((svg) => {
-    const parts = [...svg.querySelectorAll('.dg-node')].map((rect) => [rect, rect.nextElementSibling, rect.nextElementSibling.nextElementSibling]);
-    gsap.timeline({ scrollTrigger: { trigger: svg, start: 'top 80%', once: true } })
-      .from(parts.flat(), { opacity: 0, y: 10, duration: 0.7, ease: 'power3.out', stagger: 0.04 }, 0)
-      .from(svg.querySelectorAll('.flow, .dg-bus, .dg-ctrl'), { opacity: 0, duration: 0.6, stagger: 0.05 }, 0.5);
-  });
+  if (simChart) {
+    const lines = [simChart.querySelector('.sim-batt'), simChart.querySelector('.sim-h2')];
+    const chartIn = gsap.timeline({ scrollTrigger: { trigger: simChart, start: 'top 78%', once: true } });
+    lines.forEach((line, i) => {
+      const len = line.getTotalLength();
+      chartIn.fromTo(line, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut', clearProps: 'strokeDasharray,strokeDashoffset' }, i * 0.3);
+    });
+    chartIn
+      .from(simChart.querySelector('.sim-zone'), { opacity: 0, duration: 0.9, ease: 'power2.out' }, 0.9)
+      .from(simChart.querySelector('.sim-dot'), { scale: 0, transformOrigin: '50% 50%', duration: 0.8, ease: 'expo.out' }, 1.1)
+      .from(simChart.querySelectorAll('.sim-label, .sim-note'), { opacity: 0, duration: 0.6, stagger: 0.1 }, 1.2);
+  }
 
   if (finePointer) {
     // magnetic actions

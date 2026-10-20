@@ -1,0 +1,18 @@
+/* /drivetrain only: the page around Fig. 03 and Fig. 04. The figures' own styles are in fig03.css and fig04.css. */
+
+/* The intro heading is this page's h1, with the look of the Testbed heading on the main page */
+.section-head h1 { margin: 24px 0; font-size: clamp(28px, 2.9vw, 42px); line-height: 1.02; letter-spacing: -0.035em; }
+
+/* The figures were built on pages whose <body> set their base text; they get the same base here */
+#drivetrain :where(.tb-fig, .fc) { font: 14px/1.6 var(--anatomy-mono); color: var(--anatomy-text); -webkit-font-smoothing: antialiased; }
+
+/* Desktop: both cards reach into the side space, and each fits one screen under the fixed nav (--fit-h is read by the figures) */
+@media (min-width: 881px) {
+  #drivetrain :is(figure.tb-fig, figure.fc) { --w: min(1480px, 100vw - 48px); --fit-h: min(860px, 100vh - 108px); width: var(--w); margin-left: calc((100% - var(--w)) / 2); }
+}
+
+/* Fig. 04 as its own card directly below Fig. 03, spaced as in the approved preview */
+#drivetrain .tb-fig + .fc { margin-top: 72px; }
+
+/* "Take it apart" and the phone rows scroll into view clear of the fixed nav */
+#drivetrain figure.fc, #drivetrain .tb-row { scroll-margin-top: 92px; }
