@@ -45,7 +45,6 @@
   --nav-bg: rgba(255, 255, 255, 0.82);
   --nav-line: rgba(11, 13, 16, 0.08);
   --tip-bg: rgba(255, 255, 255, 0.96);
-  --node-fill: var(--white);
   --grain-opacity: 0;
   --glow-a: rgba(201, 244, 247, 0.55);
   --glow-b: rgba(0, 150, 162, 0.10);
@@ -93,7 +92,6 @@
   --nav-bg: rgba(5, 10, 18, 0.66);
   --nav-line: rgba(201, 244, 247, 0.10);
   --tip-bg: rgba(7, 19, 33, 0.92);
-  --node-fill: rgba(5, 10, 18, 0.85);
   --grain-opacity: 0.05;
   --glow-a: rgba(0, 150, 162, 0.22);
   --glow-b: rgba(10, 79, 92, 0.30);
@@ -196,8 +194,6 @@ h3, h4 { font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; }
 .nav-links a[aria-current] { opacity: 1; }
 /* the link of the current page carries the hydrogen-coloured bar */
 .nav-links a[aria-current="page"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -8px; height: 2px; border-radius: 1px; background: var(--h2); pointer-events: none; }
-.nav-ind { position: absolute; left: 0; bottom: -8px; width: 0; height: 2px; border-radius: 1px; background: var(--h2); opacity: 0; pointer-events: none; transition: transform 0.45s var(--ease-out), width 0.45s var(--ease-out), opacity 0.25s; }
-.nav-ind.on { opacity: 1; }
 .nav-progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--h2); opacity: 0.7; transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
 .nav-actions { display: flex; align-items: center; gap: 10px; }
 .nav.menu-open { background: var(--ground); border-color: var(--nav-line); }
@@ -677,18 +673,7 @@ html:not(.js) .adv-toggle { display: none; }
 .emblem .emblem-light, [data-theme="light"] .emblem .emblem-dark { display: none; }
 [data-theme="light"] .emblem .emblem-light { display: block; filter: drop-shadow(0 0 40px rgba(0, 150, 162, 0.18)); }
 
-.diagram { padding: 32px; border: 1px solid var(--panel-border); border-radius: var(--radius-lg); background: var(--panel); box-shadow: var(--panel-shadow); }
-.diagram .card-title { margin-bottom: 18px; }
-.diagram svg { width: 100%; }
-.diagram .dg-v { display: none; }
-.dg-v .dg-label { font-size: 13px; }
-.dg-v .dg-sub { font-size: 14px; }
-.dg-node { fill: var(--node-fill); stroke: var(--line-strong); stroke-width: 1.4; }
-.dg-label { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.04em; fill: var(--text); }
-.dg-sub { font-family: var(--sans); font-size: 13px; fill: var(--muted); }
 .dg-tag { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; fill: var(--muted); }
-/* same rotation as the SVG attribute, nudged 14px left so the bus line does not run through "DC BUS" */
-.dg-h .dg-tag[transform] { transform: translate(-14px, 0) translate(708px, 186px) rotate(-90deg) translate(-708px, -186px); transform-origin: 0 0; transform-box: view-box; }
 .dg-bus { stroke: var(--text); stroke-width: 3; stroke-linecap: round; }
 .dg-ctrl { fill: none; stroke: var(--muted); stroke-width: 2; stroke-dasharray: 1 5; stroke-linecap: round; }
 
@@ -699,11 +684,6 @@ html:not(.js) .adv-toggle { display: none; }
 
 @keyframes flow { to { stroke-dashoffset: -14; } }
 @keyframes flow-peak { from { stroke-dashoffset: 0; } to { stroke-dashoffset: 32; } }
-
-.dg-key { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; margin-top: 32px; }
-.dg-key-item { padding-top: 18px; border-top: 2px solid var(--line-strong); }
-.dg-key h3 { font-size: 18px; }
-.dg-key p { margin-top: 10px; font-size: 15.5px; color: var(--body); }
 
 /* VTOL: five separate use cases */
 
@@ -878,7 +858,6 @@ html:not(.js) .adv-toggle { display: none; }
   .mission .section-head { margin-bottom: 96px; }
   .adv h4 { min-height: 0; }
   .vtol-grid { grid-template-columns: 1fr; }
-  .dg-key { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .glow-cursor { display: none; }
 }
 
@@ -906,11 +885,6 @@ html:not(.js) .adv-toggle { display: none; }
   .roles li p { grid-column: 2; margin-top: 6px; }
 }
 
-@media (max-width: 880px) {
-  .diagram .dg-h { display: none; }
-  .diagram .dg-v { display: block; min-width: 0; max-width: 420px; margin: 0 auto; }
-}
-
 @media (max-width: 720px) {
   body { font-size: 16px; }
   .wrap { padding: 0 16px; }
@@ -926,10 +900,8 @@ html:not(.js) .adv-toggle { display: none; }
   .spec dt { margin-top: 0; text-align: right; }
   .spec dd { font-size: 26px; }
   .card { padding: 24px; }
-  .diagram { padding: 20px; }
   .emblem img { height: 190px; }
   .adv-list { grid-template-columns: 1fr; }
-  .dg-key { grid-template-columns: 1fr; gap: 24px; }
   .sim-figure { padding: 20px 16px; }
   .sim-tick, .sim-note { font-size: 20px; }
   .sim-axis-title, .sim-label { font-size: 20px; }
@@ -962,7 +934,7 @@ html:not(.js) .adv-toggle { display: none; }
   .btn:active, .menu-toggle:active, .icon-btn:active, .channel:active { transform: none; }
   .adv, .use, .channel, .channel-value, .channel-arrow { transition: none; }
   .glow-cursor { display: none; }
-  .nav-ind, .btn-arrow, .theme-icon * { transition: none !important; }
+  .btn-arrow, .theme-icon * { transition: none !important; }
   .btn-partner:hover .btn-arrow, .next-link:hover svg { transform: none; }
 }
 
