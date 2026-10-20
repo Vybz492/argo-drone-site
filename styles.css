@@ -621,10 +621,11 @@ html:not(.js) .adv-toggle { display: none; }
 .solution-text { max-width: 34em; margin-top: 20px; font-size: clamp(17px, 1.4vw, 19px); line-height: 1.6; color: var(--body); }
 .solution-fig { margin: 0; padding: 18px 22px 16px; overflow: hidden; border: 1px solid var(--panel-border); border-radius: var(--radius-lg); background: var(--panel); box-shadow: var(--panel-shadow); }
 .sd-solution { display: block; width: 100%; }
-.sd-craft .back { opacity: 0.55; }
-.sd-craft .sd-tank { fill: color-mix(in srgb, var(--h2) 20%, var(--panel-solid)); stroke: var(--h2); stroke-dasharray: 3.5 2.5; }
+.sd-craft .sd-planned { stroke-dasharray: 3 2.5; }
 .sd-anchor circle { fill: var(--panel-solid); stroke: var(--text); stroke-width: 1.3; }
 .sol-legend { display: none; }
+/* bridge line under the text and the figure, centred across both */
+.solution-bridge { grid-column: 1 / -1; margin: 0; text-align: center; font-size: clamp(16px, 1.3vw, 18px); line-height: 1.6; color: var(--body); }
 .solution-fig figcaption { margin-top: 10px; font-size: 13.5px; color: var(--muted); }
 
 .market-grid { display: grid; gap: 20px; }
