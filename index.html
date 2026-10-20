@@ -257,8 +257,8 @@ try {
       <div class="section-head sim-text reveal">
         <p class="eyebrow">Simulation</p>
         <h2>The critical mass penalty.</h2>
-        <p>A MATLAB model was developed to determine how heavy a drone's energy system must be for a given flight time. A battery system adds approximately 4&nbsp;kg for every hour of flight, whereas a hydrogen system starts at 2&nbsp;kg and adds only approximately 0.4&nbsp;kg per hour. Beyond approximately 33 minutes, hydrogen is therefore the lighter option.</p>
-        <p>At our target of 7&#8288;–&#8288;8 hours of flight, the batteries alone would weigh 28&#8288;–&#8288;32&nbsp;kg, exceeding the 25&nbsp;kg limit for the entire drone. The hydrogen system would weigh approximately 5&nbsp;kg.</p>
+        <p>A MATLAB model compared the mass of the energy system alone against flight time. Batteries add approximately 4&nbsp;kg per hour, whereas the hydrogen system starts at approximately 2&nbsp;kg for the fuel cell and grows by only approximately 0.4&nbsp;kg per hour, including the tank needed to store the extra hydrogen. Beyond approximately 33 minutes, hydrogen is therefore the lighter option.</p>
+        <p>At our target of 7&#8288;–&#8288;8 hours of flight, the batteries alone would weigh 28&#8288;–&#8288;32&nbsp;kg, exceeding our 25&nbsp;kg design limit for the entire drone. Above this mass, EU rules move a drone out of the open category and require an operational authorisation. The hydrogen system would weigh approximately 5&nbsp;kg.</p>
       </div>
 
       <figure class="sim-figure reveal">
@@ -271,7 +271,7 @@ try {
         <div class="sim-plot">
           <svg id="sim-chart" class="sim-chart" viewBox="0 0 640 420" role="img" aria-labelledby="sim-title sim-desc" tabindex="0">
             <title id="sim-title">The critical mass penalty: energy system mass against flight duration</title>
-            <desc id="sim-desc">The battery system starts at 0 kg and gains about 4 kg per hour. The hydrogen fuel-cell system starts at 2 kg and gains about 0.4 kg per hour. The lines cross at about 33 minutes, and after that the hydrogen system is lighter. Use the left and right arrow keys, or the flight time slider, to read values.</desc>
+            <desc id="sim-desc">Mass of the energy system alone, excluding the airframe. The battery system starts at 0 kg and gains about 4 kg per hour. The hydrogen system starts at 2 kg for the fuel cell and grows by about 0.4 kg per hour, including the tank needed to store the extra hydrogen. The lines cross at about 33 minutes, and after that the hydrogen system is lighter. Use the left and right arrow keys, or the flight time slider, to read values.</desc>
             <path class="sim-zone" d="M134.1 223.5 L249.5 16 L624 16 L624 136.2 Z"/>
             <g class="sim-grid-lines">
               <line x1="56" y1="300.7" x2="624" y2="300.7"/>
@@ -323,7 +323,7 @@ try {
           <input type="range" id="sim-range" min="0" max="240" step="1" value="33">
           <output id="sim-range-out" for="sim-range">33 min</output>
         </div>
-        <figcaption>Fig. 02 · Energy system mass against desired flight duration. MATLAB simulation by Team Argo.</figcaption>
+        <figcaption>Fig. 02 · Mass of the energy system alone, excluding the airframe, against desired flight duration. MATLAB simulation by Team Argo.</figcaption>
         <details class="sim-data">
           <summary>Show the numbers</summary>
           <table>
@@ -339,6 +339,9 @@ try {
               <tr><td>3 hours</td><td>12.1 kg</td><td>3.2 kg</td></tr>
               <tr><td>4 hours</td><td>16.1 kg</td><td>3.6 kg</td></tr>
             </tbody>
+            <tfoot>
+              <tr><td colspan="3">Model assumptions: 1,000&nbsp;W cruise power, batteries at 250&nbsp;Wh/kg, fuel cell efficiency of 50&nbsp;%, and hydrogen making up 15&nbsp;% of the filled tank's mass.</td></tr>
+            </tfoot>
           </table>
         </details>
       </figure>
