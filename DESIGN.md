@@ -47,7 +47,7 @@ Design reference for everything Argo puts out: the website, slides, social media
 | Deep Navy | `#0A1B2E` | Dark theme: band ground |
 | Harbour | `#12324A` | Dark theme: panels (about 50% opacity over the ground) |
 | Petrol | `#0A4F5C` | Gradient middle stop; dark teal in the light hero streams |
-| **Signal Cyan** (the one accent) | `#3FE3EE` | Dark theme only: the light itself (hydrogen lines, glow, the 132 squares, terrestrial point clouds) |
+| **Signal Cyan** (the one accent) | `#3FE3EE` | Dark theme only: the light itself (hydrogen lines, glow, terrestrial point clouds) |
 | Ocean Blue | `#2A65AD` (light) / `#7FB2FF` (dark) | Blue carbon only: marine point clouds, water, the marine card |
 | Ice | `#C9F4F7` | Light theme: glows and tints |
 | Frost | `#F3F8FA` | Light theme: band ground |
@@ -107,9 +107,9 @@ Design reference for everything Argo puts out: the website, slides, social media
 
 **Buttons:** Argo Teal, white text, 4px radius, soft teal glow. Hover darker teal, press `scale(0.97)`, magnetic on fine pointers. Hover styles only on devices that can hover.
 
-**Panels:** 18px radius, a teal-tinted (light) or ice (dark) border, a long soft shadow and a 1px inner highlight. Used for the energy figure, Fig. 02, the advantage tiles, the method cards, the market cards, the diagram, the use-case tiles and the contact cards.
+**Panels:** 18px radius, a teal-tinted (light) or ice (dark) border, a long soft shadow and a 1px inner highlight. Used for Fig. 02, the advantage tiles, the method cards, the market cards, the diagram, the use-case tiles and the contact cards.
 
-**Advantage tiles (Mission):** a small animated figure, a key figure in the hydrogen colour, the title, and one sentence. The four tiles share rows (subgrid), so key figures, titles and text line up across them. Above them, "The Hydrogen Advantage" is centred, with thin hydrogen-coloured hub lines that draw out once to a small dot on each tile (desktop only). The figures are drawn bars, a fuel cell releasing water vapour, a battery flight broken by landings against one continuous hydrogen flight, and a sweeping scan beam.
+**Advantage tiles (Mission):** a small figure and the bold title, centred, with two title lines reserved while the tiles sit side by side so the four texts start level; the text sits behind one shared "Read more" / "Show less" button that opens all four tiles together. The button sits centred under "The Hydrogen Advantage", on the hub line's stem, so opening the tiles only adds height below it and it never moves. Thin hydrogen-coloured hub lines draw out once from it to a small dot on each tile (desktop only). All four figures share one 220 × 88 box, so the titles line up: energy-density bars with their kWh/kg values; a crossed-out CO₂ pill beside a lit H₂O pill ("Only water vapour"); four battery packs with swap arrows above one long hydrogen tank; a drone scanning a row of point-cloud trees. Thin lines, 10px mono labels in Muted, hydrogen in the hydrogen colour, battery and "not present" in Muted.
 
 **Story blocks:** an accent label, a statement heading, short text, and a figure (point-cloud panorama, method cards, the solution illustration, market cards).
 
@@ -143,7 +143,7 @@ Lenis (`lenis@1.1.20`) for smooth scrolling and GSAP with ScrollTrigger (`gsap@3
 |---|---|
 | **Hero, first second** | A WebGL shader draws streams of teal light (on Frost in the light theme, cyan on Abyss in the dark theme) that bend towards the pointer and fade out behind the labels of Fig. 01. The lockup sweeps in, the lines rise in, Fig. 01 draws itself (rotor rings, frame, callouts) and the dashed planned parts settle with the tank glowing. About 1.4s. The drawing tilts a few degrees towards the pointer. |
 | **Curtains** | Band sections (Simulation, Testbed, Contact) arrive as a rounded panel that widens to full bleed. |
-| **Mission** | Once the figure is a third in view, 33 and 0.25 count up and the 132 squares fill row by row in about 1.3s. Each advantage tile animates its own figure once (bars grow, flight lines draw, the drop falls, the scan sweeps). |
+| **Mission** | Each advantage tile animates its own figure every time it scrolls into view (in either direction), on hover, and on tap on touch devices; a replay restarts the figure, never stacks: the hydrogen bar grows; the CO₂ strike draws and the H₂O pill lights; the battery packs drain one after another (the swap arrow pulses) while the tank drops only slightly; the drone flies the row and each tree lights as the scan passes. Reduced motion shows static frames (three packs empty, the fourth partly full; the drone halfway, half the trees lit). The shared button opens the tile text with a 0.45s height transition, instant under reduced motion. |
 | **Simulation** | The battery line draws, then the hydrogen line, then the advantage area and the break-even dot. |
 | **Story** | The point clouds are revealed by a laser sweep from left to right as each drawing comes into view. In the panorama the drones then ease to wherever the visitor moves them (instantly under reduced motion), and their beams light up the returns beneath. |
 | **Testbed** | The whole diagram enters once, part by part; the flowing connections then keep running. No pinning. |
@@ -164,7 +164,7 @@ Lenis (`lenis@1.1.20`) for smooth scrolling and GSAP with ScrollTrigger (`gsap@3
 ## 7. Layout
 
 - **Hero (one screen):** lockup, team line, tagline and affiliation line in a text column with generous space between them; Fig. 01 (the team's real DJI S800 EVO, traced to scale, with the planned tank, fuel cell and buffer battery dashed) large, taking just over half the width and running towards the right edge. No buttons or stats.
-- **Our mission (ground):** heading and vision line beside the energy figure (33 against 0.25 kWh per kilogram of fuel, 132 squares against 1). Below, "The Hydrogen Advantage" and four advantage tiles.
+- **Our mission (ground):** eyebrow, heading and vision line in one full-width column. The heading (capped at 61px) runs on one line from 1240px up; below that, "On hydrogen." moves to its own line. Below, "The Hydrogen Advantage", the shared Read more button and four advantage tiles.
 - **Simulation (band):** text beside Fig. 02 with the flight time slider and "Show the numbers".
 - **The story (ground):** heading and intro; the point-cloud panorama; **the unsolved problem** (text and three risks beside the four method cards); **the solution** directly below as the answer (a two-sentence statement beside the solution illustration); **target markets and operations** ("Two markets, one airframe": two compact cards with "More details"). The heading matches the Simulation heading in size, so the heading, intro and the whole panorama fit on one screen (checked at 1440×900 and 1280×800). The panorama stays the main image.
 - **Link band (end of the Story):** the centred link to /drivetrain. The main page's story ends here.
@@ -195,7 +195,7 @@ Lenis (`lenis@1.1.20`) for smooth scrolling and GSAP with ScrollTrigger (`gsap@3
 | Width | Changes |
 |---|---|
 | ≤ 1100px | Advantage tiles two by two; hub lines hidden |
-| ≤ 1060px | Nav links and the theme toggle move into "Menu"; Mission and VTOL stack; diagram descriptions two by two; no pointer light |
+| ≤ 1060px | Nav links and the theme toggle move into "Menu"; VTOL stacks; diagram descriptions two by two; no pointer light |
 | ≤ 960px | Hero, Simulation and the testbed head stack; the problem block (method cards below the text) and the solution (illustration below the text) stack; market cards and contact cards go to one column |
 | ≤ 880px | The drivetrain diagram switches to its vertical version |
 | ≤ 720px | Single column; method cards one per row; market facts stack; larger text inside drawings; lighter shader resolution |

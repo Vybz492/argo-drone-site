@@ -102,6 +102,18 @@ if ('IntersectionObserver' in window) {
   items.forEach((el) => el.classList.add('in'));
 }
 
+// Hydrogen Advantage: one button opens and closes the text of all four cards
+const advToggle = document.querySelector('.adv-toggle');
+if (advToggle) {
+  advToggle.addEventListener('click', () => {
+    const open = advToggle.getAttribute('aria-expanded') !== 'true';
+    advToggle.setAttribute('aria-expanded', String(open));
+    document.querySelector('.adv-list').classList.toggle('is-open', open);
+    // the page got taller or shorter, so later scroll triggers move once the height has settled
+    if (motion) setTimeout(() => window.ScrollTrigger.refresh(), 500);
+  });
+}
+
 const emblemText = document.querySelector('.drivetrain-head .section-head');
 const emblem = document.querySelector('.emblem');
 if (emblemText && emblem && 'ResizeObserver' in window) {
@@ -552,17 +564,48 @@ if (motion) {
     });
   });
 
-  // Mission: the numbers count up and the 132 squares fill row by row, once, while the figure is in view
-  if (document.querySelector('.energy')) {
-    const energyIn = gsap.timeline({ scrollTrigger: { trigger: '.energy', start: 'top 70%', once: true } });
-    energyIn.fromTo('.energy-fill', { clipPath: 'inset(0% 0% 100% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3, ease: 'steps(11)' }, 0.2);
-    document.querySelectorAll('[data-count]').forEach((el) => {
-      const value = Number(el.dataset.count);
-      const decimals = Number(el.dataset.decimals);
-      const counter = { v: 0 };
-      energyIn.to(counter, { v: value, duration: 1.6, ease: 'power3.out', onUpdate: () => { el.textContent = counter.v.toFixed(decimals); } }, 0);
-    });
-  }
+  // Hydrogen Advantage: each figure replays whenever its card scrolls into view (either direction), on hover, or on tap.
+  // restart() rewinds the one timeline to its start state, so replays never stack.
+  document.querySelectorAll('.adv').forEach((card) => {
+    const fig = card.querySelector('.adv-fig');
+    const tl = gsap.timeline({ paused: true });
+
+    // energy density: the hydrogen bar grows to full length
+    const bar = fig.querySelector('.af-bar.h2');
+    if (bar) tl.fromTo(bar, { scaleX: 0 }, { scaleX: 1, transformOrigin: '0% 50%', duration: 1.3, ease: 'expo.out' }, 0.3);
+
+    // zero emission: CO₂ is struck out, then the H₂O pill lights
+    const strike = fig.querySelector('.af-strike');
+    if (strike) {
+      tl.fromTo(strike, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.8, ease: 'power2.inOut' }, 0.5);
+      tl.fromTo(fig.querySelectorAll('.h2'), { opacity: 0 }, { opacity: 1, duration: 0.8, ease: 'power2.out' }, 1.1);
+    }
+
+    // continuous efficiency: battery packs drain one after another while the tank drops only slightly
+    if (fig.classList.contains('af-packs')) {
+      tl.fromTo(fig.querySelectorAll('.af-pack-fill'), { attr: { width: 25 } }, { attr: { width: 0 }, duration: 0.9, ease: 'power1.in', stagger: 0.9 }, 0.4);
+      tl.fromTo(fig.querySelectorAll('.af-swap'), { scale: 1 }, { scale: 1.35, duration: 0.2, ease: 'power2.out', yoyo: true, repeat: 1, stagger: 0.9, transformOrigin: '50% 50%' }, 1.2);
+      tl.fromTo(fig.querySelector('.af-tank-fill'), { attr: { width: 215 } }, { attr: { width: 184 }, duration: 3.6, ease: 'none' }, 0.4);
+    }
+
+    // industrial demand: the drone flies the row and each tree lights once the scan cone has passed it
+    const rig = fig.querySelector('.af-rig');
+    if (rig) {
+      const trees = [...fig.querySelectorAll('.af-tree')];
+      const pos = { x: 4 };
+      const place = () => {
+        rig.setAttribute('transform', `translate(${pos.x} 0)`);
+        trees.forEach((tree) => tree.classList.toggle('lit', Number(tree.getAttribute('x')) <= pos.x));
+      };
+      tl.fromTo(pos, { x: 4 }, { x: 206, duration: 4.5, ease: 'sine.inOut', onUpdate: place }, 0);
+      place();
+    }
+
+    const replay = () => tl.restart();
+    ScrollTrigger.create({ trigger: card, start: 'top 85%', end: 'bottom 15%', onEnter: replay, onEnterBack: replay });
+    // hover on mouse devices; a tap (not a swipe) on touch devices
+    card.addEventListener(finePointer ? 'pointerenter' : 'click', replay);
+  });
 
   // Simulation: the chart draws itself
   if (simChart) {
