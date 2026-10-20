@@ -251,7 +251,7 @@ if (simChart) {
 const pano = document.querySelector('.pc-panorama');
 if (pano) {
   pano.setAttribute('role', 'group');
-  pano.querySelector('title').textContent += ' Each drone can be moved along its survey line.';
+  pano.querySelector('title').textContent += ' Each drone can be moved along its survey line. Select a side, or the Terrestrial and Blue carbon buttons, for details.';
   const rigs = [...pano.querySelectorAll('.pc-handle')].map((handle) => {
     const { rig, min, max, label, where } = handle.dataset;
     const x = Number(handle.getAttribute('transform').match(/[\d.]+/)[0]);
@@ -260,7 +260,7 @@ if (pano) {
     handle.setAttribute('aria-label', label);
     handle.setAttribute('aria-valuemin', '0');
     handle.setAttribute('aria-valuemax', '100');
-    return { handle, where, min: Number(min), max: Number(max), x, to: x, parts: pano.querySelectorAll(`[data-rig="${rig}"]`) };
+    return { rig, handle, where, min: Number(min), max: Number(max), x, to: x, parts: pano.querySelectorAll(`[data-rig="${rig}"]`) };
   });
   const announce = (r) => {
     const pct = Math.round(((r.to - r.min) / (r.max - r.min)) * 100);
@@ -290,21 +290,57 @@ if (pano) {
   };
   // the forest drone owns the land half, the coastal drone the water half
   const pick = (x) => rigs[x < 590 ? 0 : 1];
+
+  // A click or tap on a half (or its chip) opens that market's details under the panorama; the same again closes them.
+  const panel = document.getElementById('pano-panel');
+  const chips = [...document.querySelectorAll('.pc-chip')];
+  let side = null;
+  const select = (next) => {
+    side = next === side ? null : next;
+    if (side) {
+      panel.dataset.side = side;
+      pano.dataset.side = side;
+      const r = rigs.find((rig) => rig.rig === side);
+      moveTo(r, (r.min + r.max) / 2);
+    } else {
+      delete pano.dataset.side;
+    }
+    panel.classList.toggle('is-open', Boolean(side));
+    chips.forEach((chip) => chip.setAttribute('aria-pressed', String(chip.dataset.side === side)));
+    if (motion) setTimeout(() => window.ScrollTrigger.refresh(), 500);
+  };
+  chips.forEach((chip) => chip.addEventListener('click', () => select(chip.dataset.side)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || !side) return;
+    const chip = chips.find((c) => c.dataset.side === side);
+    select(side);
+    chip.focus();
+  });
+
   let active = null;
+  let down = null;
   pano.addEventListener('pointerdown', (e) => {
     active = pick(toX(e));
+    // a press counts as a click until the pointer travels more than a few pixels
+    down = e.button === 0 ? { x: e.clientX, y: e.clientY } : null;
     pano.setPointerCapture(e.pointerId);
     if (e.pointerType === 'mouse') moveTo(active, toX(e));
   });
   pano.addEventListener('pointermove', (e) => {
     const x = toX(e);
+    if (down && Math.hypot(e.clientX - down.x, e.clientY - down.y) > 5) down = null;
     if (active) moveTo(active, x);
-    else if (e.pointerType === 'mouse') moveTo(pick(x), x);
+    // while a side is selected the drones stay put unless dragged
+    else if (e.pointerType === 'mouse' && !side) moveTo(pick(x), x);
   });
   const release = () => {
     active = null;
+    down = null;
   };
-  pano.addEventListener('pointerup', release);
+  pano.addEventListener('pointerup', () => {
+    if (down) select(active.rig);
+    release();
+  });
   pano.addEventListener('pointercancel', release);
   rigs.forEach((r) => {
     announce(r);
