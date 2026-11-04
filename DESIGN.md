@@ -80,18 +80,18 @@ Design reference for everything Argo puts out: the website, slides, social media
 - A faint grain texture on sections.
 - **No section patterns.** No grids, line motifs or textures beyond the grain.
 - **No hard edges.** Every glow layer fades out towards all four of its edges (a mask), so the edge of its box can never cut its light into a visible seam; a section's light fades in from its top where it meets the section above. The only edges are the deliberate ones: the band panels (Simulation, Contact) and the horizon lines.
-- **Section scenes.** Each section has a tinted field (a vertical gradient between Ink and a deep blue or warm dark) and one or two light sources. Scenes fade to Ink or Shell at their edges so sections meet without a seam. Every oval glow uses `radial-gradient(closest-side, …, transparent)`, so it reaches zero before its box ends.
+- **Section scenes.** Each section has a tinted field (a vertical gradient between Ink and a deep blue or warm dark) and one or two light sources. Scenes fade to Ink or Shell at their edges so sections meet without a seam. Every oval glow uses `radial-gradient(closest-side, …, transparent)`, so it reaches zero before its box ends; the two wide ovals (Advantage, Kingfisher link) share one width, the page grid's (`--glow-w`), and never reach the window's edges.
 
 | Section | Scene | Light |
 |---|---|---|
 | Hero | The LiDAR beam over a forest at night | The shader (see Motion) |
-| Our mission | A light table at night | The canopy's warm afterglow at the top, a pool of hydrogen light under Fig. 01 with its reflection below, a cool haze behind the vision line; field Ink to `#081520`; below the drawing, one faint blue oval joins the drone's light to the Advantage, drawn as two identical halves centred on the border between the sections so they meet without a seam |
+| Our mission | A light table at night | The canopy's warm afterglow at the top, a pool of hydrogen light under Fig. 01 with its reflection below, a cool haze behind the vision line; field Ink to `#081520` |
 | The Hydrogen Advantage | A planet's horizon | One continuous band of blue light under a still blue rim of horizon, which passes behind the glass tiles. Blue only: the section is about hydrogen, and blue means hydrogen; the warm horizon is kept for Contact, the action |
-| Simulation (band) | The chart room | A deep blue field rising to the lower right, a cool desk light on the text, and a long beam along the hydrogen line's direction that brightens as the flight time runs |
+| Simulation (band) | The chart room | A deep blue field rising to the lower right, a cool desk light on the text, and a long beam along the hydrogen line's direction that brightens as the flight time runs; behind the heading, one faint blue oval rising from the top of the section, as wide as the page grid |
 | The story: panorama | Dusk over land and sea | A low band of evening light, leaf light over the forest half, sea light over the water half |
 | The story: the problem | Under the canopy | Darker; one cold light from above, and the method stage's own light, which takes the colour of the method shown (cold sky, warm exhaust, a fading grey, a pale streak) |
 | The story: the solution | Daybreak | Warm light low behind the forest, hydrogen light on the aircraft, leaf light where the scan lands |
-| The Kingfisher link (end of the Story) | A lit doorway | One faint blue oval centred behind the link, fading to nothing inside its own box |
+| The Kingfisher link (end of the Story) | A lit doorway | One faint blue oval centred behind the link, as wide as the page grid (the same width as the Advantage's oval), fading to nothing inside its own box |
 | Contact (band) | Sunrise | Warm light rising behind the cards with a warm rim of horizon, the night's blue still in the upper left |
 
 - Every text colour is measured against the scene it sits on (see Accessibility).
