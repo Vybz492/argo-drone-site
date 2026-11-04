@@ -11,6 +11,21 @@ const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 12);
 onScroll();
 window.addEventListener('scroll', onScroll, { passive: true });
 
+// Nav: a thin progress line along its top edge, updated once per frame at most (transform only)
+const navProgress = document.querySelector('.nav-progress');
+if (navProgress) {
+  let navFrame = 0;
+  const syncProgress = () => {
+    navFrame = 0;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    navProgress.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`;
+  };
+  const queueProgress = () => { if (!navFrame) navFrame = requestAnimationFrame(syncProgress); };
+  window.addEventListener('scroll', queueProgress, { passive: true });
+  window.addEventListener('resize', queueProgress);
+  syncProgress();
+}
+
 const toggle = document.getElementById('menu-toggle');
 const menu = document.getElementById('mobile-menu');
 if (toggle && menu) {
@@ -74,6 +89,49 @@ const afterSettle = (el, fn) => {
 // Hydrogen Advantage: one button opens and closes the text of all four tiles
 const moreBtn = document.querySelector('.more-btn');
 const tiles = document.querySelector('.tiles');
+
+// Advantage tiles: pre-blurred glass. Each tile gets a copy of the section's light (the glow and the horizon), lined up
+// with the real one behind it; CSS blurs the copy once with a plain filter (.tile-scene). A live backdrop-filter had to
+// re-sample and re-blur the light every time a tile changed size, which stalled Read more for a frame.
+const adv = document.getElementById('advantage');
+if (adv && tiles && !window.matchMedia('(prefers-reduced-transparency: reduce), (prefers-contrast: more)').matches) {
+  const light = [adv.querySelector('.adv-glow'), adv.querySelector('.adv-arc')].filter(Boolean);
+  const cards = [...tiles.querySelectorAll('.tile')];
+  const scenes = cards.map((tile) => {
+    const glass = document.createElement('span');
+    glass.className = 'tile-glass';
+    glass.setAttribute('aria-hidden', 'true');
+    const scene = document.createElement('span');
+    scene.className = 'tile-scene';
+    const copy = document.createElement('span');
+    copy.className = 'tile-light';
+    copy.append(...light.map((el) => el.cloneNode(true)));
+    scene.append(copy);
+    glass.append(scene);
+    tile.prepend(glass);
+    return copy;
+  });
+  // the copy sits where the section's own light is: the section's width, shifted by the tile's place in the section
+  // (layout offsets, so the tiles' hover lift and entrance travel do not count)
+  const place = () => {
+    cards.forEach((tile, i) => {
+      let x = 0;
+      let y = 0;
+      for (let el = tile; el && el !== adv; el = el.offsetParent) {
+        x += el.offsetLeft;
+        y += el.offsetTop;
+      }
+      scenes[i].style.width = `${adv.offsetWidth}px`;
+      // +32: the blurred pane starts 32px above and left of the tile
+      scenes[i].style.transform = `translate(${32 - x}px, ${32 - y}px)`;
+    });
+  };
+  tiles.classList.add('has-glass');
+  place();
+  window.addEventListener('resize', place);
+  if (document.fonts) document.fonts.ready.then(place);
+  window.addEventListener('load', place);
+}
 if (moreBtn && tiles) {
   // With motion the tiles open by FLIP: the page is laid out once (at the start of opening, at the end of closing), and
   // the visible motion is transform and clip-path only, which the compositor runs without repainting the page.
@@ -657,6 +715,35 @@ void main() {
   return state;
 })();
 
+// Endless CSS loops (Fig. 01's propellers, the hero's scroll cue) run only while they are on screen and the page is still.
+// While the page scrolls they hold, and 200 ms after it stops they go on where they stopped, as on the drivetrain page.
+// Measured: the spinning propellers cost 8-10 ms of every frame, even off screen, and caused 130 ms stalls while scrolling.
+// They pause through their Animation objects, so holding them restyles nothing.
+const loops = [...document.querySelectorAll('#fig01 .prop, .scroll-cue i')];
+if (loops.length && 'getAnimations' in Element.prototype && 'IntersectionObserver' in window) {
+  const onScreen = new Set();
+  let scrolling = false;
+  let rest = 0;
+  const sync = () => loops.forEach((el) => {
+    const run = onScreen.has(el) && !scrolling && !document.hidden;
+    el.getAnimations().forEach((a) => {
+      if (run && a.playState === 'paused') a.play();
+      else if (!run && a.playState === 'running') a.pause();
+    });
+  });
+  const seen = new IntersectionObserver((entries) => {
+    entries.forEach((e) => (e.isIntersecting ? onScreen.add(e.target) : onScreen.delete(e.target)));
+    sync();
+  });
+  loops.forEach((el) => seen.observe(el));
+  window.addEventListener('scroll', () => {
+    clearTimeout(rest);
+    rest = setTimeout(() => { scrolling = false; sync(); }, 200);
+    if (!scrolling) { scrolling = true; sync(); }
+  }, { passive: true });
+  document.addEventListener('visibilitychange', sync);
+}
+
 // Smooth scrolling. In-page links go through Lenis and then move focus to their target.
 let lenis = null;
 if (motion && 'Lenis' in window) {
@@ -821,8 +908,9 @@ if (motion) {
 
   // Band sections open up like a curtain as they arrive
   document.querySelectorAll('.curtain').forEach((section) => {
+    // the open state reaches 1px past the top and bottom, so no half-covered row of pixels is left at either edge
     gsap.fromTo(section, { clipPath: 'inset(0% 3% 0% 3% round 28px)' }, {
-      clipPath: 'inset(0% 0% 0% 0% round 0px)',
+      clipPath: 'inset(-1px 0% -1px 0% round 0px)',
       ease: 'none',
       scrollTrigger: { trigger: section, start: 'top bottom', end: 'top 30%', scrub: true },
     });
@@ -848,9 +936,8 @@ if (motion) {
   const pool = document.querySelector('.mission-light .pool');
   if (pool) gsap.fromTo(pool, { scale: 0.78, opacity: 0.45 }, { scale: 1, opacity: 1, ease: 'none', scrollTrigger: { trigger: '#mission', start: 'top bottom', end: 'center center', scrub: true } });
 
-  // The Hydrogen Advantage: the horizon rises behind the tiles as the section comes up
-  const arc = document.querySelector('.adv-arc');
-  if (arc) gsap.fromTo(arc, { y: 140 }, { y: 0, ease: 'none', scrollTrigger: { trigger: '#advantage', start: 'top bottom', end: 'center center', scrub: true } });
+  // The Hydrogen Advantage: the horizon stays still. (A scroll-linked rise was removed in round 6: the tiles' pre-blurred
+  // glass holds copies of the horizon, and moving them made the browser re-blur all four on every scroll frame.)
 
   // The problem: the chain of consequences draws itself, one link after another
   const risks = document.querySelector('.risks');

@@ -208,7 +208,10 @@ h1, h2, h3, h4, h5 { margin: 0; font-weight: 700; line-height: 1.1; letter-spaci
 
 .nav { position: fixed; inset: 0 0 auto; z-index: 50; border-bottom: 1px solid transparent; transition: background-color 0.3s ease, border-color 0.3s ease; }
 .nav.scrolled { background: rgba(6, 10, 13, 0.72); -webkit-backdrop-filter: blur(16px) saturate(140%); backdrop-filter: blur(16px) saturate(140%); border-color: rgba(238, 242, 245, 0.07); }
-.nav-inner { display: flex; align-items: center; gap: 44px; height: 76px; }
+/* 4px at the top keeps the orange button 16px below the blue progress line (blue and orange never touch) */
+.nav-inner { display: flex; align-items: center; gap: 44px; height: 76px; padding-top: 4px; }
+/* how far down the page you are: a thin hydrogen-blue line along the top edge of the bar (script.js) */
+.nav-progress { position: absolute; left: 0; right: 0; top: 0; z-index: 1; height: 2px; background: var(--blue); box-shadow: 0 0 8px rgba(2, 151, 222, 0.6); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
 .brand { display: inline-flex; padding: 6px 0; color: var(--frost); }
 .wordmark { width: 92px; height: auto; fill: currentColor; }
 .nav-links { display: flex; gap: 32px; margin-right: auto; }
@@ -274,7 +277,10 @@ html.pre .hero [data-in] { opacity: 0; }
 /* Scene: a light table at night. The canopy's warm afterglow lingers at the top, the drawing lies in a pool of hydrogen light
    with its reflection on the floor below, and the vision line sits in a cool haze. */
 .mission { padding: 136px 0 112px; background: linear-gradient(180deg, var(--ink) 0%, #07111A 34%, #081520 66%, var(--ink) 100%); }
+/* the light fades in over the first 120px, so the section starts on the hero's own dark edge, without a seam */
 .mission-light {
+  -webkit-mask-image: linear-gradient(transparent, #000 120px);
+  mask-image: linear-gradient(transparent, #000 120px);
   background:
     radial-gradient(52% 26% at 50% 0%, rgba(252, 115, 77, 0.13), transparent 72%),
     radial-gradient(30% 40% at 22% 52%, rgba(170, 205, 232, 0.07), transparent 72%),
@@ -345,8 +351,8 @@ html.pre .hero [data-in] { opacity: 0; }
   mask-image: linear-gradient(transparent 0, #000 120px, #000 80%, transparent 100%);
 }
 /* a planet's rim of light: it passes behind the glass, so the tiles visibly blur and bend it.
-   Placed in px from the top (not %) so it stays put when the section grows, on its own layer for the scroll rise. */
-.adv-arc { position: absolute; left: 50%; top: 412px; will-change: transform; z-index: 1; width: 240vw; height: 240vw; margin-left: -120vw; border-radius: 50%; pointer-events: none;
+   Placed in px from the top (not %) so it stays put when the section grows. */
+.adv-arc { position: absolute; left: 50%; top: 412px; z-index: 1; width: 240vw; height: 240vw; margin-left: -120vw; border-radius: 50%; pointer-events: none;
   box-shadow: 0 0 0 1px rgba(110, 196, 240, 0.5), 0 -2px 10px rgba(53, 174, 232, 0.5), 0 -40px 120px -30px rgba(2, 151, 222, 0.55), inset 0 40px 90px -40px rgba(2, 151, 222, 0.35); }
 
 .adv-hub { position: relative; z-index: 3; display: grid; justify-items: center; text-align: center; }
@@ -379,6 +385,19 @@ html:not(.js) .more-btn { display: none; }
 }
 /* light catching the top edge, under the pointer */
 .tile::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: radial-gradient(240px 120px at var(--mx) 0%, rgba(238, 242, 245, 0.10), transparent 70%); }
+/* Pre-blurred glass (script.js adds .has-glass): instead of a live backdrop-filter, each tile holds a copy of the
+   section's light (glow and horizon), lined up with the real one behind it and blurred once with a plain filter.
+   Nothing is re-sampled or re-blurred when a tile changes size, so Read more opens and closes without a stall.
+   The copy is sized in px, independent of the section's height. The tint and the lit rim sit above it, in ::after. */
+.has-glass .tile { isolation: isolate; background: none; box-shadow: 0 30px 60px -34px rgba(0, 0, 0, 0.85); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.tile-glass { position: absolute; inset: 0; z-index: -1; overflow: hidden; border-radius: inherit; pointer-events: none; }
+.tile-glass::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(160deg, rgba(238, 242, 245, 0.075), rgba(238, 242, 245, 0.01) 42%, rgba(238, 242, 245, 0) 60%), var(--glass); box-shadow: var(--glass-rim); transition: background-color 0.3s ease, box-shadow 0.3s var(--ease-out); }
+/* The blurred pane is only the tile's size plus a 32px margin for the blur's soft edge (fixed 760px tall, enough for an
+   open tile), so each blur is small; the section's Ink ground is part of it, so the pane hides the sharp light behind it
+   as real frosted glass does. Inside, .tile-light holds the copied light at the section's scale, shifted into place. */
+/* its own GPU layer (measured): the blur is applied when compositing, not redrawn into the page as the tiles scroll in or open */
+.tile-scene { position: absolute; left: -32px; top: -32px; width: calc(100% + 64px); height: 760px; overflow: hidden; background: var(--ink); filter: blur(11px) saturate(170%); will-change: transform; }
+.tile-light { position: absolute; left: 0; top: 0; height: 900px; }
 /* the arc lands on a lit dot at the top of each tile */
 .tile::after { content: ""; position: absolute; top: -5px; left: 50%; width: 9px; height: 9px; margin-left: -4.5px; border-radius: 50%; background: var(--ink); box-shadow: inset 0 0 0 1.5px var(--blue-hi), 0 0 10px rgba(2, 151, 222, 0.8); }
 .tile h3 { min-height: 2.5em; font-size: 1.1875rem; line-height: 1.25; letter-spacing: -0.015em; text-align: center; }
@@ -392,6 +411,8 @@ html:not(.js) .more-btn { display: none; }
 .flip-more .tiles .more, .flip-more .tiles .more > div, .flip-more .tiles .more p { transition: none !important; }
 @media (hover: hover) and (pointer: fine) {
   .tile:hover { transform: translateY(-4px); background-color: var(--glass-hi); box-shadow: inset 0 1px 0 rgba(238, 242, 245, 0.28), inset 0 0 0 1px rgba(238, 242, 245, 0.16), inset 0 -1px 0 rgba(238, 242, 245, 0.08), 0 36px 70px -34px rgba(0, 0, 0, 0.9); }
+  .has-glass .tile:hover { background-color: transparent; box-shadow: 0 36px 70px -34px rgba(0, 0, 0, 0.9); }
+  .has-glass .tile:hover .tile-glass::after { background-color: var(--glass-hi); box-shadow: inset 0 1px 0 rgba(238, 242, 245, 0.28), inset 0 0 0 1px rgba(238, 242, 245, 0.16), inset 0 -1px 0 rgba(238, 242, 245, 0.08); }
 }
 
 /* Advantage figures: hydrogen in Electric Blue, batteries and "not present" in Slate, trees in leaf green */
@@ -501,7 +522,14 @@ html:not(.js) .more-btn { display: none; }
 /* overflow-x: clip keeps the wide scene lights from widening the page */
 .story { overflow-x: clip; padding-bottom: 136px; background: linear-gradient(180deg, var(--ink) 0, #07121B 12%, #081723 26%, #060C11 46%, #070D12 62%, #0C1116 80%, var(--ink) 100%); }
 .panorama, .pano-panel, .problem, .solution, .next-page { position: relative; }
-.panorama::before, .pano-panel::before, .problem::before, .solution::before, .next-page::before { content: ""; position: absolute; z-index: -1; pointer-events: none; }
+/* every glow layer fades out towards all four of its edges, so a box edge can never cut its light into a visible seam */
+.panorama::before, .pano-panel::before, .problem::before, .solution::before, .next-page::before {
+  content: ""; position: absolute; z-index: -1; pointer-events: none;
+  -webkit-mask-image: linear-gradient(transparent, #000 22%, #000 78%, transparent), linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(transparent, #000 22%, #000 78%, transparent), linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-composite: intersect;
+}
 /* dusk: a low band of evening light along the horizon, leaf light over the forest half, sea light over the water half */
 .panorama::before { inset: -30% -12% -24%; background:
   radial-gradient(26% 36% at 26% 68%, rgba(166, 217, 106, 0.2), transparent 72%),
@@ -616,8 +644,10 @@ html:not(.js) .more-btn { display: none; }
 /* a real subheading, one step below the block heading (34px) */
 .methods-title { margin: 0 0 32px; font-size: clamp(1.375rem, 0.9rem + 0.9vw, 1.75rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: var(--frost); }
 /* list on columns 1-5, stage on 6-12; the names start on the grid edge and the bar sits in the margin beside them */
-.mx { position: relative; display: grid; grid-template-columns: var(--grid); column-gap: var(--gutter); row-gap: 48px; align-items: start; }
-.mx-list { grid-column: 1 / span 5; position: relative; z-index: 1; display: grid; justify-items: start; margin-top: -14px; }
+/* one balanced block: the list stretches to the stage's height (drawing and text), its names spread evenly, the first
+   level with the drawing's top and the last with the text's last line (the -14px cancel the names' own padding) */
+.mx { position: relative; display: grid; grid-template-columns: var(--grid); column-gap: var(--gutter); row-gap: 48px; align-items: stretch; }
+.mx-list { grid-column: 1 / span 5; position: relative; z-index: 1; display: grid; justify-items: start; align-content: space-between; margin: -14px 0; }
 .mx-stage { grid-column: 6 / -1; }
 .mx-tab {
   padding: 14px 0;
@@ -642,13 +672,29 @@ html:not(.js) .more-btn { display: none; }
 .mx[data-method="heli"] .mx-glow { color: rgba(252, 115, 77, 0.15); }
 .mx[data-method="batt"] .mx-glow { color: rgba(140, 152, 162, 0.12); }
 .mx[data-method="wing"] .mx-glow { color: rgba(214, 226, 236, 0.13); }
-.mx-panel { display: grid; gap: 18px; align-content: start; }
+.mx-panel { display: grid; grid-template-rows: auto 1fr; gap: 20px; }
+.js .mx-copy { align-self: end; }
 /* drawn larger here than the old cards, so lines keep their screen weight and the labels a reading size */
 .mx-panel .sd { width: 100%; overflow: visible; }
 .mx-panel .sd * { vector-effect: non-scaling-stroke; }
 .mx-panel .sd-label { font-size: 10px; }
-.mx-panel .sd-trunk { stroke-width: 4; }
-.mx-panel .sd-hit { stroke-width: 8; }
+/* the method drawings: Fig. 01's line language. Frost outlines for the aircraft, Mist and Stroke for detail and the
+   forest, leaf-green dots for LiDAR returns, dashed Slate for sight lines, paths and leaders */
+.mx-panel .sd-body { fill: var(--wing); stroke: var(--frost); stroke-width: 1.2; stroke-linejoin: round; }
+.mx-panel .sd-glass { fill: rgba(238, 242, 245, 0.1); stroke: var(--frost); stroke-width: 1; stroke-linejoin: round; }
+.mx-panel .sd-line { fill: none; stroke: var(--frost); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+.mx-panel .sd-detail { fill: none; stroke: var(--mist); stroke-width: 0.8; stroke-linecap: round; stroke-linejoin: round; }
+.mx-panel .sd-disc { fill: rgba(238, 242, 245, 0.05); stroke: var(--stroke); stroke-width: 1; }
+.mx-panel .sd-level { fill: var(--mist); }
+.mx-panel .sd-crown { fill: rgba(238, 242, 245, 0.035); stroke: var(--stroke); stroke-width: 1.1; stroke-linejoin: round; }
+.mx-panel .sd-stem { fill: none; stroke: var(--slate); stroke-width: 1.4; stroke-linecap: round; }
+.mx-panel .sd-branch { fill: none; stroke: var(--stroke); stroke-width: 1; stroke-linecap: round; }
+.mx-panel .sd-ground { stroke: var(--mist); stroke-width: 1.3; }
+.mx-panel .sd-tick, .mx-panel .sd-hatch { fill: none; stroke: var(--stroke); stroke-width: 1; }
+.mx-panel .sd-seen-top { fill: none; stroke: var(--leaf); stroke-width: 1.6; stroke-linecap: round; }
+.mx-panel .sd-dot { fill: none; stroke: var(--leaf); stroke-width: 2.4; stroke-linecap: round; }
+.mx-panel .sd-cone { fill: rgba(238, 242, 245, 0.03); }
+.mx-panel .sd-leader { fill: none; stroke: var(--slate); stroke-width: 0.9; stroke-dasharray: 2 3; }
 .mx-copy { display: grid; gap: 8px; max-width: 38em; }
 .mx-copy h5 { font-size: 1.5rem; letter-spacing: -0.02em; }
 .mx-verdict { font-size: var(--fs-intro); font-weight: 600; line-height: 1.3; letter-spacing: -0.015em; color: var(--frost); }
@@ -815,7 +861,8 @@ a.channel:active { transform: scale(0.98); }
 /* Reduce Transparency and Increase Contrast: glass becomes a solid surface */
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
   .tile, .channel, .btn-glass, .nav.scrolled { -webkit-backdrop-filter: none; backdrop-filter: none; }
-  .tile, .channel { background: var(--shell); }
+  .tile, .channel, .has-glass .tile { background: var(--shell); }
+  .tile-glass { display: none; }
   .btn-glass { background: var(--wing); }
   .nav.scrolled { background: var(--ink); }
 }
