@@ -55,16 +55,72 @@ if ('IntersectionObserver' in window) {
   items.forEach((el) => el.classList.add('in'));
 }
 
+// Run fn once a height transition on el has finished, when the browser has a free moment (a fallback timer covers a
+// transition that never fires, for example under reduced motion where it is switched off)
+const afterSettle = (el, fn) => {
+  let done = false;
+  const run = () => {
+    if (done) return;
+    done = true;
+    if (el) el.removeEventListener('transitionend', onEnd);
+    ('requestIdleCallback' in window ? requestIdleCallback : setTimeout)(fn, { timeout: 400 });
+  };
+  const onEnd = (e) => { if (e.target === el && e.propertyName === 'grid-template-rows') run(); };
+  if (!el) return run();
+  el.addEventListener('transitionend', onEnd);
+  setTimeout(run, 700);
+};
+
 // Hydrogen Advantage: one button opens and closes the text of all four tiles
 const moreBtn = document.querySelector('.more-btn');
 const tiles = document.querySelector('.tiles');
 if (moreBtn && tiles) {
+  // With motion the tiles open by FLIP: the page is laid out once (at the start of opening, at the end of closing), and
+  // the visible motion is transform and clip-path only, which the compositor runs without repainting the page.
+  // Animating the height instead moved everything below on every frame, so the whole page was laid out and repainted
+  // about 27 times per click; that was the lag.
+  const flip = motion && 'animate' in Element.prototype;
+  if (flip) root.classList.add('flip-more');
+  const cards = [...tiles.querySelectorAll('.tile')];
+  const texts = [...tiles.querySelectorAll('.more p')];
+  const below = [...document.querySelectorAll('#advantage ~ section, .footer')];
+  const timing = { duration: 450, easing: 'cubic-bezier(0.23, 1, 0.32, 1)', fill: 'forwards' };
+  let running = [];
+  const settle = () => afterSettle(null, () => window.ScrollTrigger.refresh());
+  const animate = (delta, opening, done) => {
+    const from = opening ? delta : 0;
+    const to = opening ? 0 : delta;
+    // the tiles' new part is uncovered (or covered) from the bottom; the dots above the tiles stay outside the clip
+    running = cards.map((card) => card.animate([{ clipPath: `inset(-16px -16px ${from}px -16px)` }, { clipPath: `inset(-16px -16px ${to}px -16px)` }], timing));
+    // what lies below follows the tiles' bottom edge instead of jumping
+    // only what is on screen needs to glide; anything further down simply takes its new place unseen
+    running.push(...below.filter((el) => el.getBoundingClientRect().top < innerHeight).map((el) => el.animate([{ transform: `translateY(${-from}px)` }, { transform: `translateY(${-to}px)` }], timing)));
+    running.push(...texts.map((p) => p.animate([{ opacity: opening ? 0 : 1 }, { opacity: opening ? 1 : 0 }], { ...timing, fill: 'both', duration: opening ? 360 : 200, delay: opening ? 90 : 0 })));
+    running[0].onfinish = () => {
+      if (done) done();
+      running.forEach((a) => a.cancel());
+      running = [];
+      settle();
+    };
+  };
   moreBtn.addEventListener('click', () => {
+    // a second click while moving finishes the first motion at once, then starts the new one from there
+    running.slice().forEach((a) => a.finish());
     const open = moreBtn.getAttribute('aria-expanded') !== 'true';
     moreBtn.setAttribute('aria-expanded', String(open));
-    tiles.classList.toggle('is-open', open);
-    // the page got taller or shorter, so later scroll triggers move once the height has settled
-    if (motion) setTimeout(() => window.ScrollTrigger.refresh(), 500);
+    if (!flip) {
+      tiles.classList.toggle('is-open', open);
+      if (motion) settle();
+      return;
+    }
+    if (open) {
+      const before = tiles.offsetHeight;
+      tiles.classList.add('is-open');
+      animate(tiles.offsetHeight - before, true);
+    } else {
+      const delta = Math.max(...[...tiles.querySelectorAll('.more')].map((m) => m.offsetHeight));
+      animate(delta, false, () => tiles.classList.remove('is-open'));
+    }
   });
 }
 
@@ -206,7 +262,6 @@ const bindChart = (chart, { left, width, top, bottom, max, start, snap, step, bi
 };
 
 const simChart = document.getElementById('sim-chart');
-let simApi = null;
 if (simChart) {
   const dotBattery = simChart.querySelector('.sim-hover-batt');
   const dotHydrogen = simChart.querySelector('.sim-hover-h2');
@@ -255,7 +310,6 @@ if (simChart) {
   range.closest('.sim-range').hidden = false;
   range.addEventListener('input', () => show(Number(range.value)));
   range.addEventListener('blur', hide);
-  simApi = { show, hide };
 }
 
 // Story panorama: each drone moves along its own survey line, and its beam lights up the returns beneath it.
@@ -319,7 +373,7 @@ if (pano) {
     }
     panel.classList.toggle('is-open', Boolean(side));
     chips.forEach((chip) => chip.setAttribute('aria-pressed', String(chip.dataset.side === side)));
-    if (motion) setTimeout(() => window.ScrollTrigger.refresh(), 500);
+    if (motion) afterSettle(panel, () => window.ScrollTrigger.refresh());
   };
   chips.forEach((chip) => chip.addEventListener('click', () => select(chip.dataset.side)));
   document.addEventListener('keydown', (e) => {
@@ -751,73 +805,21 @@ if (motion) {
     tile.addEventListener(finePointer ? 'pointerenter' : 'click', replay);
   });
 
-  // Simulation, the one pinned moment: the chart holds still while scrolling runs the flight time from 0 to 4 hours.
-  // Both lines grow with the time, the break-even dot lands at 33 minutes, the readout follows, and the beam of light
-  // behind the chart brightens as hydrogen's advantage widens. Afterwards the chart is complete and free to explore.
-  const simGrid = document.querySelector('.sim-grid');
-  if (simChart && simApi && simGrid) {
-    const ns = 'http://www.w3.org/2000/svg';
-    const clip = document.createElementNS(ns, 'clipPath');
-    clip.id = 'sim-time';
-    const clipRect = document.createElementNS(ns, 'rect');
-    clipRect.setAttribute('x', '0');
-    clipRect.setAttribute('y', '0');
-    clipRect.setAttribute('height', '420');
-    clip.appendChild(clipRect);
-    simChart.prepend(clip);
-    const grown = simChart.querySelectorAll('.sim-batt, .sim-h2, .sim-zone');
-    const dot = simChart.querySelector('.sim-dot');
-    const note = simChart.querySelector('.sim-note');
-    const [labelBatt, labelH2] = simChart.querySelectorAll('.sim-label');
-    const tip = simGrid.querySelector('.sim-tip');
-    const beam = document.querySelector('.sim-light .beam');
-    // only where the text and chart sit side by side and fit on one screen; elsewhere the chart is simply complete
-    gsap.matchMedia().add('(min-width: 1061px) and (min-height: 780px)', () => {
-      grown.forEach((el) => el.setAttribute('clip-path', 'url(#sim-time)'));
-      const time = { t: 0 };
-      const fade = (el, on) => gsap.to(el, { opacity: on ? 1 : 0, duration: 0.3, ease: 'power2.out', overwrite: true });
-      const shown = {};
-      const paint = (live) => {
-        const t = time.t;
-        clipRect.setAttribute('width', String(58 + (t / 240) * 568));
-        // each mark appears once the time reaches it (the break-even at 33 min, a label once its line has grown under it)
-        [[dot, t >= 33], [note, t >= 38], [labelBatt, t >= 46], [labelH2, t >= 226]].forEach(([el, on], i) => {
-          if (shown[i] !== on) fade(el, on);
-          shown[i] = on;
-        });
-        if (beam) beam.style.opacity = String(0.3 + 0.7 * (t / 240));
-        if (live) simApi.show(t);
-      };
-      gsap.set([dot, note, labelBatt, labelH2], { opacity: 0 });
-      paint(false);
-      gsap.to(time, {
-        t: 240,
-        ease: 'none',
-        onUpdate: () => paint(true),
-        scrollTrigger: {
-          trigger: simGrid,
-          start: 'center center+=38',
-          end: '+=95%',
-          pin: true,
-          scrub: 0.4,
-          refreshPriority: 1,
-          // the readout speaks only when someone uses the chart, not while the page scrolls it
-          onToggle: (self) => {
-            tip.setAttribute('aria-live', self.isActive ? 'off' : 'polite');
-            if (!self.isActive) simApi.hide();
-          },
-        },
-      });
-      return () => {
-        grown.forEach((el) => el.removeAttribute('clip-path'));
-        if (beam) beam.style.opacity = '';
-        tip.setAttribute('aria-live', 'polite');
-        simApi.hide();
-      };
+  // Simulation: the chart draws itself once it comes into view (battery line, then hydrogen line, then the saving and the break-even)
+  if (simChart) {
+    const lines = [simChart.querySelector('.sim-batt'), simChart.querySelector('.sim-h2')];
+    const chartIn = gsap.timeline({ scrollTrigger: { trigger: simChart, start: 'top 78%', once: true } });
+    lines.forEach((line, i) => {
+      const len = line.getTotalLength();
+      chartIn.fromTo(line, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut', clearProps: 'strokeDasharray,strokeDashoffset' }, i * 0.3);
     });
+    chartIn
+      .from(simChart.querySelector('.sim-zone'), { opacity: 0, duration: 0.9, ease: 'power2.out' }, 0.9)
+      .from(simChart.querySelector('.sim-dot'), { scale: 0.4, opacity: 0, transformOrigin: '50% 50%', duration: 0.8, ease: 'expo.out' }, 1.1)
+      .from(simChart.querySelectorAll('.sim-label, .sim-note'), { opacity: 0, duration: 0.6, stagger: 0.1 }, 1.2);
   }
 
-  // Band sections open up like a curtain as they arrive (made after the pin, so the one below it counts its extra scroll)
+  // Band sections open up like a curtain as they arrive
   document.querySelectorAll('.curtain').forEach((section) => {
     gsap.fromTo(section, { clipPath: 'inset(0% 3% 0% 3% round 28px)' }, {
       clipPath: 'inset(0% 0% 0% 0% round 0px)',
@@ -826,7 +828,8 @@ if (motion) {
     });
   });
 
-  // Our mission: the vision line lights up word by word as it is read, and the pool of light under Fig. 01 opens up
+  // Our mission: once the vision line is in view it lights up word by word on its own, a timed play-through (never tied
+  // to the scroll, so it can't stop half-lit); the pool of light under Fig. 01 opens up as the section arrives
   const statement = document.querySelector('.mission .statement');
   if (statement) {
     const text = statement.textContent.trim();
@@ -835,9 +838,11 @@ if (motion) {
     statement.innerHTML = `<span class="sr-only">${text}</span><span aria-hidden="true">${words}</span>`;
     gsap.fromTo(statement.querySelectorAll('.w'), { color: '#8C98A2' }, {
       color: '#EEF2F5',
-      ease: 'none',
-      stagger: 0.12,
-      scrollTrigger: { trigger: statement, start: 'top 82%', end: 'bottom 48%', scrub: 0.3 },
+      duration: 0.5,
+      ease: 'power2.out',
+      stagger: 0.035,
+      clearProps: 'color',
+      scrollTrigger: { trigger: statement, start: 'top 80%', once: true },
     });
   }
   const pool = document.querySelector('.mission-light .pool');
