@@ -208,10 +208,9 @@ h1, h2, h3, h4, h5 { margin: 0; font-weight: 700; line-height: 1.1; letter-spaci
 
 .nav { position: fixed; inset: 0 0 auto; z-index: 50; border-bottom: 1px solid transparent; transition: background-color 0.3s ease, border-color 0.3s ease; }
 .nav.scrolled { background: rgba(6, 10, 13, 0.72); -webkit-backdrop-filter: blur(16px) saturate(140%); backdrop-filter: blur(16px) saturate(140%); border-color: rgba(238, 242, 245, 0.07); }
-/* 4px at the top keeps the orange button 16px below the blue progress line (blue and orange never touch) */
-.nav-inner { display: flex; align-items: center; gap: 44px; height: 76px; padding-top: 4px; }
-/* how far down the page you are: a thin hydrogen-blue line along the top edge of the bar (script.js) */
-.nav-progress { position: absolute; left: 0; right: 0; top: 0; z-index: 1; height: 2px; background: var(--blue); box-shadow: 0 0 8px rgba(2, 151, 222, 0.6); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+.nav-inner { display: flex; align-items: center; gap: 44px; height: 76px; }
+/* how far down the page you are: a thin hydrogen-blue line along the bottom edge of the bar, as on main (script.js) */
+.nav-progress { position: absolute; left: 0; right: 0; bottom: -1px; z-index: 1; height: 2px; background: var(--blue); box-shadow: 0 0 8px rgba(2, 151, 222, 0.6); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
 .brand { display: inline-flex; padding: 6px 0; color: var(--frost); }
 .wordmark { width: 92px; height: auto; fill: currentColor; }
 .nav-links { display: flex; gap: 32px; margin-right: auto; }
@@ -446,7 +445,10 @@ html:not(.js) .more-btn { display: none; }
     radial-gradient(28% 34% at 16% 30%, rgba(190, 214, 232, 0.07), transparent 72%),
     linear-gradient(165deg, transparent 30%, rgba(8, 36, 56, 0.55) 100%); }
 .sim-light .beam { position: absolute; left: 18%; top: 34%; width: 92%; height: 34%; border-radius: 50%; background: radial-gradient(closest-side, rgba(2, 151, 222, 0.26), rgba(2, 151, 222, 0.08) 55%, transparent 100%); transform: rotate(-12deg); opacity: 0.55; }
-.sim-grid { display: grid; grid-template-columns: var(--grid); column-gap: var(--gutter); align-items: center; }
+/* the band's content starts near its top edge (the reserved Read more space sits above the band, in the Advantage),
+   and the band ends closer to the Story */
+#simulation { padding: 88px 0 112px; }
+.sim-grid { display: grid; grid-template-columns: var(--grid); column-gap: var(--gutter); align-items: start; }
 .sim-grid > .sim-text { grid-column: 1 / span 5; }
 .sim-grid > .sim-figure { grid-column: 6 / -1; }
 .sim-text { margin-bottom: 0; }
@@ -520,7 +522,7 @@ html:not(.js) .more-btn { display: none; }
 /* The story moves through three scenes, top to bottom: dusk over land and sea (the panorama), the dark under the canopy
    (the problem, lit only by the method you look at) and daybreak (the solution). The field shifts with them. */
 /* overflow-x: clip keeps the wide scene lights from widening the page */
-.story { overflow-x: clip; padding-bottom: 136px; background: linear-gradient(180deg, var(--ink) 0, #07121B 12%, #081723 26%, #060C11 46%, #070D12 62%, #0C1116 80%, var(--ink) 100%); }
+.story { overflow-x: clip; padding-top: 112px; padding-bottom: 136px; background: linear-gradient(180deg, var(--ink) 0, #07121B 12%, #081723 26%, #060C11 46%, #070D12 62%, #0C1116 80%, var(--ink) 100%); }
 .panorama, .pano-panel, .problem, .solution, .next-page { position: relative; }
 /* every glow layer fades out towards all four of its edges, so a box edge can never cut its light into a visible seam */
 .panorama::before, .pano-panel::before, .problem::before, .solution::before, .next-page::before {

@@ -73,7 +73,6 @@ Design reference for everything Argo puts out: the website, slides, social media
 
 ### Blue and orange never touch
 - Blue is never placed on orange and orange never on blue, including their hover tints.
-- When both appear on one screen (the orange button beside the blue tank in Fig. 01), at least 16px of Ink or a neutral surface separates them.
 - Text on blue or orange is always Ink. White text fails on both (2.88:1 on blue, 2.42:1 on orange).
 
 ### Gradients and light
@@ -147,7 +146,7 @@ Design reference for everything Argo puts out: the website, slides, social media
 
 ## 5. Components
 
-**Navigation:** transparent at the top, translucent with a hairline once scrolled; ΛRGO wordmark, page links, one primary button. There is no theme toggle. The links lead to pages, not sections: Home (`/`) and Drivetrain (`/drivetrain`), with more pages (for example Team and Partners) added as further links in the same list, in the bar and in the phone menu. The link of the current page is marked `aria-current="page"` in the HTML and carries a small Frost dot under it; the dot does not follow the scroll. A thin progress line (2px, Electric Blue with a soft glow) runs along the top edge of the bar and grows from left to right with the scroll (transform only). The bar's contents sit 4px lower inside the same 76px, so the orange button stays 16px clear of the blue line. "Partner with us" leads to the Contact section of the page it is on. "Partner with us" carries a small arrow that slides on hover, and every few seconds a slow glint of light travels along its border (never across the label, which keeps its full contrast). The wordmark is never changed. On phones "Menu" opens a full-height sheet with the page links (the current page underlined in Cantaloupe) and "Partner with us" as the last row.
+**Navigation:** transparent at the top, translucent with a hairline once scrolled; ΛRGO wordmark, page links, one primary button. There is no theme toggle. The links lead to pages, not sections: Home (`/`) and Drivetrain (`/drivetrain`), with more pages (for example Team and Partners) added as further links in the same list, in the bar and in the phone menu. The link of the current page is marked `aria-current="page"` in the HTML and carries a small Frost dot under it; the dot does not follow the scroll. A thin progress line (2px, Electric Blue with a soft glow) runs along the bottom edge of the bar, as on the original site, and grows from left to right with the scroll (transform only). "Partner with us" leads to the Contact section of the page it is on. "Partner with us" carries a small arrow that slides on hover, and every few seconds a slow glint of light travels along its border (never across the label, which keeps its full contrast). The wordmark is never changed. On phones "Menu" opens a full-height sheet with the page links (the current page underlined in Cantaloupe) and "Partner with us" as the last row.
 
 **Link band (main page):** after the solution, one large bold link centred on the page, "Explore the Kingfisher Project", in Inter 700, underlined in Cantaloupe, with a decorative arrow that slides on hover. It leads to /drivetrain. No image.
 
