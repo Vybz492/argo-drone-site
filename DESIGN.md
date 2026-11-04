@@ -95,7 +95,7 @@ Design reference for everything Argo puts out: the website, slides, social media
 
 - Every text colour is measured against the scene it sits on (see Accessibility).
 - Shadows are soft, long and tinted with Ink; only things that float (menus, the phone menu sheet) carry them.
-- **Gradient text is not used.** Text is always one solid colour.
+- **Gradient text is not used,** with one trial exception (round 8): "On hydrogen." in the hero headline runs from Frost into Electric Blue (left to right, nothing else in the gradient; never orange or Ink), measured at 4.0:1 or better against the live beam at 1440 and 1920px (large text needs 3:1). Under Increase Contrast or forced colours it is plain Frost. Everywhere else, text is one solid colour.
 
 ### Accessibility
 - Every text colour is checked against the real rendered background (shader, glows, panels, point clouds), at desktop and phone widths: at least **4.5:1** for body text and **3:1** for large text (WCAG AA).
@@ -188,7 +188,7 @@ Lenis (`lenis@1.1.20`) for smooth scrolling and GSAP with ScrollTrigger (`gsap@3
 
 | Moment | What happens |
 |---|---|
-| **Hero, first second** | A WebGL shader draws the LiDAR beam: a fan of laser lines from a source under the navigation, blue at the source and warm where they land on a forest canopy, traced as one bright contour. LiDAR returns scatter in the crowns where the beam lands (dense near the canopy line, thinning deeper), with a faint cool scatter along the rest of the canopy. The beam ignites and opens, the navigation and the words rise in. About 1.6s. The beam leans towards the pointer (up to about ±0.05 rad, fine pointers only), and the words drift up a little as the page scrolls away. |
+| **Hero, first second** | A WebGL shader draws the LiDAR beam: a fan of laser lines from a source under the navigation, blue at the source and warm where they land on a forest canopy, traced as one bright contour. LiDAR returns scatter in the crowns where the beam lands (dense near the canopy line, thinning deeper), with a faint cool scatter along the rest of the canopy. The beam ignites and opens, the navigation and the words rise in. About 1.6s. The beam leans towards the pointer (up to about ±0.05 rad, fine pointers only), and the words drift up a little as the page scrolls away. Just after the words rise in, one pale light sweeps once across "On hydrogen." (1.6s; never loops; none under reduced motion, which shows the still gradient). |
 | **Curtains** | Band sections (Simulation, Testbed, Contact) arrive as a rounded panel that widens to full bleed. |
 | **Our mission** | Fig. 01 draws itself as it arrives (rotor rings, frame, callouts, then the dashed planned parts with the tank glowing) and tilts a few degrees towards the pointer. Once the vision line is in view, it lights up word by word from Slate to Frost on its own, in about 1.2s (a timed play-through, never tied to the scroll, so it always ends fully Frost). The pool of light under Fig. 01 widens and brightens as the section arrives. |
 | **The Hydrogen Advantage** | The horizon stays still (its copies live in the tiles' pre-blurred glass). Each advantage tile animates its own figure every time it scrolls into view (in either direction), on hover, and on tap on touch devices; a replay restarts the figure, never stacks: the hydrogen bar grows; the CO₂ strike draws and the H₂O pill lights; the battery packs drain one after another (the swap arrow pulses) while the tank drops only slightly; the drone flies the row and each tree lights as the scan passes. Reduced motion shows static frames (three packs empty, the fourth partly full; the drone halfway, half the trees lit). The shared button opens the tile text with a 0.45s height transition, instant under reduced motion. |
@@ -244,7 +244,7 @@ Lenis (`lenis@1.1.20`) for smooth scrolling and GSAP with ScrollTrigger (`gsap@3
 - Put blue on orange or orange on blue, or white text on either
 - Use colours outside the palette, or orange as a fill or decoration (warm light is allowed only as light; see Gradients and light)
 - Add patterns, grids or line motifs to section backgrounds
-- Put gradient fills on text or wordmarks, or text over bright light
+- Put gradient fills on text or wordmarks (the trial "On hydrogen." gradient is the only exception), or text over bright light
 - Use photographs, photorealistic or CAD renders, or 3D models of drones or hardware (captioned isometric line illustrations are allowed; see Illustrations)
 - Pin sections in place, or make placeholders look clickable
 - Let a light follow the pointer across the page

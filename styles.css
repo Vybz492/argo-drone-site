@@ -259,6 +259,28 @@ h1, h2, h3, h4, h5 { margin: 0; font-weight: 700; line-height: 1.1; letter-spaci
 .lockup { width: clamp(150px, 11vw, 190px); fill: var(--frost); filter: drop-shadow(0 0 14px rgba(6, 10, 13, 0.7)); }
 .hero h1 { font-size: var(--fs-h1); line-height: 0.98; letter-spacing: -0.04em; }
 .hero h1 .ln { display: block; }
+/* Trial (round 8): "On hydrogen." runs from Frost into Electric Blue, hydrogen's colour. The line is only as wide as its
+   words, so the gradient spans exactly them. Over it, one pale light sweeps across once after the words rise in,
+   like the beam's light; never orange or Ink. Reduced motion: the static gradient. More contrast or forced colours:
+   plain Frost. */
+.hero h1 .ln-h2 {
+  width: fit-content;
+  margin-inline: auto;
+  background-image: linear-gradient(100deg, transparent 38%, rgba(226, 243, 255, 0.95) 50%, transparent 62%), linear-gradient(90deg, var(--frost), var(--blue));
+  background-size: 260% 100%, 100% 100%;
+  background-position: 135% 0, 0 0;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.hero h1 .ln-h2::selection { -webkit-text-fill-color: var(--ink); }
+.motion .hero h1 .ln-h2 { animation: h2-sweep 1.6s var(--ease-in-out) 1.5s 1 both; }
+@keyframes h2-sweep { from { background-position: 135% 0, 0 0; } to { background-position: -35% 0, 0 0; } }
+@media (prefers-contrast: more), (forced-colors: active) {
+  .hero h1 .ln-h2 { background: none; -webkit-text-fill-color: currentColor; color: var(--frost); }
+}
 .intro { max-width: 40ch; margin-top: 32px; font-size: var(--fs-intro); font-weight: 300; line-height: 1.42; letter-spacing: -0.01em; color: var(--frost); }
 /* local legibility in the light, so the light itself can stay unbroken */
 .hero .intro { max-width: 56ch; text-wrap: balance; text-shadow: 0 0 22px rgba(6, 10, 13, 0.8), 0 1px 3px rgba(6, 10, 13, 0.65); }
