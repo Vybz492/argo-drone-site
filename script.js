@@ -465,7 +465,7 @@ const heroLight = (() => {
     gl = null;
   }
   const frag = `precision highp float;
-uniform vec2 uRes; uniform float uTime; uniform float uIntro; uniform vec2 uPtr; uniform vec4 uShade; uniform float uMotion;
+uniform vec2 uRes; uniform float uTime; uniform float uIntro; uniform vec2 uPtr; uniform vec4 uShade; uniform float uMotion; uniform vec4 uWords; uniform float uWordsDim;
 const vec3 INK = vec3(0.0235, 0.0392, 0.0510);
 const vec3 BLUE = vec3(0.0078, 0.5922, 0.8706);
 const vec3 ORNG = vec3(0.9882, 0.4510, 0.3020);
@@ -487,6 +487,11 @@ float canopy(float x) {
   }
   float leaf = (vn(x * 300.0) - 0.5) * 0.0022 + (vn(x * 95.0 + 9.0) - 0.5) * 0.0035;
   return max(h + leaf * smoothstep(0.0, 0.012, h), 0.0) + 0.003;
+}
+/* a soft oval just around the "On hydrogen." line */
+float wordsMask(vec2 p) {
+  vec2 c = (uWords.xy + uWords.zw) * 0.5; vec2 hs = (uWords.zw - uWords.xy) * 0.5 + 0.02;
+  return 1.0 - smoothstep(0.75, 1.7, length((p - c) / hs));
 }
 float shadeMask(vec2 p) {
   vec2 c = (uShade.xy + uShade.zw) * 0.5; vec2 hs = (uShade.zw - uShade.xy) * 0.5 * 1.06 + 0.03;
@@ -551,7 +556,8 @@ void main() {
   float ret = step(0.0, depth) * (1.0 - smoothstep(0.9, 1.6, length(fract(gp) - jit) * 6.0));
   L += vec3(1.0, 0.86, 0.72) * ret * step(0.7, h2(gc)) * exp(-depth * 48.0) * inBeam * 0.95 * e;
   L += vec3(0.62, 0.76, 0.88) * ret * step(0.84, h2(gc + 17.0)) * exp(-depth * 70.0) * (1.0 - inBeam) * 0.3 * edge * e;
-  L *= 1.0 - shadeMask(p) * mix(0.58, 0.7, smoothstep(0.45, 0.85, t));   /* dim behind the words, softly (enough for blue letters to keep 3:1) */
+  L *= 1.0 - shadeMask(p) * mix(0.58, 0.7, smoothstep(0.45, 0.85, t));   /* dim behind the words, softly */
+  L *= 1.0 - wordsMask(p) * uWordsDim;                                   /* and a little more just behind "On hydrogen.", so its blue keeps 3:1 */
   L = L / (1.0 + L * 0.3);
   vec3 col = INK + L + (h2(fc + fract(uTime) * 91.0) - 0.5) * 0.012;
   gl_FragColor = vec4(col, 1.0);
@@ -578,7 +584,7 @@ void main() {
       const loc = gl.getAttribLocation(prog, 'a');
       gl.enableVertexAttribArray(loc);
       gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-      ['uRes', 'uTime', 'uIntro', 'uPtr', 'uShade', 'uMotion'].forEach((name) => (u[name] = gl.getUniformLocation(prog, name)));
+      ['uRes', 'uTime', 'uIntro', 'uPtr', 'uShade', 'uMotion', 'uWords', 'uWordsDim'].forEach((name) => (u[name] = gl.getUniformLocation(prog, name)));
     } catch (err) {
       gl = null;
     }
@@ -591,6 +597,7 @@ void main() {
   const copy = hero.querySelectorAll('.hero-label, .intro');
   const ptr = { x: 0.5, tx: 0.5 };
   let shade = [0, 0, 0, 0];
+  let wordsArea = [0, 0, 0, 0];
   let quality = 1;
   let slow = 0;
   let last = 0;
@@ -603,6 +610,7 @@ void main() {
   // "On hydrogen." brightens where the beam's light crosses it: the beam's axis at the words' height, from the same numbers
   // the shader uses (the source at 0.905 of the hero's height, the tilt from the pointer). Written only when it moves.
   const words = hero.querySelector('.ln-h2');
+  const WORDS_DIM = 0.5; // how much more the beam dims just behind "On hydrogen." (measured for 3:1)
   let wordsBox = null;
   let lastBeam = '';
   const followBeam = () => {
@@ -628,6 +636,8 @@ void main() {
     gl.uniform1f(u.uIntro, state.intro);
     gl.uniform2f(u.uPtr, ptr.x, 0.5);
     gl.uniform4f(u.uShade, shade[0], shade[1], shade[2], shade[3]);
+    gl.uniform4f(u.uWords, wordsArea[0], wordsArea[1], wordsArea[2], wordsArea[3]);
+    gl.uniform1f(u.uWordsDim, WORDS_DIM);
     gl.uniform1f(u.uMotion, moving ? 1 : 0);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   };
@@ -644,6 +654,7 @@ void main() {
     if (words) {
       const w = words.getBoundingClientRect();
       wordsBox = { left: w.left - r.left, width: w.width, mid: w.top + w.height / 2 - r.top, W: r.width, H };
+      wordsArea = [(w.left - r.left) / H, (r.bottom - w.bottom) / H, (w.right - r.left) / H, (r.bottom - w.top) / H];
       lastBeam = '';
       followBeam();
     }
