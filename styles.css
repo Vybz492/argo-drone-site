@@ -259,16 +259,20 @@ h1, h2, h3, h4, h5 { margin: 0; font-weight: 700; line-height: 1.1; letter-spaci
 .lockup { width: clamp(150px, 11vw, 190px); fill: var(--frost); filter: drop-shadow(0 0 14px rgba(6, 10, 13, 0.7)); }
 .hero h1 { font-size: var(--fs-h1); line-height: 0.98; letter-spacing: -0.04em; }
 .hero h1 .ln { display: block; }
-/* Trial (round 8): "On hydrogen." runs from Frost into Electric Blue, hydrogen's colour. The line is only as wide as its
-   words, so the gradient spans exactly them. Over it, one pale light sweeps across once after the words rise in,
-   like the beam's light; never orange or Ink. Reduced motion: the static gradient. More contrast or forced colours:
-   plain Frost. */
+/* Trial: "On hydrogen." runs from Frost at the top of the letters into Electric Blue at the bottom (never orange or Ink).
+   Over it, a soft light brightens the words where the beam's light crosses them; script.js keeps it on the beam's axis
+   (--beam-left) as the beam swings with the pointer, and scales it with the beam's ignition (--beam-on). Subtle: a pale
+   oval, 30% of the words wide, at 62% strength. Reduced motion: the still gradient. More contrast or forced colours: plain Frost. */
 .hero h1 .ln-h2 {
+  --beam-left: 50%;
+  --beam-on: 1;
   width: fit-content;
   margin-inline: auto;
-  background-image: linear-gradient(100deg, transparent 38%, rgba(226, 243, 255, 0.95) 50%, transparent 62%), linear-gradient(90deg, var(--frost), var(--blue));
-  background-size: 260% 100%, 100% 100%;
-  background-position: 135% 0, 0 0;
+  background-image:
+    radial-gradient(closest-side, rgba(232, 246, 255, calc(0.62 * var(--beam-on))), rgba(232, 246, 255, 0)),
+    linear-gradient(180deg, var(--frost) 14%, var(--blue) 86%);
+  background-size: 30% 140%, 100% 100%;
+  background-position: var(--beam-left) 50%, 0 0;
   background-repeat: no-repeat;
   -webkit-background-clip: text;
   background-clip: text;
@@ -276,8 +280,9 @@ h1, h2, h3, h4, h5 { margin: 0; font-weight: 700; line-height: 1.1; letter-spaci
   color: transparent;
 }
 .hero h1 .ln-h2::selection { -webkit-text-fill-color: var(--ink); }
-.motion .hero h1 .ln-h2 { animation: h2-sweep 1.6s var(--ease-in-out) 1.5s 1 both; }
-@keyframes h2-sweep { from { background-position: 135% 0, 0 0; } to { background-position: -35% 0, 0 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero h1 .ln-h2 { background-image: linear-gradient(180deg, var(--frost) 14%, var(--blue) 86%); }
+}
 @media (prefers-contrast: more), (forced-colors: active) {
   .hero h1 .ln-h2 { background: none; -webkit-text-fill-color: currentColor; color: var(--frost); }
 }

@@ -551,7 +551,7 @@ void main() {
   float ret = step(0.0, depth) * (1.0 - smoothstep(0.9, 1.6, length(fract(gp) - jit) * 6.0));
   L += vec3(1.0, 0.86, 0.72) * ret * step(0.7, h2(gc)) * exp(-depth * 48.0) * inBeam * 0.95 * e;
   L += vec3(0.62, 0.76, 0.88) * ret * step(0.84, h2(gc + 17.0)) * exp(-depth * 70.0) * (1.0 - inBeam) * 0.3 * edge * e;
-  L *= 1.0 - shadeMask(p) * mix(0.38, 0.7, smoothstep(0.45, 0.85, t));   /* dim behind the small text, softly */
+  L *= 1.0 - shadeMask(p) * mix(0.58, 0.7, smoothstep(0.45, 0.85, t));   /* dim behind the words, softly (enough for blue letters to keep 3:1) */
   L = L / (1.0 + L * 0.3);
   vec3 col = INK + L + (h2(fc + fract(uTime) * 91.0) - 0.5) * 0.012;
   gl_FragColor = vec4(col, 1.0);
@@ -600,6 +600,26 @@ void main() {
   let raf = 0;
   const t0 = performance.now();
 
+  // "On hydrogen." brightens where the beam's light crosses it: the beam's axis at the words' height, from the same numbers
+  // the shader uses (the source at 0.905 of the hero's height, the tilt from the pointer). Written only when it moves.
+  const words = hero.querySelector('.ln-h2');
+  let wordsBox = null;
+  let lastBeam = '';
+  const followBeam = () => {
+    if (!words || !wordsBox || reduceQuery.matches) return;
+    const { left, width, mid, W, H } = wordsBox;
+    const tilt = (ptr.x - 0.5) * 0.096;
+    const down = 0.905 - (H - mid) / H;
+    const axis = (W / H) * 0.5 + down * Math.tan(tilt);
+    const x = axis * H - left - width * 0.15; // the highlight is 30% of the words' width: centre it on the axis
+    const on = Math.min(1, state.intro).toFixed(2);
+    const next = `${x.toFixed(1)}|${on}`;
+    if (next === lastBeam) return;
+    lastBeam = next;
+    words.style.setProperty('--beam-left', `${x.toFixed(1)}px`);
+    words.style.setProperty('--beam-on', on);
+  };
+
   const draw = (now) => {
     const moving = !reduceQuery.matches;
     gl.viewport(0, 0, canvas.width, canvas.height);
@@ -621,6 +641,12 @@ void main() {
     const H = r.height;
     const c = { left: Math.min(...rs.map((q) => q.left)), right: Math.max(...rs.map((q) => q.right)), top: Math.min(...rs.map((q) => q.top)), bottom: Math.max(...rs.map((q) => q.bottom)) };
     shade = [(c.left - r.left) / H, (r.bottom - c.bottom) / H, (c.right - r.left) / H, (r.bottom - c.top) / H];
+    if (words) {
+      const w = words.getBoundingClientRect();
+      wordsBox = { left: w.left - r.left, width: w.width, mid: w.top + w.height / 2 - r.top, W: r.width, H };
+      lastBeam = '';
+      followBeam();
+    }
     draw();
   };
   const loop = (now) => {
@@ -642,6 +668,7 @@ void main() {
       return;
     }
     ptr.x += (ptr.tx - ptr.x) * 0.04;
+    followBeam();
     draw(now);
     raf = requestAnimationFrame(loop);
   };
