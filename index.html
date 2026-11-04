@@ -51,8 +51,6 @@ setTimeout(function () { document.documentElement.classList.remove('pre'); }, 20
   </nav>
 </header>
 
-<div class="glow-cursor" aria-hidden="true"></div>
-
 <main id="top">
 
   <section class="hero" id="hero" aria-labelledby="hero-title">
@@ -69,6 +67,7 @@ setTimeout(function () { document.documentElement.classList.remove('pre'); }, 20
   </section>
 
   <section id="mission" class="section mission" aria-labelledby="mission-title">
+    <div class="scene mission-light" aria-hidden="true"><i class="pool"></i></div>
     <div class="wrap mission-grid">
       <div class="mission-text">
         <h2 class="eyebrow reveal" id="mission-title">Our mission</h2>
@@ -244,7 +243,7 @@ setTimeout(function () { document.documentElement.classList.remove('pre'); }, 20
 
 
   <section id="simulation" class="section band curtain">
-    <div class="sim-light" aria-hidden="true"></div>
+    <div class="sim-light" aria-hidden="true"><i class="beam"></i></div>
     <div class="wrap sim-grid">
       <div class="section-head sim-text reveal">
         <p class="eyebrow">Simulation</p>
@@ -476,96 +475,116 @@ setTimeout(function () { document.documentElement.classList.remove('pre'); }, 20
 
       <div class="story-block problem">
         <h3 class="block-head reveal"><span class="block-label">The unsolved problem</span>The carbon market trades on biomass that nobody can measure at scale.</h3>
-        <div class="story-text reveal">
-          <p>As companies work towards net-zero emissions targets, billions of dollars in carbon credits are traded on the assumption that a specific forest or marine ecosystem absorbs a specific amount of CO₂. Yet the true biomass, the actual volume of trunks, branches and underwater flora, cannot yet be measured accurately at scale.</p>
-          <p>Measuring it requires a heavy, high-grade LiDAR system flown extremely low and slow over the canopy or the water surface, for hours, to map its 3D structure. No current aircraft can do this economically, so the market relies on rough satellite estimates.</p>
-          <ul class="risks">
-            <li>Inaccurate data</li>
-            <li>Significant financial risk</li>
-            <li>Corporate greenwashing</li>
-          </ul>
+        <div class="problem-text">
+          <p class="reveal">As companies work towards net-zero emissions targets, billions of dollars in carbon credits are traded on the assumption that a specific forest or marine ecosystem absorbs a specific amount of CO₂. Yet the true biomass, the actual volume of trunks, branches and underwater flora, cannot yet be measured accurately at scale.</p>
+          <div class="reveal">
+            <p>Measuring it requires a heavy, high-grade LiDAR system flown extremely low and slow over the canopy or the water surface, for hours, to map its 3D structure. No current aircraft can do this economically, so the market relies on rough satellite estimates.</p>
+            <ol class="risks">
+              <li>Inaccurate data</li>
+              <li>Significant financial risk</li>
+              <li>Corporate greenwashing</li>
+            </ol>
+          </div>
         </div>
-        <div class="methods">
-          <h4 class="methods-title reveal">Why current methods fall short</h4>
-          <ul class="method-grid">
-          <li class="method reveal">
-            <svg class="sd" viewBox="0 0 320 180" aria-hidden="true">
-              <g class="sd-sat" transform="translate(116 22)"><rect x="-10" y="-8" width="20" height="16" rx="2"/><path d="M-44 -4h28v8h-28zM16 -4h28v8h-28zM-16 0h6M10 0h6"/></g>
-              <path class="sd-view" d="M116 32L12 104M116 32L220 104"/>
-              <path class="sd-seen" d="M12 114a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0Z"/>
-              <rect class="sd-missed" x="12" y="116" width="208" height="48"/>
-              <path class="sd-trunk" d="M38 114V164M38 136l-10 -9M90 114V164M90 136l10 -9M142 114V164M142 136l-10 -9M194 114V164M194 136l10 -9"/>
-              <path class="sd-ground" d="M4 164H228"/>
-              <path class="sd-bracket" d="M228 100h6v14h-6M228 118h6v46h-6"/>
-              <text class="sd-label seen" x="242" y="112">Top only</text>
-              <text class="sd-label missed" x="242" y="146">Missed</text>
-            </svg>
-            <h5>Satellite</h5>
-            <p class="method-verdict">Sees only the top</p>
-            <p class="method-text sr-only">Satellites see only the top of the canopy or the surface of the water, not the density of what lies beneath.</p>
-          </li>
-          <li class="method reveal">
-            <svg class="sd" viewBox="0 0 320 180" aria-hidden="true">
-              <path class="sd-beam" d="M92 70L66 100H118Z"/>
-              <path class="sd-canopy" d="M12 114a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0Z"/>
-              <path class="sd-trunk" d="M38 114V164M38 136l-10 -9M90 114V164M90 136l10 -9M142 114V164M142 136l-10 -9M194 114V164M194 136l10 -9"/>
-              <path class="sd-ground" d="M4 164H228"/>
-              <g class="sd-craft">
+        <div class="methods reveal">
+          <h4 class="methods-title" id="methods-title">Why current methods fall short</h4>
+          <div class="mx">
+            <div class="mx-list" aria-hidden="true">
+              <button type="button" class="mx-tab" id="mx-tab-sat" data-for="mx-sat" tabindex="-1">Satellite</button>
+              <button type="button" class="mx-tab" id="mx-tab-heli" data-for="mx-heli" tabindex="-1">Helicopter</button>
+              <button type="button" class="mx-tab" id="mx-tab-batt" data-for="mx-batt" tabindex="-1">Battery drone</button>
+              <button type="button" class="mx-tab" id="mx-tab-wing" data-for="mx-wing" tabindex="-1">Fixed-wing drone</button>
+              <span class="mx-bar"></span>
+            </div>
+            <div class="mx-stage">
+              <span class="mx-glow" aria-hidden="true"></span>
+              <article class="mx-panel" id="mx-sat">
+                <svg class="sd" viewBox="0 0 320 180" aria-hidden="true">
+                <g class="sd-sat" transform="translate(116 22)"><rect x="-10" y="-8" width="20" height="16" rx="2"/><path d="M-44 -4h28v8h-28zM16 -4h28v8h-28zM-16 0h6M10 0h6"/></g>
+                <path class="sd-view" d="M116 32L12 104M116 32L220 104"/>
+                <path class="sd-seen" d="M12 114a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0Z"/>
+                <rect class="sd-missed" x="12" y="116" width="208" height="48"/>
+                <path class="sd-trunk" d="M38 114V164M38 136l-10 -9M90 114V164M90 136l10 -9M142 114V164M142 136l-10 -9M194 114V164M194 136l10 -9"/>
+                <path class="sd-ground" d="M4 164H228"/>
+                <path class="sd-bracket" d="M228 100h6v14h-6M228 118h6v46h-6"/>
+                <text class="sd-label seen" x="242" y="112">Top only</text>
+                <text class="sd-label missed" x="242" y="146">Missed</text>
+                </svg>
+                <div class="mx-copy">
+                  <h5>Satellite</h5>
+                  <p class="mx-verdict">Sees only the top</p>
+                  <p class="mx-text">Satellites see only the top of the canopy or the surface of the water, not the density of what lies beneath.</p>
+                </div>
+              </article>
+              <article class="mx-panel" id="mx-heli">
+                <svg class="sd" viewBox="0 0 320 180" aria-hidden="true">
+                <path class="sd-beam" d="M92 70L66 100H118Z"/>
+                <path class="sd-canopy" d="M12 114a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0Z"/>
+                <path class="sd-trunk" d="M38 114V164M38 136l-10 -9M90 114V164M90 136l10 -9M142 114V164M142 136l-10 -9M194 114V164M194 136l10 -9"/>
+                <path class="sd-ground" d="M4 164H228"/>
+                <g class="sd-craft">
                 <path d="M118 46H170M118 54L170 50"/>
                 <path d="M168 51L174 36H180L178 52Z"/>
                 <ellipse cx="92" cy="51" rx="28" ry="13"/>
                 <path d="M68 48C70 42 78 40 86 40V50H68Z"/>
                 <path d="M36 30H148M92 30V38"/>
                 <path d="M76 64L72 70M108 64L112 70M62 70H124"/>
-              </g>
-              <g class="sd-puff"><circle cx="188" cy="34" r="4"/><circle cx="202" cy="28" r="5.5"/><circle cx="217" cy="21" r="7"/></g>
-              <text class="sd-label" x="242" y="30">Emissions</text>
-              <text class="sd-label" x="242" y="58">High cost</text>
-            </svg>
-            <h5>Helicopter</h5>
-            <p class="method-verdict">Too expensive and polluting</p>
-            <p class="method-text sr-only">Flies low and slow and carries 3&#8288;–&#8288;7&nbsp;kg for hours, but is too expensive and polluting for routine audits.</p>
-          </li>
-          <li class="method reveal">
-            <svg class="sd" viewBox="0 0 320 180" aria-hidden="true">
-              <path class="sd-canopy" d="M12 114a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0Z"/>
-              <path class="sd-trunk" d="M38 114V164M38 136l-10 -9M90 114V164M90 136l10 -9M142 114V164M142 136l-10 -9"/>
-              <path class="sd-ground" d="M4 164H228"/>
-              <path class="sd-path" d="M56 36C132 34 192 60 204 160"/>
-              <circle class="sd-landing" cx="204" cy="164" r="3.5"/>
-              <g class="sd-batt" transform="translate(32 6)"><rect width="24" height="10" rx="2"/><path d="M24 3.5h2v3h-2"/><rect class="lvl" x="2" y="2" width="3" height="6" rx="1"/></g>
-              <g class="sd-craft" transform="translate(44 34)"><path d="M-30 -5H30M-30 -5V-8M30 -5V-8"/><ellipse cx="-30" cy="-9" rx="13" ry="2.2"/><ellipse cx="30" cy="-9" rx="13" ry="2.2"/><rect x="-12" y="-5" width="24" height="10" rx="3"/><path d="M0 5V16"/><rect class="sd-payload" x="-14" y="16" width="28" height="16" rx="2"/></g>
-              <text class="sd-label" x="26" y="86">Payload limit</text>
-              <text class="sd-label" x="214" y="132">≈ 15&nbsp;min</text>
-            </svg>
-            <h5>Battery drone</h5>
-            <p class="method-verdict">Lands within about 15&nbsp;minutes</p>
-            <p class="method-text sr-only">Flies low and slow but can barely carry 3&#8288;–&#8288;7&nbsp;kg and lands within approximately 15&nbsp;minutes. It cannot sustain the power for a heavy payload, so not even one hectare can be mapped.</p>
-          </li>
-          <li class="method reveal">
-            <svg class="sd" viewBox="0 0 320 180" aria-hidden="true">
-              <path class="sd-view" d="M92 48L38 100M92 48L90 100M92 48L142 100M92 48L194 100"/>
-              <path class="sd-canopy" d="M12 114a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0Z"/>
-              <path class="sd-trunk" d="M38 114V164M38 136l-10 -9M90 114V164M90 136l10 -9M142 114V164M142 136l-10 -9M194 114V164M194 136l10 -9"/>
-              <path class="sd-ground" d="M4 164H228"/>
-              <path class="sd-hit" d="M38 100h0M90 100h0M142 100h0M194 100h0"/>
-              <path class="sd-speed" d="M4 36H30M10 44H34M4 52H28"/>
-              <g class="sd-craft">
+                </g>
+                <g class="sd-puff"><circle cx="188" cy="34" r="4"/><circle cx="202" cy="28" r="5.5"/><circle cx="217" cy="21" r="7"/></g>
+                <text class="sd-label" x="242" y="30">Emissions</text>
+                <text class="sd-label" x="242" y="58">High cost</text>
+                </svg>
+                <div class="mx-copy">
+                  <h5>Helicopter</h5>
+                  <p class="mx-verdict">Too expensive and polluting</p>
+                  <p class="mx-text">Flies low and slow and carries 3&#8288;–&#8288;7&nbsp;kg for hours, but is too expensive and polluting for routine audits.</p>
+                </div>
+              </article>
+              <article class="mx-panel" id="mx-batt">
+                <svg class="sd" viewBox="0 0 320 180" aria-hidden="true">
+                <path class="sd-canopy" d="M12 114a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0Z"/>
+                <path class="sd-trunk" d="M38 114V164M38 136l-10 -9M90 114V164M90 136l10 -9M142 114V164M142 136l-10 -9"/>
+                <path class="sd-ground" d="M4 164H228"/>
+                <path class="sd-path" d="M56 36C132 34 192 60 204 160"/>
+                <circle class="sd-landing" cx="204" cy="164" r="3.5"/>
+                <g class="sd-batt" transform="translate(32 6)"><rect width="24" height="10" rx="2"/><path d="M24 3.5h2v3h-2"/><rect class="lvl" x="2" y="2" width="3" height="6" rx="1"/></g>
+                <g class="sd-craft" transform="translate(44 34)"><path d="M-30 -5H30M-30 -5V-8M30 -5V-8"/><ellipse cx="-30" cy="-9" rx="13" ry="2.2"/><ellipse cx="30" cy="-9" rx="13" ry="2.2"/><rect x="-12" y="-5" width="24" height="10" rx="3"/><path d="M0 5V16"/><rect class="sd-payload" x="-14" y="16" width="28" height="16" rx="2"/></g>
+                <text class="sd-label" x="26" y="86">Payload limit</text>
+                <text class="sd-label" x="214" y="132">≈ 15&nbsp;min</text>
+                </svg>
+                <div class="mx-copy">
+                  <h5>Battery drone</h5>
+                  <p class="mx-verdict">Lands within about 15&nbsp;minutes</p>
+                  <p class="mx-text">Flies low and slow but can barely carry 3&#8288;–&#8288;7&nbsp;kg and lands within approximately 15&nbsp;minutes. It cannot sustain the power for a heavy payload, so not even one hectare can be mapped.</p>
+                </div>
+              </article>
+              <article class="mx-panel" id="mx-wing">
+                <svg class="sd" viewBox="0 0 320 180" aria-hidden="true">
+                <path class="sd-view" d="M92 48L38 100M92 48L90 100M92 48L142 100M92 48L194 100"/>
+                <path class="sd-canopy" d="M12 114a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0Z"/>
+                <path class="sd-trunk" d="M38 114V164M38 136l-10 -9M90 114V164M90 136l10 -9M142 114V164M142 136l-10 -9M194 114V164M194 136l10 -9"/>
+                <path class="sd-ground" d="M4 164H228"/>
+                <path class="sd-hit" d="M38 100h0M90 100h0M142 100h0M194 100h0"/>
+                <path class="sd-speed" d="M4 36H30M10 44H34M4 52H28"/>
+                <g class="sd-craft">
                 <path d="M48 40L42 24H52L62 38Z"/>
                 <ellipse cx="50" cy="44" rx="10" ry="2.2"/>
                 <rect x="44" y="38" width="88" height="10" rx="5"/>
                 <ellipse cx="92" cy="43" rx="30" ry="3"/>
                 <path d="M134 34V52"/>
-              </g>
-              <text class="sd-label" x="148" y="48">Too fast</text>
-              <text class="sd-label" x="242" y="98">Sparse</text>
-              <text class="sd-label" x="242" y="116">returns</text>
-            </svg>
-            <h5>Fixed-wing drone</h5>
-            <p class="method-verdict">Flies too fast</p>
-            <p class="method-text sr-only">Carries 3&#8288;–&#8288;7&nbsp;kg for hours, but flies too fast for dense LiDAR penetration.</p>
-          </li>
-          </ul>
+                </g>
+                <text class="sd-label" x="148" y="48">Too fast</text>
+                <text class="sd-label" x="242" y="98">Sparse</text>
+                <text class="sd-label" x="242" y="116">returns</text>
+                </svg>
+                <div class="mx-copy">
+                  <h5>Fixed-wing drone</h5>
+                  <p class="mx-verdict">Flies too fast</p>
+                  <p class="mx-text">Carries 3&#8288;–&#8288;7&nbsp;kg for hours, but flies too fast for dense LiDAR penetration.</p>
+                </div>
+              </article>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -756,8 +775,8 @@ setTimeout(function () { document.documentElement.classList.remove('pre'); }, 20
       </header>
       <ul class="channels reveal">
         <li><a class="channel" href="mailto:contact@teamargo.eu"><span class="channel-name">Email</span><span class="channel-value">contact@teamargo.eu</span><svg class="channel-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19L19 5M8 5h11v11"/></svg></a></li>
-        <li><div class="channel is-soon"><span class="channel-name">LinkedIn</span><span class="channel-value">Coming soon</span></div></li>
-        <li><div class="channel is-soon"><span class="channel-name">Instagram</span><span class="channel-value">Coming soon</span></div></li>
+        <li><a class="channel" href="https://www.linkedin.com/company/team-argo/about/" target="_blank" rel="noopener"><span class="channel-name">LinkedIn</span><span class="channel-value">Team Argo</span><span class="sr-only"> (opens in a new tab)</span><svg class="channel-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19L19 5M8 5h11v11"/></svg></a></li>
+        <li><a class="channel" href="https://www.instagram.com/argodrones/" target="_blank" rel="noopener"><span class="channel-name">Instagram</span><span class="channel-value">@argodrones</span><span class="sr-only"> (opens in a new tab)</span><svg class="channel-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19L19 5M8 5h11v11"/></svg></a></li>
       </ul>
     </div>
   </section>

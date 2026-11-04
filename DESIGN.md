@@ -6,8 +6,9 @@ Design reference for everything Argo puts out: the website, slides, social media
 
 **The kingfisher, in the dark.** Argo's colours come from the kingfisher: a dark body (Ink), an electric blue back (Electric Blue) and an orange chest (Cantaloupe Orange). The website feels like a technology launch: bold type, light that seems to come from inside the scene, depth, and motion that answers the scroll and the pointer. The writing stays clear, formal and precise; the visuals may be bold. Each colour means one thing: **Electric Blue is hydrogen**, and by extension Argo's technology; **Cantaloupe Orange is the action**, what a visitor can do next. Blue and orange never touch.
 
-- **Dark only.** The whole site is dark: an Ink ground with Frost text. There is no light theme and no theme toggle; a light theme may come much later, if ever. Sections differ only by a tone step (Ink ground or Shell band).
-- **Light, not decoration.** Glow, gradients and depth come from one source: hydrogen. Streams of blue light in the hero, a glowing tank in Fig. 01, the hydrogen line in Fig. 02, LiDAR beams and point clouds in the Story. Glows are always Electric Blue, never orange.
+- **Dark only.** The whole site is dark: an Ink ground with Frost text. There is no light theme and no theme toggle; a light theme may come much later, if ever.
+- **Every section is a scene.** Each section has its own light, a softly tinted field and depth, so scrolling feels like moving through scenes rather than down one dark page (see Gradients and light). No section reads as flat black, and no section carries a pattern.
+- **Light, not decoration.** Glow, gradients and depth read as light falling on the scene. Blue light comes from hydrogen and Argo's technology: the LiDAR beam's source in the hero, the glowing tank in Fig. 01, the hydrogen line in Fig. 02, the beams in the Story. Warm (orange) light is allowed as light only: the canopy where the hero's beam lands, the solution's daybreak, the sunrise behind Contact and the lit main button. Orange is never a fill, a decoration or a text colour outside the action.
 - **Line art and point clouds.** Drawings, diagrams and charts are clean Frost strokes on the dark ground, with Electric Blue only for hydrogen parts. The Story's illustrations are LiDAR point clouds.
 - **Read like a poster.** Every section leads with a figure, a drawing or a big number, and the text sits beside or below it.
 - **Planned looks planned.** Solid line = exists or modelled, dashed line = planned.
@@ -38,7 +39,7 @@ Design reference for everything Argo puts out: the website, slides, social media
 |---|---|---|
 | **Ink** | `#060A0D` | The ground of every page; the text on blue and orange |
 | **Electric Blue** | `#0297DE` | Hydrogen: hydrogen parts in drawings, the hydrogen line, hydrogen key figures, the light in the hero and the Story |
-| **Cantaloupe Orange** | `#FC734D` | The action: primary buttons, links, the current-page bar, focus rings |
+| **Cantaloupe Orange** | `#FC734D` | The action: primary buttons and the arrows of the contact cards; as light, the warm glows listed under Gradients and light |
 
 ### Neutrals and tints
 | Name | Hex | Role |
@@ -61,8 +62,12 @@ Design reference for everything Argo puts out: the website, slides, social media
 | Text / secondary / captions | Frost / Mist / Slate |
 | Hydrogen (strokes, lines, fills, glow) | Electric Blue |
 | Primary action | Cantaloupe with Ink text |
-| Secondary action | Wing with Frost text |
-| Links, current-page bar, focus ring | Cantaloupe |
+| Secondary action | Translucent Wing with Frost text |
+| Links | Frost text with a Slate underline (Frost on hover) |
+| Current page in the navigation | A small Frost dot under the link |
+| Focus ring | Frost (the off-white), 2px, 3px offset |
+| Trees in the Story | Leaf green `#A6D96A` (approved) |
+| Seagrass and water in the Story | Sea blue `#7FB2FF` (in use, to be confirmed) |
 
 **Ratio:** about 84% Ink and dark surfaces, 9% light text, 4% Electric Blue, 3% Cantaloupe. Blue and orange stay small and roughly equal.
 
@@ -72,15 +77,29 @@ Design reference for everything Argo puts out: the website, slides, social media
 - Text on blue or orange is always Ink. White text fails on both (2.88:1 on blue, 2.42:1 on orange).
 
 ### Gradients and light
-- Radial blue glows at 10–55% opacity behind content, never over text. Never orange glows.
+- Soft radial glows at 7–55% opacity behind content, never over text at full strength. Blue glows for hydrogen; warm glows only as light (see Visual Theme).
 - A faint grain texture on sections.
-- **Section backgrounds:** a faint 48px blueprint grid, two slow blue glows drifting over 70–90s, and one faint line motif per section (Mission hexagons, Simulation graph paper, Story contour lines, Testbed circuit traces, VTOL streamlines, Contact range rings). Behind the content, never interactive, still under reduced motion, faded out at section edges. Text over them still meets AA.
+- **No section patterns.** No grids, line motifs or textures beyond the grain.
+- **Section scenes.** Each section has a tinted field (a vertical gradient between Ink and a deep blue or warm dark) and one or two light sources. Scenes fade to Ink or Shell at their edges so sections meet without a seam.
+
+| Section | Scene | Light |
+|---|---|---|
+| Hero | The LiDAR beam over a forest at night | The shader (see Motion) |
+| Our mission | A light table at night | The canopy's warm afterglow at the top, a pool of hydrogen light under Fig. 01 with its reflection below, a cool haze behind the vision line; field Ink to `#081520` |
+| The Hydrogen Advantage | A planet's horizon | A blue rim of light passing behind the glass tiles, blue and warm glows below it |
+| Simulation (band) | The chart room | A deep blue field rising to the lower right, a cool desk light on the text, and a long beam along the hydrogen line's direction that brightens as the flight time runs |
+| The story: panorama | Dusk over land and sea | A low band of evening light, leaf light over the forest half, sea light over the water half |
+| The story: the problem | Under the canopy | Darker; one cold light from above, and the method stage's own light, which takes the colour of the method shown (cold sky, warm exhaust, a fading grey, a pale streak) |
+| The story: the solution | Daybreak | Warm light low behind the forest, hydrogen light on the aircraft, leaf light where the scan lands |
+| Contact (band) | Sunrise | Warm light rising behind the cards with a warm rim of horizon, the night's blue still in the upper left |
+
+- Every text colour is measured against the scene it sits on (see Accessibility).
 - Shadows are soft, long and tinted with Ink; only things that float (menus, the phone menu sheet) carry them.
 - **Gradient text is not used.** Text is always one solid colour.
 
 ### Accessibility
 - Every text colour is checked against the real rendered background (shader, glows, panels, point clouds), at desktop and phone widths: at least **4.5:1** for body text and **3:1** for large text (WCAG AA).
-- Text never sits on bright light: the hero has a shade on the text side, and the hero shader leaves clear zones behind the labels of Fig. 01. Labels for the point-cloud drawings sit in a legend under each drawing.
+- Text never sits on bright light: the hero shader dims softly behind the words, and every scene keeps its brightest light away from text. Labels for the point-cloud drawings sit in a legend under each drawing.
 - Measured pairs:
 
 | Text on background | Ratio |
@@ -93,6 +112,7 @@ Design reference for everything Argo puts out: the website, slides, social media
 | Cantaloupe on Ink / Shell (links) | 7.28 / 6.80 |
 | Electric Blue on Ink / Shell / Wing (hydrogen labels and figures) | 6.13 / 5.72 / 5.20 |
 
+- **Scenes checked (round 4, 2026-11-04):** 418 text elements below the hero measured against the rendered scenes at 1440 and 1920px (the 92nd-percentile background pixel behind each); all pass AA. Lowest: 5.33:1, the 11.6px labels inside the Advantage figures.
 - **Increase contrast:** under `prefers-contrast: more`, Mist becomes Frost and Slate becomes `#C9D1D7` (12.85:1 on Ink).
 - Meaning never relies on colour alone: planned parts are dashed, actions look like buttons or underlined links, and key figures carry words.
 
@@ -120,36 +140,39 @@ Design reference for everything Argo puts out: the website, slides, social media
 | Drawing annotation / data | Inter | 500 | 10–13px | Inside figures, callouts, chart ticks and table headers only; tabular figures; at least 13px as rendered on a phone |
 
 - **Inter is the only typeface.** Bold for headings and figures, Light only for large intro text, Regular for body text. Light was tested for body text and rejected: its thin strokes read worse on the dark ground.
-- Inter loads from Google Fonts (`Inter:opsz,wght@14..32,300..700`), with the optical size axis on.
+- Inter is self-hosted: the variable font `assets/fonts/InterVariable.woff2` (licence in `assets/fonts/LICENSE.txt`), preloaded, with `font-display: swap` and the optical size axis on. No font is loaded from Google.
+- **Method names (Story):** Inter 700 at the Section heading size, in a vertical list; the chosen one in Frost, the others in Slate.
 - No index numbering (01, 02, 03) in the running layout.
 
 ## 5. Components
 
-**Navigation:** transparent at the top, translucent with a hairline once scrolled; ΛRGO wordmark, page links, one primary button. There is no theme toggle. The links lead to pages, not sections: Home (`/`) and Drivetrain (`/drivetrain`), with more pages (for example Team and Partners) added as further links in the same list, in the bar and in the phone menu. The link of the current page is marked `aria-current="page"` in the HTML and carries a Cantaloupe bar under it; the bar does not follow the scroll. A thin progress line in the same colour runs along the bottom of the bar. "Partner with us" leads to the Contact section of the page it is on. "Partner with us" carries a small arrow that slides on hover, and every few seconds a slow glint of light travels along its border (never across the label, which keeps its full contrast). The wordmark is never changed. On phones "Menu" opens a full-height sheet with the page links (the current page underlined in Cantaloupe) and "Partner with us" as the last row.
+**Navigation:** transparent at the top, translucent with a hairline once scrolled; ΛRGO wordmark, page links, one primary button. There is no theme toggle. The links lead to pages, not sections: Home (`/`) and Drivetrain (`/drivetrain`), with more pages (for example Team and Partners) added as further links in the same list, in the bar and in the phone menu. The link of the current page is marked `aria-current="page"` in the HTML and carries a small Frost dot under it; the dot does not follow the scroll. "Partner with us" leads to the Contact section of the page it is on. "Partner with us" carries a small arrow that slides on hover, and every few seconds a slow glint of light travels along its border (never across the label, which keeps its full contrast). The wordmark is never changed. On phones "Menu" opens a full-height sheet with the page links (the current page underlined in Cantaloupe) and "Partner with us" as the last row.
 
 **Link band (main page):** after the solution, one large bold link centred on the page, "Explore the Kingfisher Project", in Inter 700, underlined in Cantaloupe, with a decorative arrow that slides on hover. It leads to /drivetrain. No image.
 
-**Buttons:** primary buttons are Cantaloupe with Ink text, 4px radius, Semibold 600, at least 48px tall (44px for the small nav button). Hover Orange hover `#FD8D6E`, press `scale(0.97)`, magnetic on fine pointers. Secondary buttons are Wing with Frost text, hover Wing hover. No glow on buttons. Hover styles only on devices that can hover.
+**Buttons:** primary buttons are Cantaloupe with Ink text, 4px radius, Semibold 600, at least 48px tall (44px for the small nav button). The primary button is lit like a lamp: a warm top edge, its own soft warm light below it, and a highlight that follows the pointer. Hover Orange hover `#FD8D6E`, press `scale(0.97)`, magnetic on fine pointers. Secondary buttons are translucent Wing with Frost text and a lit top edge. Hover styles only on devices that can hover.
 
-**Panels:** 6px radius, separated from the ground by tone only (Shell on Ink, Wing on a Shell band), with no coloured border and no shadow at rest. Used for Fig. 02, the advantage tiles, the method cards, the market cards in the panorama's details panel, the diagram, the use-case tiles and the contact cards.
+**Panels:** 6px radius, glass: a translucent dark Shell over the scene's light, blurred, with a thin lit rim and no coloured border. Used for Fig. 02, the advantage tiles, the market cards in the panorama's details panel, the solution illustration, the diagram, the use-case tiles and the contact cards. Under Reduce Transparency or Increase Contrast they become solid Shell.
 
 **Advantage tiles (Mission):** a small figure and the bold title, centred, with two title lines reserved while the tiles sit side by side so the four texts start level; the text sits behind one shared "Read more" / "Show less" button that opens all four tiles together. The button sits centred under "The Hydrogen Advantage", on the hub line's stem, so opening the tiles only adds height below it and it never moves. Thin hydrogen-coloured hub lines draw out once from it to a small dot on each tile (desktop only). All four figures share one 220 × 88 box, so the titles line up: energy-density bars with their kWh/kg values; a crossed-out CO₂ pill beside a lit H₂O pill ("Only water vapour"); four battery packs with swap arrows above one long hydrogen tank; a drone scanning a row of point-cloud trees. Thin lines, 10px Inter labels in Slate, hydrogen in Electric Blue, battery and "not present" in Slate.
 
-**Story blocks:** an accent label, a statement heading, short text, and a figure (point-cloud panorama, method cards, the solution illustration).
+**Story blocks:** an accent label, a statement heading, short text, and a figure (point-cloud panorama, the method list, the solution illustration).
 
 **Panorama (Story):** interactive. Each drone moves along its own survey line (the forest drone over the land half, the coastal drone over the water half), following the pointer on desktop, a drag, a sideways swipe on touch (vertical scrolling still works) or the arrow keys, Home and End on a focused drone. Faint returns are drawn everywhere; bright returns show only inside each moving beam. Each drone is a slider for screen readers ("Forest survey drone", "20% across the forest"); a hint in the caption reads "Drag to move the drones · Click a side for details" or, on touch devices, "Swipe to move the drones · Tap a side for details". A click or tap on a half (a press that moves no more than 5px; anything further is a drag) or on its key chip opens the market details panel under the panorama: that half's drone glides to the centre of its survey line, the other half (points, water, cone and drone) fades to 35%, and mouse hover stops moving the drones until the panel closes. The other half switches the panel to its market; the active half or chip again, or Escape, closes it and restores the scene. The key chips "Terrestrial" and "Blue carbon" are buttons (`aria-pressed`, `aria-controls` the panel), pills with a 1.5px border that takes the market colour when pressed.
 
-**Method cards (Story):** four cards in a 2×2 grid beside the problem text (satellite, helicopter, battery drone, fixed-wing drone). Each has a small line drawing in the style of the satellite diagram showing why the method falls short, the method name and a one-line verdict. The full captions are screen-reader text only. Drawing, name and verdict line up across each pair (subgrid), and the text column beside the grid shares its top and bottom edges.
+**The unsolved problem (Story):** reads top to bottom as one argument. The heading runs across the page; below it the two paragraphs stand side by side, and the second ends in the chain of consequences: Inaccurate data, Significant financial risk, Corporate greenwashing, as an ordered list joined by a thin line with a ring at each step (the last ring filled). Then "Why current methods fall short" and the method list.
+
+**Method list (Story):** the four methods (Satellite, Helicopter, Battery drone, Fixed-wing drone) as large names in a vertical list on the left (five of twelve columns); the stage on the right shows the chosen method's line drawing, its one-line verdict (Frost, intro size) and its full caption (Mist, body size). Hovering, focusing or clicking a name chooses it; the others fall back to Slate and a Frost bar slides beside the chosen one. Built as tabs: the list is a vertical `tablist`, each name a `tab`, each stage a `tabpanel`; the arrow keys, Home and End move between names, and only the chosen name is in the tab order. The stage cross-fades in 0.2s. The stage's light takes the method's colour (see Section scenes). Drawings are at most 540px wide, with lines kept at their screen weight. Without JS the list is hidden and the four methods stand two by two, each with its name.
 
 **Market details panel (under the panorama):** the label "Target markets and operations" and a small heading "Two markets, one airframe.", then the active market's card across the full content width. On desktop the card has two columns: on the left a short coloured bar in the market's colour (to be decided, see Colour meaning), the tag, the title, a one-line summary and the three facts (Target, Operation, Data output) as label-and-text rows; on the right that market's point-cloud drawing, vertically centred, with its colour-keyed legend and caption underneath. At ≤ 960px the card stacks, text first, then the drawing below a hairline. The panel opens and closes with a 0.45s height animation; switching markets snaps to the new card's height and fades the card in over 0.2s. The drawing's laser sweep plays each time its card opens or is switched to. Without JS both cards show. Under reduced motion everything changes instantly.
 
-**Solution illustration (Story):** one drawing in the method-card style beside the solution statement: an orthographic side view of the DJI S800 EVO testbed from its left, flying left to right low over point-cloud trees. Proportions follow DJI's manual (as Fig. 01); the near and far arms, motors and rotors overlap from this side, so three rotor positions show. The airframe (frame, arms, motors, rotors, landing gear) is solid and drawn small (0.12 units per mm), centred over the scan cone. The only planned part shown is the LiDAR sensor, dashed, hanging under the centre of the frame behind the near landing-gear leg. Its scan cone lights up the trees in the panorama's dot style: every tree has a dotted trunk and branches; inside the cone the canopy, trunk and ground points are lit, outside they stay soft and unlit (soft canopy, neutral trunk dots, a dotted ground line). Three labelled targets, each with a dashed leader to its part: Hours of endurance (the centre frame), LiDAR sensor (the sensor), Centimetre accuracy (a lit canopy point). No animation; it fades in with the block. The caption names it as an illustration of the planned hexacopter. On phones the labels move into a list under the drawing, and the drawing crops to the aircraft and forest. Under the text and the figure, centred across both (after the figure on phones), one quiet line of body text: "The drivetrain that would power it is being developed in the Kingfisher Project." The link band follows with its own hairline and spacing.
+**Solution illustration (Story):** one drawing in the method-card style beside the solution statement: an orthographic side view of the DJI S800 EVO testbed from its left, flying left to right low over point-cloud trees. Proportions follow DJI's manual (as Fig. 01); the near and far arms, motors and rotors overlap from this side, so three rotor positions show. The airframe (frame, arms, motors, rotors, landing gear) is solid and drawn small (0.12 units per mm), centred over the scan cone. The only planned part shown is the LiDAR sensor, dashed, hanging under the centre of the frame behind the near landing-gear leg. Its scan cone lights up the trees in the panorama's dot style: every tree has a dotted trunk and branches; inside the cone the canopy, trunk and ground points are lit, outside they stay soft and unlit (soft canopy, neutral trunk dots, a dotted ground line). Three labelled targets, each with a dashed leader to its part: Hours of endurance (the centre frame), LiDAR sensor (the sensor), Centimetre accuracy (a lit canopy point). It builds up once as it arrives (see Motion). The caption names it as an illustration of the planned hexacopter. On phones the labels move into a list under the drawing, and the drawing crops to the aircraft and forest. Under the text and the figure, centred across both (after the figure on phones), one quiet line of body text: "The drivetrain that would power it is being developed in the Kingfisher Project." The link band follows with its own hairline and spacing.
 
 **Drivetrain diagram nodes:** all five boxes share one style (panel fill, one stroke weight, no glow or dashes). Meaning lives in the connections: the hydrogen line between tank and fuel cell is the only Electric Blue dashed line.
 
 **Use-case tiles (VTOL):** five separate tiles, each with a pictogram and its name; a scan line sweeps across the tile on hover. They are separate applications of a modular drone, not stops on one route.
 
-**Contact cards:** Email, LinkedIn and Instagram as three equal cards (channel name, value in Inter 700). Only the email is a link (Cantaloupe, with an arrow); LinkedIn and Instagram read "Coming soon" and share the same lift-and-brighten hover (Shell to Wing) without behaving like links.
+**Contact cards:** Email, LinkedIn and Instagram as three equal glass cards (channel name, value in Inter 700), each a link with a Cantaloupe arrow in its corner. Email opens `mailto:contact@teamargo.eu`; LinkedIn ("Team Argo", https://www.linkedin.com/company/team-argo/about/) and Instagram ("@argodrones", https://www.instagram.com/argodrones/) open in a new tab, which screen readers announce ("opens in a new tab"). On hover a card lifts, a soft light follows the pointer inside it and the arrow slides out.
 
 **Planned components:** the testbed components carry no status chips; the "Planned architecture" title marks them as planned.
 
@@ -165,33 +188,38 @@ Lenis (`lenis@1.1.20`) for smooth scrolling and GSAP with ScrollTrigger (`gsap@3
 
 | Moment | What happens |
 |---|---|
-| **Hero, first second** | A WebGL shader draws streams of Electric Blue light on Ink that bend towards the pointer and fade out behind the labels of Fig. 01. The lockup sweeps in, the lines rise in, Fig. 01 draws itself (rotor rings, frame, callouts) and the dashed planned parts settle with the tank glowing. About 1.4s. The drawing tilts a few degrees towards the pointer. |
+| **Hero, first second** | A WebGL shader draws the LiDAR beam: a fan of laser lines from a source under the navigation, blue at the source and warm where they land on a forest canopy, traced as one bright contour. LiDAR returns scatter in the crowns where the beam lands (dense near the canopy line, thinning deeper), with a faint cool scatter along the rest of the canopy. The beam ignites and opens, the navigation and the words rise in. About 1.6s. The beam leans towards the pointer (up to about ±0.05 rad, fine pointers only), and the words drift up a little as the page scrolls away. |
 | **Curtains** | Band sections (Simulation, Testbed, Contact) arrive as a rounded panel that widens to full bleed. |
-| **Mission** | Each advantage tile animates its own figure every time it scrolls into view (in either direction), on hover, and on tap on touch devices; a replay restarts the figure, never stacks: the hydrogen bar grows; the CO₂ strike draws and the H₂O pill lights; the battery packs drain one after another (the swap arrow pulses) while the tank drops only slightly; the drone flies the row and each tree lights as the scan passes. Reduced motion shows static frames (three packs empty, the fourth partly full; the drone halfway, half the trees lit). The shared button opens the tile text with a 0.45s height transition, instant under reduced motion. |
-| **Simulation** | The battery line draws, then the hydrogen line, then the advantage area and the break-even dot. |
-| **Story** | The point clouds are revealed by a laser sweep from left to right as each drawing comes into view. In the panorama the drones then ease to wherever the visitor moves them (instantly under reduced motion), and their beams light up the returns beneath. |
+| **Our mission** | Fig. 01 draws itself as it arrives (rotor rings, frame, callouts, then the dashed planned parts with the tank glowing) and tilts a few degrees towards the pointer. The vision line lights up word by word, from Slate to Frost, as it scrolls through the screen (scrubbed). The pool of light under Fig. 01 widens and brightens as the section arrives. |
+| **The Hydrogen Advantage** | The horizon rises behind the tiles as the section comes up (scrubbed). Each advantage tile animates its own figure every time it scrolls into view (in either direction), on hover, and on tap on touch devices; a replay restarts the figure, never stacks: the hydrogen bar grows; the CO₂ strike draws and the H₂O pill lights; the battery packs drain one after another (the swap arrow pulses) while the tank drops only slightly; the drone flies the row and each tree lights as the scan passes. Reduced motion shows static frames (three packs empty, the fourth partly full; the drone halfway, half the trees lit). The shared button opens the tile text with a 0.45s height transition, instant under reduced motion. |
+| **Simulation (the one pinned moment)** | The text and chart hold still for about one screen of scrolling while the scroll runs the flight time from 0 to 4 hours: both lines grow with the time, the break-even dot and its note appear at 33 minutes, each line's label once its line has grown under it, the readout and the slider follow, and the beam of light behind the chart brightens. Afterwards the chart is complete and free to explore. Only on windows at least 1061 × 780px, where text and chart sit side by side and fit; elsewhere the chart is shown complete. The readout is silent for screen readers while the scroll drives it. |
+| **Story** | The point clouds are revealed by a laser sweep from left to right as each drawing comes into view. In the panorama the drones then ease to wherever the visitor moves them (instantly under reduced motion), and their beams light up the returns beneath. The chain of consequences draws itself link by link. The method names rise in one after another, then the first drawing builds up part by part (opacity only). The solution illustration builds once: the forest, the aircraft settling in, the scan cone and its lit returns, then the leaders and the three targets. |
+| **Contact** | The sunrise comes up behind the cards (scrubbed). |
 | **Testbed** | The whole diagram enters once, part by part; the flowing connections then keep running. No pinning. |
 | **VTOL** | Tiles rise in; a scan line sweeps a tile on hover. |
-| **Pointer** | A soft blue light follows the pointer. Tiles and cards lift and brighten under the pointer; primary actions are magnetic. Fine pointers only. |
+| **Pointer** | No light follows the pointer across the page. Tiles and cards lift and brighten under the pointer, with a soft light inside the card under it; primary actions are magnetic. Fine pointers only. |
 | **Navigation** | The current-page bar stays still; the progress line follows the scroll; a glint travels along the border of "Partner with us" about every 7 seconds and its arrow slides on hover. Under reduced motion: no sweep. |
 | **Read more** | Opens with a 0.32s height transition (`grid-template-rows` 0fr to 1fr) and the text fades in; the chevron turns 180°. Closed text is hidden from screen readers. Instant under reduced motion. |
 | **Always** | The props in Fig. 01 spin and the diagram's dashed lines flow. |
 
 **Rules**
 - Custom ease-out `cubic-bezier(0.23, 1, 0.32, 1)` and GSAP `expo.out`/`power3`. No bounce. Each entrance runs once.
-- No section holds the page in place.
+- Motion serves the story: a scrubbed move follows the reader's scroll (the vision line, the horizon, the flight time, the sunrise); an entrance builds a figure once. Nothing loops for decoration.
+- Only the Simulation holds the page in place, once, for about one screen.
+- Interactions people repeat (the method list, cards, buttons) answer in 0.2–0.3s with CSS transitions, so they retarget when the pointer moves on.
 - The shader renders below device resolution and pauses when off-screen or when the tab is hidden; without WebGL the hero falls back to a static gradient.
 - In-page links scroll through Lenis and move keyboard focus to the target; Page Up/Down, Space, Home and End go through Lenis too.
-- **Reduced motion:** no Lenis, no GSAP scenes; the hero shows one still frame; drawings and point clouds appear complete; content fades in briefly.
+- **Reduced motion:** no Lenis, no GSAP scenes, no pin and no scrubbing; the hero shows one still frame; drawings, the chart, the chain and point clouds appear complete; the vision line is Frost throughout; the method stage swaps with a short fade and no travel; content fades in briefly.
 - **Fig. 01 is its own compositor layer** (`will-change: transform`), so the pointer tilt and the parallax move the drawing as one piece; without it the small fuel cell and battery boxes flicker against the tank.
 - **Fig. 01 is self-contained:** one element (`#fig01`) whose styles do not depend on the hero.
 
 ## 7. Layout
 
-- **Hero (one screen):** lockup, team line, tagline and affiliation line in a text column with generous space between them; Fig. 01 (the team's real DJI S800 EVO, traced to scale, with the planned tank, fuel cell and buffer battery dashed) large, taking just over half the width and running towards the right edge. No buttons or stats.
-- **Our mission (ground):** eyebrow, heading and vision line in one full-width column. The heading (at the Section heading size) runs on one line from 1240px up; below that, "On hydrogen." moves to its own line. Below, "The Hydrogen Advantage", the shared Read more button and four advantage tiles.
+- **Hero (one screen):** centred: the TEΛM ΛRGO lockup, the headline "The power to go further. On hydrogen." and the line under it, over the LiDAR beam and the forest canopy, which run the full width. No buttons or stats; a quiet scroll cue at the bottom.
+- **Our mission (ground):** the section label "Our mission" (as the h2) and the vision line set large on the left; Fig. 01 (the team's real DJI S800 EVO, traced to scale, with the planned tank, fuel cell and buffer battery dashed) on the right, taking just over half the width.
+- **The Hydrogen Advantage (ground):** the centred heading, the shared Read more button and the hub lines, then the four advantage tiles over the horizon.
 - **Simulation (band):** text beside Fig. 02 with the flight time slider and "Show the numbers".
-- **The story (ground):** heading and intro; the point-cloud panorama, with the market details panel ("Target markets and operations", "Two markets, one airframe") that opens under it; **the unsolved problem** (text and three risks beside the four method cards); **the solution** directly below as the answer (a two-sentence statement beside the solution illustration). The heading matches the Simulation heading in size, so the heading, intro and the whole panorama fit on one screen (checked at 1440×900 and 1280×800). The panorama stays the main image.
+- **The story (ground):** heading and intro; the point-cloud panorama, with the market details panel ("Target markets and operations", "Two markets, one airframe") that opens under it; **the unsolved problem** (the heading across the page, the two paragraphs side by side with the chain of consequences under the second, then "Why current methods fall short" with the method list on five columns and its stage on seven); **the solution** directly below as the answer (a two-sentence statement beside the solution illustration). The heading matches the Simulation heading in size, so the heading, intro and the whole panorama fit on one screen (checked at 1440×900 and 1280×800). The panorama stays the main image.
 - **Link band (end of the Story):** the centred link to /drivetrain. The main page's story ends here.
 - **Contact (band):** heading, subtitle, three equal contact cards; then the footer.
 - **The drivetrain page (`drivetrain/index.html`, teamargo.eu/drivetrain):** **The Kingfisher Project (band):** heading, intro and the emblem, then Fig. 03 and Fig. 04; **Future project: the fixed-wing VTOL (ground):** text on the left, the five use-case tiles on the right (one column on tablets and phones); then Contact and the footer.
@@ -212,18 +240,20 @@ Lenis (`lenis@1.1.20`) for smooth scrolling and GSAP with ScrollTrigger (`gsap@3
 **Don't**
 - Add light sections or a light theme (the site is dark only)
 - Put blue on orange or orange on blue, or white text on either
-- Use colours outside the palette, or orange for glows and decoration
+- Use colours outside the palette, or orange as a fill or decoration (warm light is allowed only as light; see Gradients and light)
+- Add patterns, grids or line motifs to section backgrounds
 - Put gradient fills on text or wordmarks, or text over bright light
 - Use photographs, photorealistic or CAD renders, or 3D models of drones or hardware (captioned isometric line illustrations are allowed; see Illustrations)
-- Pin sections in place, or make placeholders look clickable
+- Pin any section other than the Simulation, or make placeholders look clickable
+- Let a light follow the pointer across the page
 
 ## 9. Responsive Behaviour
 
 | Width | Changes |
 |---|---|
 | ≤ 1100px | Advantage tiles two by two; hub lines hidden |
-| ≤ 1060px | Nav links move into "Menu"; VTOL stacks; diagram descriptions two by two; no pointer light |
-| ≤ 960px | Hero, Simulation and the testbed head stack; the problem block (method cards below the text) and the solution (illustration below the text) stack; the market details panel and contact cards go to one column |
+| ≤ 1060px | Nav links move into "Menu"; VTOL stacks; diagram descriptions two by two; the problem text, the method list and its stage, and the solution stack; no pinned Simulation (the chart shows complete) |
+| ≤ 960px | Hero, Simulation and the testbed head stack; the market details panel and contact cards go to one column |
 | ≤ 880px | The drivetrain diagram switches to its vertical version |
 | ≤ 720px | Single column; method cards one per row; market facts stack; larger text inside drawings; lighter shader resolution |
 
@@ -239,5 +269,5 @@ Lenis (`lenis@1.1.20`) for smooth scrolling and GSAP with ScrollTrigger (`gsap@3
 
 - Dark only: ground Ink `#060A0D`, surfaces Shell `#0E1419` and Wing `#161E25`; text Frost `#EEF2F5` / Mist `#B9C3CB` / Slate `#8C98A2`.
 - Hydrogen: Electric Blue `#0297DE`, with a soft blue glow. Action: Cantaloupe Orange `#FC734D` with Ink text. Blue and orange never touch; text on either is always Ink.
-- Inter only: Bold 700 for headings and figures, Light 300 for large intro text, Regular 400 for body. Glow from hydrogen only; no gradient text; dashed = planned.
+- Inter only: Bold 700 for headings and figures, Light 300 for large intro text, Regular 400 for body. Blue glow from hydrogen, warm glow only as light; every section its own lit scene, never flat black and never patterned; no gradient text; dashed = planned.
 - Example: "A panel on Shell `#0E1419` with a 6px radius and no border; inside, a line drawing of the testbed in Frost strokes, the planned hydrogen tank dashed in Electric Blue, and Inter labels in Slate underneath."

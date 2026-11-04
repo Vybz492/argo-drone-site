@@ -83,6 +83,73 @@ if (finePointer) {
     });
     btn.addEventListener('pointerleave', () => btn.style.setProperty('--bx', '50%'));
   });
+  document.querySelectorAll('.channel').forEach((card) => {
+    card.addEventListener('pointermove', (e) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', `${(e.clientX - r.left).toFixed(0)}px`);
+      card.style.setProperty('--my', `${(e.clientY - r.top).toFixed(0)}px`);
+    });
+  });
+}
+
+// Why current methods fall short: four method names as a vertical tab list. Hovering, focusing or clicking a name shows its
+// drawing and verdict beside the list; the arrow keys, Home and End move between names. Without JS all four show as a grid.
+const methods = document.querySelector('.mx');
+if (methods) {
+  const list = methods.querySelector('.mx-list');
+  const tabs = [...list.querySelectorAll('.mx-tab')];
+  const panels = tabs.map((tab) => document.getElementById(tab.dataset.for));
+  const bar = list.querySelector('.mx-bar');
+  list.removeAttribute('aria-hidden');
+  list.setAttribute('role', 'tablist');
+  list.setAttribute('aria-orientation', 'vertical');
+  list.setAttribute('aria-labelledby', 'methods-title');
+  tabs.forEach((tab, i) => {
+    tab.setAttribute('role', 'tab');
+    tab.setAttribute('aria-controls', panels[i].id);
+    panels[i].setAttribute('role', 'tabpanel');
+    panels[i].setAttribute('aria-labelledby', tab.id);
+    // the panel holds no control, so it takes focus itself (hidden panels are skipped: visibility hidden)
+    panels[i].tabIndex = 0;
+  });
+  let current = -1;
+  const placeBar = () => {
+    const tab = tabs[current];
+    bar.style.height = `${tab.offsetHeight - 24}px`;
+    bar.style.transform = `translateY(${tab.offsetTop + 12}px)`;
+  };
+  const choose = (i, focus) => {
+    if (i !== current) {
+      current = i;
+      tabs.forEach((tab, j) => {
+        tab.setAttribute('aria-selected', String(j === i));
+        tab.tabIndex = j === i ? 0 : -1;
+        panels[j].classList.toggle('is-on', j === i);
+      });
+      methods.dataset.method = tabs[i].dataset.for.slice(3);
+      placeBar();
+    }
+    if (focus) tabs[i].focus();
+  };
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => choose(i));
+    tab.addEventListener('focus', () => choose(i));
+    if (finePointer) tab.addEventListener('pointerenter', () => choose(i));
+  });
+  list.addEventListener('keydown', (e) => {
+    const n = tabs.length;
+    let i;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') i = (current + 1) % n;
+    else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') i = (current - 1 + n) % n;
+    else if (e.key === 'Home') i = 0;
+    else if (e.key === 'End') i = n - 1;
+    else return;
+    e.preventDefault();
+    choose(i, true);
+  });
+  choose(0);
+  // the bar needs the names' real positions: after the font has loaded, and whenever the list changes size
+  new ResizeObserver(placeBar).observe(list);
 }
 
 const bindChart = (chart, { left, width, top, bottom, max, start, snap, step, bigStep, render }) => {
@@ -139,6 +206,7 @@ const bindChart = (chart, { left, width, top, bottom, max, start, snap, step, bi
 };
 
 const simChart = document.getElementById('sim-chart');
+let simApi = null;
 if (simChart) {
   const dotBattery = simChart.querySelector('.sim-hover-batt');
   const dotHydrogen = simChart.querySelector('.sim-hover-h2');
@@ -187,6 +255,7 @@ if (simChart) {
   range.closest('.sim-range').hidden = false;
   range.addEventListener('input', () => show(Number(range.value)));
   range.addEventListener('blur', hide);
+  simApi = { show, hide };
 }
 
 // Story panorama: each drone moves along its own survey line, and its beam lights up the returns beneath it.
@@ -348,7 +417,7 @@ void main() {
   vec2 src = vec2(asp * 0.5, srcY);
   vec2 v = p - src; float down = max(-v.y, 0.0); float span = srcY - gY;
   float t = down / span;
-  float tilt = (uPtr.x - 0.5) * 0.08 * uMotion;
+  float tilt = (uPtr.x - 0.5) * 0.096 * uMotion;
   float a = atan(v.x, max(down, 0.0001)) - tilt;
   float halfA = 0.62 * mix(0.02, 1.0, smoothstep(0.0, 1.0, e));
   float yc = gY + canopy(p.x);
@@ -392,11 +461,14 @@ void main() {
   L += BLUE * 0.15 * exp(-length((p - vec2(asp * 0.5, 0.55)) * vec2(0.9 / asp, 1.4)) * 2.0) * e;
   L += (BLUE * 0.24 * exp(-length((p - vec2(0.0, 0.34)) * vec2(1.4, 1.1)) * 1.5) + BLUE * 0.15 * exp(-length((p - vec2(asp, 0.62)) * vec2(1.5, 1.2)) * 1.7) + ORNG * 0.09 * exp(-length((p - vec2(asp, 0.2)) * vec2(1.5, 1.3)) * 1.8)) * e;
   L *= mix(1.0, 0.2, smoothstep(0.002, 0.022, yc - p.y));                 /* the forest stands dark against the light */
-  /* LiDAR returns: a sparse scatter of lit points in the crowns, only where the beam lands */
-  vec2 gp = vec2(p.x, p.y) * H / 7.0; vec2 gc = floor(gp);
-  float depth = yc - (gc.y + 0.5) * 7.0 / H;
-  float ret = step(0.86, h2(gc)) * step(0.0, depth) * exp(-depth * 40.0) * (1.0 - smoothstep(0.9, 1.6, length(fract(gp) - 0.5) * 7.0));
-  L += vec3(1.0, 0.86, 0.72) * ret * inBeam * 0.9 * e;
+  /* LiDAR returns: a dense scatter of lit points in the crowns where the beam lands, reaching a little deeper into them,
+     and a faint cool scatter along the rest of the canopy line (earlier passes) */
+  vec2 gp = vec2(p.x, p.y) * H / 6.0; vec2 gc = floor(gp);
+  float depth = yc - (gc.y + 0.5) * 6.0 / H;
+  vec2 jit = vec2(h2(gc + 3.1), h2(gc + 8.7)) * 0.6 + 0.2;             /* each return sits somewhere in its cell, never on a grid */
+  float ret = step(0.0, depth) * (1.0 - smoothstep(0.9, 1.6, length(fract(gp) - jit) * 6.0));
+  L += vec3(1.0, 0.86, 0.72) * ret * step(0.7, h2(gc)) * exp(-depth * 48.0) * inBeam * 0.95 * e;
+  L += vec3(0.62, 0.76, 0.88) * ret * step(0.84, h2(gc + 17.0)) * exp(-depth * 70.0) * (1.0 - inBeam) * 0.3 * edge * e;
   L *= 1.0 - shadeMask(p) * mix(0.38, 0.7, smoothstep(0.45, 0.85, t));   /* dim behind the small text, softly */
   L = L / (1.0 + L * 0.3);
   vec3 col = INK + L + (h2(fc + fract(uTime) * 91.0) - 0.5) * 0.012;
@@ -636,15 +708,6 @@ if (motion) {
     }
   }
 
-  // Band sections open up like a curtain as they arrive
-  document.querySelectorAll('.curtain').forEach((section) => {
-    gsap.fromTo(section, { clipPath: 'inset(0% 3% 0% 3% round 28px)' }, {
-      clipPath: 'inset(0% 0% 0% 0% round 0px)',
-      ease: 'none',
-      scrollTrigger: { trigger: section, start: 'top bottom', end: 'top 30%', scrub: true },
-    });
-  });
-
   // Hydrogen Advantage: each figure replays whenever its tile scrolls into view (either direction), on hover, or on tap.
   // restart() rewinds the one timeline to its start state, so replays never stack.
   document.querySelectorAll('.tile').forEach((tile) => {
@@ -688,19 +751,130 @@ if (motion) {
     tile.addEventListener(finePointer ? 'pointerenter' : 'click', replay);
   });
 
-  // Simulation: the chart draws itself
-  if (simChart) {
-    const lines = [simChart.querySelector('.sim-batt'), simChart.querySelector('.sim-h2')];
-    const chartIn = gsap.timeline({ scrollTrigger: { trigger: simChart, start: 'top 78%', once: true } });
-    lines.forEach((line, i) => {
-      const len = line.getTotalLength();
-      chartIn.fromTo(line, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut', clearProps: 'strokeDasharray,strokeDashoffset' }, i * 0.3);
+  // Simulation, the one pinned moment: the chart holds still while scrolling runs the flight time from 0 to 4 hours.
+  // Both lines grow with the time, the break-even dot lands at 33 minutes, the readout follows, and the beam of light
+  // behind the chart brightens as hydrogen's advantage widens. Afterwards the chart is complete and free to explore.
+  const simGrid = document.querySelector('.sim-grid');
+  if (simChart && simApi && simGrid) {
+    const ns = 'http://www.w3.org/2000/svg';
+    const clip = document.createElementNS(ns, 'clipPath');
+    clip.id = 'sim-time';
+    const clipRect = document.createElementNS(ns, 'rect');
+    clipRect.setAttribute('x', '0');
+    clipRect.setAttribute('y', '0');
+    clipRect.setAttribute('height', '420');
+    clip.appendChild(clipRect);
+    simChart.prepend(clip);
+    const grown = simChart.querySelectorAll('.sim-batt, .sim-h2, .sim-zone');
+    const dot = simChart.querySelector('.sim-dot');
+    const note = simChart.querySelector('.sim-note');
+    const [labelBatt, labelH2] = simChart.querySelectorAll('.sim-label');
+    const tip = simGrid.querySelector('.sim-tip');
+    const beam = document.querySelector('.sim-light .beam');
+    // only where the text and chart sit side by side and fit on one screen; elsewhere the chart is simply complete
+    gsap.matchMedia().add('(min-width: 1061px) and (min-height: 780px)', () => {
+      grown.forEach((el) => el.setAttribute('clip-path', 'url(#sim-time)'));
+      const time = { t: 0 };
+      const fade = (el, on) => gsap.to(el, { opacity: on ? 1 : 0, duration: 0.3, ease: 'power2.out', overwrite: true });
+      const shown = {};
+      const paint = (live) => {
+        const t = time.t;
+        clipRect.setAttribute('width', String(58 + (t / 240) * 568));
+        // each mark appears once the time reaches it (the break-even at 33 min, a label once its line has grown under it)
+        [[dot, t >= 33], [note, t >= 38], [labelBatt, t >= 46], [labelH2, t >= 226]].forEach(([el, on], i) => {
+          if (shown[i] !== on) fade(el, on);
+          shown[i] = on;
+        });
+        if (beam) beam.style.opacity = String(0.3 + 0.7 * (t / 240));
+        if (live) simApi.show(t);
+      };
+      gsap.set([dot, note, labelBatt, labelH2], { opacity: 0 });
+      paint(false);
+      gsap.to(time, {
+        t: 240,
+        ease: 'none',
+        onUpdate: () => paint(true),
+        scrollTrigger: {
+          trigger: simGrid,
+          start: 'center center+=38',
+          end: '+=95%',
+          pin: true,
+          scrub: 0.4,
+          refreshPriority: 1,
+          // the readout speaks only when someone uses the chart, not while the page scrolls it
+          onToggle: (self) => {
+            tip.setAttribute('aria-live', self.isActive ? 'off' : 'polite');
+            if (!self.isActive) simApi.hide();
+          },
+        },
+      });
+      return () => {
+        grown.forEach((el) => el.removeAttribute('clip-path'));
+        if (beam) beam.style.opacity = '';
+        tip.setAttribute('aria-live', 'polite');
+        simApi.hide();
+      };
     });
-    chartIn
-      .from(simChart.querySelector('.sim-zone'), { opacity: 0, duration: 0.9, ease: 'power2.out' }, 0.9)
-      .from(simChart.querySelector('.sim-dot'), { scale: 0, transformOrigin: '50% 50%', duration: 0.8, ease: 'expo.out' }, 1.1)
-      .from(simChart.querySelectorAll('.sim-label, .sim-note'), { opacity: 0, duration: 0.6, stagger: 0.1 }, 1.2);
   }
+
+  // Band sections open up like a curtain as they arrive (made after the pin, so the one below it counts its extra scroll)
+  document.querySelectorAll('.curtain').forEach((section) => {
+    gsap.fromTo(section, { clipPath: 'inset(0% 3% 0% 3% round 28px)' }, {
+      clipPath: 'inset(0% 0% 0% 0% round 0px)',
+      ease: 'none',
+      scrollTrigger: { trigger: section, start: 'top bottom', end: 'top 30%', scrub: true },
+    });
+  });
+
+  // Our mission: the vision line lights up word by word as it is read, and the pool of light under Fig. 01 opens up
+  const statement = document.querySelector('.mission .statement');
+  if (statement) {
+    const text = statement.textContent.trim();
+    // screen readers get the sentence once; the word spans are for the eye only
+    const words = text.split(/\s+/).map((w) => `<span class="w">${w}</span>`).join(' ');
+    statement.innerHTML = `<span class="sr-only">${text}</span><span aria-hidden="true">${words}</span>`;
+    gsap.fromTo(statement.querySelectorAll('.w'), { color: '#8C98A2' }, {
+      color: '#EEF2F5',
+      ease: 'none',
+      stagger: 0.12,
+      scrollTrigger: { trigger: statement, start: 'top 82%', end: 'bottom 48%', scrub: 0.3 },
+    });
+  }
+  const pool = document.querySelector('.mission-light .pool');
+  if (pool) gsap.fromTo(pool, { scale: 0.78, opacity: 0.45 }, { scale: 1, opacity: 1, ease: 'none', scrollTrigger: { trigger: '#mission', start: 'top bottom', end: 'center center', scrub: true } });
+
+  // The Hydrogen Advantage: the horizon rises behind the tiles as the section comes up
+  const arc = document.querySelector('.adv-arc');
+  if (arc) gsap.fromTo(arc, { y: 140 }, { y: 0, ease: 'none', scrollTrigger: { trigger: '#advantage', start: 'top bottom', end: 'center center', scrub: true } });
+
+  // The problem: the chain of consequences draws itself, one link after another
+  const risks = document.querySelector('.risks');
+  if (risks) ScrollTrigger.create({ trigger: risks, start: 'top 80%', once: true, onEnter: () => risks.classList.add('is-drawn') });
+
+  // The methods: the names rise in one after another, then the first drawing builds up part by part
+  if (methods) {
+    // opacity only: several parts are placed with their own SVG transform, which a moving tween would overwrite
+    const build = (panel) => gsap.from(panel.querySelectorAll('.sd > *'), { opacity: 0, duration: 0.5, ease: 'power2.out', stagger: 0.05, clearProps: 'opacity' });
+    const mxIn = gsap.timeline({ scrollTrigger: { trigger: methods, start: 'top 72%', once: true } });
+    mxIn.from(methods.querySelectorAll('.mx-tab'), { opacity: 0, y: 22, duration: 0.9, ease: 'expo.out', stagger: 0.07, clearProps: 'opacity,transform' }, 0)
+      .add(() => build(methods.querySelector('.mx-panel.is-on')), 0.2);
+  }
+
+  // The solution: the illustration builds up as it arrives: the forest, the aircraft settling in, the scan, then its targets
+  const sol = document.querySelector('.sd-solution');
+  if (sol) {
+    gsap.timeline({ defaults: { ease: 'expo.out' }, scrollTrigger: { trigger: sol, start: 'top 75%', once: true } })
+      .from(sol.querySelectorAll(':scope > .pt'), { opacity: 0, duration: 1, stagger: 0.12 }, 0)
+      .from(sol.querySelector('.sd-craft'), { opacity: 0, y: -18, duration: 1.1 }, 0.25)
+      .from(sol.querySelector(':scope > .pc-cone'), { opacity: 0, scaleY: 0.2, transformOrigin: '50% 0%', duration: 0.9 }, 0.7)
+      .from(sol.querySelector('[clip-path]'), { opacity: 0, duration: 0.8, ease: 'power2.out' }, 0.8)
+      .from(sol.querySelectorAll('.sd-view, .sd-anchor'), { opacity: 0, duration: 0.6, ease: 'power2.out' }, 1.1)
+      .from(sol.querySelectorAll('.sd-label'), { opacity: 0, x: -8, duration: 0.7, stagger: 0.08, clearProps: 'opacity,transform' }, 1.15);
+  }
+
+  // Contact: the sunrise comes up behind the cards
+  const sunrise = document.querySelector('.contact-light');
+  if (sunrise) gsap.fromTo(sunrise, { yPercent: 14 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '#contact', start: 'top bottom', end: 'bottom bottom', scrub: true } });
 
   if (finePointer) {
     // the main action and the email card lean towards the pointer
@@ -717,18 +891,6 @@ if (motion) {
         my(0);
       });
     });
-
-    // a soft hydrogen light follows the pointer
-    const glow = document.querySelector('.glow-cursor');
-    if (glow) {
-      const gx = gsap.quickTo(glow, 'x', { duration: 0.7, ease: 'power3' });
-      const gy = gsap.quickTo(glow, 'y', { duration: 0.7, ease: 'power3' });
-      window.addEventListener('pointermove', (e) => {
-        gx(e.clientX);
-        gy(e.clientY);
-        glow.classList.add('is-on');
-      }, { passive: true });
-    }
   }
 
   window.addEventListener('load', () => ScrollTrigger.refresh());
