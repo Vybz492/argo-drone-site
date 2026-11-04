@@ -52,6 +52,8 @@
   --grid: repeat(12, minmax(0, 1fr));
   /* the two oval glows: as wide as the page grid, never reaching the window's edges */
   --glow-w: min(calc(var(--max) - 48px), calc(100vw - 64px));
+  /* the Kingfisher link's glow is a touch wider, and still never reaches the window's edges */
+  --glow-w-wide: min(calc(var(--max) + 72px), calc(100vw - 112px));
   --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
@@ -317,14 +319,16 @@ html.pre .hero [data-in] { opacity: 0; }
   mask-image: linear-gradient(transparent, #000 120px);
   background:
     radial-gradient(52% 26% at 50% 0%, rgba(252, 115, 77, 0.13), transparent 72%),
-    radial-gradient(30% 40% at 22% 52%, rgba(170, 205, 232, 0.07), transparent 72%),
-    radial-gradient(30% 9% at 69% 92%, rgba(53, 174, 232, 0.2), transparent 72%);
+    radial-gradient(30% 40% at 22% 52%, rgba(170, 205, 232, 0.07), transparent 72%);
 }
-/* One faint blue oval rises behind the Hydrogen Advantage heading, from the top of that section, as wide as the page
-   grid (the same width as the Kingfisher link's glow). It fades to nothing inside its own box (closest-side), so neither
-   its top (the border with Our mission) nor its sides can show. Static, so it costs nothing while scrolling. */
-.bridge-glow { position: absolute; left: 50%; top: 0; z-index: 0; width: var(--glow-w); height: 540px; transform: translateX(-50%); pointer-events: none;
+/* One faint blue oval in the gap between Fig. 01 and the Hydrogen Advantage heading, as wide as the page grid. Its
+   brightest level sits 12px above the border between the two sections (where the drawing's old floor reflection ended),
+   so it is drawn twice, identically: each section shows its own part (both clip) and the parts meet without a seam.
+   It fades to nothing inside its own box (closest-side), so no box edge can show. Static: no cost while scrolling. */
+.bridge-glow { position: absolute; left: 50%; z-index: 0; width: var(--glow-w); height: 540px; transform: translateX(-50%); pointer-events: none;
   background: radial-gradient(closest-side, rgba(2, 151, 222, 0.2), rgba(2, 151, 222, 0.07) 55%, rgba(2, 151, 222, 0)); }
+.mission-light .bridge-glow { bottom: -258px; }
+#advantage > .bridge-glow { top: -282px; }
 /* the pool itself: GSAP brightens and widens it a little as the drawing arrives */
 .mission-light .pool { position: absolute; left: 44%; top: 2%; width: 52%; height: 96%; border-radius: 50%; background: radial-gradient(closest-side, rgba(2, 151, 222, 0.3), rgba(2, 151, 222, 0.1) 52%, transparent 100%); }
 .mission-grid { display: grid; grid-template-columns: var(--grid); column-gap: var(--gutter); align-items: center; }
@@ -587,7 +591,7 @@ html:not(.js) .more-btn { display: none; }
   radial-gradient(32% 40% at 54% 36%, rgba(2, 151, 222, 0.26), transparent 72%),
   radial-gradient(24% 26% at 46% 70%, rgba(166, 217, 106, 0.16), transparent 72%); }
 /* the Kingfisher link sits on one faint blue oval, centred on the link, fading to nothing inside its box */
-.next-page::before { inset: auto; left: 50%; top: 64%; width: var(--glow-w); height: 340px; transform: translate(-50%, -50%);
+.next-page::before { inset: auto; left: 50%; top: 64%; width: var(--glow-w-wide); height: 340px; transform: translate(-50%, -50%);
   -webkit-mask-image: none; mask-image: none;
   background: radial-gradient(closest-side, rgba(2, 151, 222, 0.22), rgba(2, 151, 222, 0.07) 55%, rgba(2, 151, 222, 0)); }
 .story .wrap { isolation: isolate; }
