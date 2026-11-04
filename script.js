@@ -133,52 +133,22 @@ if (adv && tiles && !window.matchMedia('(prefers-reduced-transparency: reduce), 
   window.addEventListener('load', place);
 }
 if (moreBtn && tiles) {
-  // With motion the tiles open by FLIP: the page is laid out once (at the start of opening, at the end of closing), and
-  // the visible motion is transform and clip-path only, which the compositor runs without repainting the page.
-  // Animating the height instead moved everything below on every frame, so the whole page was laid out and repainted
-  // about 27 times per click; that was the lag.
-  const flip = motion && 'animate' in Element.prototype;
-  if (flip) root.classList.add('flip-more');
-  const cards = [...tiles.querySelectorAll('.tile')];
-  const texts = [...tiles.querySelectorAll('.more p')];
-  const below = [...document.querySelectorAll('#advantage ~ section, .footer')];
-  const timing = { duration: 450, easing: 'cubic-bezier(0.23, 1, 0.32, 1)', fill: 'forwards' };
-  let running = [];
-  const settle = () => afterSettle(null, () => window.ScrollTrigger.refresh());
-  const animate = (delta, opening, done) => {
-    const from = opening ? delta : 0;
-    const to = opening ? 0 : delta;
-    // the tiles' new part is uncovered (or covered) from the bottom; the dots above the tiles stay outside the clip
-    running = cards.map((card) => card.animate([{ clipPath: `inset(-16px -16px ${from}px -16px)` }, { clipPath: `inset(-16px -16px ${to}px -16px)` }], timing));
-    // what lies below follows the tiles' bottom edge instead of jumping
-    // only what is on screen needs to glide; anything further down simply takes its new place unseen
-    running.push(...below.filter((el) => el.getBoundingClientRect().top < innerHeight).map((el) => el.animate([{ transform: `translateY(${-from}px)` }, { transform: `translateY(${-to}px)` }], timing)));
-    running.push(...texts.map((p) => p.animate([{ opacity: opening ? 0 : 1 }, { opacity: opening ? 1 : 0 }], { ...timing, fill: 'both', duration: opening ? 360 : 200, delay: opening ? 90 : 0 })));
-    running[0].onfinish = () => {
-      if (done) done();
-      running.forEach((a) => a.cancel());
-      running = [];
-      settle();
-    };
+  // The row of tiles keeps the height of the open state at all times (the space is reserved), so opening and closing
+  // never move anything below it: no relayout of the page, no scroll positions to recalculate. Inside that space the
+  // tiles simply grow and shrink (a CSS height transition), so they are fully drawn on every frame.
+  const texts = [...tiles.querySelectorAll('.more > div')];
+  const reserve = () => {
+    tiles.style.height = '';
+    const extra = tiles.classList.contains('is-open') ? 0 : Math.max(...texts.map((t) => t.scrollHeight));
+    tiles.style.height = `${tiles.offsetHeight + extra}px`;
   };
+  reserve();
+  window.addEventListener('resize', reserve);
+  if (document.fonts) document.fonts.ready.then(reserve);
   moreBtn.addEventListener('click', () => {
-    // a second click while moving finishes the first motion at once, then starts the new one from there
-    running.slice().forEach((a) => a.finish());
     const open = moreBtn.getAttribute('aria-expanded') !== 'true';
     moreBtn.setAttribute('aria-expanded', String(open));
-    if (!flip) {
-      tiles.classList.toggle('is-open', open);
-      if (motion) settle();
-      return;
-    }
-    if (open) {
-      const before = tiles.offsetHeight;
-      tiles.classList.add('is-open');
-      animate(tiles.offsetHeight - before, true);
-    } else {
-      const delta = Math.max(...[...tiles.querySelectorAll('.more')].map((m) => m.offsetHeight));
-      animate(delta, false, () => tiles.classList.remove('is-open'));
-    }
+    tiles.classList.toggle('is-open', open);
   });
 }
 

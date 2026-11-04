@@ -333,7 +333,8 @@ html.pre .hero [data-in] { opacity: 0; }
 
 /* ---------- The Hydrogen Advantage: glass tiles in one blue light, under a blue horizon ---------- */
 
-.adv { padding: 152px 0 136px; overflow: hidden; }
+/* bottom: the gap left when the tiles are open; when closed, the reserved space for the text adds to it (script.js) */
+.adv { padding: 152px 0 48px; overflow: hidden; }
 /* Hydrogen light only: this section is about hydrogen, so its light is the hydrogen colour, one continuous band
    under the horizon (the warm horizon belongs to Contact, the action). Fixed height in px, not the section's:
    when Read more makes the section taller, this layer keeps its size and is not repainted. */
@@ -369,13 +370,13 @@ html:not(.js) .more-btn { display: none; }
 .js .adv-hub .hub-lines { clip-path: inset(0 50% 0 50%); transition: clip-path 1.3s var(--ease-in-out) 0.35s; }
 .js .adv-hub.in .hub-lines { clip-path: inset(0 -2% 0 -2%); }
 
-.tiles { position: relative; z-index: 3; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gutter); }
+.tiles { position: relative; z-index: 3; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-content: start; gap: var(--gutter); }
 .tile {
   --mx: 50%;
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 30px 26px 30px;
+  padding: 30px 22px 28px;
   border-radius: var(--radius);
   background: linear-gradient(160deg, rgba(238, 242, 245, 0.075), rgba(238, 242, 245, 0.01) 42%, rgba(238, 242, 245, 0) 60%), var(--glass);
   box-shadow: var(--glass-rim), 0 30px 60px -34px rgba(0, 0, 0, 0.85);
@@ -389,7 +390,8 @@ html:not(.js) .more-btn { display: none; }
    section's light (glow and horizon), lined up with the real one behind it and blurred once with a plain filter.
    Nothing is re-sampled or re-blurred when a tile changes size, so Read more opens and closes without a stall.
    The copy is sized in px, independent of the section's height. The tint and the lit rim sit above it, in ::after. */
-.has-glass .tile { isolation: isolate; background: none; box-shadow: 0 30px 60px -34px rgba(0, 0, 0, 0.85); -webkit-backdrop-filter: none; backdrop-filter: none; }
+/* own layers from the start (measured): building them as the tiles fade in cost two 60ms raster stalls on first scroll */
+.has-glass .tile { will-change: transform, opacity; isolation: isolate; background: none; box-shadow: 0 30px 60px -34px rgba(0, 0, 0, 0.85); -webkit-backdrop-filter: none; backdrop-filter: none; }
 .tile-glass { position: absolute; inset: 0; z-index: -1; overflow: hidden; border-radius: inherit; pointer-events: none; }
 .tile-glass::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(160deg, rgba(238, 242, 245, 0.075), rgba(238, 242, 245, 0.01) 42%, rgba(238, 242, 245, 0) 60%), var(--glass); box-shadow: var(--glass-rim); transition: background-color 0.3s ease, box-shadow 0.3s var(--ease-out); }
 /* The blurred pane is only the tile's size plus a 32px margin for the blur's soft edge (fixed 760px tall, enough for an
@@ -403,12 +405,10 @@ html:not(.js) .more-btn { display: none; }
 .tile h3 { min-height: 2.5em; font-size: 1.1875rem; line-height: 1.25; letter-spacing: -0.015em; text-align: center; }
 .more { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.45s var(--ease-out); }
 .more > div { min-height: 0; overflow: hidden; }
-.more p { padding-top: 12px; font-size: 0.96875rem; line-height: 1.58; color: var(--frost); transition: opacity 0.25s ease 0.1s; }
+.more p { padding-top: 12px; font-size: 0.9375rem; line-height: 1.5; color: var(--frost); transition: opacity 0.25s ease 0.1s; }
 .js .tiles:not(.is-open) .more { grid-template-rows: 0fr; }
 .js .tiles:not(.is-open) .more > div { visibility: hidden; transition: visibility 0s 0.45s; }
 .js .tiles:not(.is-open) .more p { opacity: 0; transition-delay: 0s; }
-/* with FLIP (script.js) the text opens in one step and the script animates the reveal, so the height transition is off */
-.flip-more .tiles .more, .flip-more .tiles .more > div, .flip-more .tiles .more p { transition: none !important; }
 @media (hover: hover) and (pointer: fine) {
   .tile:hover { transform: translateY(-4px); background-color: var(--glass-hi); box-shadow: inset 0 1px 0 rgba(238, 242, 245, 0.28), inset 0 0 0 1px rgba(238, 242, 245, 0.16), inset 0 -1px 0 rgba(238, 242, 245, 0.08), 0 36px 70px -34px rgba(0, 0, 0, 0.9); }
   .has-glass .tile:hover { background-color: transparent; box-shadow: 0 36px 70px -34px rgba(0, 0, 0, 0.9); }
@@ -595,6 +595,8 @@ html:not(.js) .more-btn { display: none; }
 .pt-marine-soft { stroke: var(--sea-soft); stroke-linecap: square; stroke-width: 2.1; }
 .pc-cone.terra { fill: var(--leaf); opacity: 0.1; }
 .pc-cone.marine { fill: var(--sea); opacity: 0.11; }
+/* inside the water the green laser is fainter, and it ends on the seabed (the clips in the drawing follow the terrain) */
+.pc-cone.marine.in-water { opacity: 0.07; }
 .pc-water { fill: var(--sea); opacity: 0.08; }
 .pc-drone path, .pc-drone rect, .pc-drone ellipse { fill: var(--wing); stroke: var(--frost); stroke-width: 1.5; }
 .pc-arrow { fill: none; stroke: var(--mist); stroke-width: 1.2; stroke-dasharray: 2 5; stroke-linecap: round; }
@@ -642,18 +644,20 @@ html:not(.js) .more-btn { display: none; }
 
 .methods { margin-top: 88px; }
 /* a real subheading, one step below the block heading (34px) */
-.methods-title { margin: 0 0 32px; font-size: clamp(1.375rem, 0.9rem + 0.9vw, 1.75rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: var(--frost); }
+.methods-title { margin: 0 0 18px; font-size: clamp(1.375rem, 0.9rem + 0.9vw, 1.75rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: var(--frost); }
 /* list on columns 1-5, stage on 6-12; the names start on the grid edge and the bar sits in the margin beside them */
-/* one balanced block: the list stretches to the stage's height (drawing and text), its names spread evenly, the first
-   level with the drawing's top and the last with the text's last line (the -14px cancel the names' own padding) */
-.mx { position: relative; display: grid; grid-template-columns: var(--grid); column-gap: var(--gutter); row-gap: 48px; align-items: stretch; }
-.mx-list { grid-column: 1 / span 5; position: relative; z-index: 1; display: grid; justify-items: start; align-content: space-between; margin: -14px 0; }
-.mx-stage { grid-column: 6 / -1; }
+/* one symmetric block on the page grid's two halves (the same line as the two paragraphs above): on the left the
+   subheading and the names, tightly set; on the right the drawing, its top level with the subheading, and the text under it,
+   sized so that together they end about where the list ends */
+.mx { position: relative; display: grid; grid-template-columns: var(--grid); column-gap: var(--gutter); row-gap: 48px; align-items: start; }
+.mx-side { grid-column: 1 / span 6; }
+.mx-list { position: relative; z-index: 1; display: grid; justify-items: start; }
+.mx-stage { grid-column: 7 / -1; }
 .mx-tab {
-  padding: 14px 0;
+  padding: 9px 0;
   border: 0;
   background: none;
-  font: 700 var(--fs-h2)/1.04 var(--font);
+  font: 700 clamp(2.25rem, 1.2rem + 2vw, 3rem)/1.04 var(--font);
   letter-spacing: -0.035em;
   text-align: left;
   color: var(--slate);
@@ -672,12 +676,11 @@ html:not(.js) .more-btn { display: none; }
 .mx[data-method="heli"] .mx-glow { color: rgba(252, 115, 77, 0.15); }
 .mx[data-method="batt"] .mx-glow { color: rgba(140, 152, 162, 0.12); }
 .mx[data-method="wing"] .mx-glow { color: rgba(214, 226, 236, 0.13); }
-.mx-panel { display: grid; grid-template-rows: auto 1fr; gap: 20px; }
-.js .mx-copy { align-self: end; }
+.mx-panel { display: grid; gap: 18px; align-content: start; }
 /* drawn larger here than the old cards, so lines keep their screen weight and the labels a reading size */
-.mx-panel .sd { width: 100%; overflow: visible; }
+.mx-panel .sd { width: 100%; max-width: 440px; overflow: visible; }
 .mx-panel .sd * { vector-effect: non-scaling-stroke; }
-.mx-panel .sd-label { font-size: 10px; }
+.mx-panel .sd-label { font-size: 12px; }
 /* the method drawings: Fig. 01's line language. Frost outlines for the aircraft, Mist and Stroke for detail and the
    forest, leaf-green dots for LiDAR returns, dashed Slate for sight lines, paths and leaders */
 .mx-panel .sd-body { fill: var(--wing); stroke: var(--frost); stroke-width: 1.2; stroke-linejoin: round; }
@@ -852,7 +855,7 @@ a.channel:active { transform: scale(0.98); }
   .mission-grid, .sim-grid, .problem-text, .mx, .solution { grid-template-columns: minmax(0, 1fr); }
   :root { --gutter: 24px; }
   /* the same selectors as the desktop placements, so this reset always wins */
-  .mission-text, .mission-grid > #fig01, .sim-grid > .sim-text, .sim-grid > .sim-figure, .mx-list, .mx-stage, .solution > .solution-text-col, .solution > .solution-fig { grid-column: 1 / -1; }
+  .mission-text, .mission-grid > #fig01, .sim-grid > .sim-text, .sim-grid > .sim-figure, .mx-side, .mx-stage, .solution > .solution-text-col, .solution > .solution-fig { grid-column: 1 / -1; }
 }
 
 /* ---------- Preferences ---------- */
