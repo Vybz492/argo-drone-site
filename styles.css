@@ -312,9 +312,15 @@ html.pre .hero [data-in] { opacity: 0; }
     radial-gradient(30% 40% at 22% 52%, rgba(170, 205, 232, 0.07), transparent 72%),
     radial-gradient(30% 9% at 69% 92%, rgba(53, 174, 232, 0.2), transparent 72%);
 }
+/* One faint blue oval joins the drone's light to the Advantage. It is drawn twice, identically, centred on the border
+   between the two sections: each section shows its own half (both clip), so the halves meet without a seam. It fades
+   to nothing inside its own box (closest-side), so no box edge can show. Static, so it costs nothing while scrolling. */
+.bridge-glow { position: absolute; left: 59%; width: 76%; height: 540px; transform: translateX(-50%); pointer-events: none;
+  background: radial-gradient(closest-side, rgba(2, 151, 222, 0.2), rgba(2, 151, 222, 0.07) 55%, rgba(2, 151, 222, 0)); }
+.mission-light .bridge-glow { bottom: -270px; }
+#advantage > .bridge-glow { top: -270px; z-index: 0; }
 /* the pool itself: GSAP brightens and widens it a little as the drawing arrives */
 .mission-light .pool { position: absolute; left: 44%; top: 2%; width: 52%; height: 96%; border-radius: 50%; background: radial-gradient(closest-side, rgba(2, 151, 222, 0.3), rgba(2, 151, 222, 0.1) 52%, transparent 100%); }
-.mission-light::after { inset: auto 0 0; height: 40%; background: linear-gradient(transparent, rgba(6, 10, 13, 0.6)); }
 .mission-grid { display: grid; grid-template-columns: var(--grid); column-gap: var(--gutter); align-items: center; }
 .mission-text { grid-column: 1 / span 5; }
 .mission-grid > #fig01 { grid-column: 6 / -1; }
@@ -574,7 +580,10 @@ html:not(.js) .more-btn { display: none; }
   radial-gradient(56% 24% at 54% 92%, rgba(252, 115, 77, 0.17), transparent 72%),
   radial-gradient(32% 40% at 54% 36%, rgba(2, 151, 222, 0.26), transparent 72%),
   radial-gradient(24% 26% at 46% 70%, rgba(166, 217, 106, 0.16), transparent 72%); }
-.next-page::before { inset: -40% -10% -60%; background: radial-gradient(46% 40% at 50% 62%, rgba(252, 115, 77, 0.08), transparent 72%), radial-gradient(40% 46% at 50% 60%, rgba(2, 151, 222, 0.14), transparent 72%); }
+/* the Kingfisher link sits on one faint blue oval, centred on the link, fading to nothing inside its box */
+.next-page::before { inset: auto; left: 50%; top: 64%; width: min(1000px, 84%); height: 340px; transform: translate(-50%, -50%);
+  -webkit-mask-image: none; mask-image: none;
+  background: radial-gradient(closest-side, rgba(2, 151, 222, 0.22), rgba(2, 151, 222, 0.07) 55%, rgba(2, 151, 222, 0)); }
 .story .wrap { isolation: isolate; }
 .story-head { max-width: 860px; margin-bottom: 40px; }
 .story-head h2 { font-size: var(--fs-h2); }
