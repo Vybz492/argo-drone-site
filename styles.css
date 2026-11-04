@@ -263,9 +263,11 @@ h1, h2, h3, h4, h5 { margin: 0; font-weight: 700; line-height: 1.1; letter-spaci
 .lockup { width: clamp(150px, 11vw, 190px); fill: var(--frost); filter: drop-shadow(0 0 14px rgba(6, 10, 13, 0.7)); }
 .hero h1 { font-size: var(--fs-h1); line-height: 0.98; letter-spacing: -0.04em; }
 .hero h1 .ln { display: block; }
-/* Trial: "On hydrogen." is soft white above the middle of the lowercase letters and deep blue below it (never orange
-   or Ink), with a short blend right at that line: the centre of the "o", 0.595em below the top of the line box in Inter
-   (the blend runs from 0.555em to 0.635em). One gradient for the whole line, so every
+/* Trial: "On hydrogen." is one smooth, eased gradient over the whole height of the letters: soft white at the top of the
+   tallest letters (0.11em below the top of the line box, in Inter), deep blue by the baseline (0.852em), and the 50/50
+   mix at the centre of the "o" (0.595em). The curve is smoothstep(s^1.63) written as 11 stops, so it starts and ends
+   gently, spreads over the whole range and shows no line or banding (never orange or Ink). One gradient for the whole
+   line, so every
    letter has the same colour at the same height. The box reaches 0.14em lower than the line, so the tails of "y" and
    "g" are inside it; the negative margin gives that space back, so nothing moves.
    Over it, a soft vertical band of light brightens the words where the beam crosses them; script.js keeps it on the
@@ -280,7 +282,7 @@ h1, h2, h3, h4, h5 { margin: 0; font-weight: 700; line-height: 1.1; letter-spaci
   margin-bottom: -0.14em;
   background-image:
     linear-gradient(90deg, rgba(232, 246, 255, 0), rgba(232, 246, 255, calc(0.5 * var(--beam-on))) 50%, rgba(232, 246, 255, 0)),
-    linear-gradient(180deg, #D9E8F2 0.555em, #0287CC 0.635em);
+    linear-gradient(180deg, #D9E8F2 0.110em, #D9E8F2 0.184em, #D6E7F1 0.258em, #CDE3F0 0.333em, #BDDCED 0.407em, #A4D0E9 0.481em, #82C1E3 0.555em, #5BAFDC 0.629em, #329DD4 0.704em, #108DCF 0.778em, #0287CC 0.852em);
   background-size: 30% 100%, 100% 100%;
   background-position: var(--beam-left) 0, 0 0;
   background-repeat: no-repeat;
@@ -291,7 +293,7 @@ h1, h2, h3, h4, h5 { margin: 0; font-weight: 700; line-height: 1.1; letter-spaci
 }
 .hero h1 .ln-h2::selection { -webkit-text-fill-color: var(--ink); }
 @media (prefers-reduced-motion: reduce) {
-  .hero h1 .ln-h2 { background-image: linear-gradient(180deg, #D9E8F2 0.555em, #0287CC 0.635em); }
+  .hero h1 .ln-h2 { background-image: linear-gradient(180deg, #D9E8F2 0.110em, #D9E8F2 0.184em, #D6E7F1 0.258em, #CDE3F0 0.333em, #BDDCED 0.407em, #A4D0E9 0.481em, #82C1E3 0.555em, #5BAFDC 0.629em, #329DD4 0.704em, #108DCF 0.778em, #0287CC 0.852em); }
 }
 @media (prefers-contrast: more), (forced-colors: active) {
   .hero h1 .ln-h2 { background: none; -webkit-text-fill-color: currentColor; color: var(--frost); }
