@@ -256,8 +256,12 @@ h1, h2, h3, h4, h5 { margin: 0; font-weight: 700; line-height: 1.1; letter-spaci
 .no-gl .hero-fallback { display: block; }
 /* the light fades into the next section, no seam */
 .hero::before { content: ""; position: absolute; inset: auto 0 0; height: 56px; z-index: 1; background: linear-gradient(transparent, var(--ink)); pointer-events: none; }
+/* once the shader is running it draws this fade and the grain itself (script.js), so neither has to be a layer blended over
+   the moving canvas on every frame; without WebGL or JS they stay as CSS */
+html.gl-grain:not(.no-gl) .hero::before, html.gl-grain:not(.no-gl) .hero::after { display: none; }
 
-.hero-stage { position: relative; z-index: 2; display: grid; align-content: start; justify-items: center; min-height: inherit; padding-top: clamp(170px, 24vh, 300px); padding-bottom: 200px; text-align: center; }
+/* will-change: the words, their glow and the lockup's shadow are painted once and only moved as the page scrolls */
+.hero-stage { will-change: transform; position: relative; z-index: 2; display: grid; align-content: start; justify-items: center; min-height: inherit; padding-top: clamp(170px, 24vh, 300px); padding-bottom: 200px; text-align: center; }
 .hero-copy { display: grid; align-content: start; justify-items: center; width: 100%; }
 .hero-label { margin-bottom: 30px; }
 .lockup { width: clamp(150px, 11vw, 190px); fill: var(--frost); filter: drop-shadow(0 0 14px rgba(6, 10, 13, 0.7)); }

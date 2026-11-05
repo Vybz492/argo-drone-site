@@ -561,6 +561,7 @@ const heroLight = (() => {
   const CELL = lite ? '9.0' : '6.0';
   const frag = `precision highp float;
 uniform vec2 uRes; uniform float uTime; uniform float uIntro; uniform vec2 uPtr; uniform vec4 uShade; uniform float uMotion; uniform vec4 uWords; uniform float uWordsDim;
+uniform sampler2D uGrain; uniform float uGrainOn; uniform float uScale; uniform float uGrainK;
 const vec3 INK = vec3(0.0235, 0.0392, 0.0510);
 const vec3 BLUE = vec3(0.0078, 0.5922, 0.8706);
 const vec3 ORNG = vec3(0.9882, 0.4510, 0.3020);
@@ -655,6 +656,13 @@ void main() {
   L *= 1.0 - wordsMask(p) * uWordsDim;                                   /* and a little more just behind "On hydrogen.", so its blue keeps 3:1 */
   L = L / (1.0 + L * 0.3);
   vec3 col = INK + L + (h2(fc + fract(uTime) * 91.0) - 0.5) * 0.012;
+  /* the hero's 56px fade to Ink at its bottom edge and the page's grain (white noise, overlay blend at 6%), drawn here
+     instead of as two CSS layers over the moving canvas: the same gradient, the same grain image, the same blend */
+  vec2 css = vec2(fc.x, uRes.y - fc.y) / uScale;
+  col = mix(col, INK, clamp(1.0 - (uRes.y - css.y * uScale) / uScale / 56.0, 0.0, 1.0) * uGrainOn);
+  vec2 gt = (floor(mod(css * uGrainK, 160.0 * uGrainK)) + 0.5) / (160.0 * uGrainK);
+  float g = texture2D(uGrain, gt).a * 0.06 * uGrainOn;
+  col = col + g * (min(2.0 * col, vec3(1.0)) - col);
   gl_FragColor = vec4(col, 1.0);
 }`;
   let prog = null;
@@ -679,7 +687,7 @@ void main() {
       const loc = gl.getAttribLocation(prog, 'a');
       gl.enableVertexAttribArray(loc);
       gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-      ['uRes', 'uTime', 'uIntro', 'uPtr', 'uShade', 'uMotion', 'uWords', 'uWordsDim'].forEach((name) => (u[name] = gl.getUniformLocation(prog, name)));
+      ['uRes', 'uTime', 'uIntro', 'uPtr', 'uShade', 'uMotion', 'uWords', 'uWordsDim', 'uGrain', 'uGrainOn', 'uScale', 'uGrainK'].forEach((name) => (u[name] = gl.getUniformLocation(prog, name)));
     } catch (err) {
       gl = null;
     }
@@ -701,6 +709,10 @@ void main() {
   let visible = true;
   let raf = 0;
   const t0 = performance.now();
+  let grainOn = 0;
+  let cssScale = 1; // render pixels per CSS pixel
+  // the CSS grain is drawn at device resolution; the texture matches it (1x, 2x or 3x of the 160px tile)
+  const grainK = Math.min(3, Math.max(1, Math.round(window.devicePixelRatio || 1)));
 
   // "On hydrogen." brightens where the beam's light crosses it: the beam's axis at the words' height, from the same numbers
   // the shader uses (the source at 0.905 of the hero's height, the tilt from the pointer). Written only when it moves.
@@ -734,6 +746,10 @@ void main() {
     gl.uniform4f(u.uWords, wordsArea[0], wordsArea[1], wordsArea[2], wordsArea[3]);
     gl.uniform1f(u.uWordsDim, WORDS_DIM);
     gl.uniform1f(u.uMotion, moving ? 1 : 0);
+    gl.uniform1f(u.uGrainOn, grainOn);
+    gl.uniform1f(u.uScale, cssScale);
+    gl.uniform1f(u.uGrainK, grainK);
+    gl.uniform1i(u.uGrain, 0);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   };
   // below device resolution, but never so low that a laser line falls under two render pixels on screen
@@ -742,6 +758,7 @@ void main() {
     const scale = Math.min(window.devicePixelRatio || 1, 1.5) * (lite ? 0.62 : 0.85) * quality;
     canvas.width = Math.max(1, Math.round(r.width * scale));
     canvas.height = Math.max(1, Math.round(r.height * scale));
+    cssScale = canvas.width / Math.max(1, r.width);
     const rs = [...copy].map((el) => el.getBoundingClientRect());
     const H = r.height;
     const c = { left: Math.min(...rs.map((q) => q.left)), right: Math.max(...rs.map((q) => q.right)), top: Math.min(...rs.map((q) => q.top)), bottom: Math.max(...rs.map((q) => q.bottom)) };
@@ -793,10 +810,12 @@ void main() {
     }
   };
   new ResizeObserver(measure).observe(hero);
+  // rootMargin: the beam keeps running while the hero is within half a screen of the window, so it never has to
+  // start up again right at the edge as the hero scrolls back into view
   new IntersectionObserver(([en]) => {
     visible = en.isIntersecting;
     setRunning();
-  }).observe(hero);
+  }, { rootMargin: '50% 0px' }).observe(hero);
   document.addEventListener('visibilitychange', setRunning);
   reduceQuery.addEventListener('change', () => {
     setRunning();
@@ -812,8 +831,32 @@ void main() {
     e.preventDefault();
     running = false;
     root.classList.add('no-gl');
+    root.classList.remove('gl-grain');
   });
   if (document.fonts) document.fonts.ready.then(measure);
+  const grainSrc = (getComputedStyle(root).getPropertyValue('--grain').match(/url\(["']?(.*?)["']?\)$/) || [])[1];
+  if (grainSrc) {
+    const img = new Image();
+    img.onload = () => {
+      const size = 160 * grainK;
+      const c = document.createElement('canvas');
+      c.width = c.height = size;
+      c.getContext('2d').drawImage(img, 0, 0, size, size);
+      const tex = gl.createTexture();
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, c);
+      grainOn = 1;
+      draw();
+      // the CSS fade and grain over the hero step aside now the shader draws them (styles.css)
+      root.classList.add('gl-grain');
+    };
+    img.src = grainSrc;
+  }
   measure();
   setRunning();
   state.draw = draw;
