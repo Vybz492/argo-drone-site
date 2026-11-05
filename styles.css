@@ -248,13 +248,11 @@ h1, h2, h3, h4, h5 { margin: 0; font-weight: 700; line-height: 1.1; letter-spaci
 .menu-toggle { display: none; }
 .mobile-menu { display: none; }
 @media (hover: hover) { .nav-links a:hover { color: var(--frost); } }
-/* hover and keyboard focus on the wordmark and the page links: a thin Frost line draws in under them from left to right,
-   the Kingfisher link's gesture in Frost (these are not the action). The wordmark itself never changes; its line keeps
-   the clear space of half its height. The current-page dot stays under the line. */
-.nav-links a::before, .brand::before { content: ""; position: absolute; left: 6px; right: 6px; bottom: 8.5px; height: 1.5px; background: var(--frost); transform: scaleX(0); transform-origin: 0 50%; transition: transform 0.3s var(--ease-out); pointer-events: none; }
-.brand::before { left: 0; right: 0; bottom: -6.5px; }
-@media (hover: hover) { .nav-links a:hover::before, .brand:hover::before { transform: none; } }
-.nav-links a:focus-visible::before, .brand:focus-visible::before { transform: none; }
+/* hover and keyboard focus on the page links: a thin Frost line draws in under them from left to right, the Kingfisher
+   link's gesture in Frost (these are not the action). The current-page dot stays under the line. The wordmark has none. */
+.nav-links a::before { content: ""; position: absolute; left: 6px; right: 6px; bottom: 8.5px; height: 1.5px; background: var(--frost); transform: scaleX(0); transform-origin: 0 50%; transition: transform 0.3s var(--ease-out); pointer-events: none; }
+@media (hover: hover) { .nav-links a:hover::before { transform: none; } }
+.nav-links a:focus-visible::before { transform: none; }
 
 /* ---------- Sections ---------- */
 
@@ -1360,7 +1358,7 @@ html:not(.js) .xp-row h3 { color: var(--frost); }
   .js .reveal { transform: none !important; transition: opacity 0.3s linear !important; transition-delay: 0s !important; }
   .js .reveal .scan, .js .adv-hub .hub-lines { transition: none !important; clip-path: none !important; }
   .more, .more > div, .more p, .af-tree, .pano-panel, .pano-panel > div, #pano-fade rect, .pc-handle, .pc-chip, .more-btn .chev, .sim-data summary::after { transition: none !important; }
-  .btn, .btn svg, .tile, .channel, .channel::before, .channel-arrow, .next-link span, .next-link svg, .mx-tab, .mx-bar, .mx-glow, .intro a, .nav-links a::before, .brand::before, .mx-tab::after { transition: none !important; }
+  .btn, .btn svg, .tile, .channel, .channel::before, .channel-arrow, .next-link span, .next-link svg, .mx-tab, .mx-bar, .mx-glow, .intro a, .nav-links a::before, .mx-tab::after { transition: none !important; }
   .js .mx-panel { transform: none !important; transition: opacity 0.15s linear, visibility 0s !important; }
   .btn:active, .btn-glass:active, .pc-chip:active, a.channel:active, .next-link:active { transform: none !important; }
   .tile:hover, .channel:hover { transform: none !important; }
