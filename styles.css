@@ -990,26 +990,265 @@ html:not(.js) .xp-row h3 { color: var(--frost); }
 .js .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out); }
 .js .reveal.in { opacity: 1; transform: none; }
 
-/* ---------- Narrower windows (desktop first; phones and tablets get their own round) ---------- */
+/* ---------- Touch targets at every size (hit areas only: nothing moves or changes colour) ---------- */
+
+/* the wordmark, the page links, the panorama's chips and "Show the numbers" reach 44px without changing their look */
+.brand { position: relative; }
+.brand::after { content: ""; position: absolute; inset: -5px -6px; }
+.nav-links a { padding-inline: 6px; margin-inline: -6px; }
+.js .pc-chip { position: relative; }
+.js .pc-chip::after { content: ""; position: absolute; inset: -3px 0; }
+.sim-data summary { position: relative; }
+.sim-data summary::before { content: ""; position: absolute; inset: -4px 0; }
+.sim-range input { height: 44px; margin-block: -6px; }
+/* the phone-only parts stay out of the desktop page */
+.bp-key, .mobile-cta { display: none; }
+.pano-scroll { display: contents; }
+/* the drivetrain page's wide lights (the emblem's glow) never widen the page */
+.dt { overflow-x: clip; }
+
+/* ---------- Tablets and phones (below 1280px; the desktop page above is unchanged) ----------
+   Three compositions: tablet landscape (901-1279px) keeps the desktop's side-by-side layouts on a tighter grid;
+   tablet portrait (601-900px) is one column with two-up tiles and cards; phones (600px and less) get their own
+   versions of the drawings (cropped, with their labels in a list), a panorama that scrolls under the finger,
+   stacked tiles and cards, and lighter effects. */
+
+@media (max-width: 1279.98px) {
+  :root { --gutter: 32px; }
+  /* the figures' small annotations stay at a reading size as the drawings shrink */
+  #fig01 .bp-tb { font-size: 11px; }
+  .sim-tick, .sim-note { font-size: 13px; }
+  .af-label { font-size: 12px; }
+  .emblem img { height: 240px; }
+  .emblem::before { width: 440px; height: 440px; }
+  /* Fig. 04: the specification line moves to the readout, so it never meets "Take it apart" */
+  #drivetrain .fc .iso-plate-corner[data-corner="spec"] { display: none; }
+}
+@media (min-width: 881px) and (max-width: 1279.98px) {
+  #drivetrain .fc .iso-plate-corner[data-corner="readout"] { max-width: calc(50% - 110px); }
+  /* Fig. 04 on a touch tablet: the parts list in one column, so the drawing keeps most of the panel */
+  #drivetrain .iso-figure.fc { grid-template-columns: minmax(0, 1fr) 300px; }
+  #drivetrain .fc .fc-list { columns: 1; }
+}
 
 @media (max-width: 1100px) {
-  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
   .hub-lines, .tile::after { display: none; }
+  /* two rows of tiles: no reserved space (it would stand empty under them); Read more lets the section grow */
+  .adv { padding-bottom: 104px; }
+  #simulation { padding-top: 104px; }
+  .vtol-grid, .sim-grid { grid-template-columns: minmax(0, 1fr); row-gap: 48px; }
+  .sim-grid { row-gap: 8px; }
+  .sim-grid > .sim-text, .sim-grid > .sim-figure { grid-column: 1 / -1; }
+  .sim-text p:not(.eyebrow) { max-width: 40em; }
+  .vtol-grid > .vtol-head, .vtol-grid > .vtol-text, .vtol-grid > .uses-figure { grid-column: 1 / -1; }
+  .vtol-grid > .vtol-head { margin-bottom: 0; }
+  .vtol-text { max-width: 40em; }
 }
-@media (max-width: 1060px) {
-  .nav-links, .nav-actions .btn-partner { display: none; }
-  .menu-toggle { display: inline-flex; margin-left: auto; }
-  .nav-actions { margin-left: auto; }
-  .mobile-menu:not([hidden]) { display: block; padding: 8px 0 24px; background: var(--ink); }
-  .mobile-menu .wrap { display: grid; }
-  .mobile-menu a { padding: 14px 0; color: var(--mist); text-decoration: none; font-size: 1.25rem; font-weight: 600; }
-  .mobile-menu a[aria-current="page"] { color: var(--frost); }
-  .mission-grid, .sim-grid, .problem-text, .mx, .solution, .dt-head, .vtol-grid { grid-template-columns: minmax(0, 1fr); }
-  .dt-head { row-gap: 48px; }
-  .vtol-grid { row-gap: 56px; }
+
+@media (max-width: 900px) {
   :root { --gutter: 24px; }
-  /* the same selectors as the desktop placements, so this reset always wins */
-  .mission-text, .mission-grid > #fig01, .sim-grid > .sim-text, .sim-grid > .sim-figure, .mx-side, .mx-stage, .solution > .solution-text-col, .solution > .solution-fig, .dt-head > .section-head, .emblem, .vtol-grid > .vtol-head, .vtol-grid > .vtol-text, .vtol-grid > .uses-figure { grid-column: 1 / -1; }
+  .mission { padding: 112px 0 96px; }
+  .adv { padding-top: 120px; }
+  .story { padding-top: 104px; padding-bottom: 120px; }
+  .contact { padding: 120px 0 136px; }
+  .dt { padding: 136px 0 96px; }
+  .vtol { padding: 112px 0 136px; }
+  .section-head { margin-bottom: 48px; }
+  .section-head p:not(.eyebrow) { font-size: 1.125rem; }
+
+  /* navigation: the page links move into Menu; "Get in touch" stays in the bar while there is room for it */
+  .nav-links { display: none; }
+  .menu-toggle { display: inline-flex; }
+  .nav-actions { margin-left: auto; }
+  .nav-inner { height: 68px; }
+  .nav:has(.mobile-menu:not([hidden])) { background: var(--ink); border-color: rgba(238, 242, 245, 0.07); }
+  /* the menu: a full-height sheet under the bar, the page links large, "Get in touch" as the last row */
+  .mobile-menu:not([hidden]) { position: fixed; inset: 68px 0 0; display: block; overflow-y: auto; overscroll-behavior: contain; padding: 16px 0 40px; background: var(--ink); }
+  .mobile-menu .wrap { display: grid; align-content: start; }
+  .mobile-menu a:not(.btn) { display: flex; align-items: center; min-height: 64px; color: var(--mist); text-decoration: none; font-size: 1.75rem; font-weight: 700; letter-spacing: -0.025em; box-shadow: inset 0 -1px 0 var(--line); }
+  .mobile-menu a[aria-current="page"] { color: var(--frost); text-decoration: underline; text-decoration-color: var(--orange); text-decoration-thickness: 3px; text-underline-offset: 0.3em; }
+  .mobile-menu .mobile-cta { display: inline-flex; justify-self: start; margin-top: 32px; min-height: 52px; padding: 0 24px; font-size: 1rem; }
+  html.menu-open { overflow: hidden; }
+
+  .hero-stage { padding-top: clamp(150px, 22vh, 240px); padding-bottom: 160px; }
+
+  /* one column; the text first, its figure under it */
+  .mission-grid, .sim-grid, .problem-text, .mx, .solution, .dt-head { grid-template-columns: minmax(0, 1fr); }
+  .mission-text, .mission-grid > #fig01, .sim-grid > .sim-text, .sim-grid > .sim-figure, .mx-side, .mx-stage, .solution > .solution-text-col, .solution > .solution-fig, .dt-head > .section-head, .emblem { grid-column: 1 / -1; }
+  .mission-grid { row-gap: 40px; }
+  .mission-text { max-width: 36em; }
+  #fig01 { max-width: 640px; justify-self: center; width: 100%; }
+  .sim-grid { row-gap: 8px; }
+  .sim-text p:not(.eyebrow) { max-width: 40em; }
+  .problem-text { gap: 16px; }
+  .mx { row-gap: 32px; }
+  .mx-stage { max-width: 560px; }
+  .solution { row-gap: 32px; }
+  .solution-text { max-width: 40em; }
+  .dt-head { row-gap: 40px; margin-bottom: 72px; }
+  .emblem img { height: 220px; }
+  .emblem::before { width: 360px; height: 360px; }
+
+  /* the chain of consequences runs down the page, each link drawn between two rings */
+  .risks { flex-direction: column; align-items: flex-start; row-gap: 22px; margin-top: 32px; }
+  .risks li { position: relative; }
+  .risks li:not(:last-child)::after { position: absolute; left: 4.25px; top: calc(100% + 3px); width: 1.5px; height: 16px; margin: 0; background: linear-gradient(var(--mist), rgba(185, 195, 203, 0.3)); transform-origin: top; }
+  .motion .risks li::after { transform: scaleY(0); }
+  /* the market card: text, then its drawing under a hairline */
+  .pano-panel .market { grid-template-columns: minmax(0, 1fr); }
+  .pano-panel .pc-figure { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); }
+  .js .pano-panel:not(.is-open) { margin-bottom: 104px; }
+  .story-block { margin-top: 96px; }
+  .next-page { margin-top: 112px; }
+
+  /* contact: the address across the top, the two networks under it */
+  .channels { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .channels li:first-child { grid-column: 1 / -1; }
+  .channel { min-height: 148px; }
+
+  /* lighter effects on small screens: plain tinted glass instead of live blur (it re-blurs on every scroll frame) */
+  .sim-figure, .solution-fig, .market, .channel, .tile { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .sim-figure, .solution-fig, .market, .channel { background: linear-gradient(160deg, rgba(238, 242, 245, 0.07), rgba(238, 242, 245, 0) 45%), rgba(14, 20, 25, 0.82); }
+  .tile:not(.has-glass .tile) { background: linear-gradient(160deg, rgba(238, 242, 245, 0.075), rgba(238, 242, 245, 0.01) 42%, rgba(238, 242, 245, 0) 60%), rgba(14, 20, 25, 0.72); }
+}
+
+@media (max-width: 600px) {
+  .wrap { padding-inline: 20px; }
+  .section-head { margin-bottom: 40px; }
+  .section-head h2, .section-head h1, .story-head h2, .adv-hub h2 { font-size: clamp(2rem, 1.2rem + 3.6vw, 2.375rem); line-height: 1.06; }
+  .section-head h2, .section-head h1 { margin: 18px 0; }
+  .section-head p:not(.eyebrow) { font-size: 1.0625rem; }
+  .eyebrow { font-size: 1rem; gap: 12px; }
+  .eyebrow::before { width: 28px; }
+
+  .nav-actions .btn-partner { display: none; }
+  .mobile-menu .mobile-cta { justify-self: stretch; }
+
+  /* hero: the lockup, the three-line headline and the line under it, centred in the beam */
+  .hero-label { margin-bottom: 24px; }
+  .lockup { width: 150px; }
+  .hero h1 { font-size: clamp(2.75rem, 1.6rem + 5.6vw, 3.25rem); }
+  .hero .intro { margin-top: 24px; font-size: 1.125rem; }
+  .hero-stage { padding-bottom: 140px; }
+
+  /* Our mission: the vision line, then Fig. 01 cropped to the drone (its labels move into the key under it) */
+  .mission { padding: 88px 0 72px; }
+  .statement { margin-top: 20px; font-size: 1.5rem; line-height: 1.32; }
+  #fig01 { overflow: hidden; aspect-ratio: 432 / 368; }
+  #fig01 .bp { width: calc(100% * 600 / 432); max-width: none; margin-top: calc(-66% * 100 / 432); }
+  #fig01 text, #fig01 .legend, #fig01 .cline, #fig01 .cdot, #fig01 .tb-block { display: none; }
+  .bp-key { display: grid; gap: 10px; margin-top: -8px; font-size: 0.875rem; line-height: 1.45; color: var(--mist); }
+  .bp-key-title { font-weight: 600; color: var(--frost); }
+  .bp-key ul { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 0; padding: 0; list-style: none; color: var(--frost); font-weight: 500; }
+  .bp-key li { display: inline-flex; align-items: center; gap: 8px; }
+  .bp-key i { width: 18px; height: 12px; border-radius: 2px; border: 1.5px dashed var(--frost); }
+  .bp-key .k-tank { border-color: var(--blue-hi); background: rgba(2, 151, 222, 0.34); box-shadow: 0 0 8px rgba(2, 151, 222, 0.6); }
+  .bp-key .k-batt { background: rgba(238, 242, 245, 0.12); }
+
+  /* the Hydrogen Advantage: one tile per row, each figure at full width; Read more opens all four */
+  .adv { padding: 96px 0 88px; }
+  .more-btn { margin-top: 24px; }
+  .tiles { grid-template-columns: minmax(0, 1fr); gap: 16px; margin-top: 32px; }
+  .tile { padding: 24px 20px 22px; }
+  .tile h3 { min-height: 0; font-size: 1.25rem; }
+  .af { margin-bottom: 18px; }
+  .af-label { font-size: 10px; }
+  .af-pill-text { font-size: 12px; }
+  .more p { font-size: 1rem; line-height: 1.55; }
+  #simulation { padding: 88px 0 96px; }
+
+  /* Fig. 02: the chart takes the panel's width, its numbers set for a phone; the slider gets the full width */
+  .sim-figure { padding: 20px 14px 18px; }
+  .sim-legend { gap: 8px 16px; margin-bottom: 14px; padding-inline: 4px; font-size: 0.875rem; }
+  .sim-tick { font-size: 26px; }
+  .sim-axis-title { font-size: 26px; }
+  .sim-label { font-size: 28px; }
+  .sim-note { font-size: 26px; }
+  .sim-chart text[y="368"] { display: none; }
+  .sim-range { grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; margin-top: 18px; padding-inline: 4px; }
+  .sim-range input { grid-column: 1 / -1; grid-row: 2; }
+  .sim-range output { font-size: 0.9375rem; }
+  .sim-figure figcaption, .sim-data { padding-inline: 4px; }
+  .sim-data table { font-size: 0.875rem; }
+  .sim-data th, .sim-data td { padding: 8px 4px; }
+
+  /* the story: the panorama runs wider than the phone and scrolls sideways under the finger; the drone over the
+     middle of the view follows it (script.js); a tap on a side still opens its details */
+  .story { padding-top: 88px; padding-bottom: 96px; }
+  .story-head { margin-bottom: 32px; }
+  .pano-scroll { display: block; margin: 0 -20px; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 20px), transparent); mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 20px), transparent); }
+  .pano-scroll::-webkit-scrollbar { display: none; }
+  .pano-scroll .pc-panorama { width: 880px; max-width: none; margin: 0 20px; }
+  .js .pano-scroll .pc-panorama { touch-action: pan-x pan-y; }
+  .panorama figcaption { gap: 12px; margin-top: 16px; }
+  .pc-key { gap: 10px; }
+  .js .pc-chip { min-height: 44px; }
+  .js .pc-chip::after { content: none; }
+  .pano-panel-body { padding: 32px 16px 40px; }
+  .market { padding: 24px 20px 22px; }
+  .market-facts > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .js .pano-panel:not(.is-open) { margin-bottom: 88px; }
+  .story-block { margin-top: 80px; }
+  .problem > .block-head { margin-bottom: 32px; }
+  .methods { margin-top: 72px; }
+  .mx-bar { left: -12px; }
+  .mx-tab { font-size: 2.125rem; }
+  .mx-panel .sd-label { font-size: 15px; }
+  /* the solution: the drawing crops to the aircraft and forest, its three labels move into a list under it */
+  .solution-fig { padding: 16px 16px 14px; }
+  .sd-solution { width: calc(100% * 520 / 350); max-width: none; }
+  .sd-solution .sd-label, .sd-solution .sd-view, .sd-solution .sd-anchor { display: none; }
+  .sol-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 10px 0 0; padding: 0; list-style: none; font-size: 0.875rem; font-weight: 600; color: var(--frost); }
+  .sol-legend li { display: inline-flex; align-items: center; gap: 8px; }
+  .sol-legend li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--leaf); }
+  .next-page { margin-top: 96px; padding: 16px 0; }
+  .next-page .solution-bridge { font-size: 1.0625rem; }
+  /* the link wraps as one line of text, its arrow after the last word */
+  .next-link { display: inline; font-size: 2rem; line-height: 1.2; }
+  .next-link span { -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .next-link svg { display: inline-block; margin-left: 0.2em; vertical-align: -0.04em; }
+
+  /* contact: three full-width cards */
+  .contact { padding: 96px 0 104px; }
+  .contact .section-head { margin-bottom: 32px; }
+  .channels { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .channel { min-height: 0; gap: 18px; padding: 22px 20px 24px; }
+  .channel-arrow { top: 22px; right: 20px; }
+  .channel-value { font-size: 1.375rem; }
+
+  /* footer: the team lines, then the wordmark across the page as the close */
+  .footer-bar { flex-direction: column; align-items: stretch; gap: 32px; }
+  .footer-wordmark { width: 100%; height: auto; }
+
+  /* drivetrain page */
+  .dt { padding: 120px 0 88px; }
+  .dt-head { margin-bottom: 56px; }
+  .emblem img { height: 200px; }
+  .emblem::before { width: 300px; height: 300px; }
+  .dt-fig + .dt-fig { margin-top: 48px; }
+  .dt-fig::before { width: calc(100vw - 32px); }
+  .dt-fig > .iso-figure { --w: calc(100vw - 24px); }
+  #drivetrain .iso-plate-corner { font-size: 11px; }
+  #drivetrain .fc .iso-plate { overflow: hidden; }
+  .vtol { padding: 96px 0 104px; }
+  .vtol-text p { font-size: 1.0625rem; }
+  /* the use cases: each row as tall as its name; the open one adds its drawing under the name (script.js springs the heights) */
+  .xp { --xp-flow: 1; }
+  .js .xp, .js .xp-row, .js .xp-row.is-open { height: auto; }
+  .xp-row { padding: 14px 18px 16px; }
+  .xp-row h3 { font-size: 1.1875rem; line-height: 1.3; }
+  .js .xp-art { position: relative; left: auto; right: auto; top: auto; display: none; height: auto; margin-top: 12px; aspect-ratio: 3 / 1; opacity: 1; }
+  .js .xp-row.is-open .xp-art { display: block; }
+}
+
+@media (max-width: 380px) {
+  .wrap { padding-inline: 16px; }
+  .pano-scroll { margin: 0 -16px; }
+  .pano-scroll .pc-panorama { margin: 0 16px; }
+  .hero h1 { font-size: 2.625rem; }
+  .mx-tab { font-size: 1.875rem; }
 }
 
 /* ---------- Preferences ---------- */

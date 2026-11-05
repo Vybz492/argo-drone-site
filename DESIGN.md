@@ -232,7 +232,7 @@ Lenis (`lenis@1.1.20`) for smooth scrolling and GSAP with ScrollTrigger (`gsap@3
 - **The drivetrain page (`drivetrain/index.html`, teamargo.eu/drivetrain):** **The Kingfisher Project (ground):** the section label, the page's h1 (set at the section-heading size) and the intro on columns 1–8, the emblem (rotated 180°, 300px tall, captioned) on columns 10–12; then Fig. 03 and Fig. 04 on their dark blue panels, 72px apart. **Future project: the fixed-wing VTOL (ground):** the section label and heading across the page (columns 1–9), then the two paragraphs (19px, as the main page's section text) on columns 1–5 beside the use-case list on columns 7–12, the list starting and ending with the text, so the whole section fits one screen at 1440 × 900 (one column at 1060px and below); then Contact and the footer, the same as on the main page. The navigation, progress line, Contact and footer behave exactly as on the main page; the wordmark leads to the main page.
 - **Menu:** Home · Drivetrain (page links), plus "Get in touch".
 - **Pages:** the main page (`index.html`) and the drivetrain page (`drivetrain/index.html`). The navigation, the Contact section and the footer exist on every page and must be changed in all of them. A new page lives in its own folder (`team/index.html` for teamargo.eu/team), uses root-relative paths (`/styles.css`, `/script.js`), and gets a link in both nav lists of every page; on its own page that link carries `aria-current="page"`.
-- Max content width 1240px, 24px side padding (16px on phones). Section spacing about 152px (104px on phones).
+- Max content width 1240px, 24px side padding (20px on phones, 16px at 380px and less). Section spacing about 152px (about 96px on phones).
 - **One page grid for every section:** 12 columns between the same two edges (117 and 1309px at 1440; 357 and 1549px at 1920), gutter 40px (24px at 1060px and below). Text beside a figure always splits 5 | 7 columns (Our mission, Simulation, the method list, the solution); two text columns split 6 | 6 (the problem paragraphs, the market card); the four Advantage tiles take three columns each and the three contact cards four each. Nothing bleeds past the edges.
 
 ## 8. Do's and Don'ts
@@ -257,15 +257,18 @@ Lenis (`lenis@1.1.20`) for smooth scrolling and GSAP with ScrollTrigger (`gsap@3
 
 ## 9. Responsive Behaviour
 
-| Width | Changes |
-|---|---|
-| ≤ 1100px | Advantage tiles two by two; hub lines hidden |
-| ≤ 1060px | Nav links move into "Menu"; VTOL stacks; diagram descriptions two by two; the problem text, the method list and its stage, and the solution stack |
-| ≤ 960px | Hero, Simulation and the testbed head stack; the market details panel and contact cards go to one column |
-| ≤ 880px | The drivetrain diagram switches to its vertical version |
-| ≤ 720px | Single column; method cards one per row; market facts stack; larger text inside drawings; lighter shader resolution |
+Desktop (1280px and wider) is the reference and is never changed by the rules below; every responsive rule sits under `max-width: 1279.98px`. Checked at 360×800, 390×844, 768×1024, 1024×768, 1180×820 and 1280×800.
 
-- The page never scrolls sideways; diagrams get a dedicated narrow version instead.
+| Width | Composition |
+|---|---|
+| 901–1279px (tablet landscape) | The desktop layout on a tighter grid (gutter 32px): Our mission, the problem, the method list, the solution and the drivetrain head stay side by side; the full navigation stays. Small figure labels are raised to a reading size. Fig. 04's specification line moves into its readout, and on touch its parts list keeps one column. Band curtains start from a 12px inset (3% of a narrow window would cut into the text). |
+| ≤ 1100px | Advantage tiles two by two, hub lines hidden, **no reserved space** (on two rows it would stand empty): Read more lets the section grow. Simulation and VTOL stack. |
+| ≤ 900px (tablet portrait) | One column, text first and its figure under it. Nav: wordmark, "Get in touch" and "Menu"; the menu is a full-height sheet under the bar with the page links large (the current page underlined in Cantaloupe) and "Get in touch" as the last row; the page behind holds still. The chain of consequences runs down the page. Market card stacks (drawing under a hairline). Contact: the email card across the top, LinkedIn and Instagram under it. Lighter effects: no live backdrop blur (panels become a denser tint, the Advantage tiles skip the pre-blurred glass), and the hero beam draws 64 laser lines instead of 104, sparser LiDAR returns and at 0.62 instead of 0.85 of device resolution. |
+| ≤ 880px | Fig. 03 and Fig. 04 switch to their own vertical versions (their scripts) |
+| ≤ 600px (phones) | Side margins 20px (16px at 380px and less). "Get in touch" leaves the bar (it is in the menu). Fig. 01 crops to the drone and its labels move into a key under it. Advantage tiles one per row. Fig. 02's numbers are set larger in the chart and the slider takes the full width. **The panorama** runs 880px wide and scrolls sideways under the finger; the drone over the middle of the view follows it; a tap on a side or a chip opens its details. The solution drawing crops to the aircraft and forest with its three labels in a list under it. Contact cards one per row; the footer ends on the wordmark across the page. VTOL rows are as tall as their names (wrapping to two lines) and the open row adds its drawing; tap to open. Fig. 03 and Fig. 04 run 12px from the screen edges. |
+
+- The page never scrolls sideways (the drivetrain section clips its wide glows); diagrams get a dedicated narrow version instead.
+- **Touch:** nothing depends on hover. The hero beam sways slowly on its own (about ±7° over 11 s; still under reduced motion); the method names, VTOL rows, panorama halves and chips, and the figures' parts all answer a tap. Touch targets are at least 44px (the wordmark, page links, chips and "Show the numbers" reach it with an invisible hit area, so the desktop look is unchanged).
 
 ## 10. Writing
 

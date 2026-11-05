@@ -48,6 +48,7 @@ setTimeout(function () { document.documentElement.classList.remove('pre'); }, 20
       <!-- <a href="#roadmap">Roadmap</a> -->
       <!-- <a href="#partner">Partners</a> -->
       <!-- <a href="#join">Join</a> -->
+      <a href="#contact" class="btn btn-primary mobile-cta">Get in touch<svg class="btn-arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
     </div>
   </nav>
 </header>
@@ -177,6 +178,16 @@ setTimeout(function () { document.documentElement.classList.remove('pre'); }, 20
           </g>
         </svg>
       </figure>
+      <!-- phones: the drawing crops to the drone and its labels move here (styles.css); the SVG title carries them for screen readers -->
+      <div class="bp-key" aria-hidden="true">
+        <p class="bp-key-title">Fig. 01 · Argo testbed, DJI S800 EVO, top view, 800 mm</p>
+        <ul>
+          <li><i class="k-tank"></i>H₂ tank</li>
+          <li><i class="k-fc"></i>PEM fuel cell</li>
+          <li><i class="k-batt"></i>Buffer battery</li>
+        </ul>
+        <p>Dashed: planned · components not to scale</p>
+      </div>
     </div>
   </section>
 
@@ -381,6 +392,7 @@ setTimeout(function () { document.documentElement.classList.remove('pre'); }, 20
         <p>To validate the hydrogen architecture, we have chosen a problem that conventional drones physically cannot solve: measuring the biomass that carbon credits are supposed to represent.</p>
       </header>
       <figure class="panorama reveal">
+        <div class="pano-scroll">
         <svg class="pc pc-panorama" viewBox="0 36 1200 284" role="img" aria-labelledby="pano-title">
           <title id="pano-title">Illustration: dual-laser LiDAR over a forest and green-laser LiDAR over water, drawn as point clouds. On the left, a drone's laser returns trace the tree crowns, trunks and ground; on the right, a second drone's laser passes through the water to the seagrass, kelp and seabed.</title>
           <defs>
@@ -410,6 +422,7 @@ setTimeout(function () { document.documentElement.classList.remove('pre'); }, 20
           <g class="pc-handle" data-rig="terra" data-min="90" data-max="500" data-label="Forest survey drone" data-where="forest" transform="translate(255 0)"><rect class="pc-focus" x="-50" y="42" width="100" height="42" rx="10"/><g class="pc-drone" transform="translate(0 64)"><path d="M-30 -5H30M-30 -5V-8M30 -5V-8M-7 5l-4 8M7 5l4 8"/><ellipse cx="-30" cy="-9" rx="13" ry="2.2"/><ellipse cx="30" cy="-9" rx="13" ry="2.2"/><rect x="-12" y="-5" width="24" height="10" rx="3"/></g></g>
           <g class="pc-handle" data-rig="marine" data-min="680" data-max="1120" data-label="Coastal survey drone" data-where="water" transform="translate(900 0)"><rect class="pc-focus" x="-50" y="48" width="100" height="42" rx="10"/><g class="pc-drone" transform="translate(0 70)"><path d="M-30 -5H30M-30 -5V-8M30 -5V-8M-7 5l-4 8M7 5l4 8"/><ellipse cx="-30" cy="-9" rx="13" ry="2.2"/><ellipse cx="30" cy="-9" rx="13" ry="2.2"/><rect x="-12" y="-5" width="24" height="10" rx="3"/></g></g>
         </svg>
+        </div>
         <figcaption><span>Illustration · dual-laser LiDAR over forest, green-laser LiDAR over water</span><span class="pano-hint" aria-hidden="true"><svg viewBox="0 0 24 12"><path d="M2 6h20M6 2L2 6l4 4M18 2l4 4-4 4"/></svg><span class="h-drag">Drag to move the drones · Click a side for details</span><span class="h-swipe">Swipe to move the drones · Tap a side for details</span></span><span class="pc-key"><button type="button" class="pc-chip k-terra" data-side="terra" aria-pressed="false" aria-controls="pano-panel"><span class="sw terra"></span>Terrestrial</button><button type="button" class="pc-chip k-marine" data-side="marine" aria-pressed="false" aria-controls="pano-panel"><span class="sw marine"></span>Blue carbon</button></span></figcaption>
       </figure>
 

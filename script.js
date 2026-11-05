@@ -33,6 +33,9 @@ if (toggle && menu) {
     menu.hidden = !open;
     toggle.setAttribute('aria-expanded', String(open));
     toggle.textContent = open ? 'Close' : 'Menu';
+    // the sheet covers the page, so the page behind it holds still
+    root.classList.toggle('menu-open', open);
+    if (lenis) lenis[open ? 'stop' : 'start']();
   };
   toggle.addEventListener('click', () => setMenu(menu.hidden));
   menu.addEventListener('click', (e) => {
@@ -44,7 +47,7 @@ if (toggle && menu) {
       toggle.focus();
     }
   });
-  window.matchMedia('(min-width: 1061px)').addEventListener('change', (e) => {
+  window.matchMedia('(min-width: 901px)').addEventListener('change', (e) => {
     if (e.matches) setMenu(false);
   });
 }
@@ -94,7 +97,7 @@ const tiles = document.querySelector('.tiles');
 // with the real one behind it; CSS blurs the copy once with a plain filter (.tile-scene). A live backdrop-filter had to
 // re-sample and re-blur the light every time a tile changed size, which stalled Read more for a frame.
 const adv = document.getElementById('advantage');
-if (adv && tiles && !window.matchMedia('(prefers-reduced-transparency: reduce), (prefers-contrast: more)').matches) {
+if (adv && tiles && !window.matchMedia('(prefers-reduced-transparency: reduce), (prefers-contrast: more), (max-width: 900px)').matches) {
   const light = [adv.querySelector('.adv-glow'), adv.querySelector('.adv-arc')].filter(Boolean);
   const cards = [...tiles.querySelectorAll('.tile')];
   const scenes = cards.map((tile) => {
@@ -137,8 +140,12 @@ if (moreBtn && tiles) {
   // never move anything below it: no relayout of the page, no scroll positions to recalculate. Inside that space the
   // tiles simply grow and shrink (a CSS height transition), so they are fully drawn on every frame.
   const texts = [...tiles.querySelectorAll('.more > div')];
+  // only while the four tiles stand in one row: on two rows or one column the space would stand empty under them,
+  // so there Read more lets the section grow (and the scroll scenes below are measured again once it has)
+  const oneRow = () => getComputedStyle(tiles).gridTemplateColumns.split(' ').length >= 4;
   const reserve = () => {
     tiles.style.height = '';
+    if (!oneRow()) return;
     const extra = tiles.classList.contains('is-open') ? 0 : Math.max(...texts.map((t) => t.scrollHeight));
     tiles.style.height = `${tiles.offsetHeight + extra}px`;
   };
@@ -149,6 +156,7 @@ if (moreBtn && tiles) {
     const open = moreBtn.getAttribute('aria-expanded') !== 'true';
     moreBtn.setAttribute('aria-expanded', String(open));
     tiles.classList.toggle('is-open', open);
+    if (motion && !oneRow()) afterSettle(tiles.querySelector('.more'), () => window.ScrollTrigger.refresh());
   });
 }
 
@@ -256,14 +264,19 @@ if (useList) {
       const animate = !instant && 'gsap' in window && !reduceQuery.matches;
       // every row starts from the height it has now, so a spring that is interrupted carries on from where it was
       const from = rows.map((row) => row.offsetHeight);
+      // phones (--xp-flow): the rows have no fixed heights, so each target is the row's natural height once switched
+      const flow = getComputedStyle(useList).getPropertyValue('--xp-flow').trim() === '1';
       open = i;
       rows.forEach((row, j) => {
+        row.classList.toggle('is-open', j === i);
+        row.tabIndex = j === i ? 0 : -1;
+      });
+      const natural = flow && animate ? rows.map((row) => { row.style.height = 'auto'; return row.offsetHeight; }) : [];
+      rows.forEach((row, j) => {
         const on = j === i;
-        row.classList.toggle('is-open', on);
-        row.tabIndex = on ? 0 : -1;
         if (!animate) return;
         row.style.height = `${from[j]}px`;
-        const to = parseFloat(getComputedStyle(useList).getPropertyValue(on ? '--xp-open' : '--xp-closed'));
+        const to = flow ? natural[j] : parseFloat(getComputedStyle(useList).getPropertyValue(on ? '--xp-open' : '--xp-closed'));
         window.gsap.to(row, { height: to, duration: 0.7, ease: spring, overwrite: true, clearProps: 'height' });
       });
     }
@@ -456,6 +469,30 @@ if (pano) {
     if (motion) afterSettle(panel, () => window.ScrollTrigger.refresh());
   };
   chips.forEach((chip) => chip.addEventListener('click', () => select(chip.dataset.side)));
+
+  // Phones: the panorama is wider than the screen and scrolls sideways under the finger (.pano-scroll); the drone over
+  // the middle of the view flies along with it. Choosing a side brings that half into view.
+  const strip = pano.parentElement.classList.contains('pano-scroll') ? pano.parentElement : null;
+  const stripOn = () => strip && strip.scrollWidth > strip.clientWidth + 1;
+  if (strip) {
+    let follow = 0;
+    strip.addEventListener('scroll', () => {
+      if (follow) return;
+      follow = requestAnimationFrame(() => {
+        follow = 0;
+        if (side) return;
+        const r = strip.getBoundingClientRect();
+        const x = toX({ clientX: r.left + r.width / 2, clientY: r.top + r.height / 2 });
+        moveTo(pick(x), x);
+      });
+    }, { passive: true });
+    chips.forEach((chip) => chip.addEventListener('click', () => {
+      if (!stripOn() || !side) return;
+      const r = rigs.find((rig) => rig.rig === side);
+      const scale = pano.getBoundingClientRect().width / 1200;
+      strip.scrollTo({ left: ((r.min + r.max) / 2) * scale - strip.clientWidth / 2 + parseFloat(getComputedStyle(pano).marginLeft), behavior: reduceMotion ? 'auto' : 'smooth' });
+    }));
+  }
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape' || !side) return;
     const chip = chips.find((c) => c.dataset.side === side);
@@ -475,7 +512,8 @@ if (pano) {
   pano.addEventListener('pointermove', (e) => {
     const x = toX(e);
     if (down && Math.hypot(e.clientX - down.x, e.clientY - down.y) > 5) down = null;
-    if (active) moveTo(active, x);
+    // on the phone strip a finger scrolls the landscape instead (the drone follows the view, above)
+    if (active && !(stripOn() && e.pointerType !== 'mouse')) moveTo(active, x);
     // while a side is selected the drones stay put unless dragged
     else if (e.pointerType === 'mouse' && !side) moveTo(pick(x), x);
   });
@@ -516,6 +554,11 @@ const heroLight = (() => {
   } catch (e) {
     gl = null;
   }
+  // Small screens (900px and less) get a lighter beam: fewer laser lines, sparser LiDAR returns and a lower render
+  // resolution. Chosen once at start; on desktop the shader text is the original (these are its numbers).
+  const lite = window.matchMedia('(max-width: 900px)').matches;
+  const LINES = lite ? '64.0' : '104.0';
+  const CELL = lite ? '9.0' : '6.0';
   const frag = `precision highp float;
 uniform vec2 uRes; uniform float uTime; uniform float uIntro; uniform vec2 uPtr; uniform vec4 uShade; uniform float uMotion; uniform vec4 uWords; uniform float uWordsDim;
 const vec3 INK = vec3(0.0235, 0.0392, 0.0510);
@@ -564,7 +607,7 @@ void main() {
   float cone = smoothstep(halfA, halfA * 0.55, abs(a)) * above;
 
   /* laser lines, anti-aliased in render pixels */
-  float K = 104.0;
+  float K = ${LINES};
   float n = a * K; float id = floor(n + 0.5); float r = h1(id * 1.37 + 3.0);
   float pitch = dot(v, v) * H / (K * max(down, 0.0001));        /* render pixels between neighbouring lines */
   float dpx = abs(n - id) * pitch;
@@ -602,8 +645,8 @@ void main() {
   L *= mix(1.0, 0.2, smoothstep(0.002, 0.022, yc - p.y));                 /* the forest stands dark against the light */
   /* LiDAR returns: a dense scatter of lit points in the crowns where the beam lands, reaching a little deeper into them,
      and a faint cool scatter along the rest of the canopy line (earlier passes) */
-  vec2 gp = vec2(p.x, p.y) * H / 6.0; vec2 gc = floor(gp);
-  float depth = yc - (gc.y + 0.5) * 6.0 / H;
+  vec2 gp = vec2(p.x, p.y) * H / ${CELL}; vec2 gc = floor(gp);
+  float depth = yc - (gc.y + 0.5) * ${CELL} / H;
   vec2 jit = vec2(h2(gc + 3.1), h2(gc + 8.7)) * 0.6 + 0.2;             /* each return sits somewhere in its cell, never on a grid */
   float ret = step(0.0, depth) * (1.0 - smoothstep(0.9, 1.6, length(fract(gp) - jit) * 6.0));
   L += vec3(1.0, 0.86, 0.72) * ret * step(0.7, h2(gc)) * exp(-depth * 48.0) * inBeam * 0.95 * e;
@@ -696,7 +739,7 @@ void main() {
   // below device resolution, but never so low that a laser line falls under two render pixels on screen
   const measure = () => {
     const r = hero.getBoundingClientRect();
-    const scale = Math.min(window.devicePixelRatio || 1, 1.5) * 0.85 * quality;
+    const scale = Math.min(window.devicePixelRatio || 1, 1.5) * (lite ? 0.62 : 0.85) * quality;
     canvas.width = Math.max(1, Math.round(r.width * scale));
     canvas.height = Math.max(1, Math.round(r.height * scale));
     const rs = [...copy].map((el) => el.getBoundingClientRect());
@@ -730,6 +773,8 @@ void main() {
       draw(now);
       return;
     }
+    // touch screens have no pointer to follow: the beam sways gently on its own, about ±7° over 11 seconds
+    if (!finePointer) ptr.tx = 0.5 + 0.2 * Math.sin(((now - t0) / 11000) * Math.PI * 2);
     ptr.x += (ptr.tx - ptr.x) * 0.04;
     followBeam();
     draw(now);
@@ -969,8 +1014,10 @@ if (motion) {
   // Band sections open up like a curtain as they arrive
   document.querySelectorAll('.curtain').forEach((section) => {
     // the open state reaches 1px past the top and bottom, so no half-covered row of pixels is left at either edge
-    gsap.fromTo(section, { clipPath: 'inset(0% 3% 0% 3% round 28px)' }, {
-      clipPath: 'inset(-1px 0% -1px 0% round 0px)',
+    // below 1280px a fixed 12px inset: 3% of a narrow window would cut into the text, which starts 20-24px in
+    const narrow = window.innerWidth < 1280;
+    gsap.fromTo(section, { clipPath: narrow ? 'inset(0px 12px 0px 12px round 20px)' : 'inset(0% 3% 0% 3% round 28px)' }, {
+      clipPath: narrow ? 'inset(-1px 0px -1px 0px round 0px)' : 'inset(-1px 0% -1px 0% round 0px)',
       ease: 'none',
       scrollTrigger: { trigger: section, start: 'top bottom', end: 'top 30%', scrub: true },
     });
