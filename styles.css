@@ -1004,6 +1004,7 @@ html:not(.js) .xp-row h3 { color: var(--frost); }
 
 .js .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out); }
 .js .reveal.in { opacity: 1; transform: none; }
+.js .reveal.is-focused { transition: none !important; }
 
 /* ---------- Touch targets at every size (hit areas only: nothing moves or changes colour) ---------- */
 
@@ -1145,8 +1146,11 @@ html:not(.js) .xp-row h3 { color: var(--frost); }
   /* hero: the lockup, the three-line headline and the line under it, centred in the beam */
   .hero-label { margin-bottom: 24px; }
   .lockup { width: 150px; }
-  .hero h1 { font-size: clamp(2.75rem, 1.6rem + 5.6vw, 3.25rem); }
-  .hero .intro { margin-top: 24px; font-size: 1.125rem; }
+  /* each size also capped by the screen width, so with text enlarged the longest unbreakable pieces ("On hydrogen.",
+     about 5.7em, and "Technology (TU/e),", about 8.3em) still fit between the margins; at normal settings the cap
+     is well above the size, so nothing changes */
+  .hero h1 { font-size: min(clamp(2.75rem, 1.6rem + 5.6vw, 3.25rem), calc((100vw - 40px) / 6.2)); }
+  .hero .intro { margin-top: 24px; font-size: min(1.125rem, calc((100vw - 40px) / 8.6)); }
   .hero-stage { padding-bottom: 140px; }
 
   /* Our mission: the vision line, then Fig. 01 cropped to the drone (its labels move into the key under it) */
@@ -1269,13 +1273,23 @@ html:not(.js) .xp-row h3 { color: var(--frost); }
   .wrap { padding-inline: 16px; }
   .pano-scroll { margin: 0 -16px; }
   .pano-scroll .pc-panorama { margin: 0 16px; }
-  .hero h1 { font-size: 2.625rem; }
+  .hero h1 { font-size: min(2.625rem, calc((100vw - 32px) / 6.2)); }
+  .hero .intro { font-size: min(1.125rem, calc((100vw - 32px) / 8.6)); }
   .mx-tab { font-size: 1.875rem; }
 }
 
 /* ---------- Preferences ---------- */
 
 @media (prefers-contrast: more) { :root { --mist: #EEF2F5; --slate: #C9D1D7; } }
+/* Windows high contrast (forced colours): the system recolours text but not SVG paint, so the contact marks and arrows
+   take the link colour of their card and the footer wordmark the system text colour; otherwise they stay Frost and
+   vanish on a light high-contrast theme */
+@media (forced-colors: active) {
+  .channel-logo, .channel-logo-line .dot { fill: currentColor; }
+  .channel-logo-line { fill: none; stroke: currentColor; }
+  .channel-arrow { stroke: currentColor; }
+  .footer-wordmark { fill: CanvasText; }
+}
 /* Reduce Transparency and Increase Contrast: glass becomes a solid surface */
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
   .tile, .channel, .btn-glass, .nav.scrolled { -webkit-backdrop-filter: none; backdrop-filter: none; }

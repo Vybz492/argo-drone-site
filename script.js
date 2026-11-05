@@ -29,10 +29,13 @@ if (navProgress) {
 const toggle = document.getElementById('menu-toggle');
 const menu = document.getElementById('mobile-menu');
 if (toggle && menu) {
+  // the page under the sheet: while the menu is open it is inert, so Tab and screen readers stay in the bar and the menu
+  const behind = [document.querySelector('.skip'), document.querySelector('main'), document.querySelector('.footer')].filter(Boolean);
   const setMenu = (open) => {
     menu.hidden = !open;
     toggle.setAttribute('aria-expanded', String(open));
     toggle.textContent = open ? 'Close' : 'Menu';
+    behind.forEach((el) => { el.inert = open; });
     // the sheet covers the page, so the page behind it holds still
     root.classList.toggle('menu-open', open);
     if (lenis) lenis[open ? 'stop' : 'start']();
@@ -69,6 +72,15 @@ if ('IntersectionObserver' in window) {
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
   items.forEach((el) => io.observe(el));
+  // keyboard focus can land in a part that has not risen in yet (Tab scrolls it in faster than it fades):
+  // show that part at once (.reveal.is-focused skips the fade), so the focused control is never invisible
+  document.addEventListener('focusin', (e) => {
+    const part = e.target.closest && e.target.closest('.reveal:not(.in)');
+    if (!part) return;
+    part.style.transitionDelay = '';
+    part.classList.add('in', 'is-focused');
+    io.unobserve(part);
+  });
 } else {
   items.forEach((el) => el.classList.add('in'));
 }
