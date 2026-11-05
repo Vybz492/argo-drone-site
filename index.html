@@ -8,20 +8,37 @@
 <meta property="og:title" content="Argo · Hydrogen drone team">
 <meta property="og:description" content="A TU/e student team developing hydrogen fuel-cell drones for hours of flight.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#F3F8FA">
+<meta property="og:url" content="https://www.teamargo.eu/">
+<link rel="canonical" href="https://www.teamargo.eu/">
+<meta property="og:image" content="https://www.teamargo.eu/assets/og/argo-preview.jpg">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:alt" content="Team Argo: “The power to go further. On hydrogen.” over an illustrated LiDAR beam scanning a forest canopy at night.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Argo · Hydrogen drone team">
+<meta name="twitter:description" content="A TU/e student team developing hydrogen fuel-cell drones for hours of flight.">
+<meta name="twitter:image" content="https://www.teamargo.eu/assets/og/argo-preview.jpg">
+<meta name="twitter:image:alt" content="Team Argo: “The power to go further. On hydrogen.” over an illustrated LiDAR beam scanning a forest canopy at night.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#060A0D">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&family=Martian+Mono:wght@400;500&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="styles.css">
 <script>
-document.documentElement.classList.add('js');
-try {
-  const theme = localStorage.getItem('argo-theme');
-  document.documentElement.dataset.theme = theme === 'dark' || theme === 'light' ? theme : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-} catch (e) {
-  document.documentElement.dataset.theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
+// Before first paint: the hero words wait for their entrance; a failsafe shows them after 2s whatever happens.
+// Coming back from another page of the site (by a link or Back) after the entrance was seen in this tab, the hero shows
+// finished at once; a first arrival, a fresh visit or a reload plays the entrance.
+(function () {
+  var entry = window.performance && performance.getEntriesByType ? performance.getEntriesByType('navigation')[0] : null;
+  var type = entry ? entry.type : '';
+  var seen = false;
+  try { seen = sessionStorage.getItem('argo-hero-seen') === '1'; sessionStorage.setItem('argo-hero-seen', '1'); } catch (e) {}
+  var returning = seen && (type === 'back_forward' || (type === 'navigate' && document.referrer.indexOf(location.origin + '/') === 0));
+  document.documentElement.classList.add('js', returning ? 'returning' : 'pre');
+  if (!returning) setTimeout(function () { document.documentElement.classList.remove('pre'); }, 2000);
+})();
 </script>
 </head>
 <body>
@@ -29,6 +46,7 @@ try {
 <a class="skip" href="#mission">Skip to content</a>
 
 <header class="nav" id="nav">
+  <span class="nav-progress" aria-hidden="true"></span>
   <div class="wrap nav-inner">
     <a href="#top" class="brand" aria-label="Argo, back to top">
       <svg class="wordmark" viewBox="8.5 8 670.5 161.5" aria-hidden="true"><path fill-rule="evenodd" d="M8.5 164.5L116.5 8L209 161.5L209 20.5L286.5 20.5C317 20.5 337 38 337.5 67.5C338.5 91 321.5 110 299 118L338.5 164L297 164L244.5 98L275 98C291.5 98 304 86.5 304 71.5C304 58.5 293.5 50 278.5 50L243 50L243 164L171 164L115 69.5L50.5 164.5ZM496.5 50L469 67.5C460 54 447 47 430 47C403.5 47 379 69 378.5 96C378.5 121 398.5 139.5 424.5 139.5C444.5 139.5 462 127.5 468.5 111L423.5 111L423.5 85L504.5 85C506 109.5 498 129.5 483.5 144.5C468.5 160.5 449 169.5 427 169.5C381.5 169.5 344.5 137.5 344.5 96C344.5 52.5 382 14.5 428 14.5C458 14.5 483.5 27.5 496.5 50ZM679 92C679 136 642.5 169.5 596.5 169.5C550 169.5 512.5 136.5 512.5 93.5C512.5 50 550 14.5 595.5 14.5C642.5 14.5 679 48 679 92ZM643.5 92.5C643.5 66.5 623 46 596 46C569 46 547 66.5 547 93.5C547 120 569 139.5 596.5 139.5C623.5 139.5 643.5 118.5 643.5 92.5Z"/></svg>
@@ -36,52 +54,45 @@ try {
     <nav class="nav-links" aria-label="Main">
       <a href="/" aria-current="page">Home</a>
       <a href="/drivetrain">Drivetrain</a>
-      <!-- <a href="#roadmap">Roadmap</a> -->
-      <!-- <a href="#partner">Partners</a> -->
-      <!-- <a href="#join">Join</a> -->
     </nav>
     <div class="nav-actions">
-      <button type="button" class="theme-toggle icon-btn" aria-label="Switch to dark mode">
-        <svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true"><mask id="moon-cut-a"><rect width="24" height="24" fill="#fff"/><circle class="moon-bite" cx="17" cy="8" r="8" fill="#000"/></mask><circle class="sun-core" cx="12" cy="12" r="9" mask="url(#moon-cut-a)"/><path class="sun-rays" d="M12 1.5v2M12 20.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M1.5 12h2M20.5 12h2M4.6 19.4l1.4-1.4M18 6l1.4-1.4"/></svg>
-      </button>
-      <a href="#contact" class="btn btn-small btn-partner">Partner with us<svg class="btn-arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
-      <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
+      <a href="#contact" class="btn btn-primary btn-small btn-partner">Get in touch<svg class="btn-arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      <button type="button" class="btn btn-glass btn-small menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
     </div>
   </div>
   <nav class="mobile-menu" id="mobile-menu" aria-label="Menu" hidden>
     <div class="wrap">
       <a href="/" aria-current="page">Home</a>
       <a href="/drivetrain">Drivetrain</a>
-      <!-- <a href="#roadmap">Roadmap</a> -->
-      <!-- <a href="#partner">Partners</a> -->
-      <!-- <a href="#join">Join</a> -->
-      <button type="button" class="theme-toggle theme-row" aria-label="Switch to dark mode">
-        <svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true"><mask id="moon-cut-b"><rect width="24" height="24" fill="#fff"/><circle class="moon-bite" cx="17" cy="8" r="8" fill="#000"/></mask><circle class="sun-core" cx="12" cy="12" r="9" mask="url(#moon-cut-b)"/><path class="sun-rays" d="M12 1.5v2M12 20.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M1.5 12h2M20.5 12h2M4.6 19.4l1.4-1.4M18 6l1.4-1.4"/></svg>
-        <span class="theme-label">Dark mode</span>
-      </button>
+      <a href="#contact" class="btn btn-primary mobile-cta">Get in touch<svg class="btn-arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
     </div>
   </nav>
-  <span class="nav-progress" aria-hidden="true"></span>
 </header>
-
-<div class="glow-cursor" aria-hidden="true"></div>
 
 <main id="top">
 
-  <section class="hero" id="hero">
-    <canvas class="hero-flow" aria-hidden="true"></canvas>
-    <div class="hero-shade" aria-hidden="true"></div>
+  <section class="hero" id="hero" aria-labelledby="hero-title">
+    <canvas class="hero-light" aria-hidden="true"></canvas>
+    <div class="hero-fallback" aria-hidden="true"></div>
     <div class="wrap hero-stage">
-      <div class="hero-intro">
-        <h1 class="hero-title">
-          <svg class="hero-wordmark" viewBox="72.03 215.87 1454.89 162.08" role="img" aria-label="Team Argo"><path fill-rule="evenodd" d="M72.03 219.7L224.17 219.68L224.2 251.32L164.63 251.3L164.63 374.4L131.07 374.37L131.13 251.32L72.04 251.33ZM238.36 219.72L368.48 219.66L368.49 251.31L271.99 251.31L271.97 278.94L356.66 278.92L356.73 310.39L271.97 310.43L272 343.04L366.17 343.05L366.23 374.36L238.37 374.38ZM471.19 219.54L565.94 374.36L526.66 374.4L470.61 281L412.19 374.36L371.79 374.41ZM571.13 219.86L598.69 219.74L667.82 333.07L737.39 219.77L764.79 219.75L764.8 374.32L730.36 374.43L730.28 291.93L679.94 374.27L655.83 374.43L605.28 291.76L605.28 374.35L571.13 374.36ZM935.39 219.01L1030.77 374.37L990.91 374.36L934.57 281.22L876.61 374.33L836.11 374.4ZM1032.4 219.9L1109.5 219.9C1118.15 219.9 1127.14 219.9 1135.5 222.16C1152.08 227.3 1165.81 241.52 1169.82 258.5C1171.05 263.67 1171.13 269.23 1171.13 274.5C1171.13 297.06 1151.76 319.14 1130.32 324.5L1172.09 374.2L1128.5 374.2L1067.97 301.5L1109.5 300.64C1124.35 298.71 1136.57 288.12 1136.57 272.5C1136.57 260.36 1122.62 251.24 1111.5 251.24L1066.3 251.24L1066.3 374.2L1032.4 374.2L1032.4 219.9ZM1333.94 250.5C1319.4 227.18 1292.28 215.87 1265.5 215.87C1221.07 215.87 1182.88 252.83 1182.88 297.5C1182.88 341.55 1220.86 377.96 1264.5 377.96C1296.29 377.96 1323.25 362.72 1338.16 334.5C1341.76 327.69 1345.25 319.11 1346.62 311.5C1348.26 302.32 1347.8 296.22 1347.8 287.4L1262.4 287.4L1262.4 316.8L1309.4 316.8C1301.83 334.2 1284.52 345.72 1265.5 345.72C1237.99 345.72 1216.51 325.28 1216.51 297.5C1216.51 272.65 1240.71 248.64 1265.5 248.64C1281.75 248.64 1296.71 255.89 1306.5 268.94L1333.94 250.5ZM1443.5 215.89C1489.46 215.89 1526.92 250.92 1526.92 297.5C1526.92 343.35 1487.12 377.95 1442.5 377.95C1397.77 377.95 1360.01 341.51 1360.01 296.5C1360.01 251.16 1398.98 215.89 1443.5 215.89ZM1442.5 248.14C1470.3 248.14 1492.32 269.6 1492.32 297.5C1492.32 324.52 1469.02 345.58 1442.5 345.58C1416.23 345.58 1393.86 325.2 1393.86 298.5C1393.86 271.91 1415.4 248.14 1442.5 248.14Z"/></svg>
-        </h1>
-        <p class="hero-sub">A team of students from <a href="https://www.tue.nl/en/" target="_blank" rel="noopener">Eindhoven University of Technology (TU/e)</a>.</p>
-        <p class="hero-tagline">Breaking the endurance barrier in autonomous aviation.</p>
-        <p class="hero-meta">Discovery Team · TU/e innovation Space · Est. 2026</p>
+      <div class="hero-copy">
+        <p class="hero-label" data-in><svg class="lockup" viewBox="72.03 215.87 1454.89 162.08" role="img" aria-label="Team Argo"><path fill-rule="evenodd" d="M72.03 219.7L224.17 219.68L224.2 251.32L164.63 251.3L164.63 374.4L131.07 374.37L131.13 251.32L72.04 251.33ZM238.36 219.72L368.48 219.66L368.49 251.31L271.99 251.31L271.97 278.94L356.66 278.92L356.73 310.39L271.97 310.43L272 343.04L366.17 343.05L366.23 374.36L238.37 374.38ZM471.19 219.54L565.94 374.36L526.66 374.4L470.61 281L412.19 374.36L371.79 374.41ZM571.13 219.86L598.69 219.74L667.82 333.07L737.39 219.77L764.79 219.75L764.8 374.32L730.36 374.43L730.28 291.93L679.94 374.27L655.83 374.43L605.28 291.76L605.28 374.35L571.13 374.36ZM935.39 219.01L1030.77 374.37L990.91 374.36L934.57 281.22L876.61 374.33L836.11 374.4ZM1032.4 219.9L1109.5 219.9C1118.15 219.9 1127.14 219.9 1135.5 222.16C1152.08 227.3 1165.81 241.52 1169.82 258.5C1171.05 263.67 1171.13 269.23 1171.13 274.5C1171.13 297.06 1151.76 319.14 1130.32 324.5L1172.09 374.2L1128.5 374.2L1067.97 301.5L1109.5 300.64C1124.35 298.71 1136.57 288.12 1136.57 272.5C1136.57 260.36 1122.62 251.24 1111.5 251.24L1066.3 251.24L1066.3 374.2L1032.4 374.2L1032.4 219.9ZM1333.94 250.5C1319.4 227.18 1292.28 215.87 1265.5 215.87C1221.07 215.87 1182.88 252.83 1182.88 297.5C1182.88 341.55 1220.86 377.96 1264.5 377.96C1296.29 377.96 1323.25 362.72 1338.16 334.5C1341.76 327.69 1345.25 319.11 1346.62 311.5C1348.26 302.32 1347.8 296.22 1347.8 287.4L1262.4 287.4L1262.4 316.8L1309.4 316.8C1301.83 334.2 1284.52 345.72 1265.5 345.72C1237.99 345.72 1216.51 325.28 1216.51 297.5C1216.51 272.65 1240.71 248.64 1265.5 248.64C1281.75 248.64 1296.71 255.89 1306.5 268.94L1333.94 250.5ZM1443.5 215.89C1489.46 215.89 1526.92 250.92 1526.92 297.5C1526.92 343.35 1487.12 377.95 1442.5 377.95C1397.77 377.95 1360.01 341.51 1360.01 296.5C1360.01 251.16 1398.98 215.89 1443.5 215.89ZM1442.5 248.14C1470.3 248.14 1492.32 269.6 1492.32 297.5C1492.32 324.52 1469.02 345.58 1442.5 345.58C1416.23 345.58 1393.86 325.2 1393.86 298.5C1393.86 271.91 1415.4 248.14 1442.5 248.14Z"/></svg></p>
+        <h1 id="hero-title"><span class="ln" data-in>The power to go further.</span> <span class="ln ln-h2" data-in>On&nbsp;hydrogen.</span></h1>
+        <p class="intro">A team of students from <a href="https://www.tue.nl/en/" target="_blank" rel="noopener">Eindhoven University of Technology&nbsp;(TU/e)</a>, breaking the endurance barrier in autonomous aviation.</p>
+      </div>
+    </div>
+    <span class="scroll-cue" aria-hidden="true"><i></i></span>
+  </section>
+
+  <section id="mission" class="section mission" aria-labelledby="mission-title">
+    <div class="scene mission-light" aria-hidden="true"><i class="bridge-glow"></i><i class="pool"></i></div>
+    <div class="wrap mission-grid">
+      <div class="mission-text">
+        <h2 class="eyebrow reveal" id="mission-title">Our Mission</h2>
+        <p class="statement reveal">Our vision is to change the future of autonomous aviation through the development of sustainable, zero-emission and long-endurance flight systems.</p>
       </div>
 
-      <figure class="blueprint" id="fig01">
+      <figure class="blueprint reveal" id="fig01">
         <svg class="bp" viewBox="0 0 600 480" role="img" aria-labelledby="bp-title">
           <title id="bp-title">Fig. 01. Top view of our testbed, a DJI S800 EVO hexacopter, drawn to scale from DJI's manual, with its hexagonal centre frame, six lattice arms and six folding propellers. Dashed outlines mark the planned hydrogen tank, PEM fuel cell and buffer battery. These parts are not to scale: the fuel cell and battery sit on the centre plate, and the tank reaches past its front edge.</title>
           <text x="16" y="26" class="bp-sub">FIG. 01</text>
@@ -160,17 +171,14 @@ try {
           <circle cx="227.35" cy="236.35" r="3" class="cdot"/>
           <path d="M231.35 236.35 H432" class="cline"/>
           <text x="440" y="232.35" class="bp-label">H₂ TANK</text>
-          <text x="440" y="248.35" class="bp-sub">Type IV · 300 bar</text>
 
           <circle cx="235.75" cy="262.25" r="3" class="cdot"/>
           <path d="M239.75 262.25 H300 V286.35 H432" class="cline"/>
           <text x="440" y="282.35" class="bp-label">PEM FUEL CELL</text>
-          <text x="440" y="298.35" class="bp-sub">steady base power</text>
 
           <circle cx="220" cy="280.8" r="3" class="cdot"/>
           <path d="M220 284.8 V334.35 H432" class="cline"/>
           <text x="440" y="330.35" class="bp-label">BUFFER BATTERY</text>
-          <text x="440" y="346.35" class="bp-sub">absorbs peak loads</text>
 
           <g class="tb-block">
             <g class="tb">
@@ -186,36 +194,45 @@ try {
           </g>
         </svg>
       </figure>
+      <!-- phones: the drawing crops to the drone and its labels move here (styles.css); the SVG title carries them for screen readers -->
+      <div class="bp-key" aria-hidden="true">
+        <p class="bp-key-title">Fig. 01 · Argo testbed, DJI S800 EVO, top view, 800 mm</p>
+        <ul>
+          <li><i class="k-tank"></i>H₂ tank</li>
+          <li><i class="k-fc"></i>PEM fuel cell</li>
+          <li><i class="k-batt"></i>Buffer battery</li>
+        </ul>
+        <p>Dashed: planned · components not to scale</p>
+      </div>
     </div>
   </section>
 
-  <section id="mission" class="section mission">
-    <div class="bg-deco motif-hex" aria-hidden="true"><span class="glow g1"></span><span class="glow g2"></span><span class="motif"></span></div>
+  <section id="advantage" class="section adv" aria-labelledby="adv-title">
+    <div class="bridge-glow" aria-hidden="true"></div>
+    <div class="adv-glow" aria-hidden="true"></div>
+    <div class="adv-arc" aria-hidden="true"></div>
     <div class="wrap">
-      <header class="section-head reveal">
-        <p class="eyebrow">Our mission</p>
-        <h2><span>The power to go further.</span> <span class="accent">On&nbsp;hydrogen.</span></h2>
-        <p>Our vision is to change the future of autonomous aviation through the development of sustainable, zero-emission and long-endurance flight systems.</p>
-      </header>
       <div class="adv-hub reveal">
-        <h3 class="subhead accent">The Hydrogen Advantage</h3>
-        <button class="adv-toggle" type="button" aria-expanded="false" aria-controls="adv-text-1 adv-text-2 adv-text-3 adv-text-4"><span class="adv-toggle-text"><span>Read more</span><span>Show less</span></span></button>
-        <svg class="hub-lines" viewBox="0 0 1000 64" preserveAspectRatio="none" aria-hidden="true"><path d="M500 0V30M118.7 30H881.3M118.7 30V64M372.9 30V64M627.1 30V64M881.3 30V64"/></svg>
+        <h2 id="adv-title">The Hydrogen Advantage</h2>
+        <button class="btn btn-glass more-btn" type="button" aria-expanded="false" aria-controls="adv-text-1 adv-text-2 adv-text-3 adv-text-4"><span class="lbl"><span>Read more</span><span>Show less</span></span><svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button>
+        <svg class="hub-lines" viewBox="0 0 1000 64" preserveAspectRatio="none" aria-hidden="true"><path d="M500 0V30M125 64Q500 -4 875 64M375 33.8V64M625 33.8V64"/></svg>
       </div>
-      <div class="adv-list">
-        <article class="adv reveal">
-          <svg class="adv-fig" viewBox="0 0 220 88" aria-hidden="true"><text class="af-label" x="0" y="20">Hydrogen</text><text class="af-label" x="220" y="20" text-anchor="end">33 kWh/kg</text><rect class="af-track" x="0" y="28" width="220" height="10" rx="5"/><rect class="af-bar h2" x="0" y="28" width="220" height="10" rx="5"/><text class="af-label" x="0" y="62">Lithium battery</text><text class="af-label" x="220" y="62" text-anchor="end">0.25 kWh/kg</text><rect class="af-track" x="0" y="70" width="220" height="10" rx="5"/><rect class="af-bar batt" x="0" y="70" width="3" height="10" rx="1.5"/></svg>
-          <h4>Maximum energy density</h4>
-          <div class="adv-more" id="adv-text-1"><div><p>Hydrogen stores more energy per kilogram than any other chemical fuel, so less power would be spent lifting the energy store and hours of continuous flight would become possible. Both values refer to the fuel alone; the mass of the tank and the fuel cell is not included.</p></div></div>
+      <div class="tiles">
+        <article class="tile reveal">
+          <svg class="af" viewBox="0 0 220 88" aria-hidden="true"><text class="af-label" x="0" y="20">Hydrogen</text><text class="af-label" x="220" y="20" text-anchor="end">33 kWh/kg</text><rect class="af-track" x="0" y="28" width="220" height="10" rx="5"/><rect class="af-bar h2" x="0" y="28" width="220" height="10" rx="5"/><text class="af-label" x="0" y="62">Lithium battery</text><text class="af-label" x="220" y="62" text-anchor="end">0.25 kWh/kg</text><rect class="af-track" x="0" y="70" width="220" height="10" rx="5"/><rect class="af-bar batt" x="0" y="70" width="3" height="10" rx="1.5"/></svg>
+          <h3>Maximum energy density</h3>
+          <p class="sr-only">Hydrogen: 33 kWh/kg. Lithium battery: 0.25 kWh/kg.</p>
+          <div class="more" id="adv-text-1"><div><p>Hydrogen stores more energy per kilogram than any other chemical fuel, so less power would be spent lifting the energy store and hours of continuous flight would become possible. Both values refer to the fuel alone; the mass of the tank and the fuel cell is not included.</p></div></div>
         </article>
-        <article class="adv reveal">
-          <svg class="adv-fig" viewBox="0 0 220 88" aria-hidden="true"><rect class="af-pill" x="14" y="22" width="72" height="32" rx="16"/><text class="af-pill-text" x="50" y="42" text-anchor="middle">CO₂</text><path class="af-strike" pathLength="1" d="M20 50L80 26"/><text class="af-label" x="50" y="76" text-anchor="middle">No CO₂</text><rect class="af-pill h2" x="124" y="22" width="72" height="32" rx="16"/><text class="af-pill-text h2" x="160" y="42" text-anchor="middle">H₂O</text><text class="af-label" x="160" y="76" text-anchor="middle">Only water vapour</text></svg>
-          <h4>True zero-emission</h4>
-          <div class="adv-more" id="adv-text-2"><div><p>Electricity is generated by a chemical reaction within the fuel cell, and the only byproduct emitted during flight is water vapour.</p></div></div>
+        <article class="tile reveal">
+          <svg class="af" viewBox="0 0 220 88" aria-hidden="true"><rect class="af-pill" x="14" y="22" width="72" height="32" rx="16"/><path class="af-strike" pathLength="1" d="M20 50L80 26"/><text class="af-pill-text" x="50" y="42" text-anchor="middle">CO₂</text><text class="af-label" x="50" y="76" text-anchor="middle">No CO₂</text><rect class="af-pill h2" x="124" y="22" width="72" height="32" rx="16"/><text class="af-pill-text h2" x="160" y="42" text-anchor="middle">H₂O</text><text class="af-label" x="160" y="76" text-anchor="middle">Only water vapour</text></svg>
+          <h3>True zero-emission</h3>
+          <p class="sr-only">No CO₂, only water vapour.</p>
+          <div class="more" id="adv-text-2"><div><p>Electricity is generated by a chemical reaction within the fuel cell, and the only byproduct emitted during flight is water vapour.</p></div></div>
         </article>
-        <article class="adv reveal">
+        <article class="tile reveal">
           <!-- The markup is the static frame (reduced motion, no JS): three packs used up, the fourth in use, the tank mostly full -->
-          <svg class="adv-fig af-packs" viewBox="0 0 220 88" aria-hidden="true">
+          <svg class="af af-packs" viewBox="0 0 220 88" aria-hidden="true">
             <text class="af-label" x="0" y="12">Batteries</text>
             <g class="af-pack"><rect x="0" y="20" width="30" height="14" rx="2.5"/><path d="M31 24.5v5"/></g><rect class="af-pack-fill" x="2.5" y="22.5" width="0" height="9" rx="1"/>
             <g class="af-swap" transform="translate(47.5 27)"><path d="M-4.33 -2.5A5 5 0 1 1 -4.33 2.5M-4.33 2.5l-.26 3M-4.33 2.5l2.72 1.27"/></g>
@@ -228,36 +245,39 @@ try {
             <rect class="af-tank" x="0" y="66" width="220" height="14" rx="7"/>
             <rect class="af-tank-fill" x="2.5" y="68.5" width="184" height="9" rx="4.5"/>
           </svg>
-          <h4>Continuous efficiency</h4>
-          <div class="adv-more" id="adv-text-3"><div><p>A single hydrogen tank would provide enough energy to cover large areas in one uninterrupted flight, without repeated landings to exchange battery packs, and refuelling would be completed in minutes.</p></div></div>
+          <h3>Continuous efficiency</h3>
+          <p class="sr-only">Four battery packs, swapped one after another, beside one long hydrogen tank.</p>
+          <div class="more" id="adv-text-3"><div><p>A single hydrogen tank would provide enough energy to cover large areas in one uninterrupted flight, without repeated landings to exchange battery packs, and refuelling would be completed in minutes.</p></div></div>
         </article>
-        <article class="adv reveal">
+        <article class="tile reveal">
           <!-- Static frame: the drone halfway along, the first four trees scanned -->
-          <svg class="adv-fig af-scan" viewBox="0 0 220 88" aria-hidden="true">
+          <svg class="af af-scan" viewBox="0 0 220 88" aria-hidden="true">
             <defs>
               <path id="af-tree-a" class="pt" stroke="currentColor" d="M-3.4 -27.2h0M3.7 -21.4h0M-2.7 -17.5h0M4.1 -21.2h0M3.0 -19.6h0M5.1 -26.6h0M-2.0 -18.3h0M3.2 -30.0h0M2.9 -22.6h0M-6.0 -21.8h0M6.8 -18.6h0M2.3 -20.6h0M-2.0 -25.0h0M5.4 -25.0h0M-5.6 -25.6h0M-1.1 -25.7h0M7.0 -21.0h0M3.7 -15.2h0M-0.4 -2.0h0M-0.2 -5.2h0M0.0 -8.4h0M0.0 -11.6h0"/>
               <path id="af-tree-b" class="pt" stroke="currentColor" d="M-1.1 -31.8h0M-1.9 -28.4h0M2.3 -15.7h0M0.2 -32.4h0M-1.3 -29.8h0M-1.9 -26.7h0M-2.3 -24.3h0M1.6 -30.9h0M5.7 -25.9h0M5.1 -22.0h0M1.9 -24.6h0M0.1 -20.8h0M6.2 -27.3h0M2.9 -30.5h0M1.2 -28.3h0M-2.4 -27.4h0M4.1 -16.7h0M-0.3 -2.0h0M0.3 -5.2h0M-0.3 -8.4h0M-0.1 -11.6h0M-0.3 -14.8h0"/>
             </defs>
             <g class="af-rig" transform="translate(110 0)">
-              <path class="pc-cone terra" d="M0 20L-15 56H15Z"/>
-              <g class="pc-drone" transform="translate(0 13) scale(0.42)"><path d="M-30 -5H30M-30 -5V-8M30 -5V-8M-7 5l-4 8M7 5l4 8"/><ellipse cx="-30" cy="-9" rx="13" ry="2.2"/><ellipse cx="30" cy="-9" rx="13" ry="2.2"/><rect x="-12" y="-5" width="24" height="10" rx="3"/></g>
+              <path class="af-cone" d="M0 20L-15 56H15Z"/>
+              <g class="af-drone" transform="translate(0 13) scale(0.42)"><path d="M-30 -5H30M-30 -5V-8M30 -5V-8M-7 5l-4 8M7 5l4 8"/><ellipse cx="-30" cy="-9" rx="13" ry="2.2"/><ellipse cx="30" cy="-9" rx="13" ry="2.2"/><rect x="-12" y="-5" width="24" height="10" rx="3"/></g>
             </g>
             <use class="af-tree lit" href="#af-tree-a" x="18" y="86"/><use class="af-tree lit" href="#af-tree-b" x="44" y="86"/><use class="af-tree lit" href="#af-tree-a" x="70" y="86"/><use class="af-tree lit" href="#af-tree-b" x="96" y="86"/><use class="af-tree" href="#af-tree-a" x="122" y="86"/><use class="af-tree" href="#af-tree-b" x="148" y="86"/><use class="af-tree" href="#af-tree-a" x="174" y="86"/><use class="af-tree" href="#af-tree-b" x="200" y="86"/>
           </svg>
-          <h4>Meeting industrial demand</h4>
-          <div class="adv-more" id="adv-text-4"><div><p>Industries increasingly require continuous, extended flight times for automated data collection, and hydrogen drivetrains would be able to deliver the sustained endurance that battery drones cannot.</p></div></div>
+          <h3>Meeting industrial demand</h3>
+          <p class="sr-only">A drone scanning a row of trees.</p>
+          <div class="more" id="adv-text-4"><div><p>Industries increasingly require continuous, extended flight times for automated data collection, and hydrogen drivetrains would be able to deliver the sustained endurance that battery drones cannot.</p></div></div>
         </article>
       </div>
     </div>
   </section>
 
+
   <section id="simulation" class="section band curtain">
-    <div class="bg-deco motif-graph" aria-hidden="true"><span class="glow g1"></span><span class="glow g2"></span><span class="motif"></span></div>
+    <div class="sim-light" aria-hidden="true"><i class="beam"></i></div>
     <div class="wrap sim-grid">
       <div class="section-head sim-text reveal">
         <p class="eyebrow">Simulation</p>
         <h2>The critical mass penalty.</h2>
-        <p>A MATLAB model compared the mass of the energy system alone against flight time. Batteries add approximately 4&nbsp;kg per hour, whereas the hydrogen system starts at approximately 2&nbsp;kg for the fuel cell and grows by only approximately 0.4&nbsp;kg per hour, including the tank needed to store the extra hydrogen. Beyond approximately 33 minutes, hydrogen is therefore the lighter option.</p>
+        <p>A MATLAB model compared the approximate mass of the energy system alone against flight time. Batteries add 4&nbsp;kg per hour, whereas the hydrogen system starts at 2&nbsp;kg for the fuel cell and grows by only 0.4&nbsp;kg per hour, including the tank needed to store the extra hydrogen. Beyond 33 minutes, hydrogen is therefore the lighter option.</p>
         <p>At our target of 7&#8288;–&#8288;8 hours of flight, the batteries alone would weigh 28&#8288;–&#8288;32&nbsp;kg, exceeding our 25&nbsp;kg design limit for the entire drone. Above this mass, EU rules move a drone out of the open category and require an operational authorisation. The hydrogen system would weigh approximately 5&nbsp;kg.</p>
       </div>
 
@@ -348,58 +368,26 @@ try {
     </div>
   </section>
 
-  <!--
-  <section id="goal" class="section">
-    <div class="wrap">
-      <p class="eyebrow">Our goal</p>
-      <h2 class="goal-title">7–8&nbsp;hours in the air. Under 25&nbsp;kg. <span class="accent">On&nbsp;hydrogen.</span></h2>
-      <p class="goal-text">Argo is a team of ten TU/e students designing a hydrogen fuel-cell drone under 25 kg, starting with the power system it needs to stay up that long.</p>
-      <div class="goal-cta">
-        <a href="#contact" class="btn">Partner with us</a>
-        <a href="#roadmap" class="btn btn-ghost">Follow our progress →</a>
-      </div>
-      <a href="#roadmap" class="status-line"><span class="dot"></span>Now · Phase 02 of 05 · Testbed drone</a>
-
-      <div class="specs reveal">
-        <div class="spec-group">
-          <p class="spec-label">Design targets</p>
-          <dl class="spec-row">
-            <div class="spec"><dt>Target flight time</dt><dd>7–8<span>hours</span></dd></div>
-            <div class="spec"><dt>Max take-off mass</dt><dd>&lt;25<span>kg</span></dd></div>
-            <div class="spec"><dt>Planned hydrogen storage</dt><dd>300<span>bar</span></dd></div>
-          </dl>
-        </div>
-        <div class="spec-group">
-          <p class="spec-label">Team</p>
-          <dl class="spec-row">
-            <div class="spec"><dt>Students</dt><dd>10</dd></div>
-          </dl>
-        </div>
-      </div>
-    </div>
-  </section>
-  -->
-
   <section id="story" class="section story">
-    <div class="bg-deco motif-contour" aria-hidden="true"><span class="glow g1"></span><span class="glow g2"></span><span class="motif"></span></div>
     <div class="wrap">
       <header class="section-head story-head reveal">
-        <p class="eyebrow">The story</p>
+        <p class="eyebrow">The Story</p>
         <h2>High-precision carbon auditing, on land and at sea.</h2>
         <p>To validate the hydrogen architecture, we have chosen a problem that conventional drones physically cannot solve: measuring the biomass that carbon credits are supposed to represent.</p>
       </header>
       <figure class="panorama reveal">
+        <div class="pano-scroll">
         <svg class="pc pc-panorama" viewBox="0 36 1200 284" role="img" aria-labelledby="pano-title">
           <title id="pano-title">Illustration: dual-laser LiDAR over a forest and green-laser LiDAR over water, drawn as point clouds. On the left, a drone's laser returns trace the tree crowns, trunks and ground; on the right, a second drone's laser passes through the water to the seagrass, kelp and seabed.</title>
           <defs>
             <clipPath id="beam-terra"><path data-rig="terra" d="M0 70L-86 236V242H86V236Z" transform="translate(255 0)"/></clipPath>
             <clipPath id="beam-marine"><path data-rig="marine" d="M0 76L-76 304V310H76V304Z" transform="translate(900 0)"/></clipPath>
             <mask id="pano-fade" maskUnits="userSpaceOnUse" x="-50" y="0" width="1300" height="360"><rect data-side="terra" x="-50" y="0" width="640" height="360" fill="#fff"/><rect data-side="marine" x="590" y="0" width="660" height="360" fill="#fff"/></mask>
-          </defs>
+          <clipPath id="pc-above-ground"><path d="M-60 0H1260V303.5L1260 303.5L1200 303.5L1188 304L1176 303.4L1164 302.3L1152 301.8L1140 301L1128 300.1L1116 299L1104 299L1092 297.8L1080 297L1068 296.8L1056 297.3L1044 296.4L1032 296.2L1020 296.7L1008 296.5L996 297.3L984 297L972 298.3L960 299.3L948 300.1L936 300.7L924 301L912 302.2L900 301.8L888 302.8L876 303.6L864 303.7L852 304.1L840 304L828 304.8L816 303.8L804 303.6L792 302L780 302.4L768 300.6L756 299.5L744 300.3L732 298L720 299L708 298.1L696 297.9L684 292.7L672 286.8L660 282.2L648 275.8L636 271.6L624 265.8L612 258.9L600 253.7L588 248.9L576 244.3L564 238.8L552 236.5L540 236.1L528 237L516 236.7L504 236L492 236.5L480 236.2L468 235.9L456 237.2L444 236.2L432 235.6L420 236L408 236.9L396 236.3L384 235.7L372 236L360 236.4L348 236.4L336 237.4L324 236.6L312 236.5L300 235.9L288 236.1L276 235.7L264 235.5L252 235.6L240 237L228 236.3L216 236.8L204 235.6L192 236.6L180 236.1L168 235.8L156 235.6L144 236.5L132 236.3L120 235.7L108 236L96 236.3L84 235.4L72 237.3L60 237.1L48 235.5L36 236.1L24 235.8L12 236.2L0 237.4L-60 237.4Z"/></clipPath><clipPath id="pc-above-water"><path d="M-60 0H1260V244.6L1260 244.6L1190 244.6L1170 246.5L1150 248L1130 248L1110 246.4L1090 244.5L1070 243.8L1050 244.8L1030 246.7L1010 248.1L990 247.9L970 246.2L950 244.4L930 243.8L910 244.9L890 246.8L870 248.1L850 247.8L830 246.1L810 244.3L790 243.9L770 245.1L750 247L730 248.2L710 247.7L690 245.9L670 244.2L650 243.9L630 245.2L610 247.1L590 248.2L590 249.7L588 248.9L576 244.3L564 238.8L552 236.5L540 236.1L528 237L516 236.7L504 236L492 236.5L480 236.2L468 235.9L456 237.2L444 236.2L432 235.6L420 236L408 236.9L396 236.3L384 235.7L372 236L360 236.4L348 236.4L336 237.4L324 236.6L312 236.5L300 235.9L288 236.1L276 235.7L264 235.5L252 235.6L240 237L228 236.3L216 236.8L204 235.6L192 236.6L180 236.1L168 235.8L156 235.6L144 236.5L132 236.3L120 235.7L108 236L96 236.3L84 235.4L72 237.3L60 237.1L48 235.5L36 236.1L24 235.8L12 236.2L0 237.4L-60 237.4Z"/></clipPath><clipPath id="pc-in-water"><path d="M590 248.2L610 247.1L630 245.2L650 243.9L670 244.2L690 245.9L710 247.7L730 248.2L750 247L770 245.1L790 243.9L810 244.3L830 246.1L850 247.8L870 248.1L890 246.8L910 244.9L930 243.8L950 244.4L970 246.2L990 247.9L1010 248.1L1030 246.7L1050 244.8L1070 243.8L1090 244.5L1110 246.4L1130 248L1150 248L1170 246.5L1190 244.6L1260 244.6L1260 303.5L1200 303.5L1188 304L1176 303.4L1164 302.3L1152 301.8L1140 301L1128 300.1L1116 299L1104 299L1092 297.8L1080 297L1068 296.8L1056 297.3L1044 296.4L1032 296.2L1020 296.7L1008 296.5L996 297.3L984 297L972 298.3L960 299.3L948 300.1L936 300.7L924 301L912 302.2L900 301.8L888 302.8L876 303.6L864 303.7L852 304.1L840 304L828 304.8L816 303.8L804 303.6L792 302L780 302.4L768 300.6L756 299.5L744 300.3L732 298L720 299L708 298.1L696 297.9L684 292.7L672 286.8L660 282.2L648 275.8L636 271.6L624 265.8L612 258.9L600 253.7L590 249.7Z"/></clipPath></defs>
           <g mask="url(#pano-fade)">
           <path class="pc-water" d="M590 246L590 248.2L610 247.1L630 245.2L650 243.9L670 244.2L690 245.9L710 247.7L730 248.2L750 247.0L770 245.1L790 243.9L810 244.3L830 246.1L850 247.8L870 248.1L890 246.8L910 244.9L930 243.8L950 244.4L970 246.2L990 247.9L1010 248.1L1030 246.7L1050 244.8L1070 243.8L1090 244.5L1110 246.4L1130 248.0L1150 248.0L1170 246.5L1190 244.6L1200 310Z"/>
-          <path class="pc-cone terra" data-rig="terra" d="M0 70L-86 236H86Z" transform="translate(255 0)"/>
-          <path class="pc-cone marine" data-rig="marine" d="M0 76L-76 304H76Z" transform="translate(900 0)"/>
+          <g clip-path="url(#pc-above-ground)"><path class="pc-cone terra" data-rig="terra" d="M0 70L-103.6 270H103.6Z" transform="translate(255 0)"/></g>
+          <g clip-path="url(#pc-above-water)"><path class="pc-cone marine" data-rig="marine" d="M0 76L-84.7 330H84.7Z" transform="translate(900 0)"/></g><g clip-path="url(#pc-in-water)"><path class="pc-cone marine in-water" data-rig="marine" d="M0 76L-84.7 330H84.7Z" transform="translate(900 0)"/></g>
           <g class="scan">
             <path class="pt pt-ground" d="M2.0 237.4h0M7.5 235.0h0M13.0 237.3h0M18.5 235.4h0M24.0 236.8h0M29.5 235.2h0M35.0 235.4h0M40.5 236.7h0M46.0 235.2h0M51.5 235.8h0M57.0 237.3h0M62.5 236.8h0M68.0 237.2h0M73.5 237.4h0M79.0 235.1h0M84.5 235.6h0M90.0 237.0h0M95.5 236.7h0M101.0 235.1h0M106.5 236.3h0M112.0 235.6h0M117.5 236.1h0M123.0 235.3h0M128.5 235.0h0M134.0 237.5h0M139.5 235.8h0M145.0 237.2h0M150.5 235.3h0M156.0 236.2h0M161.5 235.3h0M167.0 236.1h0M172.5 235.4h0M178.0 236.7h0M183.5 235.4h0M189.0 236.8h0M194.5 236.3h0M200.0 235.3h0M205.5 235.9h0M211.0 236.2h0M216.5 237.3h0M222.0 235.9h0M227.5 235.5h0M233.0 237.4h0M238.5 237.2h0M244.0 236.8h0M249.5 235.7h0M255.0 235.4h0M260.5 235.7h0M266.0 235.2h0M271.5 235.1h0M277.0 236.3h0M282.5 236.0h0M288.0 236.4h0M293.5 235.9h0M299.0 235.0h0M304.5 236.7h0M310.0 236.6h0M315.5 236.4h0M321.0 236.4h0M326.5 236.7h0M332.0 237.5h0M337.5 237.2h0M343.0 236.8h0M348.5 236.0h0M354.0 235.8h0M359.5 236.0h0M365.0 237.4h0M370.5 236.0h0M376.0 236.0h0M381.5 236.0h0M387.0 235.4h0M392.5 237.5h0M398.0 235.0h0M403.5 236.5h0M409.0 237.3h0M414.5 235.6h0M420.0 236.5h0M425.5 235.9h0M431.0 235.6h0M436.5 235.5h0M442.0 235.3h0M447.5 237.1h0M453.0 237.0h0M458.5 237.3h0M464.0 235.1h0M469.5 236.7h0M475.0 235.8h0M480.5 236.6h0M486.0 236.4h0M491.5 235.8h0M497.0 237.4h0M502.5 235.0h0M508.0 236.9h0M513.5 237.1h0M519.0 236.3h0M524.5 236.5h0M530.0 237.5h0M535.5 235.6h0M541.0 236.6h0M546.5 236.9h0M552.0 235.9h0M557.5 236.8h0M563.0 237.4h0M568.5 240.2h0M574.0 242.9h0M579.5 245.6h0M585.0 247.2h0M590.5 250.5h0M596.0 252.8h0M601.5 254.5h0M607.0 258.0h0M612.5 259.7h0M618.0 263.8h0M623.5 265.2h0M629.0 268.3h0M634.5 270.4h0M640.0 272.8h0M645.5 274.6h0M651.0 277.0h0M656.5 281.4h0M662.0 283.0h0M667.5 285.5h0M673.0 288.0h0M678.5 291.2h0M684.0 292.3h0M689.5 294.6h0M695.0 298.8h0M700.5 297.0h0M706.0 297.7h0M711.5 298.5h0M717.0 298.9h0M722.5 299.2h0M728.0 297.4h0M733.5 298.6h0M739.0 300.1h0M744.5 300.4h0M750.0 299.0h0M755.5 299.5h0M761.0 300.1h0M766.5 300.1h0M772.0 301.1h0M777.5 302.5h0M783.0 302.2h0M788.5 302.3h0M794.0 301.7h0M799.5 302.7h0M805.0 304.5h0M810.5 304.0h0M816.0 303.6h0M821.5 303.8h0M827.0 304.7h0M832.5 304.8h0M838.0 303.3h0M843.5 304.7h0M849.0 303.9h0M854.5 304.3h0M860.0 303.5h0M865.5 303.8h0M871.0 303.6h0M876.5 303.5h0M882.0 302.4h0M887.5 302.7h0M893.0 303.4h0M898.5 301.8h0M904.0 301.8h0M909.5 302.9h0M915.0 301.5h0M920.5 301.2h0M926.0 300.7h0M931.5 301.8h0M937.0 299.6h0M942.5 300.6h0M948.0 300.8h0M953.5 298.8h0M959.0 299.0h0M964.5 299.5h0M970.0 298.8h0M975.5 297.8h0M981.0 296.7h0M986.5 297.4h0M992.0 297.0h0M997.5 297.6h0M1003.0 296.4h0M1008.5 296.5h0M1014.0 296.9h0M1019.5 297.2h0M1025.0 296.0h0M1030.5 296.0h0M1036.0 296.4h0M1041.5 297.3h0M1047.0 295.5h0M1052.5 297.6h0M1058.0 297.0h0M1063.5 296.3h0M1069.0 297.2h0M1074.5 296.6h0M1080.0 296.2h0M1085.5 298.1h0M1091.0 297.5h0M1096.5 298.1h0M1102.0 298.4h0M1107.5 299.7h0M1113.0 299.7h0M1118.5 298.2h0M1124.0 300.0h0M1129.5 300.1h0M1135.0 300.4h0M1140.5 301.7h0M1146.0 301.0h0M1151.5 301.5h0M1157.0 302.9h0M1162.5 302.1h0M1168.0 302.5h0M1173.5 302.9h0M1179.0 303.9h0M1184.5 303.8h0M1190.0 304.2h0M1195.5 303.5h0"/>
             <path class="pt pt-terra-soft" d="M31.0 140.2h0M17.8 139.5h0M2.5 157.9h0M5.0 157.2h0M6.5 147.4h0M44.8 164.7h0M40.6 151.2h0M6.3 151.4h0M9.2 165.0h0M18.1 163.2h0M32.4 157.5h0M28.0 158.8h0M37.7 170.4h0M27.5 162.3h0M34.6 150.2h0M6.3 156.9h0M7.8 160.5h0M31.8 173.9h0M41.4 151.8h0M28.4 164.8h0M22.8 168.6h0M33.4 168.5h0M38.9 150.7h0M22.2 145.5h0M6.8 148.9h0M21.6 163.5h0M38.8 178.2h0M20.1 153.9h0M9.0 148.4h0M23.3 165.2h0M17.9 164.4h0M32.8 161.8h0M32.2 138.4h0M37.0 179.7h0M19.0 156.3h0M30.2 140.7h0M10.5 144.9h0M17.7 137.1h0M29.3 144.4h0M16.9 154.7h0M22.4 160.2h0M5.5 153.5h0M39.3 145.4h0M44.9 162.3h0M26.0 138.0h0M33.1 149.6h0M8.5 174.2h0M37.0 153.0h0M40.4 176.3h0M35.1 147.7h0M17.3 139.3h0M13.8 149.1h0M45.2 158.3h0M17.7 147.8h0M9.9 146.5h0M23.0 168.6h0M4.7 169.1h0M37.1 173.1h0M9.1 174.8h0M19.2 156.0h0M34.4 145.6h0M38.2 143.2h0M17.1 163.3h0M30.9 162.3h0M20.9 179.6h0M10.6 149.2h0M12.0 165.1h0M20.2 142.3h0M17.2 158.9h0M42.8 157.0h0M55.7 156.6h0M65.4 169.2h0M81.5 169.1h0M74.8 159.8h0M78.7 164.4h0M79.9 151.8h0M89.3 176.4h0M64.4 156.8h0M97.2 132.5h0M74.7 128.5h0M53.9 163.4h0M90.2 162.2h0M72.2 152.3h0M96.8 133.3h0M78.9 143.9h0M67.7 165.6h0M81.1 149.8h0M68.5 160.4h0M55.7 139.9h0M93.8 140.1h0M73.6 178.2h0M64.3 131.5h0M82.0 164.4h0M53.0 164.1h0M85.6 170.2h0M98.5 150.4h0M81.0 177.7h0M57.0 154.7h0M67.4 141.3h0M66.1 153.1h0M91.2 156.0h0M76.6 177.7h0M96.0 149.1h0M96.9 146.8h0M69.1 173.2h0M85.7 147.6h0M53.7 167.0h0M87.6 140.6h0M66.3 150.8h0M74.9 138.4h0M104.7 155.8h0M71.3 151.6h0M61.1 153.4h0M64.7 129.1h0M66.9 137.2h0M79.7 168.2h0M90.2 175.3h0M58.2 166.6h0M100.2 160.8h0M95.7 131.7h0M78.2 173.5h0M96.5 158.3h0M88.3 164.2h0M70.1 128.9h0M81.3 160.8h0M88.2 152.5h0M94.8 167.8h0M80.0 162.1h0M91.4 139.1h0M64.7 166.2h0M77.7 146.2h0M88.4 169.1h0M86.1 129.1h0M64.1 167.2h0M81.8 125.6h0M64.9 163.5h0M87.9 140.7h0M76.0 151.2h0M100.3 134.4h0M75.7 173.0h0M127.6 138.9h0M109.4 133.2h0M141.0 159.1h0M150.1 153.5h0M117.1 134.6h0M120.8 137.7h0M145.3 129.3h0M115.0 128.8h0M111.9 134.3h0M147.9 158.6h0M130.5 152.8h0M140.0 138.7h0M135.5 130.5h0M126.6 133.2h0M115.6 149.7h0M131.0 136.0h0M110.5 125.0h0M127.8 125.7h0M153.7 138.9h0M119.8 120.0h0M115.5 145.4h0M140.9 136.8h0M129.3 134.9h0M105.3 128.8h0M108.6 141.7h0M146.8 126.5h0M115.0 136.1h0M148.5 140.0h0M115.0 121.1h0M129.2 151.8h0M139.5 149.7h0M125.8 144.1h0M142.6 126.4h0M135.5 131.3h0M115.1 149.0h0M129.3 145.9h0M113.7 146.7h0M117.7 139.2h0M135.5 162.2h0M114.3 127.1h0M138.6 131.6h0M127.9 150.8h0M115.4 150.9h0M119.6 137.1h0M112.4 158.0h0M128.3 124.7h0M118.3 158.3h0M113.6 155.3h0M151.4 141.3h0M113.7 136.9h0M122.5 125.2h0M105.2 135.5h0M147.9 154.7h0M150.3 132.5h0M103.8 150.3h0M121.5 132.7h0M120.3 165.1h0M120.6 159.5h0M124.5 117.2h0M121.4 163.4h0M121.0 161.9h0M123.4 158.8h0M115.4 155.4h0M119.7 128.6h0M134.1 128.3h0M118.5 130.0h0M141.2 164.3h0M114.2 140.1h0M151.5 135.5h0M124.4 141.1h0M177.9 151.3h0M162.5 133.6h0M188.1 154.3h0M187.6 114.8h0M166.0 142.7h0M191.8 120.9h0M163.2 116.8h0M182.6 128.2h0M206.6 139.1h0M195.9 148.5h0M154.9 137.1h0M155.9 118.9h0M182.8 164.5h0M199.3 135.7h0M155.1 144.6h0M161.6 131.0h0M160.8 123.6h0M186.8 121.6h0M168.0 149.1h0M167.1 120.1h0M180.8 113.3h0M171.9 141.8h0M189.4 133.3h0M166.8 165.7h0M181.9 130.1h0M170.1 119.8h0M201.3 133.9h0M172.5 161.8h0M181.0 147.6h0M154.1 146.0h0M178.3 117.6h0M179.2 163.5h0M177.4 158.1h0M160.4 114.9h0M205.6 137.7h0M202.8 131.6h0M185.0 157.7h0M194.6 122.0h0M198.1 158.0h0M161.6 132.6h0M171.2 116.4h0M191.1 161.6h0M181.6 153.6h0M183.8 141.8h0M166.7 133.8h0M173.7 148.3h0M174.4 109.4h0M177.4 122.1h0M194.3 136.2h0M176.4 115.7h0M174.0 114.0h0M178.6 110.4h0M153.7 153.3h0M178.7 111.6h0M170.9 165.0h0M191.5 157.2h0M206.0 138.2h0M152.7 129.4h0M164.9 157.1h0M178.1 163.4h0M164.2 139.0h0M188.4 161.9h0M194.6 115.2h0M185.9 129.8h0M181.2 143.7h0M185.5 132.0h0M182.5 129.9h0M174.6 118.5h0M163.7 147.6h0M183.0 148.4h0M224.6 143.5h0M212.2 146.1h0M233.5 186.6h0M220.7 152.4h0M233.8 168.5h0M233.9 161.7h0M238.6 150.3h0M201.4 166.8h0M228.7 189.0h0M209.8 171.2h0M233.6 182.1h0M215.7 154.3h0M247.0 181.4h0M239.2 163.0h0M223.4 150.2h0M217.1 179.4h0M244.6 176.7h0M228.9 161.3h0M227.3 151.6h0M213.1 149.8h0M216.7 186.1h0M211.9 188.4h0M236.4 174.8h0M224.4 184.6h0M245.3 161.4h0M229.8 154.5h0M232.6 140.2h0M217.6 145.9h0M201.3 176.1h0M236.6 177.8h0M230.9 157.1h0M204.8 149.1h0M242.8 172.9h0M233.1 153.6h0M204.3 179.1h0M216.2 161.0h0M212.9 152.5h0M218.9 154.5h0M226.2 185.1h0M200.7 160.2h0M240.7 156.2h0M228.0 148.5h0M209.9 180.6h0M199.2 164.5h0M242.0 147.3h0M217.8 183.3h0M250.0 153.2h0M236.8 165.0h0M233.4 140.7h0M236.6 181.5h0M218.2 159.5h0M210.1 151.1h0M226.1 158.0h0M211.6 162.8h0M239.7 179.5h0M217.8 155.6h0M244.5 174.4h0M208.2 161.5h0M230.3 144.0h0M246.8 150.8h0M215.3 176.9h0M207.4 146.2h0M216.6 166.3h0M216.7 146.7h0M238.3 141.5h0M204.5 158.2h0M241.9 178.1h0M209.6 172.5h0M210.2 159.1h0M220.5 181.8h0M297.1 180.5h0M295.6 174.8h0M273.4 153.2h0M253.7 159.4h0M287.8 171.6h0M271.8 161.6h0M271.0 174.9h0M258.4 173.5h0M269.8 163.6h0M250.3 166.7h0M277.1 140.9h0M278.3 176.9h0M283.7 183.4h0M271.0 189.4h0M286.2 157.8h0M268.0 139.1h0M270.4 136.2h0M271.6 175.6h0M263.0 147.8h0M300.4 165.8h0M292.7 158.1h0M255.4 180.8h0M283.5 162.4h0M267.8 172.6h0M293.6 162.4h0M278.7 141.7h0M267.9 184.1h0M269.1 150.0h0M288.3 151.9h0M265.0 163.1h0M283.6 173.3h0M298.5 180.1h0M294.4 171.6h0M284.7 150.3h0M256.2 148.3h0M267.5 143.2h0M292.2 144.2h0M282.0 180.8h0M297.9 181.5h0M259.2 175.5h0M289.4 160.5h0M279.1 150.9h0M256.0 163.8h0M274.2 143.6h0M275.9 166.6h0M274.2 167.9h0M294.9 157.0h0M283.6 171.7h0M282.1 175.3h0M276.6 163.3h0M283.0 154.5h0M268.6 162.7h0M291.0 147.5h0M271.7 167.5h0M264.5 183.1h0M276.2 151.0h0M302.4 173.5h0M266.6 153.8h0M280.8 172.3h0M297.4 166.7h0M282.0 173.7h0M298.8 170.8h0M283.0 175.7h0M286.1 147.2h0M273.7 178.8h0M291.3 188.7h0M268.7 183.5h0M279.5 150.5h0M271.7 153.8h0M283.9 188.2h0M303.9 163.2h0M335.1 141.9h0M337.9 167.5h0M335.6 133.6h0M334.6 153.7h0M314.4 167.5h0M342.3 155.1h0M317.3 159.8h0M332.9 136.5h0M317.1 163.6h0M319.8 149.6h0M327.4 145.4h0M340.6 146.9h0M329.1 145.8h0M343.6 149.2h0M329.2 177.5h0M312.0 151.7h0M340.0 175.3h0M340.9 173.0h0M327.6 143.4h0M339.5 166.0h0M316.3 133.8h0M339.0 139.6h0M329.4 165.2h0M309.2 142.5h0M338.8 153.8h0M339.5 169.8h0M328.0 177.7h0M325.1 154.6h0M308.3 140.1h0M334.2 148.5h0M319.1 156.7h0M317.6 134.7h0M338.5 137.5h0M316.2 156.8h0M342.5 155.1h0M311.9 170.5h0M308.9 139.7h0M301.3 159.0h0M321.9 180.5h0M301.9 161.0h0M311.7 159.3h0M347.1 164.7h0M321.4 137.0h0M316.5 178.0h0M338.5 167.1h0M306.0 169.9h0M333.0 145.1h0M337.0 135.4h0M311.7 136.0h0M307.2 142.5h0M335.0 140.5h0M321.3 133.6h0M341.3 162.6h0M315.9 172.9h0M330.5 137.5h0M301.6 167.2h0M312.2 151.3h0M312.4 173.5h0M307.2 155.4h0M344.0 164.5h0M322.9 144.8h0M308.9 148.3h0M303.6 144.2h0M301.6 167.5h0M339.5 147.7h0M325.3 139.3h0M344.8 140.8h0M305.7 138.4h0M334.7 140.5h0M394.9 163.2h0M376.8 163.2h0M362.5 161.3h0M361.4 137.7h0M353.5 145.5h0M378.8 124.4h0M393.6 162.9h0M388.4 138.2h0M400.4 144.2h0M379.5 146.3h0M365.7 160.0h0M358.1 154.4h0M354.2 149.6h0M379.1 154.5h0M396.2 155.1h0M359.4 144.1h0M367.1 125.1h0M360.1 149.4h0M360.6 148.3h0M361.4 162.0h0M372.5 140.2h0M379.3 138.8h0M391.7 136.3h0M369.9 140.9h0M393.6 161.5h0M378.9 169.1h0M365.6 140.4h0M371.3 146.0h0M374.7 144.7h0M384.6 161.0h0M385.0 132.1h0M366.8 146.7h0M384.0 131.5h0M374.7 167.2h0M368.4 151.7h0M382.7 168.0h0M366.6 142.7h0M359.8 133.9h0M367.6 131.8h0M380.3 162.2h0M381.5 152.0h0M388.4 142.4h0M383.6 142.9h0M365.3 130.1h0M372.2 148.6h0M370.7 162.6h0M380.8 144.0h0M391.4 127.6h0M396.3 141.5h0M372.5 141.3h0M358.7 129.6h0M389.8 126.9h0M370.7 153.6h0M395.3 161.0h0M389.8 157.3h0M376.8 159.5h0M391.1 148.9h0M400.8 148.1h0M392.0 163.9h0M372.1 142.0h0M389.0 133.9h0M380.7 138.6h0M392.2 162.5h0M375.2 128.5h0M360.5 148.4h0M369.3 162.8h0M374.4 164.5h0M355.7 147.8h0M379.9 170.2h0M378.9 153.9h0M411.2 142.6h0M448.6 154.7h0M452.5 165.7h0M425.5 133.9h0M430.7 154.3h0M411.9 161.8h0M437.8 126.9h0M446.4 142.2h0M449.5 159.2h0M412.7 153.8h0M416.7 162.8h0M424.9 132.2h0M444.8 131.5h0M411.2 155.4h0M436.4 171.4h0M419.9 166.6h0M411.1 140.6h0M453.0 158.8h0M427.1 147.5h0M452.3 159.1h0M426.6 161.0h0M450.2 142.5h0M448.0 142.1h0M456.2 153.7h0M415.3 147.3h0M414.1 142.1h0M429.1 171.0h0M411.4 145.8h0M433.5 130.9h0M423.5 148.5h0M408.5 173.1h0M415.4 136.0h0M439.4 144.9h0M441.7 130.3h0M426.8 174.7h0M410.6 145.0h0M423.0 180.5h0M455.7 154.3h0M427.3 131.5h0M416.4 178.0h0M422.5 138.7h0M413.6 175.3h0M430.7 156.5h0M445.5 147.0h0M433.9 142.8h0M450.0 143.1h0M407.7 157.6h0M430.0 142.4h0M419.2 138.3h0M442.4 141.1h0M453.3 171.0h0M440.2 163.6h0M425.0 163.7h0M415.6 174.3h0M437.4 135.8h0M453.5 168.2h0M410.7 136.3h0M423.2 127.1h0M437.9 134.2h0M434.0 166.6h0M426.3 164.8h0M445.8 141.8h0M450.2 160.1h0M415.4 130.1h0M444.2 128.8h0M423.9 169.2h0M417.5 128.4h0M425.7 180.1h0M443.6 173.9h0M427.3 126.8h0M466.9 150.2h0M492.5 168.6h0M468.9 160.6h0M504.0 152.1h0M485.2 150.7h0M484.4 173.1h0M490.4 165.0h0M495.5 176.6h0M471.3 152.7h0M459.8 148.6h0M492.2 157.2h0M473.1 158.2h0M494.7 137.3h0M506.3 163.1h0M481.4 156.5h0M484.2 132.7h0M489.3 166.9h0M489.7 147.0h0M495.9 177.4h0M466.1 167.4h0M496.4 177.7h0M473.2 142.6h0M472.9 152.8h0M475.4 176.9h0M458.8 163.4h0M498.2 171.2h0M504.5 159.5h0M464.7 149.1h0M460.8 169.4h0M479.1 183.6h0M458.7 156.7h0M499.2 179.2h0M478.2 148.2h0M482.7 155.7h0M478.9 168.9h0M471.7 156.8h0M474.3 144.4h0M473.1 157.6h0M488.1 175.5h0M490.9 165.5h0M485.6 183.7h0M489.5 149.4h0M466.3 169.2h0M461.0 168.2h0M486.1 155.4h0M485.3 154.6h0M484.4 138.6h0M469.5 138.4h0M469.4 159.3h0M468.2 163.5h0M482.7 164.3h0M477.3 137.4h0M500.4 162.6h0M495.0 138.4h0M493.2 138.1h0M476.5 141.6h0M485.2 173.8h0M468.7 153.4h0M486.8 145.0h0M492.5 155.8h0M488.1 179.6h0M465.2 172.6h0M495.3 169.7h0M462.9 153.0h0M504.7 171.0h0M487.3 138.6h0M497.3 138.5h0M490.9 147.3h0M479.3 177.9h0M462.3 175.2h0M550.1 152.9h0M530.6 121.3h0M525.9 164.7h0M507.9 132.5h0M554.4 147.4h0M513.2 134.1h0M536.4 135.8h0M529.7 169.8h0M511.9 152.2h0M519.1 142.3h0M535.9 144.1h0M535.4 159.0h0M547.6 150.3h0M524.2 128.9h0M542.3 130.4h0M545.6 142.9h0M523.5 145.3h0M507.0 132.8h0M559.7 141.2h0M517.4 126.8h0M553.1 139.5h0M535.9 131.0h0M507.4 130.8h0M544.9 145.5h0M522.9 167.5h0M536.6 170.8h0M547.6 137.9h0M507.4 141.4h0M519.3 128.6h0M512.9 128.3h0M516.0 136.5h0M537.8 164.3h0M514.8 156.9h0M537.7 116.5h0M553.3 133.2h0M514.3 144.6h0M539.9 166.7h0M522.2 157.3h0M526.6 152.8h0M506.9 137.5h0M539.2 132.5h0M537.6 127.9h0M535.6 169.9h0M538.5 155.4h0M511.7 157.5h0M549.8 137.7h0M537.0 145.6h0M537.8 132.0h0M518.2 155.2h0M547.7 130.7h0M559.1 139.6h0M533.3 167.5h0M504.1 140.9h0M547.6 133.7h0M516.6 156.9h0M507.0 142.4h0M524.4 122.2h0M545.5 166.4h0M531.9 150.3h0M549.1 140.0h0M545.3 116.1h0M526.4 162.9h0M535.6 136.7h0M557.3 149.6h0M517.9 128.3h0M516.7 124.2h0M540.1 129.7h0M515.9 146.3h0M518.8 157.8h0M519.6 132.3h0M24.0 177.2h0M24.1 185.6h0M23.9 194.0h0M22.8 202.4h0M23.2 210.8h0M24.5 219.2h0M23.6 227.6h0M24.0 181.9h0M17.6 176.7h0M11.2 171.5h0M27.2 179.3h0M33.6 174.1h0M77.9 172.9h0M77.3 181.3h0M77.3 189.7h0M77.1 198.1h0M79.1 206.5h0M78.8 214.9h0M78.9 223.3h0M77.4 231.7h0M74.8 176.0h0M68.4 170.8h0M78.0 178.6h0M84.4 173.4h0M90.8 168.2h0M127.2 159.6h0M128.6 168.0h0M128.7 176.4h0M127.6 184.8h0M127.7 193.2h0M127.0 201.6h0M128.6 210.0h0M127.0 218.4h0M128.1 226.8h0M128.0 164.8h0M121.6 159.6h0M115.2 154.4h0M131.2 162.2h0M137.6 157.0h0M176.8 159.0h0M177.2 167.4h0M177.8 175.8h0M178.9 184.2h0M177.3 192.6h0M176.9 201.0h0M177.7 209.4h0M177.7 217.8h0M178.2 226.2h0M178.0 164.8h0M171.6 159.6h0M165.2 154.4h0M181.2 162.2h0M187.6 157.0h0M226.0 184.0h0M225.9 192.4h0M226.2 200.8h0M226.6 209.2h0M225.8 217.6h0M226.6 226.0h0M226.0 189.4h0M219.6 184.2h0M213.2 179.0h0M229.2 186.8h0M235.6 181.6h0M276.2 183.7h0M275.1 192.1h0M276.2 200.5h0M275.9 208.9h0M275.7 217.3h0M277.1 225.7h0M276.0 189.2h0M269.6 184.0h0M263.2 178.8h0M279.2 186.6h0M285.6 181.4h0M323.0 173.5h0M324.0 181.9h0M323.3 190.3h0M324.5 198.7h0M324.2 207.1h0M323.0 215.5h0M323.8 223.9h0M322.9 232.3h0M320.8 176.0h0M314.4 170.8h0M324.0 178.6h0M330.4 173.4h0M336.8 168.2h0M377.7 161.7h0M377.6 170.1h0M378.4 178.5h0M377.0 186.9h0M377.8 195.3h0M378.2 203.7h0M379.1 212.1h0M377.9 220.5h0M379.2 228.9h0M378.0 166.7h0M371.6 161.5h0M365.2 156.3h0M381.2 164.1h0M387.6 158.9h0M429.8 173.9h0M431.0 182.3h0M430.6 190.7h0M430.5 199.1h0M429.4 207.5h0M431.1 215.9h0M430.1 224.3h0M428.9 232.7h0M426.8 177.0h0M420.4 171.8h0M430.0 179.6h0M436.4 174.4h0M442.8 169.2h0M482.1 177.5h0M482.4 185.9h0M481.1 194.3h0M482.1 202.7h0M482.7 211.1h0M480.8 219.5h0M481.2 227.9h0M482.0 182.6h0M475.6 177.4h0M469.2 172.2h0M485.2 180.0h0M491.6 174.8h0M532.9 162.2h0M532.4 170.6h0M531.9 179.0h0M532.9 187.4h0M532.9 195.8h0M532.7 204.2h0M531.2 212.6h0M533.2 221.0h0M530.9 229.4h0M532.0 167.9h0M525.6 162.7h0M519.2 157.5h0M535.2 165.3h0M541.6 160.1h0"/>
@@ -418,13 +406,14 @@ try {
           <g class="pc-handle" data-rig="terra" data-min="90" data-max="500" data-label="Forest survey drone" data-where="forest" transform="translate(255 0)"><rect class="pc-focus" x="-50" y="42" width="100" height="42" rx="10"/><g class="pc-drone" transform="translate(0 64)"><path d="M-30 -5H30M-30 -5V-8M30 -5V-8M-7 5l-4 8M7 5l4 8"/><ellipse cx="-30" cy="-9" rx="13" ry="2.2"/><ellipse cx="30" cy="-9" rx="13" ry="2.2"/><rect x="-12" y="-5" width="24" height="10" rx="3"/></g></g>
           <g class="pc-handle" data-rig="marine" data-min="680" data-max="1120" data-label="Coastal survey drone" data-where="water" transform="translate(900 0)"><rect class="pc-focus" x="-50" y="48" width="100" height="42" rx="10"/><g class="pc-drone" transform="translate(0 70)"><path d="M-30 -5H30M-30 -5V-8M30 -5V-8M-7 5l-4 8M7 5l4 8"/><ellipse cx="-30" cy="-9" rx="13" ry="2.2"/><ellipse cx="30" cy="-9" rx="13" ry="2.2"/><rect x="-12" y="-5" width="24" height="10" rx="3"/></g></g>
         </svg>
+        </div>
         <figcaption><span>Illustration · dual-laser LiDAR over forest, green-laser LiDAR over water</span><span class="pano-hint" aria-hidden="true"><svg viewBox="0 0 24 12"><path d="M2 6h20M6 2L2 6l4 4M18 2l4 4-4 4"/></svg><span class="h-drag">Drag to move the drones · Click a side for details</span><span class="h-swipe">Swipe to move the drones · Tap a side for details</span></span><span class="pc-key"><button type="button" class="pc-chip k-terra" data-side="terra" aria-pressed="false" aria-controls="pano-panel"><span class="sw terra"></span>Terrestrial</button><button type="button" class="pc-chip k-marine" data-side="marine" aria-pressed="false" aria-controls="pano-panel"><span class="sw marine"></span>Blue carbon</button></span></figcaption>
       </figure>
 
       <div class="pano-panel" id="pano-panel">
         <div>
         <div class="pano-panel-body">
-          <h3 class="pano-panel-head"><span class="block-label">Target markets and operations</span>Two markets, one airframe.</h3>
+          <h3 class="pano-panel-head"><span class="block-label">Target Markets and Operations</span>Two markets, one airframe.</h3>
           <div class="market-grid">
           <article class="market terra">
             <div class="market-text">
@@ -484,103 +473,70 @@ try {
       </div>
 
       <div class="story-block problem">
-        <div class="story-text reveal">
-          <h3 class="block-head"><span class="block-label">The unsolved problem</span>The carbon market trades on biomass that nobody can measure at scale.</h3>
-          <p>As companies work towards net-zero emissions targets, billions of dollars in carbon credits are traded on the assumption that a specific forest or marine ecosystem absorbs a specific amount of CO₂. Yet the true biomass, the actual volume of trunks, branches and underwater flora, cannot yet be measured accurately at scale.</p>
-          <p>Measuring it requires a heavy, high-grade LiDAR system flown extremely low and slow over the canopy or the water surface, for hours, to map its 3D structure. No current aircraft can do this economically, so the market relies on rough satellite estimates.</p>
-          <ul class="risks">
-            <li>Inaccurate data</li>
-            <li>Significant financial risk</li>
-            <li>Corporate greenwashing</li>
-          </ul>
+        <h3 class="block-head reveal"><span class="block-label">The Unsolved Problem</span>The carbon market trades on biomass that nobody can measure at scale.</h3>
+        <div class="problem-text">
+          <p class="reveal">As companies work towards net-zero emissions targets, billions of dollars in carbon credits are traded on the assumption that a specific forest or marine ecosystem absorbs a specific amount of CO₂. Yet the true biomass, the actual volume of trunks, branches and underwater flora, cannot yet be measured accurately at scale.</p>
+          <p class="reveal">Measuring it requires a heavy, high-grade LiDAR system flown extremely low and slow over the canopy or the water surface, for hours, to map its 3D structure. No current aircraft can do this economically, so the market relies on rough satellite estimates.</p>
         </div>
-        <div class="methods">
-          <h4 class="methods-title reveal">Why current methods fall short</h4>
-          <ul class="method-grid">
-          <li class="method reveal">
-            <svg class="sd" viewBox="0 0 320 180" aria-hidden="true">
-              <g class="sd-sat" transform="translate(116 22)"><rect x="-10" y="-8" width="20" height="16" rx="2"/><path d="M-44 -4h28v8h-28zM16 -4h28v8h-28zM-16 0h6M10 0h6"/></g>
-              <path class="sd-view" d="M116 32L12 104M116 32L220 104"/>
-              <path class="sd-seen" d="M12 114a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0Z"/>
-              <rect class="sd-missed" x="12" y="116" width="208" height="48"/>
-              <path class="sd-trunk" d="M38 114V164M38 136l-10 -9M90 114V164M90 136l10 -9M142 114V164M142 136l-10 -9M194 114V164M194 136l10 -9"/>
-              <path class="sd-ground" d="M4 164H228"/>
-              <path class="sd-bracket" d="M228 100h6v14h-6M228 118h6v46h-6"/>
-              <text class="sd-label seen" x="242" y="112">Top only</text>
-              <text class="sd-label missed" x="242" y="146">Missed</text>
-            </svg>
-            <h5>Satellite</h5>
-            <p class="method-verdict">Sees only the top</p>
-            <p class="method-text sr-only">Satellites see only the top of the canopy or the surface of the water, not the density of what lies beneath.</p>
-          </li>
-          <li class="method reveal">
-            <svg class="sd" viewBox="0 0 320 180" aria-hidden="true">
-              <path class="sd-beam" d="M92 70L66 100H118Z"/>
-              <path class="sd-canopy" d="M12 114a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0Z"/>
-              <path class="sd-trunk" d="M38 114V164M38 136l-10 -9M90 114V164M90 136l10 -9M142 114V164M142 136l-10 -9M194 114V164M194 136l10 -9"/>
-              <path class="sd-ground" d="M4 164H228"/>
-              <g class="sd-craft">
-                <path d="M118 46H170M118 54L170 50"/>
-                <path d="M168 51L174 36H180L178 52Z"/>
-                <ellipse cx="92" cy="51" rx="28" ry="13"/>
-                <path d="M68 48C70 42 78 40 86 40V50H68Z"/>
-                <path d="M36 30H148M92 30V38"/>
-                <path d="M76 64L72 70M108 64L112 70M62 70H124"/>
-              </g>
-              <g class="sd-puff"><circle cx="188" cy="34" r="4"/><circle cx="202" cy="28" r="5.5"/><circle cx="217" cy="21" r="7"/></g>
-              <text class="sd-label" x="242" y="30">Emissions</text>
-              <text class="sd-label" x="242" y="58">High cost</text>
-            </svg>
-            <h5>Helicopter</h5>
-            <p class="method-verdict">Too expensive and polluting</p>
-            <p class="method-text sr-only">Flies low and slow and carries 3&#8288;–&#8288;7&nbsp;kg for hours, but is too expensive and polluting for routine audits.</p>
-          </li>
-          <li class="method reveal">
-            <svg class="sd" viewBox="0 0 320 180" aria-hidden="true">
-              <path class="sd-canopy" d="M12 114a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0Z"/>
-              <path class="sd-trunk" d="M38 114V164M38 136l-10 -9M90 114V164M90 136l10 -9M142 114V164M142 136l-10 -9"/>
-              <path class="sd-ground" d="M4 164H228"/>
-              <path class="sd-path" d="M56 36C132 34 192 60 204 160"/>
-              <circle class="sd-landing" cx="204" cy="164" r="3.5"/>
-              <g class="sd-batt" transform="translate(32 6)"><rect width="24" height="10" rx="2"/><path d="M24 3.5h2v3h-2"/><rect class="lvl" x="2" y="2" width="3" height="6" rx="1"/></g>
-              <g class="sd-craft" transform="translate(44 34)"><path d="M-30 -5H30M-30 -5V-8M30 -5V-8"/><ellipse cx="-30" cy="-9" rx="13" ry="2.2"/><ellipse cx="30" cy="-9" rx="13" ry="2.2"/><rect x="-12" y="-5" width="24" height="10" rx="3"/><path d="M0 5V16"/><rect class="sd-payload" x="-14" y="16" width="28" height="16" rx="2"/></g>
-              <text class="sd-label" x="26" y="86">Payload limit</text>
-              <text class="sd-label" x="214" y="132">≈ 15&nbsp;min</text>
-            </svg>
-            <h5>Battery drone</h5>
-            <p class="method-verdict">Lands within about 15&nbsp;minutes</p>
-            <p class="method-text sr-only">Flies low and slow but can barely carry 3&#8288;–&#8288;7&nbsp;kg and lands within approximately 15&nbsp;minutes. It cannot sustain the power for a heavy payload, so not even one hectare can be mapped.</p>
-          </li>
-          <li class="method reveal">
-            <svg class="sd" viewBox="0 0 320 180" aria-hidden="true">
-              <path class="sd-view" d="M92 48L38 100M92 48L90 100M92 48L142 100M92 48L194 100"/>
-              <path class="sd-canopy" d="M12 114a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0a26 14 0 0 1 52 0Z"/>
-              <path class="sd-trunk" d="M38 114V164M38 136l-10 -9M90 114V164M90 136l10 -9M142 114V164M142 136l-10 -9M194 114V164M194 136l10 -9"/>
-              <path class="sd-ground" d="M4 164H228"/>
-              <path class="sd-hit" d="M38 100h0M90 100h0M142 100h0M194 100h0"/>
-              <path class="sd-speed" d="M4 36H30M10 44H34M4 52H28"/>
-              <g class="sd-craft">
-                <path d="M48 40L42 24H52L62 38Z"/>
-                <ellipse cx="50" cy="44" rx="10" ry="2.2"/>
-                <rect x="44" y="38" width="88" height="10" rx="5"/>
-                <ellipse cx="92" cy="43" rx="30" ry="3"/>
-                <path d="M134 34V52"/>
-              </g>
-              <text class="sd-label" x="148" y="48">Too fast</text>
-              <text class="sd-label" x="242" y="98">Sparse</text>
-              <text class="sd-label" x="242" y="116">returns</text>
-            </svg>
-            <h5>Fixed-wing drone</h5>
-            <p class="method-verdict">Flies too fast</p>
-            <p class="method-text sr-only">Carries 3&#8288;–&#8288;7&nbsp;kg for hours, but flies too fast for dense LiDAR penetration.</p>
-          </li>
-          </ul>
+        <ol class="risks reveal">
+          <li>Inaccurate data</li>
+          <li>Significant financial risk</li>
+          <li>Corporate greenwashing</li>
+        </ol>
+        <div class="methods reveal">
+          <div class="mx">
+            <div class="mx-side">
+            <h4 class="methods-title" id="methods-title">Why current methods fall short</h4>
+            <div class="mx-list" aria-hidden="true">
+              <button type="button" class="mx-tab" id="mx-tab-sat" data-for="mx-sat" tabindex="-1">Satellite</button>
+              <button type="button" class="mx-tab" id="mx-tab-heli" data-for="mx-heli" tabindex="-1">Helicopter</button>
+              <button type="button" class="mx-tab" id="mx-tab-batt" data-for="mx-batt" tabindex="-1">Battery drone</button>
+              <button type="button" class="mx-tab" id="mx-tab-wing" data-for="mx-wing" tabindex="-1">Fixed-wing drone</button>
+              <span class="mx-bar"></span>
+            </div>
+            </div>
+            <div class="mx-stage">
+              <span class="mx-glow" aria-hidden="true"></span>
+              <article class="mx-panel" id="mx-sat">
+                <svg class="sd" viewBox="0 0 360 170" aria-hidden="true"><defs><pattern id="mx-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path class="sd-hatch" d="M0 0V6"/></pattern></defs><path class="sd-cone" d="M134 30L16 96L17 95.8L18 95.5L19 95.2L20 94.8L21 94.3L22 93.7L23 93.1L24 92.5L25 91.9L26 91.4L27 90.9L28 90.7L29 90.5L30 90.6L31 90.8L32 91.2L33 91.7L34 92.2L35 92.8L36 93.3L37 93.9L38 94.3L39 94.6L40 94.9L41 95L42 95.1L43 95.2L44 95.3L45 95.4L46 95.7L47 96L48 96.6L49 97.3L50 98.3L51 99.4L52 100.7L53 102.3L54 104L55 106.1L56 105.3L57 104.1L58 103.2L59 102.5L60 101.9L61 101.4L62 100.9L63 100.5L64 100L65 99.5L66 99L67 98.4L68 97.8L69 97.1L70 96.5L71 95.9L72 95.4L73 94.9L74 94.6L75 94.3L76 94.2L77 94.2L78 94.4L79 94.6L80 94.9L81 95.2L82 95.5L83 95.9L84 96.1L85 96.3L86 96.4L87 96.5L88 96.4L89 96.3L90 96.2L91 96.1L92 95.9L93 95.9L94 95.9L95 96L96 96.3L97 96.6L98 97.1L99 97.7L100 98.4L101 99.2L102 100.1L103 101L104 101.9L105 102.9L106 103.9L107 104.9L108 106.1L109 106L110 104.2L111 102.8L112 101.6L113 100.5L114 99.3L115 98.2L116 97.1L117 96.1L118 95L119 94.1L120 93.2L121 92.5L122 92L123 91.7L124 91.5L125 91.5L126 91.6L127 91.8L128 92L129 92.3L130 92.5L131 92.6L132 92.6L133 92.5L134 92.3L135 92L136 91.6L137 91.3L138 90.9L139 90.6L140 90.4L141 90.4L142 90.6L143 90.9L144 91.4L145 92L146 92.8L147 93.7L148 94.5L149 95.5L150 96.3L151 97.2L152 98L153 98.7L154 99.5L155 100.3L156 101.1L157 102.2L158 103.6L159 105.5L160 105.5L161 104L162 102.7L163 101.5L164 100.4L165 99.4L166 98.6L167 97.8L168 97.3L169 96.8L170 96.5L171 96.3L172 96.3L173 96.2L174 96.2L175 96.3L176 96.2L177 96.2L178 96L179 95.8L180 95.5L181 95.2L182 94.8L183 94.3L184 93.9L185 93.5L186 93.1L187 92.9L188 92.8L189 92.8L190 92.9L191 93.2L192 93.6L193 94L194 94.6L195 95.1L196 95.7L197 96.3L198 96.8L199 97.2L200 97.6L201 97.9L202 98.2L203 98.4L204 98.7L205 99L206 99.3L207 99.8L208 100.4L209 101.1L210 102.1L211 103.2L212 104.7L213 106L214 103.9L215 102.4L216 101.1L217 100.1L218 99.3L219 98.8L220 98.3L221 98L222 97.7L223 97.4L224 97.1L225 96.8L226 96.4L227 95.9L228 95.3L229 94.7L230 94L231 93.4L232 92.8L233 92.3L234 92L235 91.7L236 91.7L237 91.8L238 92.1L239 92.4L240 92.9L241 93.4L242 93.9L243 94.3L244 94.7L245 95L246 95.3L247 95.4L248 95.4L249 95.4Z"/><path class="sd-missed-zone" d="M6 150L6 103.7L7 101.9L8 100.5L9 99.3L10 98.3L11 97.6L12 97.1L13 96.7L14 96.4L15 96.2L16 96L17 95.8L18 95.5L19 95.2L20 94.8L21 94.3L22 93.7L23 93.1L24 92.5L25 91.9L26 91.4L27 90.9L28 90.7L29 90.5L30 90.6L31 90.8L32 91.2L33 91.7L34 92.2L35 92.8L36 93.3L37 93.9L38 94.3L39 94.6L40 94.9L41 95L42 95.1L43 95.2L44 95.3L45 95.4L46 95.7L47 96L48 96.6L49 97.3L50 98.3L51 99.4L52 100.7L53 102.3L54 104L55 106.1L56 105.3L57 104.1L58 103.2L59 102.5L60 101.9L61 101.4L62 100.9L63 100.5L64 100L65 99.5L66 99L67 98.4L68 97.8L69 97.1L70 96.5L71 95.9L72 95.4L73 94.9L74 94.6L75 94.3L76 94.2L77 94.2L78 94.4L79 94.6L80 94.9L81 95.2L82 95.5L83 95.9L84 96.1L85 96.3L86 96.4L87 96.5L88 96.4L89 96.3L90 96.2L91 96.1L92 95.9L93 95.9L94 95.9L95 96L96 96.3L97 96.6L98 97.1L99 97.7L100 98.4L101 99.2L102 100.1L103 101L104 101.9L105 102.9L106 103.9L107 104.9L108 106.1L109 106L110 104.2L111 102.8L112 101.6L113 100.5L114 99.3L115 98.2L116 97.1L117 96.1L118 95L119 94.1L120 93.2L121 92.5L122 92L123 91.7L124 91.5L125 91.5L126 91.6L127 91.8L128 92L129 92.3L130 92.5L131 92.6L132 92.6L133 92.5L134 92.3L135 92L136 91.6L137 91.3L138 90.9L139 90.6L140 90.4L141 90.4L142 90.6L143 90.9L144 91.4L145 92L146 92.8L147 93.7L148 94.5L149 95.5L150 96.3L151 97.2L152 98L153 98.7L154 99.5L155 100.3L156 101.1L157 102.2L158 103.6L159 105.5L160 105.5L161 104L162 102.7L163 101.5L164 100.4L165 99.4L166 98.6L167 97.8L168 97.3L169 96.8L170 96.5L171 96.3L172 96.3L173 96.2L174 96.2L175 96.3L176 96.2L177 96.2L178 96L179 95.8L180 95.5L181 95.2L182 94.8L183 94.3L184 93.9L185 93.5L186 93.1L187 92.9L188 92.8L189 92.8L190 92.9L191 93.2L192 93.6L193 94L194 94.6L195 95.1L196 95.7L197 96.3L198 96.8L199 97.2L200 97.6L201 97.9L202 98.2L203 98.4L204 98.7L205 99L206 99.3L207 99.8L208 100.4L209 101.1L210 102.1L211 103.2L212 104.7L213 106L214 103.9L215 102.4L216 101.1L217 100.1L218 99.3L219 98.8L220 98.3L221 98L222 97.7L223 97.4L224 97.1L225 96.8L226 96.4L227 95.9L228 95.3L229 94.7L230 94L231 93.4L232 92.8L233 92.3L234 92L235 91.7L236 91.7L237 91.8L238 92.1L239 92.4L240 92.9L241 93.4L242 93.9L243 94.3L244 94.7L245 95L246 95.3L247 95.4L248 95.4L249 95.4L250 95.4L251 95.4L252 95.5L253 95.7L254 96.1L255 96.6L256 97.3L257 98.2L258 99.2L259 100.4L260 101.7L261 103.1L262 104.7L262 150Z" fill="url(#mx-hatch)"/><path class="sd-ground" d="M6 150H262"/><path class="sd-tick" d="M12 151.5l-4 5M20 151.5l-4 5M28 151.5l-4 5M36 151.5l-4 5M44 151.5l-4 5M52 151.5l-4 5M60 151.5l-4 5M68 151.5l-4 5M76 151.5l-4 5M84 151.5l-4 5M92 151.5l-4 5M100 151.5l-4 5M108 151.5l-4 5M116 151.5l-4 5M124 151.5l-4 5M132 151.5l-4 5M140 151.5l-4 5M148 151.5l-4 5M156 151.5l-4 5M164 151.5l-4 5M172 151.5l-4 5M180 151.5l-4 5M188 151.5l-4 5M196 151.5l-4 5M204 151.5l-4 5M212 151.5l-4 5M220 151.5l-4 5M228 151.5l-4 5M236 151.5l-4 5M244 151.5l-4 5M252 151.5l-4 5"/><path class="sd-stem" d="M30 150V115"/><path class="sd-branch" d="M30 128l-7 -10M30 122l6 -7M30 134l5 -5"/><path class="sd-crown" d="M3.5 113L5.2 105.4L6.8 102.2L8.5 99.9L10.1 98.2L11.8 97.2L13.4 96.5L15.1 96.1L16.8 95.8L18.4 95.4L20.1 94.8L21.7 93.9L23.4 92.9L25 91.9L26.7 91.1L28.3 90.6L30 90.6L31.7 91L33.3 91.8L35 92.8L36.6 93.7L38.3 94.4L39.9 94.9L41.6 95.1L43.3 95.2L44.9 95.4L46.6 95.9L48.2 96.7L49.9 98.1L51.5 100.1L53.2 102.6L54.8 105.8L56.5 113L54.8 113.4L53.2 113.7L51.5 114L49.9 114.3L48.2 114.6L46.6 114.8L44.9 115.1L43.3 115.3L41.6 115.4L39.9 115.6L38.3 115.7L36.6 115.8L35 115.9L33.3 116L31.7 116L30 116L28.3 116L26.7 116L25 115.9L23.4 115.8L21.7 115.7L20.1 115.6L18.4 115.4L16.8 115.3L15.1 115.1L13.4 114.8L11.8 114.6L10.1 114.3L8.5 114L6.8 113.7L5.2 113.4Z"/><path class="sd-stem" d="M82 150V115"/><path class="sd-branch" d="M82 128l7 -10M82 122l-6 -7M82 134l-5 -5"/><path class="sd-crown" d="M53.5 113L55.3 106.4L57.1 104L58.8 102.6L60.6 101.6L62.4 100.7L64.2 99.9L66 99L67.8 97.9L69.5 96.8L71.3 95.7L73.1 94.9L74.9 94.4L76.7 94.2L78.4 94.5L80.2 95L82 95.5L83.8 96.1L85.6 96.4L87.3 96.5L89.1 96.3L90.9 96.1L92.7 95.9L94.5 95.9L96.3 96.3L98 97.1L99.8 98.3L101.6 99.7L103.4 101.3L105.2 103L106.9 104.9L108.7 107.2L110.5 113L108.7 113.4L106.9 113.7L105.2 114L103.4 114.3L101.6 114.6L99.8 114.8L98 115.1L96.3 115.3L94.5 115.4L92.7 115.6L90.9 115.7L89.1 115.8L87.3 115.9L85.6 116L83.8 116L82 116L80.2 116L78.4 116L76.7 115.9L74.9 115.8L73.1 115.7L71.3 115.6L69.5 115.4L67.8 115.3L66 115.1L64.2 114.8L62.4 114.6L60.6 114.3L58.8 114L57.1 113.7L55.3 113.4Z"/><path class="sd-stem" d="M134 150V115"/><path class="sd-branch" d="M134 128l-7 -10M134 122l6 -7M134 134l5 -5"/><path class="sd-crown" d="M107.5 113L109.2 105.7L110.8 103.1L112.5 101.1L114.1 99.2L115.8 97.4L117.4 95.6L119.1 94L120.8 92.7L122.4 91.8L124.1 91.5L125.7 91.5L127.4 91.8L129 92.3L130.7 92.5L132.3 92.6L134 92.3L135.7 91.8L137.3 91.1L139 90.6L140.6 90.4L142.3 90.6L143.9 91.3L145.6 92.5L147.3 93.9L148.9 95.4L150.6 96.8L152.2 98.1L153.9 99.4L155.5 100.7L157.2 102.4L158.8 105.1L160.5 113L158.8 113.4L157.2 113.7L155.5 114L153.9 114.3L152.2 114.6L150.6 114.8L148.9 115.1L147.3 115.3L145.6 115.4L143.9 115.6L142.3 115.7L140.6 115.8L139 115.9L137.3 116L135.7 116L134 116L132.3 116L130.7 116L129 115.9L127.4 115.8L125.7 115.7L124.1 115.6L122.4 115.4L120.8 115.3L119.1 115.1L117.4 114.8L115.8 114.6L114.1 114.3L112.5 114L110.8 113.7L109.2 113.4Z"/><path class="sd-stem" d="M186 150V115"/><path class="sd-branch" d="M186 128l7 -10M186 122l-6 -7M186 134l-5 -5"/><path class="sd-crown" d="M157.5 113L159.3 106.7L161.1 103.9L162.8 101.7L164.6 99.8L166.4 98.3L168.2 97.2L170 96.5L171.8 96.3L173.5 96.2L175.3 96.3L177.1 96.2L178.9 95.9L180.7 95.3L182.4 94.6L184.2 93.8L186 93.1L187.8 92.8L189.6 92.8L191.3 93.3L193.1 94.1L194.9 95.1L196.7 96.1L198.5 97L200.3 97.7L202 98.2L203.8 98.6L205.6 99.2L207.4 100L209.2 101.2L210.9 103.2L212.7 106L214.5 113L212.7 113.4L210.9 113.7L209.2 114L207.4 114.3L205.6 114.6L203.8 114.8L202 115.1L200.3 115.3L198.5 115.4L196.7 115.6L194.9 115.7L193.1 115.8L191.3 115.9L189.6 116L187.8 116L186 116L184.2 116L182.4 116L180.7 115.9L178.9 115.8L177.1 115.7L175.3 115.6L173.5 115.4L171.8 115.3L170 115.1L168.2 114.8L166.4 114.6L164.6 114.3L162.8 114L161.1 113.7L159.3 113.4Z"/><path class="sd-stem" d="M238 150V115"/><path class="sd-branch" d="M238 128l-7 -10M238 122l6 -7M238 134l5 -5"/><path class="sd-crown" d="M211.5 113L213.2 105.6L214.8 102.6L216.5 100.6L218.1 99.3L219.8 98.4L221.4 97.9L223.1 97.4L224.8 96.9L226.4 96.2L228.1 95.3L229.7 94.2L231.4 93.2L233 92.3L234.7 91.8L236.3 91.7L238 92.1L239.7 92.7L241.3 93.5L243 94.3L244.6 94.9L246.3 95.3L247.9 95.4L249.6 95.4L251.3 95.4L252.9 95.7L254.6 96.4L256.2 97.5L257.9 99L259.5 101L261.2 103.4L262.8 106.3L264.5 113L262.8 113.4L261.2 113.7L259.5 114L257.9 114.3L256.2 114.6L254.6 114.8L252.9 115.1L251.3 115.3L249.6 115.4L247.9 115.6L246.3 115.7L244.6 115.8L243 115.9L241.3 116L239.7 116L238 116L236.3 116L234.7 116L233 115.9L231.4 115.8L229.7 115.7L228.1 115.6L226.4 115.4L224.8 115.3L223.1 115.1L221.4 114.8L219.8 114.6L218.1 114.3L216.5 114L214.8 113.7L213.2 113.4Z"/><path class="sd-seen-top" d="M5.6 104.4L7.7 101L9.7 98.6L11.7 97.2L13.7 96.4L15.8 96L17.8 95.6L19.8 94.9L21.9 93.8L23.9 92.6L25.9 91.4L28 90.7L30 90.6L32 91.2L34.1 92.2L36.1 93.4L38.1 94.3L40.2 94.9L42.2 95.1L44.2 95.3L46.3 95.7L48.3 96.8L50.3 98.6L52.3 101.2L54.4 104.8M55.8 105.6L58 103.2L60.2 101.8L62.3 100.8L64.5 99.8L66.7 98.6L68.9 97.2L71.1 95.9L73.3 94.8L75.4 94.3L77.6 94.3L79.8 94.8L82 95.5L84.2 96.2L86.4 96.4L88.6 96.4L90.7 96.1L92.9 95.9L95.1 96L97.3 96.8L99.5 98L101.7 99.8L103.9 101.8L106 103.9L108.2 106.4M109.6 104.9L111.7 102L113.7 99.7L115.7 97.5L117.7 95.3L119.8 93.4L121.8 92.1L123.8 91.5L125.9 91.5L127.9 92L129.9 92.4L132 92.6L134 92.3L136 91.6L138.1 90.9L140.1 90.4L142.1 90.6L144.2 91.5L146.2 93L148.2 94.8L150.3 96.6L152.3 98.2L154.3 99.7L156.3 101.5L158.4 104.2M159.8 105.8L162 102.7L164.2 100.2L166.3 98.3L168.5 97L170.7 96.4L172.9 96.2L175.1 96.3L177.3 96.1L179.4 95.7L181.6 94.9L183.8 94L186 93.1L188.2 92.8L190.4 93L192.6 93.8L194.7 95L196.9 96.2L199.1 97.3L201.3 98L203.5 98.6L205.7 99.2L207.9 100.3L210 102.1L212.2 105.1M213.6 104.7L215.7 101.5L217.7 99.6L219.7 98.4L221.7 97.8L223.8 97.2L225.8 96.5L227.8 95.4L229.9 94.1L231.9 92.9L233.9 92L236 91.7L238 92.1L240 92.9L242.1 93.9L244.1 94.8L246.1 95.3L248.2 95.4L250.2 95.4L252.2 95.6L254.3 96.2L256.3 97.5L258.3 99.5L260.3 102.2L262.4 105.4"/><path class="sd-dot" d="M8.1 102h0M13.9 97.7h0M19.9 96.6h0M24.7 93.8h0M30 92.1h0M34.9 94.8h0M40.1 96.5h0M46 97.9h0M51 100.8h0M58.8 104.7h0M65 101.4h0M70.6 97.6h0M76 96.4h0M81.3 96.7h0M87.8 98.5h0M92.7 97.6h0M99.7 100h0M104.2 104.1h0M113.4 101.6h0M118.6 95.6h0M123.7 93.7h0M129.3 93.9h0M133.6 94.6h0M139.9 92.5h0M145.3 94.4h0M149.8 97.7h0M155.4 101.8h0M163.8 102.8h0M168.7 99.2h0M173.9 98.2h0M180.9 97.1h0M186.3 94.9h0M192.2 95.4h0M198 99.2h0M203 100.6h0M208.8 102.4h0M216.2 102.2h0M222.5 98.9h0M227.2 97.6h0M232.5 94.3h0M237.5 93.6h0M242.9 96.2h0M248.7 97.7h0M253.4 98.2h0M259.9 103.6h0"/><path class="sd-view" d="M134 30L15.7 96M134 30L249.5 95.4"/><rect class="sd-glass" x="88" y="13" width="34" height="10" rx="1"/><rect class="sd-glass" x="146" y="13" width="34" height="10" rx="1"/><path class="sd-detail" d="M96.5 13V23M105 13V23M113.5 13V23M88 18H122M154.5 13V23M163 13V23M171.5 13V23M146 18H180"/><path class="sd-line" d="M122 18H126M142 18H146M134 11V5"/><path class="sd-detail" d="M130 5Q134 1 138 5"/><rect class="sd-body" x="126" y="11" width="16" height="15" rx="1.5"/><path class="sd-detail" d="M128.5 16H139.5M128.5 20H139.5"/><rect class="sd-body" x="131" y="26" width="6" height="4" rx="1"/><path class="sd-bracket" d="M266 90.6h5v13.4h-5M266 108h5v42h-5"/><text class="sd-label seen" x="278" y="101">Top only</text><text class="sd-label missed" x="278" y="135">Missed</text></svg>
+                <div class="mx-copy">
+                  <h5>Satellite</h5>
+                  <p class="mx-verdict">Sees only the top</p>
+                  <p class="mx-text">Satellites see only the top of the canopy or the surface of the water, not the density of what lies beneath.</p>
+                </div>
+              </article>
+              <article class="mx-panel" id="mx-heli">
+                <svg class="sd" viewBox="0 0 360 170" aria-hidden="true"><path class="sd-ground" d="M6 150H262"/><path class="sd-tick" d="M12 151.5l-4 5M20 151.5l-4 5M28 151.5l-4 5M36 151.5l-4 5M44 151.5l-4 5M52 151.5l-4 5M60 151.5l-4 5M68 151.5l-4 5M76 151.5l-4 5M84 151.5l-4 5M92 151.5l-4 5M100 151.5l-4 5M108 151.5l-4 5M116 151.5l-4 5M124 151.5l-4 5M132 151.5l-4 5M140 151.5l-4 5M148 151.5l-4 5M156 151.5l-4 5M164 151.5l-4 5M172 151.5l-4 5M180 151.5l-4 5M188 151.5l-4 5M196 151.5l-4 5M204 151.5l-4 5M212 151.5l-4 5M220 151.5l-4 5M228 151.5l-4 5M236 151.5l-4 5M244 151.5l-4 5M252 151.5l-4 5"/><path class="sd-stem" d="M30 150V115"/><path class="sd-branch" d="M30 128l-7 -10M30 122l6 -7M30 134l5 -5"/><path class="sd-crown" d="M3.5 113L5.2 105.4L6.8 102.2L8.5 99.9L10.1 98.2L11.8 97.2L13.4 96.5L15.1 96.1L16.8 95.8L18.4 95.4L20.1 94.8L21.7 93.9L23.4 92.9L25 91.9L26.7 91.1L28.3 90.6L30 90.6L31.7 91L33.3 91.8L35 92.8L36.6 93.7L38.3 94.4L39.9 94.9L41.6 95.1L43.3 95.2L44.9 95.4L46.6 95.9L48.2 96.7L49.9 98.1L51.5 100.1L53.2 102.6L54.8 105.8L56.5 113L54.8 113.4L53.2 113.7L51.5 114L49.9 114.3L48.2 114.6L46.6 114.8L44.9 115.1L43.3 115.3L41.6 115.4L39.9 115.6L38.3 115.7L36.6 115.8L35 115.9L33.3 116L31.7 116L30 116L28.3 116L26.7 116L25 115.9L23.4 115.8L21.7 115.7L20.1 115.6L18.4 115.4L16.8 115.3L15.1 115.1L13.4 114.8L11.8 114.6L10.1 114.3L8.5 114L6.8 113.7L5.2 113.4Z"/><path class="sd-stem" d="M82 150V115"/><path class="sd-branch" d="M82 128l7 -10M82 122l-6 -7M82 134l-5 -5"/><path class="sd-crown" d="M53.5 113L55.3 106.4L57.1 104L58.8 102.6L60.6 101.6L62.4 100.7L64.2 99.9L66 99L67.8 97.9L69.5 96.8L71.3 95.7L73.1 94.9L74.9 94.4L76.7 94.2L78.4 94.5L80.2 95L82 95.5L83.8 96.1L85.6 96.4L87.3 96.5L89.1 96.3L90.9 96.1L92.7 95.9L94.5 95.9L96.3 96.3L98 97.1L99.8 98.3L101.6 99.7L103.4 101.3L105.2 103L106.9 104.9L108.7 107.2L110.5 113L108.7 113.4L106.9 113.7L105.2 114L103.4 114.3L101.6 114.6L99.8 114.8L98 115.1L96.3 115.3L94.5 115.4L92.7 115.6L90.9 115.7L89.1 115.8L87.3 115.9L85.6 116L83.8 116L82 116L80.2 116L78.4 116L76.7 115.9L74.9 115.8L73.1 115.7L71.3 115.6L69.5 115.4L67.8 115.3L66 115.1L64.2 114.8L62.4 114.6L60.6 114.3L58.8 114L57.1 113.7L55.3 113.4Z"/><path class="sd-stem" d="M134 150V115"/><path class="sd-branch" d="M134 128l-7 -10M134 122l6 -7M134 134l5 -5"/><path class="sd-crown" d="M107.5 113L109.2 105.7L110.8 103.1L112.5 101.1L114.1 99.2L115.8 97.4L117.4 95.6L119.1 94L120.8 92.7L122.4 91.8L124.1 91.5L125.7 91.5L127.4 91.8L129 92.3L130.7 92.5L132.3 92.6L134 92.3L135.7 91.8L137.3 91.1L139 90.6L140.6 90.4L142.3 90.6L143.9 91.3L145.6 92.5L147.3 93.9L148.9 95.4L150.6 96.8L152.2 98.1L153.9 99.4L155.5 100.7L157.2 102.4L158.8 105.1L160.5 113L158.8 113.4L157.2 113.7L155.5 114L153.9 114.3L152.2 114.6L150.6 114.8L148.9 115.1L147.3 115.3L145.6 115.4L143.9 115.6L142.3 115.7L140.6 115.8L139 115.9L137.3 116L135.7 116L134 116L132.3 116L130.7 116L129 115.9L127.4 115.8L125.7 115.7L124.1 115.6L122.4 115.4L120.8 115.3L119.1 115.1L117.4 114.8L115.8 114.6L114.1 114.3L112.5 114L110.8 113.7L109.2 113.4Z"/><path class="sd-stem" d="M186 150V115"/><path class="sd-branch" d="M186 128l7 -10M186 122l-6 -7M186 134l-5 -5"/><path class="sd-crown" d="M157.5 113L159.3 106.7L161.1 103.9L162.8 101.7L164.6 99.8L166.4 98.3L168.2 97.2L170 96.5L171.8 96.3L173.5 96.2L175.3 96.3L177.1 96.2L178.9 95.9L180.7 95.3L182.4 94.6L184.2 93.8L186 93.1L187.8 92.8L189.6 92.8L191.3 93.3L193.1 94.1L194.9 95.1L196.7 96.1L198.5 97L200.3 97.7L202 98.2L203.8 98.6L205.6 99.2L207.4 100L209.2 101.2L210.9 103.2L212.7 106L214.5 113L212.7 113.4L210.9 113.7L209.2 114L207.4 114.3L205.6 114.6L203.8 114.8L202 115.1L200.3 115.3L198.5 115.4L196.7 115.6L194.9 115.7L193.1 115.8L191.3 115.9L189.6 116L187.8 116L186 116L184.2 116L182.4 116L180.7 115.9L178.9 115.8L177.1 115.7L175.3 115.6L173.5 115.4L171.8 115.3L170 115.1L168.2 114.8L166.4 114.6L164.6 114.3L162.8 114L161.1 113.7L159.3 113.4Z"/><path class="sd-stem" d="M238 150V115"/><path class="sd-branch" d="M238 128l-7 -10M238 122l6 -7M238 134l5 -5"/><path class="sd-crown" d="M211.5 113L213.2 105.6L214.8 102.6L216.5 100.6L218.1 99.3L219.8 98.4L221.4 97.9L223.1 97.4L224.8 96.9L226.4 96.2L228.1 95.3L229.7 94.2L231.4 93.2L233 92.3L234.7 91.8L236.3 91.7L238 92.1L239.7 92.7L241.3 93.5L243 94.3L244.6 94.9L246.3 95.3L247.9 95.4L249.6 95.4L251.3 95.4L252.9 95.7L254.6 96.4L256.2 97.5L257.9 99L259.5 101L261.2 103.4L262.8 106.3L264.5 113L262.8 113.4L261.2 113.7L259.5 114L257.9 114.3L256.2 114.6L254.6 114.8L252.9 115.1L251.3 115.3L249.6 115.4L247.9 115.6L246.3 115.7L244.6 115.8L243 115.9L241.3 116L239.7 116L238 116L236.3 116L234.7 116L233 115.9L231.4 115.8L229.7 115.7L228.1 115.6L226.4 115.4L224.8 115.3L223.1 115.1L221.4 114.8L219.8 114.6L218.1 114.3L216.5 114L214.8 113.7L213.2 113.4Z"/><path class="sd-beam" d="M132 66L108 106.1L109 106L110 104.2L111 102.8L112 101.6L113 100.5L114 99.3L115 98.2L116 97.1L117 96.1L118 95L119 94.1L120 93.2L121 92.5L122 92L123 91.7L124 91.5L125 91.5L126 91.6L127 91.8L128 92L129 92.3L130 92.5L131 92.6L132 92.6L133 92.5L134 92.3L135 92L136 91.6L137 91.3L138 90.9L139 90.6L140 90.4L141 90.4L142 90.6L143 90.9L144 91.4L145 92L146 92.8L147 93.7L148 94.5L149 95.5L150 96.3Z"/><path class="sd-dot" d="M111.9 103.3h0M113.7 100.8h0M115.8 99h0M117.4 97h0M119.9 95.1h0M122 93.4h0M124.2 93.1h0M125.9 93.3h0M129 93.8h0M130.8 93.8h0M133.3 93.9h0M134.6 93.8h0M137.1 92.5h0M139.4 92.6h0M141.4 91.7h0M144.2 93.5h0M146.2 94.3h0M147.8 95.7h0M111.5 108.8h0M114.5 105.6h0M117 103.1h0M121 98.6h0M123.9 98.1h0M126.7 97.7h0M130 99.6h0M133 98.8h0M135.1 98.4h0M138.4 98h0M141.8 97.1h0M144 98.1h0M147.6 101.3h0M134.4 118h0M134.3 123h0M133.7 128h0M134.1 133h0M134.2 138h0M134.3 143h0M110 149h0M116 149h0M122 149h0M128 149h0M134 149h0M140 149h0M146 149h0"/><ellipse class="sd-disc" cx="134" cy="30" rx="64" ry="2.6"/><path class="sd-line" d="M70 30H198"/><rect class="sd-body" x="130" y="27.5" width="8" height="4" rx="1"/><path class="sd-line" d="M134 31.5V38"/><path class="sd-body" d="M158 45L218 41.5V46.5L158 54Z"/><path class="sd-body" d="M213 42L221 26H226.5L224.5 46Z"/><ellipse class="sd-disc" cx="226" cy="35" rx="2.2" ry="9.5"/><circle class="sd-line" cx="226" cy="35" r="1.1"/><rect class="sd-body" x="138" y="33" width="16" height="6" rx="2"/><path class="sd-body" d="M106 54C106 44 116 38 132 38H148C156 38 160 44 160 50V56C160 60 157 62 153 62H114C109 62 106 59 106 54Z"/><path class="sd-glass" d="M110 52C111 45 117 42 126 42H130V52Z"/><path class="sd-detail" d="M136 42V60"/><rect class="sd-detail" x="139.5" y="43" width="13" height="8" rx="1.5"/><path class="sd-line" d="M118 62L114 70M150 62L154 70M104 70H162Q167 70 167 65"/><rect class="sd-body" x="128" y="62" width="8" height="4" rx="1"/><g class="sd-puff"><circle cx="168" cy="30" r="3"/><circle cx="180" cy="23" r="4.5"/><circle cx="195" cy="16" r="6.5"/></g><path class="sd-leader" d="M203 15L273 15M162 52L273 52"/><text class="sd-label" x="278" y="19">Emissions</text><text class="sd-label" x="278" y="56">High cost</text></svg>
+                <div class="mx-copy">
+                  <h5>Helicopter</h5>
+                  <p class="mx-verdict">Too expensive and polluting</p>
+                  <p class="mx-text">Flies low and slow and carries 3&#8288;–&#8288;7&nbsp;kg for hours, but is too expensive and polluting for routine audits.</p>
+                </div>
+              </article>
+              <article class="mx-panel" id="mx-batt">
+                <svg class="sd" viewBox="0 0 360 170" aria-hidden="true"><path class="sd-ground" d="M6 150H262"/><path class="sd-tick" d="M12 151.5l-4 5M20 151.5l-4 5M28 151.5l-4 5M36 151.5l-4 5M44 151.5l-4 5M52 151.5l-4 5M60 151.5l-4 5M68 151.5l-4 5M76 151.5l-4 5M84 151.5l-4 5M92 151.5l-4 5M100 151.5l-4 5M108 151.5l-4 5M116 151.5l-4 5M124 151.5l-4 5M132 151.5l-4 5M140 151.5l-4 5M148 151.5l-4 5M156 151.5l-4 5M164 151.5l-4 5M172 151.5l-4 5M180 151.5l-4 5M188 151.5l-4 5M196 151.5l-4 5M204 151.5l-4 5M212 151.5l-4 5M220 151.5l-4 5M228 151.5l-4 5M236 151.5l-4 5M244 151.5l-4 5M252 151.5l-4 5"/><path class="sd-stem" d="M30 150V115"/><path class="sd-branch" d="M30 128l-7 -10M30 122l6 -7M30 134l5 -5"/><path class="sd-crown" d="M3.5 113L5.2 105.4L6.8 102.2L8.5 99.9L10.1 98.2L11.8 97.2L13.4 96.5L15.1 96.1L16.8 95.8L18.4 95.4L20.1 94.8L21.7 93.9L23.4 92.9L25 91.9L26.7 91.1L28.3 90.6L30 90.6L31.7 91L33.3 91.8L35 92.8L36.6 93.7L38.3 94.4L39.9 94.9L41.6 95.1L43.3 95.2L44.9 95.4L46.6 95.9L48.2 96.7L49.9 98.1L51.5 100.1L53.2 102.6L54.8 105.8L56.5 113L54.8 113.4L53.2 113.7L51.5 114L49.9 114.3L48.2 114.6L46.6 114.8L44.9 115.1L43.3 115.3L41.6 115.4L39.9 115.6L38.3 115.7L36.6 115.8L35 115.9L33.3 116L31.7 116L30 116L28.3 116L26.7 116L25 115.9L23.4 115.8L21.7 115.7L20.1 115.6L18.4 115.4L16.8 115.3L15.1 115.1L13.4 114.8L11.8 114.6L10.1 114.3L8.5 114L6.8 113.7L5.2 113.4Z"/><path class="sd-stem" d="M82 150V115"/><path class="sd-branch" d="M82 128l7 -10M82 122l-6 -7M82 134l-5 -5"/><path class="sd-crown" d="M53.5 113L55.3 106.4L57.1 104L58.8 102.6L60.6 101.6L62.4 100.7L64.2 99.9L66 99L67.8 97.9L69.5 96.8L71.3 95.7L73.1 94.9L74.9 94.4L76.7 94.2L78.4 94.5L80.2 95L82 95.5L83.8 96.1L85.6 96.4L87.3 96.5L89.1 96.3L90.9 96.1L92.7 95.9L94.5 95.9L96.3 96.3L98 97.1L99.8 98.3L101.6 99.7L103.4 101.3L105.2 103L106.9 104.9L108.7 107.2L110.5 113L108.7 113.4L106.9 113.7L105.2 114L103.4 114.3L101.6 114.6L99.8 114.8L98 115.1L96.3 115.3L94.5 115.4L92.7 115.6L90.9 115.7L89.1 115.8L87.3 115.9L85.6 116L83.8 116L82 116L80.2 116L78.4 116L76.7 115.9L74.9 115.8L73.1 115.7L71.3 115.6L69.5 115.4L67.8 115.3L66 115.1L64.2 114.8L62.4 114.6L60.6 114.3L58.8 114L57.1 113.7L55.3 113.4Z"/><path class="sd-stem" d="M134 150V115"/><path class="sd-branch" d="M134 128l-7 -10M134 122l6 -7M134 134l5 -5"/><path class="sd-crown" d="M107.5 113L109.2 105.7L110.8 103.1L112.5 101.1L114.1 99.2L115.8 97.4L117.4 95.6L119.1 94L120.8 92.7L122.4 91.8L124.1 91.5L125.7 91.5L127.4 91.8L129 92.3L130.7 92.5L132.3 92.6L134 92.3L135.7 91.8L137.3 91.1L139 90.6L140.6 90.4L142.3 90.6L143.9 91.3L145.6 92.5L147.3 93.9L148.9 95.4L150.6 96.8L152.2 98.1L153.9 99.4L155.5 100.7L157.2 102.4L158.8 105.1L160.5 113L158.8 113.4L157.2 113.7L155.5 114L153.9 114.3L152.2 114.6L150.6 114.8L148.9 115.1L147.3 115.3L145.6 115.4L143.9 115.6L142.3 115.7L140.6 115.8L139 115.9L137.3 116L135.7 116L134 116L132.3 116L130.7 116L129 115.9L127.4 115.8L125.7 115.7L124.1 115.6L122.4 115.4L120.8 115.3L119.1 115.1L117.4 114.8L115.8 114.6L114.1 114.3L112.5 114L110.8 113.7L109.2 113.4Z"/><path class="sd-stem" d="M186 150V115"/><path class="sd-branch" d="M186 128l7 -10M186 122l-6 -7M186 134l-5 -5"/><path class="sd-crown" d="M157.5 113L159.3 106.7L161.1 103.9L162.8 101.7L164.6 99.8L166.4 98.3L168.2 97.2L170 96.5L171.8 96.3L173.5 96.2L175.3 96.3L177.1 96.2L178.9 95.9L180.7 95.3L182.4 94.6L184.2 93.8L186 93.1L187.8 92.8L189.6 92.8L191.3 93.3L193.1 94.1L194.9 95.1L196.7 96.1L198.5 97L200.3 97.7L202 98.2L203.8 98.6L205.6 99.2L207.4 100L209.2 101.2L210.9 103.2L212.7 106L214.5 113L212.7 113.4L210.9 113.7L209.2 114L207.4 114.3L205.6 114.6L203.8 114.8L202 115.1L200.3 115.3L198.5 115.4L196.7 115.6L194.9 115.7L193.1 115.8L191.3 115.9L189.6 116L187.8 116L186 116L184.2 116L182.4 116L180.7 115.9L178.9 115.8L177.1 115.7L175.3 115.6L173.5 115.4L171.8 115.3L170 115.1L168.2 114.8L166.4 114.6L164.6 114.3L162.8 114L161.1 113.7L159.3 113.4Z"/><path class="sd-stem" d="M238 150V115"/><path class="sd-branch" d="M238 128l-7 -10M238 122l6 -7M238 134l5 -5"/><path class="sd-crown" d="M211.5 113L213.2 105.6L214.8 102.6L216.5 100.6L218.1 99.3L219.8 98.4L221.4 97.9L223.1 97.4L224.8 96.9L226.4 96.2L228.1 95.3L229.7 94.2L231.4 93.2L233 92.3L234.7 91.8L236.3 91.7L238 92.1L239.7 92.7L241.3 93.5L243 94.3L244.6 94.9L246.3 95.3L247.9 95.4L249.6 95.4L251.3 95.4L252.9 95.7L254.6 96.4L256.2 97.5L257.9 99L259.5 101L261.2 103.4L262.8 106.3L264.5 113L262.8 113.4L261.2 113.7L259.5 114L257.9 114.3L256.2 114.6L254.6 114.8L252.9 115.1L251.3 115.3L249.6 115.4L247.9 115.6L246.3 115.7L244.6 115.8L243 115.9L241.3 116L239.7 116L238 116L236.3 116L234.7 116L233 115.9L231.4 115.8L229.7 115.7L228.1 115.6L226.4 115.4L224.8 115.3L223.1 115.1L221.4 114.8L219.8 114.6L218.1 114.3L216.5 114L214.8 113.7L213.2 113.4Z"/><path class="sd-path" d="M104 44C172 42 230 80 244 147"/><ellipse class="sd-landing" cx="244" cy="150" rx="11" ry="2.6"/><circle class="sd-line" cx="262" cy="127" r="5.5"/><path class="sd-detail" d="M262 124V127.5L264.5 129"/><path class="sd-line" d="M40 40H100"/><ellipse class="sd-disc" cx="40" cy="32.5" rx="15" ry="1.8"/><ellipse class="sd-disc" cx="100" cy="32.5" rx="15" ry="1.8"/><rect class="sd-body" x="36" y="34" width="8" height="6" rx="1"/><rect class="sd-body" x="96" y="34" width="8" height="6" rx="1"/><path class="sd-line" d="M40 34V32.5M100 34V32.5"/><rect class="sd-line" x="59" y="22" width="20" height="9" rx="1.5"/><rect class="sd-line" x="79" y="24.5" width="2" height="4" rx="0.5"/><rect class="sd-level" x="61" y="24" width="3.5" height="5" rx="0.5"/><rect class="sd-body" x="58" y="36" width="24" height="10" rx="3"/><path class="sd-detail" d="M62 41H78"/><path class="sd-line" d="M62 46L58 54H63M78 46L82 54H77"/><path class="sd-line" d="M70 46V58"/><rect class="sd-glass" x="56" y="58" width="28" height="18" rx="2"/><path class="sd-detail" d="M56 64H84M62 58V76M78 58V76"/><circle class="sd-detail" cx="70" cy="70" r="2.6"/><path class="sd-detail" d="M48 60V72M45 69L48 72L51 69M92 60V72M89 69L92 72L95 69"/><text class="sd-label" x="100" y="71">Payload limit</text><text class="sd-label" x="272" y="131">≈ 15&nbsp;min</text></svg>
+                <div class="mx-copy">
+                  <h5>Battery drone</h5>
+                  <p class="mx-verdict">Lands within about 15&nbsp;minutes</p>
+                  <p class="mx-text">Flies low and slow but can barely carry 3&#8288;–&#8288;7&nbsp;kg and lands within approximately 15&nbsp;minutes. It cannot sustain the power for a heavy payload, so not even one hectare can be mapped.</p>
+                </div>
+              </article>
+              <article class="mx-panel" id="mx-wing">
+                <svg class="sd" viewBox="0 0 360 170" aria-hidden="true"><path class="sd-ground" d="M6 150H262"/><path class="sd-tick" d="M12 151.5l-4 5M20 151.5l-4 5M28 151.5l-4 5M36 151.5l-4 5M44 151.5l-4 5M52 151.5l-4 5M60 151.5l-4 5M68 151.5l-4 5M76 151.5l-4 5M84 151.5l-4 5M92 151.5l-4 5M100 151.5l-4 5M108 151.5l-4 5M116 151.5l-4 5M124 151.5l-4 5M132 151.5l-4 5M140 151.5l-4 5M148 151.5l-4 5M156 151.5l-4 5M164 151.5l-4 5M172 151.5l-4 5M180 151.5l-4 5M188 151.5l-4 5M196 151.5l-4 5M204 151.5l-4 5M212 151.5l-4 5M220 151.5l-4 5M228 151.5l-4 5M236 151.5l-4 5M244 151.5l-4 5M252 151.5l-4 5"/><path class="sd-stem" d="M30 150V115"/><path class="sd-branch" d="M30 128l-7 -10M30 122l6 -7M30 134l5 -5"/><path class="sd-crown" d="M3.5 113L5.2 105.4L6.8 102.2L8.5 99.9L10.1 98.2L11.8 97.2L13.4 96.5L15.1 96.1L16.8 95.8L18.4 95.4L20.1 94.8L21.7 93.9L23.4 92.9L25 91.9L26.7 91.1L28.3 90.6L30 90.6L31.7 91L33.3 91.8L35 92.8L36.6 93.7L38.3 94.4L39.9 94.9L41.6 95.1L43.3 95.2L44.9 95.4L46.6 95.9L48.2 96.7L49.9 98.1L51.5 100.1L53.2 102.6L54.8 105.8L56.5 113L54.8 113.4L53.2 113.7L51.5 114L49.9 114.3L48.2 114.6L46.6 114.8L44.9 115.1L43.3 115.3L41.6 115.4L39.9 115.6L38.3 115.7L36.6 115.8L35 115.9L33.3 116L31.7 116L30 116L28.3 116L26.7 116L25 115.9L23.4 115.8L21.7 115.7L20.1 115.6L18.4 115.4L16.8 115.3L15.1 115.1L13.4 114.8L11.8 114.6L10.1 114.3L8.5 114L6.8 113.7L5.2 113.4Z"/><path class="sd-stem" d="M82 150V115"/><path class="sd-branch" d="M82 128l7 -10M82 122l-6 -7M82 134l-5 -5"/><path class="sd-crown" d="M53.5 113L55.3 106.4L57.1 104L58.8 102.6L60.6 101.6L62.4 100.7L64.2 99.9L66 99L67.8 97.9L69.5 96.8L71.3 95.7L73.1 94.9L74.9 94.4L76.7 94.2L78.4 94.5L80.2 95L82 95.5L83.8 96.1L85.6 96.4L87.3 96.5L89.1 96.3L90.9 96.1L92.7 95.9L94.5 95.9L96.3 96.3L98 97.1L99.8 98.3L101.6 99.7L103.4 101.3L105.2 103L106.9 104.9L108.7 107.2L110.5 113L108.7 113.4L106.9 113.7L105.2 114L103.4 114.3L101.6 114.6L99.8 114.8L98 115.1L96.3 115.3L94.5 115.4L92.7 115.6L90.9 115.7L89.1 115.8L87.3 115.9L85.6 116L83.8 116L82 116L80.2 116L78.4 116L76.7 115.9L74.9 115.8L73.1 115.7L71.3 115.6L69.5 115.4L67.8 115.3L66 115.1L64.2 114.8L62.4 114.6L60.6 114.3L58.8 114L57.1 113.7L55.3 113.4Z"/><path class="sd-stem" d="M134 150V115"/><path class="sd-branch" d="M134 128l-7 -10M134 122l6 -7M134 134l5 -5"/><path class="sd-crown" d="M107.5 113L109.2 105.7L110.8 103.1L112.5 101.1L114.1 99.2L115.8 97.4L117.4 95.6L119.1 94L120.8 92.7L122.4 91.8L124.1 91.5L125.7 91.5L127.4 91.8L129 92.3L130.7 92.5L132.3 92.6L134 92.3L135.7 91.8L137.3 91.1L139 90.6L140.6 90.4L142.3 90.6L143.9 91.3L145.6 92.5L147.3 93.9L148.9 95.4L150.6 96.8L152.2 98.1L153.9 99.4L155.5 100.7L157.2 102.4L158.8 105.1L160.5 113L158.8 113.4L157.2 113.7L155.5 114L153.9 114.3L152.2 114.6L150.6 114.8L148.9 115.1L147.3 115.3L145.6 115.4L143.9 115.6L142.3 115.7L140.6 115.8L139 115.9L137.3 116L135.7 116L134 116L132.3 116L130.7 116L129 115.9L127.4 115.8L125.7 115.7L124.1 115.6L122.4 115.4L120.8 115.3L119.1 115.1L117.4 114.8L115.8 114.6L114.1 114.3L112.5 114L110.8 113.7L109.2 113.4Z"/><path class="sd-stem" d="M186 150V115"/><path class="sd-branch" d="M186 128l7 -10M186 122l-6 -7M186 134l-5 -5"/><path class="sd-crown" d="M157.5 113L159.3 106.7L161.1 103.9L162.8 101.7L164.6 99.8L166.4 98.3L168.2 97.2L170 96.5L171.8 96.3L173.5 96.2L175.3 96.3L177.1 96.2L178.9 95.9L180.7 95.3L182.4 94.6L184.2 93.8L186 93.1L187.8 92.8L189.6 92.8L191.3 93.3L193.1 94.1L194.9 95.1L196.7 96.1L198.5 97L200.3 97.7L202 98.2L203.8 98.6L205.6 99.2L207.4 100L209.2 101.2L210.9 103.2L212.7 106L214.5 113L212.7 113.4L210.9 113.7L209.2 114L207.4 114.3L205.6 114.6L203.8 114.8L202 115.1L200.3 115.3L198.5 115.4L196.7 115.6L194.9 115.7L193.1 115.8L191.3 115.9L189.6 116L187.8 116L186 116L184.2 116L182.4 116L180.7 115.9L178.9 115.8L177.1 115.7L175.3 115.6L173.5 115.4L171.8 115.3L170 115.1L168.2 114.8L166.4 114.6L164.6 114.3L162.8 114L161.1 113.7L159.3 113.4Z"/><path class="sd-stem" d="M238 150V115"/><path class="sd-branch" d="M238 128l-7 -10M238 122l6 -7M238 134l5 -5"/><path class="sd-crown" d="M211.5 113L213.2 105.6L214.8 102.6L216.5 100.6L218.1 99.3L219.8 98.4L221.4 97.9L223.1 97.4L224.8 96.9L226.4 96.2L228.1 95.3L229.7 94.2L231.4 93.2L233 92.3L234.7 91.8L236.3 91.7L238 92.1L239.7 92.7L241.3 93.5L243 94.3L244.6 94.9L246.3 95.3L247.9 95.4L249.6 95.4L251.3 95.4L252.9 95.7L254.6 96.4L256.2 97.5L257.9 99L259.5 101L261.2 103.4L262.8 106.3L264.5 113L262.8 113.4L261.2 113.7L259.5 114L257.9 114.3L256.2 114.6L254.6 114.8L252.9 115.1L251.3 115.3L249.6 115.4L247.9 115.6L246.3 115.7L244.6 115.8L243 115.9L241.3 116L239.7 116L238 116L236.3 116L234.7 116L233 115.9L231.4 115.8L229.7 115.7L228.1 115.6L226.4 115.4L224.8 115.3L223.1 115.1L221.4 114.8L219.8 114.6L218.1 114.3L216.5 114L214.8 113.7L213.2 113.4Z"/><path class="sd-view" d="M118 51L49.9 98.2M118 51L91.4 96M118 51L169.1 96.9M118 51L216.4 101"/><path class="sd-dot" d="M49.9 99.4h0M53.6 104.7h0M91.4 97.2h0M169.1 98h0M173.5 97.6h0M216.4 101.9h0"/><path class="sd-speed" d="M8 32H40M14 42H46M8 52H38"/><path class="sd-body" d="M62 37L56 20H66L77 37Z"/><ellipse class="sd-body" cx="64" cy="42" rx="11" ry="2"/><path class="sd-body" d="M58 37H150C160 37 168 39 172 42C168 45 160 47 150 47H62C58 47 56 45 56 42C56 39 57 37 58 37Z"/><rect class="sd-glass" x="136" y="38.5" width="14" height="4" rx="2"/><ellipse class="sd-body" cx="108" cy="43" rx="34" ry="3.2"/><path class="sd-detail" d="M82 43H96"/><rect class="sd-body" x="114" y="47" width="8" height="4" rx="1"/><path class="sd-body" d="M172 42L177 40V44Z"/><ellipse class="sd-disc" cx="178" cy="42" rx="1.6" ry="12"/><path class="sd-leader" d="M182 30L273 24M221.4 101L273 101"/><text class="sd-label" x="278" y="28">Too fast</text><text class="sd-label" x="278" y="105">Sparse</text><text class="sd-label" x="278" y="117">returns</text></svg>
+                <div class="mx-copy">
+                  <h5>Fixed-wing drone</h5>
+                  <p class="mx-verdict">Flies too fast</p>
+                  <p class="mx-text">Carries 3&#8288;–&#8288;7&nbsp;kg for hours, but flies too fast for dense LiDAR penetration.</p>
+                </div>
+              </article>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="story-block solution reveal">
         <div class="solution-text-col">
-          <h3 class="block-head"><span class="block-label">The solution</span>The hydrogen hexacopter.</h3>
+          <h3 class="block-head"><span class="block-label">The Solution</span>The hydrogen hexacopter.</h3>
           <p class="solution-text">A hydrogen hexacopter would carry a LiDAR sensor low and slow over forests and coastlines for hours. Its fuel cell would provide the endurance and lifting capacity this requires, making frequent carbon audits accurate to the centimetre affordable. The carbon offset market would gain a new standard of verified data.</p>
         </div>
         <figure class="solution-fig">
@@ -612,150 +568,17 @@ try {
           <ul class="sol-legend" aria-hidden="true"><li>Hours of endurance</li><li>LiDAR sensor</li><li>Centimetre accuracy</li></ul>
           <figcaption>Illustration · the planned hydrogen hexacopter and its targets. It would map thousands of hectares per campaign.</figcaption>
         </figure>
+      </div>
+
+      <div class="next-page reveal">
         <p class="solution-bridge">The drivetrain that would power it is being developed in the Kingfisher Project.</p>
-      </div>
-
-      <p class="next-page reveal"><a class="next-link" href="/drivetrain"><span>Explore the Kingfisher Project</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></p>
-    </div>
-  </section>
-
-  <!--
-  <section id="roadmap" class="section">
-    <div class="wrap">
-      <header class="section-head reveal">
-        <p class="eyebrow">Roadmap</p>
-        <h2>Where we are.</h2>
-        <p>Five phases from paper to a 7–8 hour hydrogen flight, updated as we go.</p>
-      </header>
-      <ol class="roadmap reveal">
-        <li class="phase done">
-          <p class="phase-num">Phase 01</p>
-          <h3>Research</h3>
-          <p>Fuel cells, hydrogen storage, safety and drivetrain architecture.</p>
-          <span class="status">Done</span>
-        </li>
-        <li class="phase now">
-          <p class="phase-num">Phase 02</p>
-          <h3>Testbed</h3>
-          <p>A battery-powered testbed drone to learn flight control, telemetry and tuning.</p>
-          <span class="status">In progress</span>
-        </li>
-        <li class="phase">
-          <p class="phase-num">Phase 03</p>
-          <h3>Bench test</h3>
-          <p>Fuel cell and buffer battery on the bench. Hybrid control logic in MATLAB first, then in hardware.</p>
-          <span class="status">Next</span>
-        </li>
-        <li class="phase">
-          <p class="phase-num">Phase 04</p>
-          <h3>Integration</h3>
-          <p>Drivetrain module in the airframe: thermal routing, packaging and safety systems.</p>
-          <span class="status">Planned</span>
-        </li>
-        <li class="phase goal">
-          <p class="phase-num">Phase 05</p>
-          <h3>Full endurance</h3>
-          <p>7 to 8 hours in the air on hydrogen, under 25 kg.</p>
-          <span class="status">Goal</span>
-        </li>
-      </ol>
-    </div>
-  </section>
-  -->
-
-  <!--
-  <section id="partner" class="section">
-    <div class="wrap">
-      <header class="section-head reveal">
-        <p class="eyebrow">Partners</p>
-        <h2>Be our first partner.</h2>
-        <p>Partners who join this early shape the project from the first bolt.</p>
-      </header>
-      <div class="supported reveal">
-        <p class="card-title">Supported by</p>
-        <div class="supported-row">
-          <span class="supporter">TU/e innovation Space</span>
-        </div>
-      </div>
-      <div class="partner-grid">
-        <div class="card reveal">
-          <p class="card-title">What we need</p>
-          <ul class="list need">
-            <li>PEM fuel cell or bare stack</li>
-            <li>Type IV high-pressure hydrogen cylinders</li>
-            <li>Hydrogen supply and a safe place to test</li>
-            <li>Funding for parts, tooling and certification</li>
-            <li>Mentoring from people who've done this before</li>
-          </ul>
-        </div>
-        <div class="card reveal">
-          <p class="card-title">What you get</p>
-          <ul class="list give">
-            <li>Your logo on our drone, website and events</li>
-            <li>Direct access to motivated TU/e engineering students</li>
-            <li>Test data and reports from our hydrogen drivetrain</li>
-            <li>Content and visibility from every milestone</li>
-            <li>A seat at the table for our first hydrogen flight</li>
-          </ul>
-        </div>
-      </div>
-      <div class="cta on-dark reveal">
-        <div>
-          <h3>Want to be first?</h3>
-          <p>Tell us how you'd like to help, and we'll put together a proposal that fits.</p>
-        </div>
-        <a href="mailto:contact@teamargo.eu?subject=Partnering%20with%20Argo" class="btn">Become a partner →</a>
+        <p><a class="next-link" href="/drivetrain"><span>Explore the Kingfisher Project</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></p>
       </div>
     </div>
   </section>
-  -->
-
-  <!--
-  <section id="join" class="section">
-    <div class="wrap">
-      <header class="section-head reveal">
-        <p class="eyebrow">Join Argo</p>
-        <h2>Build a hydrogen drone with us.</h2>
-        <p>Any TU/e student is welcome, with or without hydrogen or drone experience.</p>
-      </header>
-      <ul class="roles reveal">
-        <li>
-          <span class="role-num">01</span>
-          <h3>Hydrogen &amp; fuel cell</h3>
-          <p>Tanks, pressure regulation, fuel-cell integration and safety.</p>
-        </li>
-        <li>
-          <span class="role-num">02</span>
-          <h3>Power electronics &amp; control</h3>
-          <p>DC/DC converter, battery management and hybrid control logic in MATLAB.</p>
-        </li>
-        <li>
-          <span class="role-num">03</span>
-          <h3>Structure &amp; thermal</h3>
-          <p>CAD in Siemens NX, 3D-printed mounts, packaging and cooling.</p>
-        </li>
-        <li>
-          <span class="role-num">04</span>
-          <h3>Flight systems &amp; software</h3>
-          <p>Flight controller, telemetry and testbed flights.</p>
-        </li>
-        <li>
-          <span class="role-num">05</span>
-          <h3>Business &amp; partnerships</h3>
-          <p>Sponsors, events, social media and the story behind Argo.</p>
-        </li>
-      </ul>
-      <div class="join-cta reveal">
-        <button type="button" class="btn" aria-describedby="join-soon">Apply to join</button>
-        <p id="join-soon" class="soon">Application form opens soon.</p>
-      </div>
-    </div>
-  </section>
-  -->
 
   <section id="contact" class="section band contact curtain">
-    <div class="bg-deco motif-rings" aria-hidden="true"><span class="glow g1"></span><span class="glow g2"></span><span class="motif"></span></div>
-    <div class="horizon" aria-hidden="true"></div>
+    <div class="contact-light" aria-hidden="true"></div>
     <div class="wrap">
       <header class="section-head reveal">
         <p class="eyebrow">Contact</p>
@@ -763,9 +586,9 @@ try {
         <p>Questions and offers of support reach the whole team at a single address.</p>
       </header>
       <ul class="channels reveal">
-        <li><a class="channel" href="mailto:contact@teamargo.eu"><span class="channel-name">Email</span><span class="channel-value">contact@teamargo.eu</span><svg class="channel-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19L19 5M8 5h11v11"/></svg></a></li>
-        <li><div class="channel is-soon"><span class="channel-name">LinkedIn</span><span class="channel-value">Coming soon</span></div></li>
-        <li><div class="channel is-soon"><span class="channel-name">Instagram</span><span class="channel-value">Coming soon</span></div></li>
+        <li><a class="channel" href="mailto:contact@teamargo.eu"><span class="channel-name"><svg class="channel-logo channel-logo-line channel-logo-send" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 2.5L10.6 13.4M21.5 2.5l-6.8 19-4.1-8.1-8.1-4.1z"/></svg>Email</span><span class="channel-value">contact@teamargo.eu</span><svg class="channel-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19L19 5M8 5h11v11"/></svg></a></li>
+        <li><a class="channel" href="https://www.linkedin.com/company/team-argo/about/" target="_blank" rel="noopener"><span class="channel-name"><svg class="channel-logo channel-logo-line" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="2.75" width="18.5" height="18.5" rx="3.25"/><circle class="dot" cx="7.75" cy="7.9" r="1.15"/><path stroke-linecap="round" stroke-linejoin="round" d="M7.75 10.9v6.25M11.25 10.9v6.25M11.25 13.75c0-1.75 1.1-2.85 2.5-2.85s2.5 1.1 2.5 2.85v3.4"/></svg>LinkedIn</span><span class="channel-value">Team Argo</span><span class="sr-only"> (opens in a new tab)</span><svg class="channel-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19L19 5M8 5h11v11"/></svg></a></li>
+        <li><a class="channel" href="https://www.instagram.com/argodrones/" target="_blank" rel="noopener"><span class="channel-name"><svg class="channel-logo channel-logo-line" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.75" y="2.75" width="18.5" height="18.5" rx="5.25"/><circle cx="12" cy="12" r="4.25"/><circle class="dot" cx="17.4" cy="6.6" r="1.15"/></svg>Instagram</span><span class="channel-value">@argodrones</span><span class="sr-only"> (opens in a new tab)</span><svg class="channel-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19L19 5M8 5h11v11"/></svg></a></li>
       </ul>
     </div>
   </section>
@@ -776,8 +599,8 @@ try {
   <div class="wrap">
     <div class="footer-bar">
       <div class="footer-text">
-        <p>Discovery Team · TU/e innovation Space · Est. 2026</p>
-        <p>© <span id="year">2026</span> Argo · <a href="mailto:contact@teamargo.eu">contact@teamargo.eu</a></p>
+        <p>Discovery Team ·&nbsp;TU/e innovation Space&nbsp;·&nbsp;Est.&nbsp;2026</p>
+        <p>© <span id="year">2026</span> Argo</p>
       </div>
       <svg class="footer-wordmark" viewBox="8.5 8 670.5 161.5" role="img" aria-label="Argo"><path fill-rule="evenodd" d="M8.5 164.5L116.5 8L209 161.5L209 20.5L286.5 20.5C317 20.5 337 38 337.5 67.5C338.5 91 321.5 110 299 118L338.5 164L297 164L244.5 98L275 98C291.5 98 304 86.5 304 71.5C304 58.5 293.5 50 278.5 50L243 50L243 164L171 164L115 69.5L50.5 164.5ZM496.5 50L469 67.5C460 54 447 47 430 47C403.5 47 379 69 378.5 96C378.5 121 398.5 139.5 424.5 139.5C444.5 139.5 462 127.5 468.5 111L423.5 111L423.5 85L504.5 85C506 109.5 498 129.5 483.5 144.5C468.5 160.5 449 169.5 427 169.5C381.5 169.5 344.5 137.5 344.5 96C344.5 52.5 382 14.5 428 14.5C458 14.5 483.5 27.5 496.5 50ZM679 92C679 136 642.5 169.5 596.5 169.5C550 169.5 512.5 136.5 512.5 93.5C512.5 50 550 14.5 595.5 14.5C642.5 14.5 679 48 679 92ZM643.5 92.5C643.5 66.5 623 46 596 46C569 46 547 66.5 547 93.5C547 120 569 139.5 596.5 139.5C623.5 139.5 643.5 118.5 643.5 92.5Z"/></svg>
     </div>

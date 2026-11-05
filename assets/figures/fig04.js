@@ -805,7 +805,8 @@ for (const h of svg.querySelectorAll(".fc-hit")) {
 picks.forEach((p, i) => {
   p.addEventListener("pointerenter", (e) => { if (mouse(e)) select(p.dataset.pick); });
   p.addEventListener("click", () => select(selected === p.dataset.pick && narrow.matches ? null : p.dataset.pick));
-  p.addEventListener("focus", () => select(p.dataset.pick));
+  // a tap also focuses the row; only keyboard focus selects, or the tap's click would toggle it straight off again on phones
+  p.addEventListener("focus", () => { if (p.matches(":focus-visible")) select(p.dataset.pick); });
   p.addEventListener("keydown", (e) => {
     if (e.key === "ArrowDown" || e.key === "ArrowRight") { e.preventDefault(); picks[(i + 1) % picks.length].focus(); }
     if (e.key === "ArrowUp" || e.key === "ArrowLeft") { e.preventDefault(); picks[(i - 1 + picks.length) % picks.length].focus(); }
