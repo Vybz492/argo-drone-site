@@ -927,11 +927,13 @@ if (motion) {
   const fig01 = document.getElementById('fig01');
   if (fig01) {
     const bp = fig01.querySelector('.bp');
+    // clearProps: once drawn, the rings and the planned parts drop the scale the entrance left on them; inside the drawing's
+    // 3D context any transformed part was its own GPU layer (six 136px ring layers, repainted as the section came on screen)
     const draw = gsap.timeline({ defaults: { ease: 'expo.out' }, scrollTrigger: { trigger: fig01, start: 'top 75%', once: true } });
     draw
-      .from(bp.querySelectorAll('.rotor-disc'), { scale: 0.3, opacity: 0, transformOrigin: '50% 50%', duration: 1.2, stagger: 0.05 }, 0)
+      .from(bp.querySelectorAll('.rotor-disc'), { scale: 0.3, opacity: 0, transformOrigin: '50% 50%', duration: 1.2, stagger: 0.05, clearProps: 'transform' }, 0)
       .from(bp.querySelectorAll(':scope > g:not(.discs):not(.planned):not(.tb-block)'), { opacity: 0, duration: 0.9, stagger: 0.04 }, 0.15)
-      .from(bp.querySelector('.planned'), { opacity: 0, scale: 0.85, transformOrigin: '50% 50%', duration: 1 }, 0.7)
+      .from(bp.querySelector('.planned'), { opacity: 0, scale: 0.85, transformOrigin: '50% 50%', duration: 1, clearProps: 'transform' }, 0.7)
       .from(bp.querySelectorAll('text, .tb-block, .legend, .cdot'), { opacity: 0, duration: 0.8, stagger: 0.03 }, 0.8);
     bp.querySelectorAll('.cline').forEach((line) => {
       const len = line.getTotalLength();

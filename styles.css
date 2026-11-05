@@ -316,7 +316,11 @@ html.pre .hero [data-in] { opacity: 0; }
    with its reflection on the floor below, and the vision line sits in a cool haze. */
 .mission { padding: 136px 0 112px; background: linear-gradient(180deg, var(--ink) 0%, #07111A 34%, #081520 66%, var(--ink) 100%); }
 /* the light fades in over the first 120px, so the section starts on the hero's own dark edge, without a seam */
-.mission-light {
+/* The two soft lights live on ::before, so the fade-in mask is painted with them instead of masking the whole scene
+   as a separate full-section GPU layer (the pool inside the scene is composited, so a mask on the scene cost one).
+   The pool and the bridge oval come after it: the pool's top lies outside its own fade anyway. */
+.mission-light::before {
+  inset: 0;
   -webkit-mask-image: linear-gradient(transparent, #000 120px);
   mask-image: linear-gradient(transparent, #000 120px);
   background:
@@ -331,8 +335,10 @@ html.pre .hero [data-in] { opacity: 0; }
   background: radial-gradient(closest-side, rgba(2, 151, 222, 0.2), rgba(2, 151, 222, 0.07) 55%, rgba(2, 151, 222, 0)); }
 .mission-light .bridge-glow { bottom: -258px; }
 #advantage > .bridge-glow { top: -282px; }
-/* the pool itself: GSAP brightens and widens it a little as the drawing arrives */
-.mission-light .pool { position: absolute; left: 44%; top: 2%; width: 52%; height: 96%; border-radius: 50%; background: radial-gradient(closest-side, rgba(2, 151, 222, 0.3), rgba(2, 151, 222, 0.1) 52%, transparent 100%); }
+/* the pool itself: GSAP brightens and widens it a little as the drawing arrives. Its own layer from the start
+   (will-change): a scale written by script on an ordinary layer makes Chrome repaint it at every new size, which it did
+   on every scroll frame while Our Mission came on screen (measured: 80-140 tiles a pass; now none) */
+.mission-light .pool { will-change: transform, opacity; position: absolute; left: 44%; top: 2%; width: 52%; height: 96%; border-radius: 50%; background: radial-gradient(closest-side, rgba(2, 151, 222, 0.3), rgba(2, 151, 222, 0.1) 52%, transparent 100%); }
 .mission-grid { display: grid; grid-template-columns: var(--grid); column-gap: var(--gutter); align-items: center; }
 .mission-text { grid-column: 1 / span 5; }
 .mission-grid > #fig01 { grid-column: 6 / -1; }
