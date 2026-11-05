@@ -1080,7 +1080,7 @@ html:not(.js) .xp-row h3 { color: var(--frost); }
   .mobile-menu:not([hidden]) { position: fixed; inset: 68px 0 0; display: block; overflow-y: auto; overscroll-behavior: contain; padding: 16px 0 40px; background: var(--ink); }
   .mobile-menu .wrap { display: grid; align-content: start; }
   .mobile-menu a:not(.btn) { display: flex; align-items: center; min-height: 64px; color: var(--mist); text-decoration: none; font-size: 1.75rem; font-weight: 700; letter-spacing: -0.025em; box-shadow: inset 0 -1px 0 var(--line); }
-  .mobile-menu a[aria-current="page"] { color: var(--frost); text-decoration: underline; text-decoration-color: var(--orange); text-decoration-thickness: 3px; text-underline-offset: 0.3em; }
+  .mobile-menu a[aria-current="page"] { color: var(--frost); text-decoration: underline; text-decoration-color: var(--frost); text-decoration-thickness: 3px; text-underline-offset: 0.3em; }
   .mobile-menu .mobile-cta { display: inline-flex; justify-self: start; margin-top: 32px; min-height: 52px; padding: 0 24px; font-size: 1rem; }
   html.menu-open { overflow: hidden; }
 
@@ -1122,6 +1122,8 @@ html:not(.js) .xp-row h3 { color: var(--frost); }
 
   /* lighter effects on small screens: plain tinted glass instead of live blur (it re-blurs on every scroll frame) */
   .sim-figure, .solution-fig, .market, .channel, .tile { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  /* the bar too: a blur on it would make it the box the fixed menu sheet is sized to, so the sheet would open 56px tall */
+  .nav.scrolled { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--ink); }
   .sim-figure, .solution-fig, .market, .channel { background: linear-gradient(160deg, rgba(238, 242, 245, 0.07), rgba(238, 242, 245, 0) 45%), rgba(14, 20, 25, 0.82); }
   .tile:not(.has-glass .tile) { background: linear-gradient(160deg, rgba(238, 242, 245, 0.075), rgba(238, 242, 245, 0.01) 42%, rgba(238, 242, 245, 0) 60%), rgba(14, 20, 25, 0.72); }
 }
