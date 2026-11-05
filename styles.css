@@ -835,11 +835,13 @@ html:not(.js) .mx-stage { grid-template-columns: repeat(2, minmax(0, 1fr)); gap:
 /* link band: the main page hands over to /drivetrain */
 .next-page { margin-top: 136px; padding: 24px 0; text-align: center; }
 .next-link { position: relative; display: inline-flex; align-items: baseline; gap: 0.22em; font-size: var(--fs-h2); font-weight: 700; line-height: 1.1; letter-spacing: -0.035em; color: var(--frost); text-decoration: none; }
-/* the underline is the action colour, the same at rest, on hover and on focus; the arrow carries the hover */
-.next-link span { background: linear-gradient(var(--orange), var(--orange)) 0 100% / 100% 3px no-repeat; padding-bottom: 0.08em; }
+/* the underline is the action colour; on hover, keyboard focus or a press a lighter orange line draws across over it */
+.next-link span { background: linear-gradient(var(--orange-hi), var(--orange-hi)) 0 100% / 0% 3px no-repeat, linear-gradient(var(--orange), var(--orange)) 0 100% / 100% 3px no-repeat; padding-bottom: 0.08em; transition: background-size 0.3s var(--ease-out); }
 .next-link svg { display: inline-block; width: 0.62em; height: 0.62em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.3s var(--ease-out); }
 .next-link:active { transform: scale(0.99); }
+.next-link:focus-visible span, .next-link:active span { background-size: 100% 3px, 100% 3px; }
 @media (hover: hover) and (pointer: fine) {
+  .next-link:hover span { background-size: 100% 3px, 100% 3px; }
   .next-link:hover svg { transform: translateX(8px); }
 }
 
