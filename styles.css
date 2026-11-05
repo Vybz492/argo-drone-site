@@ -136,7 +136,7 @@ h1, h2, h3, h4, h5 { margin: 0; font-weight: 700; line-height: 1.1; letter-spaci
 .btn svg { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.25s var(--ease-out); }
 
 /* The one orange thing: the main action. It is lit like a lamp: a warm top edge, its own light cast below,
-   a highlight that follows the pointer, and a glint that runs along the border now and then (never over the label). */
+   a highlight that follows the pointer, and a glint that runs once along the border after load (never over the label). */
 .btn-primary {
   --bx: 50%;
   isolation: isolate;
@@ -170,7 +170,7 @@ h1, h2, h3, h4, h5 { margin: 0; font-weight: 700; line-height: 1.1; letter-spaci
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
-  animation: glint 7s var(--ease-in-out) 2.4s infinite;
+  animation: glint 7s var(--ease-in-out) 2.4s 1;
 }
 @keyframes glint { 0% { background-position: 110% 0; } 26%, 100% { background-position: -10% 0; } }
 .btn-primary:active {
@@ -835,11 +835,11 @@ html:not(.js) .mx-stage { grid-template-columns: repeat(2, minmax(0, 1fr)); gap:
 /* link band: the main page hands over to /drivetrain */
 .next-page { margin-top: 136px; padding: 24px 0; text-align: center; }
 .next-link { position: relative; display: inline-flex; align-items: baseline; gap: 0.22em; font-size: var(--fs-h2); font-weight: 700; line-height: 1.1; letter-spacing: -0.035em; color: var(--frost); text-decoration: none; }
-.next-link span { background: linear-gradient(var(--frost), var(--frost)) 0 100% / 0% 3px no-repeat, linear-gradient(var(--stroke), var(--stroke)) 0 100% / 100% 3px no-repeat; padding-bottom: 0.08em; transition: background-size 0.3s var(--ease-out); }
+/* the underline is the action colour, the same at rest, on hover and on focus; the arrow carries the hover */
+.next-link span { background: linear-gradient(var(--orange), var(--orange)) 0 100% / 100% 3px no-repeat; padding-bottom: 0.08em; }
 .next-link svg { display: inline-block; width: 0.62em; height: 0.62em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.3s var(--ease-out); }
 .next-link:active { transform: scale(0.99); }
 @media (hover: hover) and (pointer: fine) {
-  .next-link:hover span { background-size: 100% 3px, 100% 3px; }
   .next-link:hover svg { transform: translateX(8px); }
 }
 
@@ -1178,6 +1178,11 @@ html:not(.js) .xp-row h3 { color: var(--frost); }
   .sim-legend { gap: 8px 16px; margin-bottom: 14px; padding-inline: 4px; font-size: 0.875rem; }
   .sim-tick { font-size: 26px; }
   .sim-axis-title { font-size: 26px; }
+  /* the axis titles sit about 8px further out than the tick numbers (16 units at this scale): the chart moves
+     8px in from the left to make room, and the bottom gets the same 8px (a margin, so the pointer maths stays exact) */
+  .sim-chart { width: calc(100% - 8px); margin: 0 0 8px 8px; }
+  .sim-axis-title[x] { transform: translate(0, 16px); }
+  .sim-axis-title[transform] { transform: translate(6px, 190px) rotate(-90deg); }
   .sim-label { font-size: 28px; }
   .sim-note { font-size: 26px; }
   .sim-chart text[y="368"] { display: none; }
