@@ -936,6 +936,14 @@ a.channel:active { transform: scale(0.98); }
 #drivetrain :where(.tb-fig, .fc) { font: 14px/1.6 var(--anatomy-mono); font-feature-settings: normal; color: var(--anatomy-text); -webkit-font-smoothing: antialiased; }
 /* "Take it apart" and the phone rows scroll into view clear of the fixed nav */
 #drivetrain figure.fc, #drivetrain .tb-row { scroll-margin-top: 92px; }
+/* keyboard focus inside the figures: the site's focus ring (Frost, 2px, 3px offset) instead of their faint 1px dashes.
+   Keyboard only (:focus-visible), so at rest and with mouse or touch the figures look and behave exactly as built.
+   Fig. 03's component boxes are SVG shapes, so their ring is a solid Frost stroke of the same weight. */
+#drivetrain .tb-fig :is(.tb-pick, .tb-z-btns button):focus-visible,
+#drivetrain .fc :is(.fc-btn, .fc-pick):focus-visible { outline: 2px solid var(--frost); outline-offset: 3px; }
+/* "Take it apart" sits flush against Fig. 04's specification line at 1280px, so its ring runs just inside its border */
+#drivetrain .fc .fc-btn:focus-visible { outline-offset: -5px; }
+#drivetrain .tb-fig .tb-hit:focus-visible { stroke: var(--frost); stroke-width: 2px; stroke-dasharray: none; vector-effect: non-scaling-stroke; }
 
 /* Future project: the fixed-wing VTOL. Scene: the route ahead, at night. A deep blue field rises behind the five
    use cases, a cool desk light falls on the text; both fade in from the top and out at the bottom. */
@@ -959,9 +967,11 @@ a.channel:active { transform: scale(0.98); }
 /* The five use cases as a hover-expand list. One row is open at a time (the first at the start): its name in Frost and
    its drawing across the whole row under the name. The other rows fall back (Slate names, a fainter surface). script.js
    opens a row on hover, focus or click with a spring; the list keeps one fixed height, the height of the text beside it,
-   so nothing below it moves. The surfaces are a tint without a live blur, because the rows change size. */
-.xp { --xp-closed: 52px; --xp-open: 228px; --xp-gap: 8px; display: flex; flex-direction: column; gap: var(--xp-gap); margin: 0; padding: 0; list-style: none; }
-.js .xp { height: calc(4 * var(--xp-closed) + var(--xp-open) + 4 * var(--xp-gap)); }
+   so nothing below it moves. The surfaces are a tint without a live blur, because the rows change size.
+   With text enlarged, script.js raises a row's --xp-closed to fit its name (wrapped onto more lines if need be) and the
+   list grows with it; at normal settings every row keeps 52px and the list its fixed height. */
+.xp { --xp-closed: 52px; --xp-art: 176px; --xp-gap: 8px; display: flex; flex-direction: column; gap: var(--xp-gap); margin: 0; padding: 0; list-style: none; }
+.js .xp { min-height: calc(5 * var(--xp-closed) + var(--xp-art) + 4 * var(--xp-gap)); }
 .xp-row {
   position: relative;
   flex: none;
@@ -974,13 +984,15 @@ a.channel:active { transform: scale(0.98); }
   transition: background-color 0.3s ease, box-shadow 0.3s var(--ease-out);
 }
 .js .xp-row { height: var(--xp-closed); }
-.js .xp-row.is-open { height: var(--xp-open); }
+.js .xp-row.is-open { height: calc(var(--xp-closed) + var(--xp-art)); }
 .xp-row.is-open { background: linear-gradient(160deg, rgba(238, 242, 245, 0.07), rgba(238, 242, 245, 0.01) 42%, rgba(238, 242, 245, 0) 60%), rgba(14, 20, 25, 0.62); box-shadow: var(--glass-rim); }
-.xp-row h3 { font-size: 1.375rem; line-height: 24px; letter-spacing: -0.02em; color: var(--slate); transition: color 0.2s ease; }
+.xp-row h3 { font-size: 1.375rem; line-height: 1.5rem; letter-spacing: -0.02em; color: var(--slate); transition: color 0.2s ease; }
 .xp-row.is-open h3 { color: var(--frost); }
-.xp-row:focus-visible { outline-offset: 3px; }
+/* the name is the keyboard stop (a button with its open state, for screen readers); the focus ring stays on the whole row */
+.xp-name:focus-visible { outline: none; }
+.xp-row:has(.xp-name:focus-visible) { outline: 2px solid var(--frost); outline-offset: 3px; }
 /* the drawing fills the open row under the name, centred, as large as the row allows (the drawings are 3:1) */
-.xp-art { position: absolute; left: 22px; right: 22px; top: var(--xp-closed); height: calc(var(--xp-open) - var(--xp-closed) - 12px); opacity: 0; transition: opacity 0.15s ease; }
+.xp-art { position: absolute; left: 22px; right: 22px; top: var(--xp-closed); height: calc(var(--xp-art) - 12px); opacity: 0; transition: opacity 0.15s ease; }
 .xp-row.is-open .xp-art { opacity: 1; transition: opacity 0.35s ease 0.08s; }
 /* the drawings: the method drawings' line language, simpler. Frost outlines, Mist detail and wires, Stroke for the
    faintest lines, a hatched ground, and a dashed Slate ring for what is inspected. No blue: nothing here is hydrogen. */
@@ -1263,6 +1275,7 @@ html:not(.js) .xp-row h3 { color: var(--frost); }
   /* the use cases: each row as tall as its name; the open one adds its drawing under the name (script.js springs the heights) */
   .xp { --xp-flow: 1; }
   .js .xp, .js .xp-row, .js .xp-row.is-open { height: auto; }
+  .js .xp { min-height: 0; }
   .xp-row { padding: 14px 18px 16px; }
   .xp-row h3 { font-size: 1.1875rem; line-height: 1.3; }
   .js .xp-art { position: relative; left: auto; right: auto; top: auto; display: none; height: auto; margin-top: 12px; aspect-ratio: 3 / 1; opacity: 1; }

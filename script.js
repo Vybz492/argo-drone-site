@@ -259,9 +259,26 @@ if (methods) {
 // VTOL use cases (drivetrain page): a hover-expand list. One row is open at a time; hovering, focusing or clicking a row
 // opens it with a spring and closes the one before, revealing its drawing. The rows are one tab stop: the arrow keys,
 // Home and End move between them. Reduced motion (or no GSAP): the rows change at once.
+// Screen readers: each name is a button with its open state (aria-expanded); the heading stays a heading.
 const useList = document.querySelector('.xp');
 if (useList) {
   const rows = [...useList.querySelectorAll('.xp-row')];
+  const names = rows.map((row) => row.querySelector('.xp-name'));
+  names.forEach((name) => name.setAttribute('role', 'button'));
+  // enlarged text: a closed row grows to fit its name, wrapped onto more lines if need be. At normal settings every
+  // name fits the 52px row and nothing is set; phones (--xp-flow) size every row by its name anyway
+  const fit = () => {
+    const ls = getComputedStyle(useList);
+    const base = parseFloat(ls.getPropertyValue('--xp-closed'));
+    const flow = ls.getPropertyValue('--xp-flow').trim() === '1';
+    rows.forEach((row) => {
+      const cs = getComputedStyle(row);
+      const h = Math.ceil(row.querySelector('h3').offsetHeight + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom));
+      row.style.setProperty('--xp-closed', !flow && h > base ? `${h}px` : '');
+    });
+  };
+  const ro = new ResizeObserver(fit);
+  rows.forEach((row) => ro.observe(row.querySelector('h3')));
   // a damped spring (damping 0.72, about 4% overshoot), settled by the end of the tween; GSAP takes any t -> value function
   const spring = (t) => {
     if (t >= 1) return 1;
@@ -281,28 +298,32 @@ if (useList) {
       open = i;
       rows.forEach((row, j) => {
         row.classList.toggle('is-open', j === i);
-        row.tabIndex = j === i ? 0 : -1;
+        names[j].tabIndex = j === i ? 0 : -1;
+        names[j].setAttribute('aria-expanded', String(j === i));
       });
       const natural = flow && animate ? rows.map((row) => { row.style.height = 'auto'; return row.offsetHeight; }) : [];
       rows.forEach((row, j) => {
         const on = j === i;
         if (!animate) return;
         row.style.height = `${from[j]}px`;
-        const to = flow ? natural[j] : parseFloat(getComputedStyle(useList).getPropertyValue(on ? '--xp-open' : '--xp-closed'));
+        const closed = parseFloat(getComputedStyle(row).getPropertyValue('--xp-closed'));
+        const to = flow ? natural[j] : closed + (on ? parseFloat(getComputedStyle(useList).getPropertyValue('--xp-art')) : 0);
         window.gsap.to(row, { height: to, duration: 0.7, ease: spring, overwrite: true, clearProps: 'height' });
       });
     }
-    if (focus) rows[i].focus();
+    if (focus) names[i].focus();
   };
   rows.forEach((row, i) => {
     row.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') choose(i); });
     row.addEventListener('click', () => choose(i));
-    row.addEventListener('focus', () => choose(i));
+    names[i].addEventListener('focus', () => choose(i));
   });
   useList.addEventListener('keydown', (e) => {
     const n = rows.length;
     let i;
-    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') i = Math.min(n - 1, open + 1);
+    // Enter and Space press the focused name's button (already open), and must not scroll the page
+    if (e.key === 'Enter' || e.key === ' ') i = open;
+    else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') i = Math.min(n - 1, open + 1);
     else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') i = Math.max(0, open - 1);
     else if (e.key === 'Home') i = 0;
     else if (e.key === 'End') i = n - 1;
