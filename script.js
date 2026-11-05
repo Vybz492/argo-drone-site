@@ -1,6 +1,8 @@
 const root = document.documentElement;
 const reduceQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 const reduceMotion = reduceQuery.matches;
+// set before first paint on the main page: the visitor came from another page of the site, so the hero shows finished
+const returning = root.classList.contains('returning');
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 // Heavy motion needs both libraries; without them (or with reduced motion) the page stays fully readable.
 const motion = !reduceMotion && 'gsap' in window && 'ScrollTrigger' in window;
@@ -42,8 +44,11 @@ if (toggle && menu) {
   };
   toggle.addEventListener('click', () => setMenu(menu.hidden));
   menu.addEventListener('click', (e) => {
-    if (e.target.closest('a')) setMenu(false);
+    const link = e.target.closest('a');
+    // a link to another page leaves the sheet open, so it fades away with the old page; it closes as the page is left
+    if (link && link.pathname === location.pathname) setMenu(false);
   });
+  window.addEventListener('pagehide', () => { if (!menu.hidden) setMenu(false); });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !menu.hidden) {
       setMenu(false);
@@ -579,7 +584,7 @@ if (pano) {
 const hero = document.getElementById('hero');
 const heroLight = (() => {
   const canvas = hero && hero.querySelector('.hero-light');
-  const state = { intro: reduceMotion ? 1 : 0, draw: () => {} };
+  const state = { intro: reduceMotion || returning ? 1 : 0, draw: () => {} };
   if (!canvas) return state;
   let gl = null;
   try {
@@ -971,8 +976,9 @@ document.addEventListener('click', (e) => {
 });
 
 // Hero entrance: the beam ignites and opens, then the words rise in. The page is complete without GSAP.
+// Coming back from another page of the site, it does not replay: the hero is already finished (the else branch).
 const heroWords = hero ? hero.querySelectorAll('[data-in]') : [];
-if ('gsap' in window && hero) {
+if ('gsap' in window && hero && !returning) {
   const { gsap } = window;
   if (reduceMotion) {
     // calm: one still frame of light, the words fade in briefly, nothing travels

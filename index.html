@@ -28,8 +28,17 @@
 <link rel="stylesheet" href="styles.css">
 <script>
 // Before first paint: the hero words wait for their entrance; a failsafe shows them after 2s whatever happens.
-document.documentElement.classList.add('js', 'pre');
-setTimeout(function () { document.documentElement.classList.remove('pre'); }, 2000);
+// Coming back from another page of the site (by a link or Back) after the entrance was seen in this tab, the hero shows
+// finished at once; a first arrival, a fresh visit or a reload plays the entrance.
+(function () {
+  var entry = window.performance && performance.getEntriesByType ? performance.getEntriesByType('navigation')[0] : null;
+  var type = entry ? entry.type : '';
+  var seen = false;
+  try { seen = sessionStorage.getItem('argo-hero-seen') === '1'; sessionStorage.setItem('argo-hero-seen', '1'); } catch (e) {}
+  var returning = seen && (type === 'back_forward' || (type === 'navigate' && document.referrer.indexOf(location.origin + '/') === 0));
+  document.documentElement.classList.add('js', returning ? 'returning' : 'pre');
+  if (!returning) setTimeout(function () { document.documentElement.classList.remove('pre'); }, 2000);
+})();
 </script>
 </head>
 <body>
