@@ -154,7 +154,7 @@ if (moreBtn && tiles) {
 
 // Light under the pointer: on the glass tiles and on the main action
 if (finePointer) {
-  document.querySelectorAll('.tile').forEach((tile) => {
+  document.querySelectorAll('.tile, .use').forEach((tile) => {
     tile.addEventListener('pointermove', (e) => {
       const r = tile.getBoundingClientRect();
       tile.style.setProperty('--mx', `${(((e.clientX - r.left) / r.width) * 100).toFixed(1)}%`);
@@ -823,8 +823,8 @@ if (motion) {
   const { gsap, ScrollTrigger } = window;
   gsap.registerPlugin(ScrollTrigger);
 
-  // the hero words drift up a little as the page scrolls away from them
-  gsap.to('.hero-stage', { yPercent: -8, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  // the hero words drift up a little as the page scrolls away from them (pages without a hero skip it)
+  if (hero) gsap.to('.hero-stage', { yPercent: -8, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
 
   // Fig. 01 draws itself as it arrives: rotor rings, frame, then the planned parts settle with the tank glowing
   const fig01 = document.getElementById('fig01');
