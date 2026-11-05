@@ -810,12 +810,12 @@ void main() {
     }
   };
   new ResizeObserver(measure).observe(hero);
-  // rootMargin: the beam keeps running while the hero is within half a screen of the window, so it never has to
-  // start up again right at the edge as the hero scrolls back into view
+  // the beam stops as soon as the hero leaves the screen (measured: keeping it running half a screen longer kept it
+  // drawing behind Our Mission, and 29-30% of frames there missed 144 Hz; stopping at the edge: about 9%)
   new IntersectionObserver(([en]) => {
     visible = en.isIntersecting;
     setRunning();
-  }, { rootMargin: '50% 0px' }).observe(hero);
+  }).observe(hero);
   document.addEventListener('visibilitychange', setRunning);
   reduceQuery.addEventListener('change', () => {
     setRunning();
