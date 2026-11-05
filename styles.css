@@ -319,7 +319,7 @@ html.gl-grain:not(.no-gl) .hero::before, html.gl-grain:not(.no-gl) .hero::after 
 }
 .hero h1 .ln-h2::selection { -webkit-text-fill-color: var(--ink); }
 @media (prefers-reduced-motion: reduce) {
-  .hero h1 .ln-h2 { background-image: linear-gradient(180deg, #D9E8F2 0.110em, #D9E8F2 0.184em, #D6E7F1 0.258em, #CDE3F0 0.333em, #BDDCED 0.407em, #A4D0E9 0.481em, #82C1E3 0.555em, #5BAFDC 0.629em, #329DD4 0.704em, #108DCF 0.778em, #0287CC 0.852em); }
+  .hero h1 .ln-h2 { background-image: linear-gradient(180deg, #D9E8F2 0.110em, #D9E8F2 0.184em, #D6E7F1 0.258em, #CDE3F0 0.333em, #BDDCED 0.407em, #A4D0E9 0.481em, #82C1E3 0.555em, #5BAFDC 0.629em, #329DD4 0.704em, #108DCF 0.778em, #0287CC 0.852em); background-size: 100% 100%; background-position: 0 0; }
 }
 @media (prefers-contrast: more), (forced-colors: active) {
   .hero h1 .ln-h2 { background: none; -webkit-text-fill-color: currentColor; color: var(--frost); }
@@ -992,7 +992,7 @@ a.channel:active { transform: scale(0.98); }
 .vtol-text p + p { margin-top: 16px; }
 .uses-figure { margin: 0; }
 /* The five use cases as a hover-expand list. One row is open at a time (the first at the start): its name in Frost and
-   its drawing across the whole row under the name. The other rows fall back (Slate names, a fainter surface). script.js
+   its drawing across the whole row under the name. The other rows fall back (Mist names, a fainter surface). script.js
    opens a row on hover, focus or click with a spring; the list keeps one fixed height, the height of the text beside it,
    so nothing below it moves. The surfaces are a tint without a live blur, because the rows change size.
    With text enlarged, script.js raises a row's --xp-closed to fit its name (wrapped onto more lines if need be) and the
@@ -1013,7 +1013,8 @@ a.channel:active { transform: scale(0.98); }
 .js .xp-row { height: var(--xp-closed); }
 .js .xp-row.is-open { height: calc(var(--xp-closed) + var(--xp-art)); }
 .xp-row.is-open { background: linear-gradient(160deg, rgba(238, 242, 245, 0.07), rgba(238, 242, 245, 0.01) 42%, rgba(238, 242, 245, 0) 60%), rgba(14, 20, 25, 0.62); box-shadow: var(--glass-rim); }
-.xp-row h3 { font-size: 1.375rem; line-height: 1.5rem; letter-spacing: -0.02em; color: var(--slate); transition: color 0.2s ease; }
+/* closed names in Mist: readable, not disabled-looking, still a clear step below the open row's Frost name on its lit surface */
+.xp-row h3 { font-size: 1.375rem; line-height: 1.5rem; letter-spacing: -0.02em; color: var(--mist); transition: color 0.2s ease; }
 .xp-row.is-open h3 { color: var(--frost); }
 /* the name is the keyboard stop (a button with its open state, for screen readers); the focus ring stays on the whole row */
 .xp-name:focus-visible { outline: none; }
@@ -1320,7 +1321,7 @@ html:not(.js) .xp-row h3 { color: var(--frost); }
 
 /* ---------- Preferences ---------- */
 
-@media (prefers-contrast: more) { :root { --mist: #EEF2F5; --slate: #C9D1D7; } }
+@media (prefers-contrast: more) { :root { --mist: #EEF2F5; --slate: #C9D1D7; } .xp-row h3 { color: var(--slate); } }
 /* Windows high contrast (forced colours): the system recolours text but not SVG paint, so the contact marks and arrows
    take the link colour of their card and the footer wordmark the system text colour; otherwise they stay Frost and
    vanish on a light high-contrast theme */
