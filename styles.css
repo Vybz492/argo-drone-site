@@ -871,6 +871,8 @@ html:not(.js) .mx-stage { grid-template-columns: repeat(2, minmax(0, 1fr)); gap:
 .channel-logo { flex: none; width: 20px; height: 20px; fill: var(--frost); }
 .channel-logo-line { fill: none; stroke: var(--frost); stroke-width: 1.8; }
 .channel-logo-line .dot { fill: var(--frost); stroke: none; }
+/* Email: a plain paper plane in the same line style (a generic send mark, not any app's logo) */
+.channel-logo-send { stroke-linecap: round; stroke-linejoin: round; }
 .channel-value { margin-top: auto; font-size: var(--fs-intro); font-weight: 700; line-height: 1.2; letter-spacing: -0.025em; overflow-wrap: anywhere; color: var(--frost); }
 /* every card is a way to reach the team, so each arrow carries the action colour */
 .channel-arrow { position: absolute; top: 28px; right: 28px; width: 22px; height: 22px; fill: none; stroke: var(--orange); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.3s var(--ease-out); }
