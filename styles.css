@@ -248,6 +248,13 @@ h1, h2, h3, h4, h5 { margin: 0; font-weight: 700; line-height: 1.1; letter-spaci
 .menu-toggle { display: none; }
 .mobile-menu { display: none; }
 @media (hover: hover) { .nav-links a:hover { color: var(--frost); } }
+/* hover and keyboard focus on the wordmark and the page links: a thin Frost line draws in under them from left to right,
+   the Kingfisher link's gesture in Frost (these are not the action). The wordmark itself never changes; its line keeps
+   the clear space of half its height. The current-page dot stays under the line. */
+.nav-links a::before, .brand::before { content: ""; position: absolute; left: 6px; right: 6px; bottom: 8.5px; height: 1.5px; background: var(--frost); transform: scaleX(0); transform-origin: 0 50%; transition: transform 0.3s var(--ease-out); pointer-events: none; }
+.brand::before { left: 0; right: 0; bottom: -6.5px; }
+@media (hover: hover) { .nav-links a:hover::before, .brand:hover::before { transform: none; } }
+.nav-links a:focus-visible::before, .brand:focus-visible::before { transform: none; }
 
 /* ---------- Sections ---------- */
 
@@ -327,8 +334,11 @@ html.gl-grain:not(.no-gl) .hero::before, html.gl-grain:not(.no-gl) .hero::after 
 .intro { max-width: 40ch; margin-top: 32px; font-size: var(--fs-intro); font-weight: 300; line-height: 1.42; letter-spacing: -0.01em; color: var(--frost); }
 /* local legibility in the light, so the light itself can stay unbroken */
 .hero .intro { max-width: 56ch; text-wrap: balance; text-shadow: 0 0 22px rgba(6, 10, 13, 0.8), 0 1px 3px rgba(6, 10, 13, 0.65); }
-.intro a { text-decoration-color: rgba(238, 242, 245, 0.45); transition: text-decoration-color 0.2s ease; }
-@media (hover: hover) { .intro a:hover { text-decoration-color: var(--frost); } }
+/* hover and keyboard focus: a Frost line draws in over the faint underline from left to right, as on the Kingfisher link
+   (across both lines when the link wraps). The 1.5px padding puts the drawn line on the underline's own place. */
+.intro a { padding-bottom: 1.5px; text-decoration-color: rgba(238, 242, 245, 0.45); background: linear-gradient(var(--frost), var(--frost)) 0 100% / 0% 1.5px no-repeat; transition: background-size 0.3s var(--ease-out); }
+@media (hover: hover) { .intro a:hover { background-size: 100% 1.5px; } }
+.intro a:focus-visible { background-size: 100% 1.5px; }
 html.pre .hero [data-in] { opacity: 0; }
 
 /* a quiet scroll cue: one thin line, a short light travelling down it */
@@ -749,6 +759,11 @@ html:not(.js) .more-btn { display: none; }
 }
 .mx-tab[aria-selected="true"] { color: var(--frost); }
 .mx-tab:focus-visible { outline-offset: 6px; }
+/* hover and keyboard focus: the same Frost line as the links draws in under the name (hovering also chooses it) */
+.mx-tab { position: relative; }
+.mx-tab::after { content: ""; position: absolute; left: 0; right: 0; bottom: 4px; height: 2px; background: var(--frost); transform: scaleX(0); transform-origin: 0 50%; transition: transform 0.3s var(--ease-out); pointer-events: none; }
+.mx-tab:focus-visible::after { transform: none; }
+@media (hover: hover) and (pointer: fine) { .mx-tab:hover::after { transform: none; } }
 /* one Frost bar slides beside the chosen method */
 .mx-bar { position: absolute; left: -22px; top: 0; width: 3px; height: 0; border-radius: 2px; background: var(--frost); box-shadow: 0 0 12px rgba(238, 242, 245, 0.45); transition: transform 0.28s var(--ease-out), height 0.28s var(--ease-out); }
 @media (hover: hover) and (pointer: fine) { .mx-tab:hover { color: var(--mist); } .mx-tab[aria-selected="true"]:hover { color: var(--frost); } }
@@ -1345,7 +1360,7 @@ html:not(.js) .xp-row h3 { color: var(--frost); }
   .js .reveal { transform: none !important; transition: opacity 0.3s linear !important; transition-delay: 0s !important; }
   .js .reveal .scan, .js .adv-hub .hub-lines { transition: none !important; clip-path: none !important; }
   .more, .more > div, .more p, .af-tree, .pano-panel, .pano-panel > div, #pano-fade rect, .pc-handle, .pc-chip, .more-btn .chev, .sim-data summary::after { transition: none !important; }
-  .btn, .btn svg, .tile, .channel, .channel::before, .channel-arrow, .next-link span, .next-link svg, .mx-tab, .mx-bar, .mx-glow { transition: none !important; }
+  .btn, .btn svg, .tile, .channel, .channel::before, .channel-arrow, .next-link span, .next-link svg, .mx-tab, .mx-bar, .mx-glow, .intro a, .nav-links a::before, .brand::before, .mx-tab::after { transition: none !important; }
   .js .mx-panel { transform: none !important; transition: opacity 0.15s linear, visibility 0s !important; }
   .btn:active, .btn-glass:active, .pc-chip:active, a.channel:active, .next-link:active { transform: none !important; }
   .tile:hover, .channel:hover { transform: none !important; }
