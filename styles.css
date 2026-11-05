@@ -9,6 +9,26 @@
   font-style: normal;
   font-display: swap;
 }
+/* Fig. 03 and Fig. 04's own typefaces, self-hosted (Latin characters only, as Google Fonts served them; licences
+   in assets/fonts/OFL-*.txt). Only the drivetrain page uses them, so only it downloads them. */
+@font-face {
+  font-family: "Martian Mono";
+  src: url("assets/fonts/MartianMono-Latin.woff2") format("woff2");
+  font-weight: 400 500;
+  font-style: normal;
+  font-stretch: 100%;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("assets/fonts/BricolageGrotesque-Latin.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-stretch: 100%;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 :root {
   /* brand (locked) */
@@ -170,9 +190,11 @@ h1, h2, h3, h4, h5 { margin: 0; font-weight: 700; line-height: 1.1; letter-spaci
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
-  animation: glint 7s var(--ease-in-out) 2.4s 1;
+  /* the sweep only: it ends where the highlight leaves the border, so nothing keeps animating afterwards
+     (it ran 7s with the movement in the first 26%, which kept the button repainting for 5s more) */
+  animation: glint 1.82s var(--ease-in-out) 2.4s 1;
 }
-@keyframes glint { 0% { background-position: 110% 0; } 26%, 100% { background-position: -10% 0; } }
+@keyframes glint { 0% { background-position: 110% 0; } 100% { background-position: -10% 0; } }
 .btn-primary:active {
   transform: scale(0.97);
   box-shadow:
@@ -916,6 +938,11 @@ a.channel:active { transform: scale(0.98); }
 .dt-head > .section-head { grid-column: 1 / span 8; max-width: none; margin-bottom: 0; }
 /* the page's h1, set as the home page's section headings */
 .section-head h1 { margin: 24px 0; font-size: var(--fs-h2); line-height: 1.04; letter-spacing: -0.032em; }
+/* 404 page (404.html): one plain Ink section that fills the screen under the bar, then the footer */
+.not-found { display: flex; align-items: center; min-height: 100svh; }
+.not-found > .wrap { width: 100%; }
+.not-found .section-head { margin-bottom: 40px; }
+.not-found-links { display: flex; flex-wrap: wrap; gap: 12px; }
 .dt-head h1 { max-width: 15em; }
 /* the drone's emblem, exactly as drawn: rotated 180° (beak down) on the Ink ground, with hydrogen light behind it */
 .emblem { position: relative; grid-column: 10 / -1; justify-self: center; margin: 0; }
