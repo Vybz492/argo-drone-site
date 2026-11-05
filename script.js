@@ -599,7 +599,7 @@ const heroLight = (() => {
   const CELL = lite ? '9.0' : '6.0';
   const frag = `precision highp float;
 uniform vec2 uRes; uniform float uTime; uniform float uIntro; uniform vec2 uPtr; uniform vec4 uShade; uniform float uMotion; uniform vec4 uWords; uniform float uWordsDim;
-uniform sampler2D uGrain; uniform float uGrainOn; uniform float uScale; uniform float uGrainK;
+uniform sampler2D uGrain; uniform float uGrainOn; uniform float uScale; uniform float uGrainK; uniform float uK;
 const vec3 INK = vec3(0.0235, 0.0392, 0.0510);
 const vec3 BLUE = vec3(0.0078, 0.5922, 0.8706);
 const vec3 ORNG = vec3(0.9882, 0.4510, 0.3020);
@@ -650,8 +650,8 @@ void main() {
   float n = a * K; float id = floor(n + 0.5); float r = h1(id * 1.37 + 3.0);
   float pitch = dot(v, v) * H / (K * max(down, 0.0001));        /* render pixels between neighbouring lines */
   float dpx = abs(n - id) * pitch;
-  float crisp = 1.0 - smoothstep(0.6, 1.5, dpx);
-  float line = mix(0.36, crisp, smoothstep(3.0, 6.0, pitch));       /* too dense to draw apart near the source: a smooth glow */
+  float crisp = 1.0 - smoothstep(0.6 * uK, 1.5 * uK, dpx);
+  float line = mix(0.36, crisp, smoothstep(3.0 * uK, 6.0 * uK, pitch));       /* too dense to draw apart near the source: a smooth glow */
   float flick = 0.68 + 0.32 * sin(uTime * (0.5 + r * 0.9) + r * 40.0) * uMotion;
   float stri = line * (0.3 + 0.7 * r) * flick;
   float along = mix(0.3, 1.0, smoothstep(0.0, 0.8, t));
@@ -669,7 +669,7 @@ void main() {
   float inBeam = 1.0 - smoothstep(foot * 0.82, foot * 1.04, abs(gx));
   float s = (canopy(p.x + 0.002) - canopy(p.x - 0.002)) / 0.004;
   float dy = (p.y - yc) * H / sqrt(1.0 + s * s);
-  float contour = 1.0 - smoothstep(0.7, 1.7, abs(dy));
+  float contour = 1.0 - smoothstep(0.7 * uK, 1.7 * uK, abs(dy));
   float hit = exp(-pow((tp - 1.0) * 12.0, 2.0)) * uMotion;            /* the pulse arrives */
   float edge = smoothstep(0.0, 0.12, p.x) * smoothstep(asp, asp - 0.12, p.x);
   L += vec3(1.0, 0.86, 0.72) * contour * inBeam * (0.9 + 0.5 * hit) * e;
@@ -684,8 +684,8 @@ void main() {
   L *= mix(1.0, 0.2, smoothstep(0.002, 0.022, yc - p.y));                 /* the forest stands dark against the light */
   /* LiDAR returns: a dense scatter of lit points in the crowns where the beam lands, reaching a little deeper into them,
      and a faint cool scatter along the rest of the canopy line (earlier passes) */
-  vec2 gp = vec2(p.x, p.y) * H / ${CELL}; vec2 gc = floor(gp);
-  float depth = yc - (gc.y + 0.5) * ${CELL} / H;
+  vec2 gp = vec2(p.x, p.y) * H / (${CELL} * uK); vec2 gc = floor(gp);
+  float depth = yc - (gc.y + 0.5) * ${CELL} * uK / H;
   vec2 jit = vec2(h2(gc + 3.1), h2(gc + 8.7)) * 0.6 + 0.2;             /* each return sits somewhere in its cell, never on a grid */
   float ret = step(0.0, depth) * (1.0 - smoothstep(0.9, 1.6, length(fract(gp) - jit) * 6.0));
   L += vec3(1.0, 0.86, 0.72) * ret * step(0.7, h2(gc)) * exp(-depth * 48.0) * inBeam * 0.95 * e;
@@ -725,7 +725,7 @@ void main() {
       const loc = gl.getAttribLocation(prog, 'a');
       gl.enableVertexAttribArray(loc);
       gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-      ['uRes', 'uTime', 'uIntro', 'uPtr', 'uShade', 'uMotion', 'uWords', 'uWordsDim', 'uGrain', 'uGrainOn', 'uScale', 'uGrainK'].forEach((name) => (u[name] = gl.getUniformLocation(prog, name)));
+      ['uRes', 'uTime', 'uIntro', 'uPtr', 'uShade', 'uMotion', 'uWords', 'uWordsDim', 'uGrain', 'uGrainOn', 'uScale', 'uGrainK', 'uK'].forEach((name) => (u[name] = gl.getUniformLocation(prog, name)));
     } catch (err) {
       gl = null;
     }
@@ -749,6 +749,7 @@ void main() {
   const t0 = performance.now();
   let grainOn = 0;
   let cssScale = 1; // render pixels per CSS pixel
+  let pxScale = 1; // render pixels per render pixel of the original resolution (uK)
   // the CSS grain is drawn at device resolution; the texture matches it (1x, 2x or 3x of the 160px tile)
   const grainK = Math.min(3, Math.max(1, Math.round(window.devicePixelRatio || 1)));
 
@@ -786,14 +787,23 @@ void main() {
     gl.uniform1f(u.uMotion, moving ? 1 : 0);
     gl.uniform1f(u.uGrainOn, grainOn);
     gl.uniform1f(u.uScale, cssScale);
+    gl.uniform1f(u.uK, pxScale);
     gl.uniform1f(u.uGrainK, grainK);
     gl.uniform1i(u.uGrain, 0);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   };
-  // below device resolution, but never so low that a laser line falls under two render pixels on screen
+  // below device resolution, but never so low that a laser line falls under two render pixels on screen.
+  // Phones (600px and less) with high-density screens (2x and up) draw at 1.5 render pixels per CSS pixel instead of 0.93,
+  // so the rays and the canopy line are not pixelated; uK scales the shader's sizes in render pixels by the same factor,
+  // so lines, glow and returns keep their size on screen. Measured (2026-11-06, a 3x phone with the CPU 4x slower):
+  // 2x added slow frames, 1.5x did not; tablets and desktops at 1.5x did, so they keep the original resolution (uK 1).
   const measure = () => {
     const r = hero.getBoundingClientRect();
-    const scale = Math.min(window.devicePixelRatio || 1, 1.5) * (lite ? 0.62 : 0.85) * quality;
+    const dpr = window.devicePixelRatio || 1;
+    const base = Math.min(dpr, 1.5) * (lite ? 0.62 : 0.85);
+    const sharp = dpr >= 2 && r.width <= 600 ? 1.5 : base;
+    pxScale = sharp / base;
+    const scale = sharp * quality;
     canvas.width = Math.max(1, Math.round(r.width * scale));
     canvas.height = Math.max(1, Math.round(r.height * scale));
     cssScale = canvas.width / Math.max(1, r.width);

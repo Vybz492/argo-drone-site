@@ -255,17 +255,16 @@ section[id] { scroll-margin-top: 76px; }
 .nav-links { display: flex; gap: 32px; margin-right: auto; }
 .nav-links a { position: relative; padding: 10px 0; color: var(--mist); text-decoration: none; font-size: var(--fs-ui); font-weight: 500; transition: color 0.2s ease; }
 .nav-links a[aria-current="page"] { color: var(--frost); }
-/* the current page: a small Frost dot, never orange */
-.nav-links a[aria-current="page"]::after { content: ""; position: absolute; left: 50%; bottom: 0; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--frost); }
 .nav-actions { display: flex; align-items: center; gap: 10px; }
 .menu-toggle { display: none; }
 .mobile-menu { display: none; }
 @media (hover: hover) { .nav-links a:hover { color: var(--frost); } }
 /* hover and keyboard focus on the page links: a thin Frost line draws in under them from left to right, the Kingfisher
-   link's gesture in Frost (these are not the action). The current-page dot stays under the line. The wordmark has none. */
+   link's gesture in Frost (these are not the action). The current page shows the same line all the time, never drawn in.
+   The wordmark has none. */
 .nav-links a::before { content: ""; position: absolute; left: 6px; right: 6px; bottom: 8.5px; height: 1.5px; background: var(--frost); transform: scaleX(0); transform-origin: 0 50%; transition: transform 0.3s var(--ease-out); pointer-events: none; }
 @media (hover: hover) { .nav-links a:hover::before { transform: none; } }
-.nav-links a:focus-visible::before { transform: none; }
+.nav-links a:focus-visible::before, .nav-links a[aria-current="page"]::before { transform: none; }
 
 /* ---------- Sections ---------- */
 
@@ -770,11 +769,6 @@ html:not(.js) .more-btn { display: none; }
 }
 .mx-tab[aria-selected="true"] { color: var(--frost); }
 .mx-tab:focus-visible { outline-offset: 6px; }
-/* hover and keyboard focus: the same Frost line as the links draws in under the name (hovering also chooses it) */
-.mx-tab { position: relative; }
-.mx-tab::after { content: ""; position: absolute; left: 0; right: 0; bottom: 4px; height: 2px; background: var(--frost); transform: scaleX(0); transform-origin: 0 50%; transition: transform 0.3s var(--ease-out); pointer-events: none; }
-.mx-tab:focus-visible::after { transform: none; }
-@media (hover: hover) and (pointer: fine) { .mx-tab:hover::after { transform: none; } }
 /* one Frost bar slides beside the chosen method */
 .mx-bar { position: absolute; left: -22px; top: 0; width: 3px; height: 0; border-radius: 2px; background: var(--frost); box-shadow: 0 0 12px rgba(238, 242, 245, 0.45); transition: transform 0.28s var(--ease-out), height 0.28s var(--ease-out); }
 @media (hover: hover) and (pointer: fine) { .mx-tab:hover { color: var(--mist); } .mx-tab[aria-selected="true"]:hover { color: var(--frost); } }
@@ -1371,7 +1365,7 @@ html:not(.js) .xp-row h3 { color: var(--frost); }
   .js .reveal { transform: none !important; transition: opacity 0.3s linear !important; transition-delay: 0s !important; }
   .js .reveal .scan, .js .adv-hub .hub-lines { transition: none !important; clip-path: none !important; }
   .more, .more > div, .more p, .af-tree, .pano-panel, .pano-panel > div, #pano-fade rect, .pc-handle, .pc-chip, .more-btn .chev, .sim-data summary::after { transition: none !important; }
-  .btn, .btn svg, .tile, .channel, .channel::before, .channel-arrow, .next-link span, .next-link svg, .mx-tab, .mx-bar, .mx-glow, .intro a, .nav-links a::before, .mx-tab::after { transition: none !important; }
+  .btn, .btn svg, .tile, .channel, .channel::before, .channel-arrow, .next-link span, .next-link svg, .mx-tab, .mx-bar, .mx-glow, .intro a, .nav-links a::before { transition: none !important; }
   .js .mx-panel { transform: none !important; transition: opacity 0.15s linear, visibility 0s !important; }
   .btn:active, .btn-glass:active, .pc-chip:active, a.channel:active, .next-link:active { transform: none !important; }
   .tile:hover, .channel:hover { transform: none !important; }
