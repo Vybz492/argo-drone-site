@@ -936,37 +936,42 @@ a.channel:active { transform: scale(0.98); }
 .vtol-text p { font-size: 1.0625rem; line-height: 1.6; color: var(--mist); }
 .vtol-text p + p { margin-top: 16px; }
 .uses-figure { margin: 0; }
-.uses { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; }
-/* five separate glass tiles, each a pictogram and its name; a LiDAR scan line sweeps a tile once on hover */
-.use {
-  --mx: 50%;
+/* The five use cases as a hover-expand list. One row is open at a time (the first at the start): its name in Frost, its
+   line drawing large in its lower right, swept once by a LiDAR scan line. The other rows fall back (Slate names, a fainter
+   surface). script.js opens a row on hover, focus or click with a spring; the list keeps one fixed height, so nothing below
+   it moves. The surfaces are a tint without a live blur, because the rows change size (see Motion, Performance). */
+.xp { --xp-closed: 64px; --xp-open: 308px; --xp-gap: 10px; display: flex; flex-direction: column; gap: var(--xp-gap); margin: 0; padding: 0; list-style: none; }
+.js .xp { height: calc(4 * var(--xp-closed) + var(--xp-open) + 4 * var(--xp-gap)); }
+.xp-row {
   position: relative;
-  display: grid;
-  align-content: start;
-  gap: 22px;
-  padding: 28px 26px 30px;
+  flex: none;
+  padding: 20px 24px;
   overflow: hidden;
   border-radius: var(--radius);
-  background: linear-gradient(160deg, rgba(238, 242, 245, 0.07), rgba(238, 242, 245, 0.01) 42%, rgba(238, 242, 245, 0) 60%), var(--glass);
-  box-shadow: var(--glass-rim);
-  -webkit-backdrop-filter: blur(11px) saturate(160%);
-  backdrop-filter: blur(11px) saturate(160%);
-  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), background-color 0.3s ease;
+  background: rgba(14, 20, 25, 0.34);
+  box-shadow: inset 0 0 0 1px rgba(238, 242, 245, 0.05);
+  cursor: default;
+  transition: background-color 0.3s ease, box-shadow 0.3s var(--ease-out);
 }
-/* the fifth tile runs the full width, its pictogram beside its name */
-.use:last-child { grid-column: 1 / -1; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 28px; }
-.use::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: radial-gradient(240px 120px at var(--mx) 0%, rgba(238, 242, 245, 0.10), transparent 70%); opacity: 0; transition: opacity 0.3s ease; }
-.use::after { content: ""; position: absolute; inset: 0; pointer-events: none; transform: translateY(-101%);
+.js .xp-row { height: var(--xp-closed); }
+.js .xp-row.is-open { height: var(--xp-open); }
+.xp-row.is-open { background: linear-gradient(160deg, rgba(238, 242, 245, 0.07), rgba(238, 242, 245, 0.01) 42%, rgba(238, 242, 245, 0) 60%), rgba(14, 20, 25, 0.62); box-shadow: var(--glass-rim); }
+.xp-row h3 { font-size: 1.375rem; line-height: 24px; letter-spacing: -0.02em; color: var(--slate); transition: color 0.2s ease; }
+.xp-row.is-open h3 { color: var(--frost); }
+.xp-row:focus-visible { outline-offset: 3px; }
+/* the drawing: 296 x 222 (the drawings' own 4:3), under the name's line, against the row's right edge */
+.xp-art { position: absolute; right: 24px; bottom: 22px; width: 296px; height: 222px; overflow: hidden; opacity: 0; transition: opacity 0.15s ease; }
+.xp-row.is-open .xp-art { opacity: 1; transition: opacity 0.35s ease 0.08s; }
+.xp-art .pict { width: 100%; height: 100%; fill: none; stroke: var(--frost); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.xp-art .pict * { vector-effect: non-scaling-stroke; }
+.xp-scan { position: absolute; inset: 0; pointer-events: none; transform: translateY(-101%);
   background: linear-gradient(180deg, rgba(2, 151, 222, 0) 55%, rgba(2, 151, 222, 0.12) calc(100% - 2px), var(--blue-hi) calc(100% - 2px)); }
-.pict { width: 72px; height: 54px; fill: none; stroke: var(--frost); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.use h3 { font-size: 1.1875rem; line-height: 1.3; letter-spacing: -0.015em; }
+.xp-row.is-scanning .xp-scan { animation: xp-scan 1.1s var(--ease-in-out) 0.15s both; }
+@keyframes xp-scan { from { transform: translateY(-101%); } 80% { opacity: 1; } to { transform: translateY(0); opacity: 0; } }
+/* without JS every row is open, its drawing under its name */
+html:not(.js) .xp-art { position: relative; right: auto; bottom: auto; display: block; margin: 16px 0 0 auto; opacity: 1; }
+html:not(.js) .xp-row h3 { color: var(--frost); }
 .uses-figure figcaption { margin-top: 24px; font-size: 0.875rem; color: var(--mist); }
-@keyframes use-scan { from { transform: translateY(-101%); } 80% { opacity: 1; } to { transform: translateY(0); opacity: 0; } }
-@media (hover: hover) and (pointer: fine) {
-  .use:hover { transform: translateY(-4px); background-color: var(--glass-hi); box-shadow: inset 0 1px 0 rgba(238, 242, 245, 0.28), inset 0 0 0 1px rgba(238, 242, 245, 0.16), inset 0 -1px 0 rgba(238, 242, 245, 0.08), 0 36px 70px -34px rgba(0, 0, 0, 0.9); }
-  .use:hover::before { opacity: 1; }
-  .use:hover::after { animation: use-scan 1.1s var(--ease-in-out) both; }
-}
 
 /* ---------- Entrances (CSS; also the fallback when the motion libraries do not load) ---------- */
 
@@ -1000,8 +1005,8 @@ a.channel:active { transform: scale(0.98); }
 @media (prefers-contrast: more) { :root { --mist: #EEF2F5; --slate: #C9D1D7; } }
 /* Reduce Transparency and Increase Contrast: glass becomes a solid surface */
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
-  .tile, .channel, .use, .btn-glass, .nav.scrolled { -webkit-backdrop-filter: none; backdrop-filter: none; }
-  .tile, .channel, .use, .has-glass .tile { background: var(--shell); }
+  .tile, .channel, .btn-glass, .nav.scrolled { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .tile, .channel, .has-glass .tile, .xp-row.is-open { background: var(--shell); }
   .tile-glass { display: none; }
   .btn-glass { background: var(--wing); }
   .nav.scrolled { background: var(--ink); }
@@ -1015,7 +1020,7 @@ a.channel:active { transform: scale(0.98); }
   .btn, .btn svg, .tile, .channel, .channel::before, .channel-arrow, .next-link span, .next-link svg, .mx-tab, .mx-bar, .mx-glow { transition: none !important; }
   .js .mx-panel { transform: none !important; transition: opacity 0.15s linear, visibility 0s !important; }
   .btn:active, .btn-glass:active, .pc-chip:active, a.channel:active, .next-link:active { transform: none !important; }
-  .tile:hover, .channel:hover, .use:hover { transform: none !important; }
-  .use, .use::before { transition: none !important; }
+  .tile:hover, .channel:hover { transform: none !important; }
+  .xp-row, .xp-row h3, .xp-art { transition: none !important; }
   .scroll-cue { display: none; }
 }

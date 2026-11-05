@@ -154,7 +154,7 @@ if (moreBtn && tiles) {
 
 // Light under the pointer: on the glass tiles and on the main action
 if (finePointer) {
-  document.querySelectorAll('.tile, .use').forEach((tile) => {
+  document.querySelectorAll('.tile').forEach((tile) => {
     tile.addEventListener('pointermove', (e) => {
       const r = tile.getBoundingClientRect();
       tile.style.setProperty('--mx', `${(((e.clientX - r.left) / r.width) * 100).toFixed(1)}%`);
@@ -234,6 +234,72 @@ if (methods) {
   choose(0);
   // the bar needs the names' real positions: after the font has loaded, and whenever the list changes size
   new ResizeObserver(placeBar).observe(list);
+}
+
+// VTOL use cases (drivetrain page): a hover-expand list. One row is open at a time; hovering, focusing or clicking a row
+// opens it with a spring and closes the one before, and its drawing is swept once by the scan line. The rows are one tab
+// stop: the arrow keys, Home and End move between them. Reduced motion (or no GSAP): the rows change at once.
+const useList = document.querySelector('.xp');
+if (useList) {
+  const rows = [...useList.querySelectorAll('.xp-row')];
+  // a damped spring (damping 0.72, about 4% overshoot), settled by the end of the tween; GSAP takes any t -> value function
+  const spring = (t) => {
+    if (t >= 1) return 1;
+    const z = 0.72;
+    const w = 11;
+    const wd = w * Math.sqrt(1 - z * z);
+    return 1 - Math.exp(-z * w * t) * (Math.cos(wd * t) + ((z * w) / wd) * Math.sin(wd * t));
+  };
+  let open = -1;
+  const choose = (i, { instant = false, focus = false } = {}) => {
+    if (i !== open) {
+      const animate = !instant && 'gsap' in window && !reduceQuery.matches;
+      // every row starts from the height it has now, so a spring that is interrupted carries on from where it was
+      const from = rows.map((row) => row.offsetHeight);
+      open = i;
+      rows.forEach((row, j) => {
+        const on = j === i;
+        row.classList.toggle('is-open', on);
+        row.tabIndex = on ? 0 : -1;
+        if (!animate) return;
+        row.style.height = `${from[j]}px`;
+        const to = parseFloat(getComputedStyle(useList).getPropertyValue(on ? '--xp-open' : '--xp-closed'));
+        window.gsap.to(row, { height: to, duration: 0.7, ease: spring, overwrite: true, clearProps: 'height' });
+      });
+      const row = rows[i];
+      row.classList.remove('is-scanning');
+      void row.offsetWidth; // restart the sweep
+      if (!instant) row.classList.add('is-scanning');
+    }
+    if (focus) rows[i].focus();
+  };
+  rows.forEach((row, i) => {
+    row.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') choose(i); });
+    row.addEventListener('click', () => choose(i));
+    row.addEventListener('focus', () => choose(i));
+    row.querySelector('.xp-scan').addEventListener('animationend', () => row.classList.remove('is-scanning'));
+  });
+  useList.addEventListener('keydown', (e) => {
+    const n = rows.length;
+    let i;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') i = Math.min(n - 1, open + 1);
+    else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') i = Math.max(0, open - 1);
+    else if (e.key === 'Home') i = 0;
+    else if (e.key === 'End') i = n - 1;
+    else return;
+    e.preventDefault();
+    choose(i, { focus: true });
+  });
+  choose(0, { instant: true });
+  // the first row is open from the start: its drawing is swept once when the list comes into view
+  if ('IntersectionObserver' in window) {
+    const seen = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      seen.disconnect();
+      rows[open].classList.add('is-scanning');
+    }, { threshold: 0.4 });
+    seen.observe(useList);
+  }
 }
 
 const bindChart = (chart, { left, width, top, bottom, max, start, snap, step, bigStep, render }) => {
