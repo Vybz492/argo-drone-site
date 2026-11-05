@@ -652,7 +652,7 @@ void main() {
   float ret = step(0.0, depth) * (1.0 - smoothstep(0.9, 1.6, length(fract(gp) - jit) * 6.0));
   L += vec3(1.0, 0.86, 0.72) * ret * step(0.7, h2(gc)) * exp(-depth * 48.0) * inBeam * 0.95 * e;
   L += vec3(0.62, 0.76, 0.88) * ret * step(0.84, h2(gc + 17.0)) * exp(-depth * 70.0) * (1.0 - inBeam) * 0.3 * edge * e;
-  L *= 1.0 - shadeMask(p) * mix(0.58, 0.7, smoothstep(0.45, 0.85, t));   /* dim behind the words, softly */
+  L *= 1.0 - shadeMask(p) * mix(0.38, 0.7, smoothstep(0.45, 0.85, t));   /* dim behind the words, softly (38%: the beam as bright as before round 9) */
   L *= 1.0 - wordsMask(p) * uWordsDim;                                   /* and a little more just behind "On hydrogen.", so its blue keeps 3:1 */
   L = L / (1.0 + L * 0.3);
   vec3 col = INK + L + (h2(fc + fract(uTime) * 91.0) - 0.5) * 0.012;
@@ -717,7 +717,7 @@ void main() {
   // "On hydrogen." brightens where the beam's light crosses it: the beam's axis at the words' height, from the same numbers
   // the shader uses (the source at 0.905 of the hero's height, the tilt from the pointer). Written only when it moves.
   const words = hero.querySelector('.ln-h2');
-  const WORDS_DIM = 0.5; // how much more the beam dims just behind "On hydrogen." (measured for 3:1)
+  const WORDS_DIM = 0; // no extra dimming just behind "On hydrogen." (round 10 had 0.5, for 3:1); the rays keep their pre-round-9 brightness
   let wordsBox = null;
   let lastBeam = '';
   const followBeam = () => {
