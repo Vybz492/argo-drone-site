@@ -865,6 +865,11 @@ html:not(.js) .mx-stage { grid-template-columns: repeat(2, minmax(0, 1fr)); gap:
   transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), background-color 0.3s ease;
 }
 .channel-name { font-size: var(--fs-body); font-weight: 600; color: var(--mist); }
+/* LinkedIn and Instagram: their marks, monochrome in Frost, set before the name */
+.channel-name:has(.channel-logo) { display: inline-flex; align-items: center; gap: 10px; }
+.channel-logo { flex: none; width: 20px; height: 20px; fill: var(--frost); }
+.channel-logo-line { fill: none; stroke: var(--frost); stroke-width: 1.8; }
+.channel-logo-line .dot { fill: var(--frost); stroke: none; }
 .channel-value { margin-top: auto; font-size: var(--fs-intro); font-weight: 700; line-height: 1.2; letter-spacing: -0.025em; overflow-wrap: anywhere; color: var(--frost); }
 /* every card is a way to reach the team, so each arrow carries the action colour */
 .channel-arrow { position: absolute; top: 28px; right: 28px; width: 22px; height: 22px; fill: none; stroke: var(--orange); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.3s var(--ease-out); }
@@ -927,25 +932,25 @@ a.channel:active { transform: scale(0.98); }
     radial-gradient(34% 46% at 72% 52%, rgba(2, 151, 222, 0.2), transparent 72%),
     radial-gradient(26% 34% at 16% 40%, rgba(190, 214, 232, 0.06), transparent 72%),
     linear-gradient(180deg, transparent 20%, rgba(8, 30, 46, 0.5) 60%, transparent 100%); }
-/* the heading runs across the page; under it the text (columns 1-5) beside the five use cases (6-12) */
+/* the heading runs across the page; under it the text (columns 1-5) beside the five use cases (7-12), the list as tall as the text */
 .vtol-grid { display: grid; grid-template-columns: var(--grid); column-gap: var(--gutter); align-items: start; }
 .vtol-grid > .vtol-head { grid-column: 1 / span 9; max-width: none; margin-bottom: 56px; }
 .vtol-head h2 { margin-bottom: 0; }
 .vtol-grid > .vtol-text { grid-column: 1 / span 5; }
-.vtol-grid > .uses-figure { grid-column: 6 / -1; }
-.vtol-text p { font-size: 1.0625rem; line-height: 1.6; color: var(--mist); }
+.vtol-grid > .uses-figure { grid-column: 7 / -1; }
+.vtol-text p { font-size: 1.1875rem; line-height: 1.6; color: var(--mist); }
 .vtol-text p + p { margin-top: 16px; }
 .uses-figure { margin: 0; }
-/* The five use cases as a hover-expand list. One row is open at a time (the first at the start): its name in Frost, its
-   line drawing large in its lower right, swept once by a LiDAR scan line. The other rows fall back (Slate names, a fainter
-   surface). script.js opens a row on hover, focus or click with a spring; the list keeps one fixed height, so nothing below
-   it moves. The surfaces are a tint without a live blur, because the rows change size (see Motion, Performance). */
-.xp { --xp-closed: 64px; --xp-open: 308px; --xp-gap: 10px; display: flex; flex-direction: column; gap: var(--xp-gap); margin: 0; padding: 0; list-style: none; }
+/* The five use cases as a hover-expand list. One row is open at a time (the first at the start): its name in Frost and
+   its drawing across the whole row under the name. The other rows fall back (Slate names, a fainter surface). script.js
+   opens a row on hover, focus or click with a spring; the list keeps one fixed height, the height of the text beside it,
+   so nothing below it moves. The surfaces are a tint without a live blur, because the rows change size. */
+.xp { --xp-closed: 52px; --xp-open: 228px; --xp-gap: 8px; display: flex; flex-direction: column; gap: var(--xp-gap); margin: 0; padding: 0; list-style: none; }
 .js .xp { height: calc(4 * var(--xp-closed) + var(--xp-open) + 4 * var(--xp-gap)); }
 .xp-row {
   position: relative;
   flex: none;
-  padding: 20px 24px;
+  padding: 14px 22px;
   overflow: hidden;
   border-radius: var(--radius);
   background: rgba(14, 20, 25, 0.34);
@@ -959,17 +964,24 @@ a.channel:active { transform: scale(0.98); }
 .xp-row h3 { font-size: 1.375rem; line-height: 24px; letter-spacing: -0.02em; color: var(--slate); transition: color 0.2s ease; }
 .xp-row.is-open h3 { color: var(--frost); }
 .xp-row:focus-visible { outline-offset: 3px; }
-/* the drawing: 296 x 222 (the drawings' own 4:3), under the name's line, against the row's right edge */
-.xp-art { position: absolute; right: 24px; bottom: 22px; width: 296px; height: 222px; overflow: hidden; opacity: 0; transition: opacity 0.15s ease; }
+/* the drawing fills the open row under the name, centred, as large as the row allows (the drawings are 3:1) */
+.xp-art { position: absolute; left: 22px; right: 22px; top: var(--xp-closed); height: calc(var(--xp-open) - var(--xp-closed) - 12px); opacity: 0; transition: opacity 0.15s ease; }
 .xp-row.is-open .xp-art { opacity: 1; transition: opacity 0.35s ease 0.08s; }
-.xp-art .pict { width: 100%; height: 100%; fill: none; stroke: var(--frost); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-.xp-art .pict * { vector-effect: non-scaling-stroke; }
-.xp-scan { position: absolute; inset: 0; pointer-events: none; transform: translateY(-101%);
-  background: linear-gradient(180deg, rgba(2, 151, 222, 0) 55%, rgba(2, 151, 222, 0.12) calc(100% - 2px), var(--blue-hi) calc(100% - 2px)); }
-.xp-row.is-scanning .xp-scan { animation: xp-scan 1.1s var(--ease-in-out) 0.15s both; }
-@keyframes xp-scan { from { transform: translateY(-101%); } 80% { opacity: 1; } to { transform: translateY(0); opacity: 0; } }
+/* the drawings: the method drawings' line language, simpler. Frost outlines, Mist detail and wires, Stroke for the
+   faintest lines, a hatched ground, and a dashed Slate ring for what is inspected. No blue: nothing here is hydrogen. */
+.xd { display: block; width: 100%; height: 100%; overflow: hidden; }
+.xd * { vector-effect: non-scaling-stroke; }
+.xd-line { fill: none; stroke: var(--frost); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+.xd-body { fill: var(--wing); stroke: var(--frost); stroke-width: 1.3; stroke-linejoin: round; }
+.xd-detail { fill: none; stroke: var(--mist); stroke-width: 0.9; stroke-linecap: round; stroke-linejoin: round; }
+.xd-wire { fill: none; stroke: var(--mist); stroke-width: 1; stroke-linecap: round; }
+.xd-faint { fill: none; stroke: var(--stroke); stroke-width: 1; }
+.xd-ground { fill: none; stroke: var(--mist); stroke-width: 1.3; }
+.xd-tick { fill: none; stroke: var(--stroke); stroke-width: 1; }
+.xd-dash { fill: none; stroke: var(--slate); stroke-width: 1.1; stroke-dasharray: 3 4; }
+.xd-dot { fill: var(--frost); }
 /* without JS every row is open, its drawing under its name */
-html:not(.js) .xp-art { position: relative; right: auto; bottom: auto; display: block; margin: 16px 0 0 auto; opacity: 1; }
+html:not(.js) .xp-art { position: relative; left: auto; right: auto; top: auto; display: block; height: 172px; margin-top: 14px; opacity: 1; }
 html:not(.js) .xp-row h3 { color: var(--frost); }
 .uses-figure figcaption { margin-top: 24px; font-size: 0.875rem; color: var(--mist); }
 
